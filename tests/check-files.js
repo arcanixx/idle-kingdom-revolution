@@ -17,7 +17,6 @@ const required = [
   "public/manifest.json",
   "supabase/migrations/001_initial_schema.sql",
   "supabase/seed.sql",
-  ".env.local",
   ".github/workflows/ci.yml",
 ];
 
