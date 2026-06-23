@@ -1,36 +1,66 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Idle Kingdom Revolution
+
+Strategic idle game built with Next.js + Supabase + TypeScript.
+
+## Stack
+
+- **Framework:** Next.js 16 (App Router)
+- **Language:** TypeScript 5
+- **Styling:** Tailwind CSS 3 + shadcn/ui
+- **State:** Zustand (client) + TanStack Query (server)
+- **Backend:** Supabase (PostgreSQL + Auth + Realtime)
+- **Testing:** Vitest + React Testing Library
+- **CI/CD:** GitHub Actions + Netlify
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# Install dependencies
+bun install
+
+# Run dev server
+bun run dev
+
+# Build (use --webpack flag, SWC binary not available on this platform)
+bun run build
+
+# Run tests
+bun run test
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Environment Variables
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Copy `.env.local.example` to `.env.local` and fill in your Supabase credentials:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
+```
 
-## Learn More
+## Project Structure
 
-To learn more about Next.js, take a look at the following resources:
+```
+src/
+  app/          # App Router pages
+    (auth)/     # login, register
+    dashboard/  # Main dashboard
+    game/       # Game routes: battle, army, mining, td, castle
+  lib/          # Shared utilities
+    supabase/   # Supabase client, server, auth
+  stores/       # Zustand stores
+  components/   # Reusable components
+tests/          # Test files
+supabase/
+  migrations/   # Database schema
+  seed.sql      # Seed data
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Development Notes
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Build requires `--webpack` flag (Turbopack/SWC binary not available on win32-x64-msvc)
+- TypeScript errors are ignored during build (`typescript.ignoreBuildErrors: true`)
+- Use `bun install` instead of npm/npx to avoid network timeouts
 
-## Deploy on Vercel
+## License
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+MIT
