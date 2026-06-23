@@ -18,6 +18,7 @@ const required = [
   "supabase/migrations/001_initial_schema.sql",
   "supabase/seed.sql",
   ".github/workflows/ci.yml",
+  ".env.example",
 ];
 
 let fail = false;
