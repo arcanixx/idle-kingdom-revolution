@@ -1,0 +1,67 @@
+{
+  "document_title": "17 - Data Seed & Migration Plan",
+  "version": "0.1.0",
+  "date": "2026-06-23",
+  "source_data": {
+    "original_apk": "Idle Bounty Adventures v1.3.2319 (extracted via IL2CPP reverse engineering)",
+    "mock_server": "Python/FastAPI mock with partial data (5 quests, 8 items, 5 battle fields)",
+    "note": "Mock server data is incomplete and partially guessed. Use as reference only, not as source of truth."
+  },
+  "seed_strategy": {
+    "approach": "Create fresh, original data inspired by original mechanics but expanded significantly",
+    "do_not_migrate": [
+      "Original asset files (copyright risk)",
+      "Original story text (copyright risk)",
+      "Mock server guessed data (accuracy uncertain)",
+      "Original balance numbers (will be re-tuned)"
+    ],
+    "reference_only": [
+      "Unit class types and basic stats",
+      "Battle field structure (waves, difficulty progression)",
+      "Quest objective types (kill, collect, reach wave)",
+      "Currency types (gold, premium, event)"
+    ]
+  },
+  "seed_data_plan": {
+    "units": {
+      "count": "20-30 base units",
+      "classes": ["Warrior", "Ranger", "Mage", "Tank", "Healer", "Assassin", "Support"],
+      "factions": ["Human", "Elf", "Orc", "Undead", "Demon", "Celestial"],
+      "rarity_tiers": ["Common", "Uncommon", "Rare", "Epic", "Legendary", "Mythic"],
+      "source": "Original-inspired + AI-generated concepts"
+    },
+    "items": {
+      "count": "50-80 items",
+      "types": ["Weapon", "Armor", "Accessory", "Consumable", "Material", "Cosmetic"],
+      "tiers": 5,
+      "upgrade_system": "+1 to +15 with diminishing success rates"
+    },
+    "battle_fields": {
+      "count": "15-20 fields for launch",
+      "structure": "5-20 waves per field, progressive difficulty",
+      "themes": ["Plains", "Forest", "Mountains", "Desert", "Ice", "Volcano", "Swamp", "Castle", "Abyss"],
+      "boss_frequency": "Every 5 waves"
+    },
+    "quests": {
+      "count": "50+ for launch",
+      "types": ["Story (20+)", "Daily (10 rotating)", "Weekly (5)", "Side (15+)", "Event (seasonal)"],
+      "chain_structure": "Linear story with branches, daily rotation pool"
+    },
+    "shops": {
+      "general": "20-30 items rotating daily",
+      "premium": "Gem-only items, cosmetics",
+      "event": "Seasonal limited items",
+      "pvp": "Battle coin items"
+    }
+  },
+  "migration_tools": {
+    "seed_script": "supabase/seed.sql - SQL INSERT statements for all config data",
+    "balance_tool": "tools/balance-calculator.ts - Spreadsheet-like tool for tuning numbers",
+    "asset_pipeline": "tools/asset-pipeline.ts - Process AI-generated images into game-ready assets"
+  },
+  "data_versioning": {
+    "strategy": "Each major content update = new data version",
+    "backward_compat": "Old player data migrated on login if version mismatch",
+    "rollback": "Keep previous 3 versions in database for emergency rollback"
+  }
+}

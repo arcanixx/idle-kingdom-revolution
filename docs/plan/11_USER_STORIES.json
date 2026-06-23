@@ -1,0 +1,63 @@
+{
+  "document_title": "11 - User Stories",
+  "version": "0.1.0",
+  "date": "2026-06-23",
+  "personas": {
+    "casual_player": {
+      "name": "Kasia",
+      "age": 28,
+      "play_style": "Plays 15-20 min during commute, likes progress without stress",
+      "goals": ["Relax after work", "See numbers go up", "Complete daily goals"],
+      "frustrations": ["Forced check-ins", "Pay-to-win", "Complex mechanics"]
+    },
+    "engaged_player": {
+      "name": "Marek",
+      "age": 35,
+      "play_style": "Plays 1-2h daily, optimizes builds, competes on leaderboard",
+      "goals": ["Reach top 100", "Collect all units", "Master formations"],
+      "frustrations": ["Lack of endgame content", "Grindy progression", "Bugs"]
+    },
+    "story_player": {
+      "name": "Ania",
+      "age": 24,
+      "play_style": "Plays for lore and characters, reads all dialogues",
+      "goals": ["Experience the story", "Unlock all lore entries", "Complete quest chains"],
+      "frustrations": ["Skip-able story", "Shallow lore", "No emotional connection"]
+    },
+    "admin_user": {
+      "name": "Maciek (Developer)",
+      "role": "Game admin and developer",
+      "goals": ["Manage game balance", "Create events", "Monitor player behavior", "Inject test resources"],
+      "frustrations": ["Complex admin tools", "No visibility into issues", "Slow deployment"]
+    }
+  },
+  "stories_by_phase": {
+    "mvp_stories": [
+      {"as_a": "new player", "i_want": "register with email or Google", "so_that": "I can save my progress", "acceptance": ["Registration form validates email", "OAuth redirect works", "Account created in <3s"]},
+      {"as_a": "player", "i_want": "start my first battle", "so_that": "I can learn the game", "acceptance": ["Tutorial battle auto-starts", "Tooltips explain mechanics", "Battle completes in <2 min"]},
+      {"as_a": "player", "i_want": "see my resources", "so_that": "I know what I have", "acceptance": ["Gold, XP, level visible on main screen", "Resource bars update in real-time", "Tooltips show currency sources"]},
+      {"as_a": "player", "i_want": "upgrade my units", "so_that": "I become stronger", "acceptance": ["Unit list shows upgradeable units", "Upgrade button disabled if insufficient gold", "Upgrade applies immediately"]},
+      {"as_a": "player", "i_want": "change game settings", "so_that": "I can customize my experience", "acceptance": ["Settings accessible from main menu", "Audio sliders work", "Language switch PL/EN works"]},
+      {"as_a": "player", "i_want": "continue playing after closing browser", "so_that": "I don't lose progress", "acceptance": ["Auto-save every 30s", "Progress restored on login", "Offline earnings calculated"]},
+      {"as_a": "admin", "i_want": "inject resources to a player", "so_that": "I can test features", "acceptance": ["Admin panel accessible", "Player search by email/name", "Resource injection logged"]}
+    ],
+    "phase_2_stories": [
+      {"as_a": "player", "i_want": "accept and complete quests", "so_that": "I get rewards and progress story", "acceptance": ["Quest list shows available quests", "Progress tracked in real-time", "Rewards auto-granted on completion"]},
+      {"as_a": "player", "i_want": "explore the world map", "so_that": "I can choose where to fight", "acceptance": ["Map shows unlocked nodes", "Clicking node shows details", "Locked nodes show requirements"]},
+      {"as_a": "player", "i_want": "buy items from shop", "so_that": "I can improve my army", "acceptance": ["Shop shows daily rotation", "Purchase validates currency", "Item appears in inventory immediately"]},
+      {"as_a": "player", "i_want": "see leaderboard rankings", "so_that": "I can compare with others", "acceptance": ["Leaderboard shows top 100", "My rank highlighted", "Filters: global, friends, guild"]},
+      {"as_a": "player", "i_want": "receive system mail", "so_that": "I get rewards and announcements", "acceptance": ["Inbox shows unread count", "Mail can contain attachments", "One-click claim all rewards"]}
+    ],
+    "phase_3_stories": [
+      {"as_a": "player", "i_want": "climb the Tower of Ascension", "so_that": "I get exclusive rewards", "acceptance": ["Tower shows current floor", "Daily attempts tracked", "Floor rewards shown before attempt"]},
+      {"as_a": "player", "i_want": "fight World Boss", "so_that": "I get global rewards", "acceptance": ["Boss spawns on schedule", "Damage dealt tracked", "Rewards based on contribution"]},
+      {"as_a": "player", "i_want": "spin Wheel of Fortune", "so_that": "I get random rewards", "acceptance": ["Free daily spin available", "Paid spins cost gems", "Pity system guarantees rare after X spins"]},
+      {"as_a": "player", "i_want": "allocate perk points", "so_that": "I can customize my playstyle", "acceptance": ["Perk trees visible", "Points cost increases per level", "Respec option available"]}
+    ],
+    "phase_4_stories": [
+      {"as_a": "player", "i_want": "join a guild", "so_that": "I can play with friends", "acceptance": ["Guild search and creation", "Guild chat functional", "Guild boss accessible"]},
+      {"as_a": "player", "i_want": "use promo codes", "so_that": "I get free rewards", "acceptance": ["Code input in settings", "Validation against active codes", "One-time use per account"]},
+      {"as_a": "player", "i_want": "play card mini-game", "so_that": "I get bonus rewards", "acceptance": ["3-card game accessible from main menu", "Daily limit enforced", "Rewards granted on win"]}
+    ]
+  }
+}

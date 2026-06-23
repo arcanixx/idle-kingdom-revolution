@@ -1,0 +1,435 @@
+{
+  "document_title": "27 - UI/UX Skeleton & Screen Design",
+  "version": "0.1.0",
+  "date": "2026-06-23",
+  "purpose": "Complete screen-by-screen UI/UX specification for Idle Kingdom Revolution. Defines layout, components, navigation, and responsive behavior for all game screens.",
+  
+  "design_principles": {
+    "mobile_first": "All screens designed for 375px width minimum, scale up to desktop",
+    "thumb_zone": "Primary actions within bottom 1/3 of screen (mobile)",
+    "information_density": "Progressive disclosure - show summary, tap for details",
+    "visual_hierarchy": "Currency > Level > Primary Action > Secondary > Tertiary",
+    "accessibility": "WCAG 2.1 AA minimum, color-blind friendly palettes, scalable text",
+    "performance": "Skeleton screens for loading, lazy load images, virtual scroll for long lists"
+  },
+  
+  "color_palette": {
+    "primary": {"hex": "#6366F1", "usage": "Buttons, active states, highlights"},
+    "primary_dark": {"hex": "#4F46E5", "usage": "Button hover, pressed states"},
+    "secondary": {"hex": "#10B981", "usage": "Success, positive actions, healing"},
+    "danger": {"hex": "#EF4444", "usage": "Delete, retreat, negative actions"},
+    "warning": {"hex": "#F59E0B", "usage": "Caution, limited time, energy low"},
+    "gold": {"hex": "#FBBF24", "usage": "Currency, premium, legendary rarity"},
+    "background": {"hex": "#0F172A", "usage": "Main app background"},
+    "surface": {"hex": "#1E293B", "usage": "Cards, panels, modals"},
+    "surface_light": {"hex": "#334155", "usage": "Input backgrounds, hover states"},
+    "text_primary": {"hex": "#F8FAFC", "usage": "Headings, important text"},
+    "text_secondary": {"hex": "#94A3B8", "usage": "Descriptions, labels"},
+    "text_disabled": {"hex": "#64748B", "usage": "Disabled elements"}
+  },
+  
+  "typography": {
+    "font_family": "Inter (Google Fonts) for UI, Cinzel for fantasy headings",
+    "scale": {
+      "hero": {"size": "32px", "weight": "700", "usage": "Game title, chapter headers"},
+      "h1": {"size": "24px", "weight": "700", "usage": "Screen titles"},
+      "h2": {"size": "20px", "weight": "600", "usage": "Section headers"},
+      "h3": {"size": "16px", "weight": "600", "usage": "Card titles, quest names"},
+      "body": {"size": "14px", "weight": "400", "usage": "Descriptions, dialogue"},
+      "caption": {"size": "12px", "weight": "400", "usage": "Labels, timestamps"},
+      "stat": {"size": "18px", "weight": "700", "usage": "Numbers, currency amounts"}
+    }
+  },
+  
+  "navigation_structure": {
+    "bottom_nav": {
+      "visible_screens": ["game_hub", "battle", "army", "quests", "more"],
+      "items": [
+        {"id": "hub", "icon": "Home", "label": "Hub", "active": "game_hub"},
+        {"id": "battle", "icon": "Swords", "label": "Battle", "active": "battle, battle_result"},
+        {"id": "army", "icon": "Users", "label": "Army", "active": "army, unit_detail, formation"},
+        {"id": "quests", "icon": "Scroll", "label": "Quests", "active": "quests, quest_detail", "badge": "active_quest_count"},
+        {"id": "more", "icon": "Menu", "label": "More", "active": "shop, leaderboard, settings, profile"}
+      ]
+    },
+    "top_bar": {
+      "left": "Back button (if not root screen) + Screen title",
+      "center": "Contextual info (e.g., 'Wave 5/10' in battle)",
+      "right": "Currency display (gold, gems) + Settings gear"
+    },
+    "drawer_menu": {
+      "trigger": "Swipe from left edge OR hamburger on hub",
+      "items": ["Profile", "Inventory", "Mail", "Achievements", "Friends", "Guild", "Admin (if role=admin)", "Help", "Logout"]
+    }
+  },
+  
+  "screens": {
+    "splash_screen": {
+      "layout": "Full screen, centered content",
+      "elements": [
+        "Game logo (animated fade-in)",
+        "Loading bar with tip text",
+        "Version number bottom-right",
+        "Tap to continue (after load)"
+      ],
+      "transitions": "Auto-navigate to login if no session, else game_hub"
+    },
+    
+    "login_screen": {
+      "layout": "Centered card on dark background",
+      "elements": [
+        "Game logo top",
+        "Email input",
+        "Password input with toggle visibility",
+        "Login button (primary)",
+        "Google OAuth button",
+        "Guest mode link",
+        "Register link",
+        "Forgot password link"
+      ],
+      "states": {
+        "loading": "Button shows spinner, inputs disabled",
+        "error": "Shake animation + error message below form",
+        "success": "Fade to game_hub"
+      }
+    },
+    
+    "register_screen": {
+      "layout": "Scrollable form, centered",
+      "elements": [
+        "Display name input",
+        "Email input with validation",
+        "Password input with strength indicator",
+        "Confirm password input",
+        "Terms checkbox",
+        "Register button",
+        "Login link"
+      ],
+      "validation": "Real-time email format, password min 8 chars, match confirm"
+    },
+    
+    "game_hub": {
+      "layout": "Scrollable vertical, resource bar sticky top",
+      "sections": [
+        {
+          "name": "Resource Bar",
+          "sticky": true,
+          "elements": [
+            "Gold: icon + amount (abbreviated: 1.2K, 1.5M)",
+            "Gems: icon + amount",
+            "Level: badge with XP bar",
+            "Settings gear icon"
+          ]
+        },
+        {
+          "name": "Hero Banner",
+          "height": "180px",
+          "elements": [
+            "Commander portrait (left)",
+            "Commander name + title",
+            "Power rating badge",
+            "Quick stats (attack, defense, HP)",
+            "Background: blurred castle scene"
+          ]
+        },
+        {
+          "name": "Quick Actions",
+          "layout": "2x2 grid",
+          "buttons": [
+            {"label": "Continue Story", "icon": "BookOpen", "color": "primary", "action": "resume_chapter"},
+            {"label": "Quick Battle", "icon": "Zap", "color": "secondary", "action": "quick_battle"},
+            {"label": "Daily Quests", "icon": "Calendar", "color": "warning", "badge": "active_count"},
+            {"label": "Wheel of Fortune", "icon": "CircleDot", "color": "gold", "badge": "free_spin_available"}
+          ]
+        },
+        {
+          "name": "Active Events",
+          "layout": "Horizontal scroll cards",
+          "card": "Event image + name + time remaining + progress bar"
+        },
+        {
+          "name": "Recent Activity",
+          "layout": "List",
+          "items": "Battle results, quest completions, mail notifications"
+        }
+      ]
+    },
+    
+    "battle_screen": {
+      "layout": "Fixed header/arena/footer, no scroll during battle",
+      "header": {
+        "left": "Retreat button (danger)",
+        "center": "Wave indicator: 'Wave 3/10' + boss icon if boss wave",
+        "right": "Battle speed toggle (1x/2x/3x)"
+      },
+      "arena": {
+        "layout": "Two rows: enemy top (3 units), player bottom (3 units)",
+        "enemy_row": {
+          "position": "Top 40% of arena",
+          "units": "3 slots, centered. Boss = spans 2 slots",
+          "hp_bars": "Below each unit, green->yellow->red gradient",
+          "effects": "Floating damage numbers, crit stars, buff icons"
+        },
+        "player_row": {
+          "position": "Bottom 40% of arena",
+          "units": "3 slots, matches formation grid",
+          "hp_bars": "Above each unit",
+          "energy_bars": "Below HP (for active abilities)"
+        },
+        "background": "Themed per battle field (plains, dungeon, etc.)"
+      },
+      "battle_log": {
+        "trigger": "Swipe up from bottom edge",
+        "content": "Scrollable list of actions: 'Knight attacks Goblin for 45 damage'",
+        "filter": "All / Damage / Healing / Buffs"
+      },
+      "footer": {
+        "auto_battle_toggle": "Switch with label",
+        "ability_buttons": "Commander abilities (cooldown indicators)",
+        "pause_button": "Opens pause menu (resume, settings, quit)"
+      },
+      "result_overlay": {
+        "victory": {
+          "animation": "Confetti + victory fanfare text",
+          "elements": ["XP gained", "Gold earned", "Items dropped", "Next wave / Return buttons"]
+        },
+        "defeat": {
+          "animation": "Screen shake + fade to dark",
+          "elements": ["Encouraging quote", "Retry button", "Upgrade suggestion", "Return to hub"]
+        }
+      }
+    },
+    
+    "army_screen": {
+      "layout": "Tabbed interface: Units | Formation | Inventory",
+      "units_tab": {
+        "filter_bar": "Class chips (All, Warrior, Ranger, Mage, etc.)",
+        "sort_options": ["Power", "Level", "Rarity", "Name"],
+        "unit_card": {
+          "layout": "Horizontal card",
+          "left": "Unit portrait (80x80)",
+          "center": "Name, level stars, class icon, power rating",
+          "right": "Equip button (if slot available) / Equipped item icons",
+          "tap_action": "Open unit detail modal"
+        }
+      },
+      "formation_tab": {
+        "layout": "3x3 grid, drag-and-drop",
+        "grid_cells": "Show unit portrait or empty slot with class icon",
+        "synergy_panel": "Bottom panel showing active synergies + bonuses",
+        "power_total": "Top: 'Total Power: 12,345'",
+        "presets": "Save/load formation presets (3 slots)"
+      },
+      "inventory_tab": {
+        "filter_bar": "Type chips + Rarity dropdown",
+        "item_grid": "3 columns, square cards",
+        "item_card": "Icon, name, rarity border color, quantity badge",
+        "tap_action": "Item detail modal (equip, use, sell, info)"
+      }
+    },
+    
+    "unit_detail_modal": {
+      "layout": "Bottom sheet (mobile) / Center modal (desktop)",
+      "header": "Unit portrait (large) + name + rarity badge + favorite star",
+      "stats_section": {
+        "layout": "Grid 2x3",
+        "stats": ["HP", "Attack", "Defense", "Speed", "Crit", "Dodge"],
+        "values": "Base + (bonus from gear) = total"
+      },
+      "equipment_section": {
+        "slots": ["Weapon", "Armor", "Accessory"],
+        "empty": "Tap to equip from inventory",
+        "equipped": "Item icon + name + stat bonus"
+      },
+      "ability_section": "Ability name + description + cooldown",
+      "actions": ["Upgrade (gold cost)", "Ascend (if max level)", "Remove from formation"]
+    },
+    
+    "quests_screen": {
+      "layout": "Tabbed: Story | Daily | Weekly | Side | Events",
+      "quest_card": {
+        "layout": "Vertical card",
+        "header": "Type badge + name + difficulty stars",
+        "body": "Description, objectives list with checkboxes",
+        "progress_bar": "Visual progress + '3/5 complete'",
+        "footer": "Rewards preview + Accept/Claim button",
+        "expired": "Grayed out with 'Expired' badge"
+      },
+      "story_tab": {
+        "layout": "Chapter timeline (vertical)",
+        "chapter_node": "Circle with chapter number, connected by line",
+        "state": "Locked (gray) / Available (glowing) / Completed (checkmark)",
+        "tap_action": "Show chapter summary + Start button"
+      }
+    },
+    
+    "map_screen": {
+      "layout": "Scrollable/pannable world map",
+      "nodes": {
+        "types": {
+          "battle": {"icon": "Swords", "color": "danger"},
+          "resource": {"icon": "Pickaxe", "color": "secondary"},
+          "event": {"icon": "Sparkles", "color": "warning"},
+          "boss": {"icon": "Crown", "color": "gold"},
+          "locked": {"icon": "Lock", "color": "text_disabled"}
+        },
+        "states": "Locked / Available / Completed / In-progress",
+        "connections": "Dashed lines between nodes, solid if path cleared"
+      },
+      "node_detail": {
+        "trigger": "Tap on node",
+        "content": "Node name, description, recommended power, rewards preview, Start button"
+      },
+      "fast_travel": {
+        "unlock": "Complete chapter 2",
+        "ui": "Dropdown of unlocked nodes + travel button"
+      }
+    },
+    
+    "shop_screen": {
+      "layout": "Tabbed: General | Premium | PvP | Event",
+      "shop_header": "Shop name + refresh timer + currency display",
+      "item_card": {
+        "layout": "Vertical card",
+        "image": "Item icon (large)",
+        "name": "Item name",
+        "price": "Amount + currency icon",
+        "stock": "Limited stock indicator",
+        "buy_button": "Disabled if insufficient currency"
+      },
+      "daily_gift": "Free gift section at top (claimable once per day)"
+    },
+    
+    "leaderboard_screen": {
+      "layout": "Tabbed by category, filter by time (All Time / Season / Weekly)",
+      "entry_row": {
+        "layout": "Horizontal",
+        "rank": "1st, 2nd, 3rd = special badges. 4+ = number",
+        "player": "Avatar + name + guild tag",
+        "score": "Large number right-aligned",
+        "you_badge": "Highlight current player's row"
+      },
+      "my_rank": "Sticky bottom bar: 'Your rank: #42 | Score: 1,234'"
+    },
+    
+    "settings_screen": {
+      "layout": "Scrollable grouped list",
+      "groups": [
+        {
+          "name": "Audio",
+          "items": [
+            {"type": "slider", "label": "Master Volume", "key": "master_volume", "range": [0, 100]},
+            {"type": "slider", "label": "Music Volume", "key": "music_volume", "range": [0, 100]},
+            {"type": "slider", "label": "SFX Volume", "key": "sfx_volume", "range": [0, 100]},
+            {"type": "toggle", "label": "Mute in Background", "key": "mute_background"}
+          ]
+        },
+        {
+          "name": "Graphics",
+          "items": [
+            {"type": "select", "label": "Quality", "key": "graphics_quality", "options": ["Low", "Medium", "High"]},
+            {"type": "toggle", "label": "Particle Effects", "key": "particles"},
+            {"type": "toggle", "label": "Screen Shake", "key": "screen_shake"}
+          ]
+        },
+        {
+          "name": "Gameplay",
+          "items": [
+            {"type": "select", "label": "Language", "key": "language", "options": ["English", "Polski"]},
+            {"type": "toggle", "label": "Confirm Gem Spending", "key": "confirm_spending"},
+            {"type": "toggle", "label": "Auto-Battle Default", "key": "auto_battle_default"}
+          ]
+        },
+        {
+          "name": "Notifications",
+          "items": [
+            {"type": "toggle", "label": "Push Notifications", "key": "push_enabled"},
+            {"type": "time", "label": "Daily Reminder", "key": "daily_reminder"},
+            {"type": "toggle", "label": "World Boss Alerts", "key": "world_boss_alerts"}
+          ]
+        },
+        {
+          "name": "Account",
+          "items": [
+            {"type": "button", "label": "Link Email", "action": "link_email", "condition": "guest_account"},
+            {"type": "button", "label": "Change Password", "action": "change_password"},
+            {"type": "button", "label": "Export Save", "action": "export_save"},
+            {"type": "button", "label": "Delete Account", "action": "delete_account", "danger": true}
+          ]
+        }
+      ]
+    },
+    
+    "admin_panel": {
+      "layout": "Sidebar navigation + main content area",
+      "sidebar": ["Dashboard", "Players", "Quests", "Events", "Shop", "Config", "Broadcast", "Promo Codes", "Audit Log"],
+      "players_section": {
+        "search": "By name, email, player ID",
+        "table": "Player list with sortable columns",
+        "actions": ["View details", "Edit resources", "Ban/Unban", "Send mail"],
+        "resource_injection": {
+          "modal": "Player select + Resource type dropdown + Amount + Reason + Confirm"
+        }
+      },
+      "quest_editor": {
+        "layout": "Form with live preview",
+        "fields": ["Title (EN/PL)", "Description (EN/PL)", "Type", "Objectives JSON", "Rewards JSON", "Unlock requirements", "Active toggle"]
+      },
+      "event_scheduler": {
+        "layout": "Calendar view + event creation form",
+        "fields": ["Event type", "Start time", "End time", "Modifiers JSON", "Rewards JSON"]
+      }
+    }
+  },
+  
+  "shared_components": {
+    "modal": {
+      "overlay": "Backdrop blur + dark overlay (50% opacity)",
+      "container": "Surface color, rounded-xl (16px), max-width 90vw, max-height 80vh",
+      "header": "Title + close X button",
+      "body": "Scrollable content",
+      "footer": "Action buttons (primary right, secondary left)"
+    },
+    "toast": {
+      "position": "Top-center, stackable (max 3)",
+      "types": {
+        "success": "Green left border + checkmark icon",
+        "error": "Red left border + X icon",
+        "warning": "Yellow left border + ! icon",
+        "info": "Blue left border + i icon"
+      },
+      "duration": "3s default, 5s for errors, dismissible"
+    },
+    "tooltip": {
+      "trigger": "Long press (mobile) / hover (desktop)",
+      "content": "Rich info: item stats, unit abilities, quest requirements",
+      "delay": "300ms"
+    },
+    "bottom_sheet": {
+      "trigger": "Tap on list item",
+      "gesture": "Swipe down to dismiss, swipe up to expand",
+      "sizes": ["25% peek", "50% half", "90% full"]
+    },
+    "loading_states": {
+      "skeleton": "Animated pulse blocks matching content shape",
+      "spinner": "Circular indeterminate spinner for actions",
+      "progress": "Linear progress for downloads/updates"
+    }
+  },
+  
+  "responsive_breakpoints": {
+    "mobile": "< 640px - Bottom nav, full-width cards, stacked layout",
+    "tablet": "640px - 1024px - Side nav possible, 2-column grids, larger cards",
+    "desktop": "> 1024px - Sidebar navigation, 3-column grids, persistent panels, hover states"
+  },
+  
+  "animations": {
+    "page_transition": "Fade 200ms + slight slide (direction based on nav)",
+    "modal_enter": "Scale 0.95->1 + fade, 150ms ease-out",
+    "modal_exit": "Scale 1->0.95 + fade, 100ms ease-in",
+    "battle_hit": "Screen shake 100ms + flash white on target",
+    "damage_number": "Float up + fade out, 800ms",
+    "level_up": "Pulse gold glow + confetti burst, 2s",
+    "loot_drop": "Bounce in from top + sparkle effect"
+  }
+}

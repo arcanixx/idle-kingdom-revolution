@@ -1,0 +1,93 @@
+{
+  "document_title": "02 - Code Standards & Conventions",
+  "version": "0.1.0",
+  "date": "2026-06-23",
+  "general_principles": [
+    "DRY (Don't Repeat Yourself) - extract reusable logic",
+    "KISS (Keep It Simple, Stupid) - prefer clarity over cleverness",
+    "YAGNI (You Ain't Gonna Need It) - don't build features before they're needed",
+    "Composition over inheritance",
+    "Explicit over implicit - no magic numbers, no hidden side effects"
+  ],
+  "naming_conventions": {
+    "files": "kebab-case for everything (e.g., battle-engine.ts, quest-card.tsx)",
+    "components": "PascalCase (e.g., BattleArena, QuestList)",
+    "hooks": "camelCase prefixed with 'use' (e.g., useBattle, useGameLoop)",
+    "stores": "camelCase suffixed with 'Store' (e.g., gameStore, battleStore)",
+    "types_interfaces": "PascalCase, prefixed with 'I' for interfaces (e.g., IPlayer, IBattleState)",
+    "constants": "UPPER_SNAKE_CASE (e.g., MAX_LEVEL, BASE_GOLD_REWARD)",
+    "database_tables": "snake_case, plural (e.g., players, battle_fields, player_progress)",
+    "database_columns": "snake_case (e.g., created_at, player_id)"
+  },
+  "typescript_rules": {
+    "strict_mode": true,
+    "no_implicit_any": true,
+    "strict_null_checks": true,
+    "no_unused_vars": "error",
+    "explicit_return_types": "Required for all exported functions",
+    "no_console_logs": "warn in production builds",
+    "preferred_utility_types": "Use Pick, Omit, Partial, Required instead of redefining"
+  },
+  "component_structure": {
+    "order_in_file": [
+      "1. Imports (React, libraries, local)",
+      "2. Types/interfaces",
+      "3. Constants",
+      "4. Helper functions",
+      "5. Main component",
+      "6. Sub-components (if small)",
+      "7. Exports"
+    ],
+    "component_size_limit": "Max 250 lines per component - extract if larger",
+    "props_interface": "Always define interface for props",
+    "default_props": "Use default parameters in destructuring, not defaultProps"
+  },
+  "commenting_rules": {
+    "jsdoc": "Required for all exported functions, classes, and complex types",
+    "inline_comments": "Explain WHY, not WHAT - code should be self-documenting",
+    "todo_format": "// TODO(author): description - ticket reference",
+    "fixme_format": "// FIXME(author): description - ticket reference",
+    "section_headers": "Use // ===== SECTION NAME ===== for long files"
+  },
+  "file_headers": {
+    "required": true,
+    "template": "/*\n * File: {filename}\n * Purpose: {one-line description}\n * Author: {author or 'AI Generated'}\n * Created: {date}\n * Phase: {current phase}\n * Related: {related files or docs}\n */"
+  },
+  "game_logic_standards": {
+    "no_hardcoded_values": "All balance numbers in config tables",
+    "deterministic_random": "Use seeded PRNG for battle RNG (replayable battles)",
+    "floating_point": "Use integer math for currency (store as cents/smallest unit)",
+    "time_handling": "Always use UTC server-side, convert to local in UI",
+    "null_safety": "Never assume data exists - always check with fallback"
+  },
+  "testing_standards": {
+    "test_file_naming": "{filename}.test.ts or {filename}.spec.ts",
+    "test_structure": "Given-When-Then or Arrange-Act-Assert",
+    "coverage_requirements": "Business logic: >80%, Components: >60%, Utils: >90%",
+    "mock_strategy": "MSW for API, vitest mocks for internals",
+    "e2e_critical_paths": [
+      "Registration",
+      "Login",
+      "First Battle",
+      "Quest Completion",
+      "Save/Load"
+    ]
+  },
+  "git_commit_conventions": {
+    "format": "type(scope): description",
+    "types": [
+      "feat",
+      "fix",
+      "docs",
+      "style",
+      "refactor",
+      "test",
+      "chore"
+    ],
+    "examples": [
+      "feat(battle): add boss fight mechanics",
+      "fix(auth): resolve token refresh loop",
+      "docs(api): update quest endpoint documentation"
+    ]
+  }
+}

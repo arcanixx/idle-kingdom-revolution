@@ -1,0 +1,100 @@
+{
+  "document_title": "07 - Testing Strategy",
+  "version": "0.1.0",
+  "date": "2026-06-23",
+  "testing_philosophy": "Quality is not an afterthought. Every phase ends with comprehensive testing before next phase begins. Test coverage is a gate, not a metric.",
+  "test_pyramid": {
+    "unit_tests": {
+      "percentage": "70%",
+      "tool": "Vitest",
+      "target": ">80% coverage"
+    },
+    "integration_tests": {
+      "percentage": "20%",
+      "tool": "Vitest + Supabase Test Helpers",
+      "target": ">60% coverage"
+    },
+    "e2e_tests": {
+      "percentage": "10%",
+      "tool": "Playwright",
+      "target": "All critical paths"
+    }
+  },
+  "unit_testing": {
+    "scope": "Pure functions, utility modules, game logic engines",
+    "patterns": [
+      "Battle engine calculations",
+      "Economy formulas (gold, XP)",
+      "Quest validation logic",
+      "Item stat calculations",
+      "Formation synergy calculations"
+    ],
+    "mocking": "Vitest mocks for external dependencies",
+    "edge_cases": [
+      "Zero values (0 gold, 0 damage)",
+      "Maximum values (MAX_INT overflow)",
+      "Negative values (should never happen)",
+      "Concurrent actions (race conditions)",
+      "Offline state transitions"
+    ]
+  },
+  "integration_testing": {
+    "scope": "API endpoints, database operations, auth flows",
+    "patterns": [
+      "Registration -> Login -> Profile flow",
+      "Battle start -> tick -> complete",
+      "Quest accept -> progress -> complete -> reward",
+      "Purchase flow (check balance -> deduct -> grant)",
+      "Save game -> load game consistency"
+    ],
+    "database": "Use Supabase local instance or test project",
+    "isolation": "Each test gets fresh database state"
+  },
+  "e2e_testing": {
+    "scope": "Full user journeys in browser",
+    "critical_paths": [
+      "New player onboarding (register -> tutorial -> first battle)",
+      "Daily login loop (login -> collect rewards -> do daily quest)",
+      "Progression loop (battle -> upgrade -> next battle)",
+      "Social features (view leaderboard -> add friend)",
+      "Admin flow (login -> inject resources -> verify player)",
+      "Offline mode (disconnect -> play -> reconnect -> sync)"
+    ],
+    "devices": [
+      "Desktop Chrome",
+      "Mobile Safari (iOS)",
+      "Mobile Chrome (Android)"
+    ],
+    "performance_budget": {
+      "first_contentful_paint": "< 1.5s",
+      "time_to_interactive": "< 3s",
+      "lighthouse_score": "> 90"
+    }
+  },
+  "phase_gates": {
+    "phase_0": "Setup tests pass (build, lint, typecheck)",
+    "phase_1": "Auth + Profile: 100% API coverage, E2E for registration flow",
+    "phase_2": "Battle + Army: Battle engine 100% unit tested, E2E for full battle",
+    "phase_3": "Quest + Map: Quest validation 100% tested, E2E for quest chain",
+    "phase_4": "Shop + Perks: Economy calculations 100% tested, E2E for purchase flow",
+    "phase_5": "Idle + Sync: Offline/online transitions tested, sync conflict resolution",
+    "phase_6": "Leaderboard + Admin: Admin actions tested, leaderboard accuracy verified",
+    "phase_7": "Story + Polish: Content validation, localization completeness",
+    "phase_8": "UI/UX + PWA: Cross-browser testing, PWA install flow, mobile responsiveness"
+  },
+  "regression_testing": {
+    "frequency": "Before every release",
+    "automation": "Full E2E suite on CI",
+    "manual_checklist": "Visual regression for UI components, battle animations, sound playback"
+  },
+  "bug_tracking": {
+    "tool": "GitHub Issues",
+    "severity_levels": [
+      "Critical",
+      "High",
+      "Medium",
+      "Low"
+    ],
+    "template": "Bug report template with repro steps, expected vs actual, environment"
+  }
+}

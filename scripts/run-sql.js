@@ -1,0 +1,1 @@
+const{Client}=require("pg");const fs=require("fs");const c=new Client({connectionString:"postgresql://postgres:fake@localhost:5432/postgres"});console.log("pg loaded,ver:"+require("pg/package.json").version);

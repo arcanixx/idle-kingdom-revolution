@@ -1,0 +1,1 @@
+const f=require("fs");const p="C:/Users/Administrator/GitHub/idle-kingdom-revolution/supabase/migrations/001_initial_schema.sql";const s=[];

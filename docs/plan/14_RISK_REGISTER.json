@@ -1,0 +1,129 @@
+{
+  "document_title": "14 - Risk Register",
+  "version": "0.1.0",
+  "date": "2026-06-23",
+  "risks": [
+    {
+      "id": "R001",
+      "category": "Technical",
+      "risk": "Supabase free tier limits exceeded during development",
+      "probability": "Medium",
+      "impact": "High",
+      "mitigation": "Monitor usage dashboard, have Vercel + Upstash fallback ready, upgrade to Pro if needed ($25/mo)",
+      "owner": "Maciek",
+      "status": "Active"
+    },
+    {
+      "id": "R002",
+      "category": "Technical",
+      "risk": "PWA offline sync conflicts when multiple devices used",
+      "probability": "High",
+      "impact": "Medium",
+      "mitigation": "Implement timestamp-based conflict resolution, server-wins for critical data, notify user of conflicts",
+      "owner": "AI Developer",
+      "status": "Active"
+    },
+    {
+      "id": "R003",
+      "category": "Technical",
+      "risk": "Battle engine client-side calculations exploitable by cheaters",
+      "probability": "High",
+      "impact": "High",
+      "mitigation": "Server-side validation of all battle results using deterministic seed, rate-limit battle completions, anomaly detection",
+      "owner": "AI Developer",
+      "status": "Active"
+    },
+    {
+      "id": "R004",
+      "category": "Technical",
+      "risk": "Mobile performance issues on low-end devices",
+      "probability": "Medium",
+      "impact": "Medium",
+      "mitigation": "Implement quality settings (Low/Med/High), lazy loading, virtual scrolling, asset compression, WebP format",
+      "owner": "AI Developer",
+      "status": "Active"
+    },
+    {
+      "id": "R005",
+      "category": "Legal",
+      "risk": "Original game owner claims IP infringement",
+      "probability": "Low",
+      "impact": "High",
+      "mitigation": "All new assets, new name, new story, new code. Mechanics are not copyrightable. Document all original work.",
+      "owner": "Maciek",
+      "status": "Active"
+    },
+    {
+      "id": "R006",
+      "category": "Legal",
+      "risk": "AI-generated assets copyright ambiguity",
+      "probability": "Medium",
+      "impact": "Medium",
+      "mitigation": "Use commercial-safe AI models (Midjourney commercial plan, DALL-E 3), keep generation records, modify outputs significantly",
+      "owner": "Maciek",
+      "status": "Active"
+    },
+    {
+      "id": "R007",
+      "category": "Business",
+      "risk": "Project scope creep - too many features requested",
+      "probability": "High",
+      "impact": "High",
+      "mitigation": "Strict MVP definition, phased delivery, feature freeze per phase, backlog for post-MVP ideas",
+      "owner": "Maciek",
+      "status": "Active"
+    },
+    {
+      "id": "R008",
+      "category": "Business",
+      "risk": "Player retention lower than expected",
+      "probability": "Medium",
+      "impact": "High",
+      "mitigation": "Analytics from day one, A/B testing framework, player feedback channels, rapid iteration post-launch",
+      "owner": "Maciek",
+      "status": "Active"
+    },
+    {
+      "id": "R009",
+      "category": "Operational",
+      "risk": "Solo development bottleneck - Maciek as only human developer",
+      "probability": "High",
+      "impact": "Medium",
+      "mitigation": "Maximize AI-assisted development, modular architecture, comprehensive documentation, community contributions open",
+      "owner": "Maciek",
+      "status": "Active"
+    },
+    {
+      "id": "R010",
+      "category": "Operational",
+      "risk": "Data loss due to lack of backup strategy",
+      "probability": "Low",
+      "impact": "Critical",
+      "mitigation": "Daily automated pg_dump to R2/S3, test restore monthly, schema in version control, point-in-time recovery enabled",
+      "owner": "Maciek",
+      "status": "Active"
+    },
+    {
+      "id": "R011",
+      "category": "Technical",
+      "risk": "Netlify build time limits exceeded",
+      "probability": "Low",
+      "impact": "Medium",
+      "mitigation": "Optimize build (tree shaking, code splitting), migrate to Vercel if limits hit, self-hosted runner option",
+      "owner": "AI Developer",
+      "status": "Active"
+    },
+    {
+      "id": "R012",
+      "category": "Technical",
+      "risk": "Real-time features unreliable on poor mobile connections",
+      "probability": "High",
+      "impact": "Medium",
+      "mitigation": "Graceful degradation to polling, offline-first design, local state as source of truth, sync on reconnect",
+      "owner": "AI Developer",
+      "status": "Active"
+    }
+  ],
+  "review_schedule": "Weekly during active development, monthly post-launch",
+  "escalation_path": "Maciek -> AI Developer -> External consultant (if needed)"
+}

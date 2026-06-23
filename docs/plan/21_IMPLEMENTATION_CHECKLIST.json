@@ -1,0 +1,535 @@
+{
+  "document_title": "21 - Implementation Checklist",
+  "version": "0.1.0",
+  "date": "2026-06-23",
+  "purpose": "Phase-by-phase checklist with tasks, deliverables, and quality gates. Each phase must be 100% complete before starting next phase.",
+  "phase_0_foundation": {
+    "name": "Phase 0: Foundation",
+    "duration": "1-2 weeks",
+    "prerequisites": [
+      "All planning docs approved",
+      "Supabase project created",
+      "GitHub repo initialized"
+    ],
+    "tasks": [
+      {
+        "id": "P0-01",
+        "task": "Initialize Next.js 15 project with TypeScript, Tailwind, App Router",
+        "owner": "AI",
+        "status": "pending",
+        "deliverable": "Project builds without errors"
+      },
+      {
+        "id": "P0-02",
+        "task": "Configure ESLint + Prettier + TypeScript strict mode",
+        "owner": "AI",
+        "status": "pending",
+        "deliverable": "No lint errors, consistent formatting"
+      },
+      {
+        "id": "P0-03",
+        "task": "Setup GitHub Actions CI/CD (lint, typecheck, build)",
+        "owner": "AI",
+        "status": "pending",
+        "deliverable": "Green CI on push"
+      },
+      {
+        "id": "P0-04",
+        "task": "Create Supabase project and configure auth",
+        "owner": "Maciek",
+        "status": "pending",
+        "deliverable": "Supabase dashboard accessible"
+      },
+      {
+        "id": "P0-05",
+        "task": "Write database schema (all tables from ARCHITECTURE)",
+        "owner": "AI",
+        "status": "pending",
+        "deliverable": "Schema applied to Supabase, no errors"
+      },
+      {
+        "id": "P0-06",
+        "task": "Setup Supabase client (browser + server)",
+        "owner": "AI",
+        "status": "pending",
+        "deliverable": "Client connects, auth works"
+      },
+      {
+        "id": "P0-07",
+        "task": "Configure Row Level Security policies",
+        "owner": "AI",
+        "status": "pending",
+        "deliverable": "RLS tested, no unauthorized access"
+      },
+      {
+        "id": "P0-08",
+        "task": "Create basic landing page",
+        "owner": "AI",
+        "status": "pending",
+        "deliverable": "Page renders, responsive"
+      },
+      {
+        "id": "P0-09",
+        "task": "Configure PWA (manifest, service worker, icons)",
+        "owner": "AI",
+        "status": "pending",
+        "deliverable": "PWA installable on mobile"
+      },
+      {
+        "id": "P0-10",
+        "task": "Deploy to Netlify",
+        "owner": "Maciek",
+        "status": "pending",
+        "deliverable": "Live URL accessible"
+      },
+      {
+        "id": "P0-11",
+        "task": "Write Phase 0 tests (build, lint, typecheck)",
+        "owner": "AI",
+        "status": "pending",
+        "deliverable": "All tests pass"
+      },
+      {
+        "id": "P0-12",
+        "task": "Update documentation with actual setup steps",
+        "owner": "AI",
+        "status": "pending",
+        "deliverable": "README.md accurate"
+      }
+    ],
+    "quality_gate": "App builds, deploys to Netlify, auth works, CI green, docs updated"
+  },
+  "phase_1_core_game_loop": {
+    "name": "Phase 1: Core Game Loop",
+    "duration": "3-4 weeks",
+    "prerequisites": [
+      "Phase 0 complete",
+      "Basic assets ready (placeholders acceptable)"
+    ],
+    "tasks": [
+      {
+        "id": "P1-01",
+        "task": "Implement auth system (register, login, logout, guest)",
+        "owner": "AI",
+        "status": "pending",
+        "deliverable": "All auth flows work, tests pass"
+      },
+      {
+        "id": "P1-02",
+        "task": "Create player profile system",
+        "owner": "AI",
+        "status": "pending",
+        "deliverable": "Profile CRUD, stats display"
+      },
+      {
+        "id": "P1-03",
+        "task": "Implement battle engine (tick-based, deterministic)",
+        "owner": "AI",
+        "status": "pending",
+        "deliverable": "Battles run correctly, results reproducible"
+      },
+      {
+        "id": "P1-04",
+        "task": "Create formation grid system",
+        "owner": "AI",
+        "status": "pending",
+        "deliverable": "3x3 grid, drag-drop, synergies"
+      },
+      {
+        "id": "P1-05",
+        "task": "Implement unit classes and stats",
+        "owner": "AI",
+        "status": "pending",
+        "deliverable": "7 classes functional, stats calculate correctly"
+      },
+      {
+        "id": "P1-06",
+        "task": "Create battle UI (arena, wave indicator, HP bars, battle log)",
+        "owner": "AI",
+        "status": "pending",
+        "deliverable": "UI responsive, info readable"
+      },
+      {
+        "id": "P1-07",
+        "task": "Implement 5 battle fields with progressive difficulty",
+        "owner": "AI",
+        "status": "pending",
+        "deliverable": "Fields unlock correctly, difficulty scales"
+      },
+      {
+        "id": "P1-08",
+        "task": "Create army management screen",
+        "owner": "AI",
+        "status": "pending",
+        "deliverable": "Unit list, upgrade, formation editor"
+      },
+      {
+        "id": "P1-09",
+        "task": "Implement unit leveling and power rating",
+        "owner": "AI",
+        "status": "pending",
+        "deliverable": "Leveling works, power rating accurate"
+      },
+      {
+        "id": "P1-10",
+        "task": "Create basic equipment system (slots, items, stats)",
+        "owner": "AI",
+        "status": "pending",
+        "deliverable": "Equip/unequip works, stats update"
+      },
+      {
+        "id": "P1-11",
+        "task": "Implement settings system (audio, graphics, language)",
+        "owner": "AI",
+        "status": "pending",
+        "deliverable": "Settings persist, language switch works"
+      },
+      {
+        "id": "P1-12",
+        "task": "Implement auto-save and cloud sync",
+        "owner": "AI",
+        "status": "pending",
+        "deliverable": "Save every 30s, sync on reconnect"
+      },
+      {
+        "id": "P1-13",
+        "task": "Create basic admin panel (resource injection, player search)",
+        "owner": "AI",
+        "status": "pending",
+        "deliverable": "Admin can inject resources, search players"
+      },
+      {
+        "id": "P1-14",
+        "task": "Write battle engine unit tests (100% coverage)",
+        "owner": "AI",
+        "status": "pending",
+        "deliverable": "All edge cases covered"
+      },
+      {
+        "id": "P1-15",
+        "task": "Write E2E tests for full battle flow",
+        "owner": "AI",
+        "status": "pending",
+        "deliverable": "Playwright tests pass"
+      },
+      {
+        "id": "P1-16",
+        "task": "Performance testing (Lighthouse >80 mobile)",
+        "owner": "AI",
+        "status": "pending",
+        "deliverable": "Lighthouse report"
+      }
+    ],
+    "quality_gate": "Player can register, battle, level up, save progress, admin works, tests pass, Lighthouse >80"
+  },
+  "phase_2_content_progression": {
+    "name": "Phase 2: Content & Progression",
+    "duration": "3-4 weeks",
+    "prerequisites": [
+      "Phase 1 complete",
+      "Seed data for quests/items ready"
+    ],
+    "tasks": [
+      {
+        "id": "P2-01",
+        "task": "Implement quest system (accept, track, complete, claim)",
+        "owner": "AI",
+        "status": "pending",
+        "deliverable": "Quests flow works end-to-end"
+      },
+      {
+        "id": "P2-02",
+        "task": "Create quest UI (list, detail, progress, rewards)",
+        "owner": "AI",
+        "status": "pending",
+        "deliverable": "Quest UI responsive, info clear"
+      },
+      {
+        "id": "P2-03",
+        "task": "Implement daily/weekly quest rotation",
+        "owner": "AI",
+        "status": "pending",
+        "deliverable": "Rotation works, timers correct"
+      },
+      {
+        "id": "P2-04",
+        "task": "Create world map with nodes",
+        "owner": "AI",
+        "status": "pending",
+        "deliverable": "Map renders, nodes clickable, fog of war"
+      },
+      {
+        "id": "P2-05",
+        "task": "Implement node unlocking and fast travel",
+        "owner": "AI",
+        "status": "pending",
+        "deliverable": "Unlock conditions work, travel instant"
+      },
+      {
+        "id": "P2-06",
+        "task": "Create shop system with daily rotation",
+        "owner": "AI",
+        "status": "pending",
+        "deliverable": "Shop loads, rotation works, purchase validates"
+      },
+      {
+        "id": "P2-07",
+        "task": "Implement idle earnings system",
+        "owner": "AI",
+        "status": "pending",
+        "deliverable": "Offline earnings calculated correctly"
+      },
+      {
+        "id": "P2-08",
+        "task": "Create leaderboard system",
+        "owner": "AI",
+        "status": "pending",
+        "deliverable": "Leaderboard updates, filters work"
+      },
+      {
+        "id": "P2-09",
+        "task": "Implement mail system",
+        "owner": "AI",
+        "status": "pending",
+        "deliverable": "Mail send/receive/claim works"
+      },
+      {
+        "id": "P2-10",
+        "task": "Expand admin panel (quest management, event scheduling)",
+        "owner": "AI",
+        "status": "pending",
+        "deliverable": "Admin can create quests, schedule events"
+      },
+      {
+        "id": "P2-11",
+        "task": "Write quest validation tests",
+        "owner": "AI",
+        "status": "pending",
+        "deliverable": "100% quest logic coverage"
+      },
+      {
+        "id": "P2-12",
+        "task": "E2E tests for quest chain completion",
+        "owner": "AI",
+        "status": "pending",
+        "deliverable": "Full quest chain tested"
+      }
+    ],
+    "quality_gate": "Full progression loop works, admin can manage content, all tests pass"
+  },
+  "phase_3_endgame_social": {
+    "name": "Phase 3: Endgame & Social",
+    "duration": "4-5 weeks",
+    "prerequisites": [
+      "Phase 2 complete",
+      "Player base for testing"
+    ],
+    "tasks": [
+      {
+        "id": "P3-01",
+        "task": "Implement Tower of Ascension",
+        "owner": "AI",
+        "status": "pending",
+        "deliverable": "Tower climbs, resets, rewards work"
+      },
+      {
+        "id": "P3-02",
+        "task": "Create World Boss system",
+        "owner": "AI",
+        "status": "pending",
+        "deliverable": "Boss spawns, damage tracked, rewards distributed"
+      },
+      {
+        "id": "P3-03",
+        "task": "Implement Wheel of Fortune",
+        "owner": "AI",
+        "status": "pending",
+        "deliverable": "Spin works, pity system, rewards correct"
+      },
+      {
+        "id": "P3-04",
+        "task": "Create perk system with trees",
+        "owner": "AI",
+        "status": "pending",
+        "deliverable": "Perks apply, respec works, synergies active"
+      },
+      {
+        "id": "P3-05",
+        "task": "Implement guild system (create, join, chat, boss)",
+        "owner": "AI",
+        "status": "pending",
+        "deliverable": "Guilds functional, chat works"
+      },
+      {
+        "id": "P3-06",
+        "task": "Create promo code system",
+        "owner": "AI",
+        "status": "pending",
+        "deliverable": "Codes validate, rewards grant, tracking works"
+      },
+      {
+        "id": "P3-07",
+        "task": "Implement card mini-game",
+        "owner": "AI",
+        "status": "pending",
+        "deliverable": "Game playable, rewards correct, daily limit enforced"
+      },
+      {
+        "id": "P3-08",
+        "task": "Create friends system",
+        "owner": "AI",
+        "status": "pending",
+        "deliverable": "Add/remove friends, gifts, progress view"
+      },
+      {
+        "id": "P3-09",
+        "task": "Write endgame system tests",
+        "owner": "AI",
+        "status": "pending",
+        "deliverable": "Tower, boss, wheel tested"
+      },
+      {
+        "id": "P3-10",
+        "task": "E2E tests for social features",
+        "owner": "AI",
+        "status": "pending",
+        "deliverable": "Guild flow tested"
+      }
+    ],
+    "quality_gate": "Engaging endgame loops, social features functional, tests pass"
+  },
+  "phase_4_polish_launch": {
+    "name": "Phase 4: Polish & Launch",
+    "duration": "3-4 weeks",
+    "prerequisites": [
+      "Phase 3 complete",
+      "AI-generated assets ready"
+    ],
+    "tasks": [
+      {
+        "id": "P4-01",
+        "task": "Replace placeholder assets with AI-generated graphics",
+        "owner": "AI/Maciek",
+        "status": "pending",
+        "deliverable": "All assets replaced, consistent style"
+      },
+      {
+        "id": "P4-02",
+        "task": "Add sound effects and music",
+        "owner": "AI/Maciek",
+        "status": "pending",
+        "deliverable": "Audio plays correctly, settings work"
+      },
+      {
+        "id": "P4-03",
+        "task": "Implement story and dialogues",
+        "owner": "AI",
+        "status": "pending",
+        "deliverable": "Story flows, dialogues display"
+      },
+      {
+        "id": "P4-04",
+        "task": "PWA optimization (icon, splash, offline)",
+        "owner": "AI",
+        "status": "pending",
+        "deliverable": "Lighthouse PWA score >90"
+      },
+      {
+        "id": "P4-05",
+        "task": "Performance tuning (lazy loading, code splitting)",
+        "owner": "AI",
+        "status": "pending",
+        "deliverable": "FCP <1.5s, TTI <3s"
+      },
+      {
+        "id": "P4-06",
+        "task": "Beta testing with friends/community",
+        "owner": "Maciek",
+        "status": "pending",
+        "deliverable": "Feedback collected, critical bugs fixed"
+      },
+      {
+        "id": "P4-07",
+        "task": "Final security audit",
+        "owner": "AI",
+        "status": "pending",
+        "deliverable": "No critical vulnerabilities"
+      },
+      {
+        "id": "P4-08",
+        "task": "Privacy policy and terms of service pages",
+        "owner": "AI",
+        "status": "pending",
+        "deliverable": "Pages live, compliant"
+      },
+      {
+        "id": "P4-09",
+        "task": "Analytics integration",
+        "owner": "AI",
+        "status": "pending",
+        "deliverable": "Events tracking, dashboards work"
+      },
+      {
+        "id": "P4-10",
+        "task": "Final documentation update (convert JSON to MD)",
+        "owner": "AI",
+        "status": "pending",
+        "deliverable": "All docs in .md format"
+      }
+    ],
+    "quality_gate": "Stable, performant, visually appealing, ready for public beta"
+  },
+  "phase_5_post_launch": {
+    "name": "Phase 5: Post-Launch",
+    "duration": "Ongoing",
+    "prerequisites": [
+      "Public beta live",
+      "Analytics collecting data"
+    ],
+    "tasks": [
+      {
+        "id": "P5-01",
+        "task": "Monitor analytics and player feedback",
+        "owner": "Maciek",
+        "status": "pending",
+        "deliverable": "Weekly reports"
+      },
+      {
+        "id": "P5-02",
+        "task": "Fix critical bugs within 24h",
+        "owner": "AI",
+        "status": "pending",
+        "deliverable": "Hotfix deployed"
+      },
+      {
+        "id": "P5-03",
+        "task": "Plan and execute seasonal events",
+        "owner": "Maciek",
+        "status": "pending",
+        "deliverable": "Event live"
+      },
+      {
+        "id": "P5-04",
+        "task": "Add new content (maps, units, quests)",
+        "owner": "AI",
+        "status": "pending",
+        "deliverable": "Content deployed"
+      },
+      {
+        "id": "P5-05",
+        "task": "Implement monetization (placeholder to real)",
+        "owner": "AI",
+        "status": "pending",
+        "deliverable": "IAP functional"
+      },
+      {
+        "id": "P5-06",
+        "task": "Community features (forums, Discord integration)",
+        "owner": "Maciek",
+        "status": "pending",
+        "deliverable": "Community active"
+      }
+    ],
+    "quality_gate": "Retained player base, positive feedback, revenue growth"
+  }
+}

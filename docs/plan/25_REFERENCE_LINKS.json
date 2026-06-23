@@ -1,0 +1,118 @@
+{
+  "document_title": "25 - Reference Links & Resources",
+  "version": "0.1.0",
+  "date": "2026-06-23",
+  \"purpose\": \"Quick reference links to all analyzed games, repositories, and resources for Idle Kingdom Revolution development.\",
+  
+  \"analyzed_games\": {
+    \"yet_another_idle_rpg\": {
+      \"name\": \"Yet Another Idle RPG\",
+      \"repo\": \"https://github.com/miktaew/yet-another-idle-rpg\",
+      \"wiki\": \"https://protokind.miraheze.org/wiki/Yet_Another_Idle_RPG\",
+      \"play\": \"https://miktaew.github.io/yet-another-idle-rpg/ (if hosted)\",
+      \"platform\": \"Web (browser)\",
+      \"license\": \"Check repo for license file\",
+      \"tech\": \"Vanilla JavaScript, HTML, CSS\",
+      \"key_takeaways\": [\"Turn-based combat\", \"Skill trees\", \"Area progression\", \"Equipment system\"]
+    },
+    \"idle_fantasy\": {
+      \"name\": \"Idle Fantasy\",
+      \"repo\": \"https://github.com/tristinbaker/IdleFantasy\",
+      \"fdroid\": \"https://f-droid.org/packages/com.tristinbaker.idlefantasy/\",
+      \"play_store\": \"https://play.google.com/store/apps/details?id=com.tristinbaker.idlefantasy (check if available)\",
+      \"platform\": \"Android (Kotlin)\",
+      \"license\": \"Check repo for license file\",
+      \"tech\": \"Kotlin, Android native, Room database\",
+      \"key_takeaways\": [\"Gacha system\", \"Team formation\", \"Chapter campaign\", \"Equipment enhancement\"]
+    },
+    \"melvor_idle\": {
+      \"name\": \"Melvor Idle\",
+      \"website\": \"https://melvoridle.com/\",
+      \"wiki\": \"https://wiki.melvoridle.com/\",
+      \"steam\": \"https://store.steampowered.com/app/1267910/Melvor_Idle/\",
+      \"mobile\": \"iOS/Android app stores\",
+      \"platform\": \"Web, Steam, Mobile\",
+      \"license\": \"Proprietary (moddable)\",
+      \"tech\": \"JavaScript (browser)\",
+      \"key_takeaways\": [\"20+ skill system\", \"Bank/inventory\", \"Combat triangle\", \"Slayer tasks\", \"Mastery system\"]
+    },
+    \"trimps\": {
+      \"name\": \"Trimps\",
+      \"play\": \"https://trimps.github.io/\",
+      \"repo\": \"https://github.com/Trimps/Trimps.github.io\",
+      \"wiki\": \"https://trimps.fandom.com/wiki/Trimps_Wiki\",
+      \"reddit\": \"https://www.reddit.com/r/Trimps/\",
+      \"platform\": \"Web (browser)\",
+      \"license\": \"MIT (open source)\",
+      \"tech\": \"JavaScript, HTML5 Canvas\",
+      \"key_takeaways\": [\"Prestige/Portal system\", \"Permanent upgrades\", \"Challenge modes\", \"Progressive automation\"]
+    },
+    \"realm_grinder\": {
+      \"name\": \"Realm Grinder\",
+      \"play\": \"https://www.kongregate.com/games/divinegames/realm-grinder\",
+      \"steam\": \"https://store.steampowered.com/app/314070/Realm_Grinder/\",
+      \"mobile\": \"iOS/Android app stores\",
+      \"wiki\": \"https://realm-grinder.fandom.com/wiki/Realm_Grinder_Wiki\",
+      \"platform\": \"Web, Steam, Mobile\",
+      \"license\": \"Proprietary\",
+      \"tech\": \"Flash/HTML5 (web), Unity (mobile)\",
+      \"key_takeaways\": [\"Faction system\", \"Alignment mechanics\", \"Spell combos\", \"Research system\", \"Trophy system\"]
+    },
+    \"kings_bounty_legions\": {
+      \"name\": \"King's Bounty: Legions\",
+      \"uptodown\": \"https://kings-bounty-legions.en.uptodown.com/android\",
+      \"play_store\": \"https://play.google.com/store/apps/details?id=com.nival.kb (verify if active)\",
+      \"website\": \"https://www.nival.com/games/kings-bounty-legions/\",
+      \"platform\": \"Android, iOS, Web (Facebook)\",
+      \"license\": \"Proprietary\",
+      \"tech\": \"Unity (mobile), Flash (web originally)\",
+      \"key_takeaways\": [\"Hex tactical combat\", \"Unit variety\", \"Hero system\", \"Async PvP\", \"Campaign map\"]
+    }
+  },
+  
+  \"additional_resources\": {
+    \"idle_game_design\": {
+      \"gdc_talks\": [
+        \"https://www.gdcvault.com/play/1024416/Idle-Games-The-Mechanics-and\",
+        \"https://www.gdcvault.com/play/1025035/Numbers-Go-Up-Designing-Idle\"
+      ],
+      \"articles\": [
+        \"https://www.gamedeveloper.com/design/the-math-of-idle-games-part-i\",
+        \"https://www.gamedeveloper.com/design/the-math-of-idle-games-part-ii\"
+      ]
+    },
+    \"technical_references\": {
+      \"nextjs_docs\": \"https://nextjs.org/docs\",
+      \"supabase_docs\": \"https://supabase.com/docs\",
+      \"tailwind_docs\": \"https://tailwindcss.com/docs\",
+      \"zustand_docs\": \"https://docs.pmnd.rs/zustand/getting-started/introduction\",
+      \"tanstack_query\": \"https://tanstack.com/query/latest\",
+      \"playwright\": \"https://playwright.dev/\",
+      \"vitest\": \"https://vitest.dev/\"
+    },
+    \"ai_tools\": {
+      \"midjourney\": \"https://www.midjourney.com/ (commercial plan recommended)\",
+      \"dalle3\": \"https://openai.com/dall-e-3 (via ChatGPT Plus or Bing)\",
+      \"leonardo_ai\": \"https://leonardo.ai/ (free tier available)\",
+      \"stable_diffusion\": \"https://stability.ai/ (local or cloud)\",
+      \"upscayl\": \"https://upscayl.org/ (free upscaling)\",
+      \"remove_bg\": \"https://www.remove.bg/ (background removal)\"
+    },
+    \"asset_resources\": {
+      \"opengameart\": \"https://opengameart.org/ (free game assets)\",
+      \"itchio_assets\": \"https://itch.io/game-assets/free\",
+      \"freesound\": \"https://freesound.org/ (free sound effects)\",
+      \"epidemic_sound\": \"https://www.epidemicsound.com/ (licensed music)\"
+    }
+  },
+  
+  \"original_game_reference\": {
+    \"idle_bounty_adventures\": {
+      \"note\": \"Original inspiration - abandoned since ~2021\",
+      \"apk\": \"Available in Idle Bounty local project folder (reverse engineered)\",
+      \"mock_server\": \"Python/FastAPI mock in project folder\",
+      \"extracted_data\": \"IL2CPP output in project folder (classes, strings, config)\",
+      \"usage\": \"Reference only - do not copy assets or code. Use for mechanic inspiration and data structure reference.\"
+    }
+  }
+}

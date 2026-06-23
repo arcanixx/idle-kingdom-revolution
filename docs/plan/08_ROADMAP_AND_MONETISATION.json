@@ -1,0 +1,128 @@
+{
+  "document_title": "08 - Roadmap & Monetization",
+  "version": "0.1.0",
+  "date": "2026-06-23",
+  "development_phases": {
+    "phase_0": {
+      "name": "Foundation",
+      "duration": "1-2 weeks",
+      "deliverables": [
+        "Project setup (Next.js + Supabase + Tailwind)",
+        "CI/CD pipeline",
+        "Database schema",
+        "Auth system",
+        "Basic landing page",
+        "PWA configuration"
+      ],
+      "success_criteria": "App builds, deploys to Netlify, auth works"
+    },
+    "phase_1": {
+      "name": "Core Game Loop",
+      "duration": "3-4 weeks",
+      "deliverables": [
+        "Battle system (auto-battle, formations)",
+        "Army management",
+        "Basic economy (gold, XP)",
+        "Player profile",
+        "Settings system",
+        "First 5 battle fields"
+      ],
+      "success_criteria": "Player can register, battle, level up, save progress"
+    },
+    "phase_2": {
+      "name": "Content & Progression",
+      "duration": "3-4 weeks",
+      "deliverables": [
+        "Quest system (story + daily)",
+        "Map exploration",
+        "Shop system",
+        "Leaderboard",
+        "Admin panel (basic)",
+        "Mail system"
+      ],
+      "success_criteria": "Full progression loop, admin can manage content"
+    },
+    "phase_3": {
+      "name": "Endgame & Social",
+      "duration": "4-5 weeks",
+      "deliverables": [
+        "Tower of Ascension",
+        "World Boss",
+        "Perk system",
+        "Guild system (basic)",
+        "Promo codes",
+        "Coal Mine mini-game",
+        "Fortress Siege (TD) mini-game",
+        "Castle Defender mini-game"
+      ],
+      "success_criteria": "Engaging endgame loops, social features functional"
+    },
+    "phase_4": {
+      "name": "Polish & Launch",
+      "duration": "3-4 weeks",
+      "deliverables": [
+        "New graphics (AI-generated assets)",
+        "Sound & music",
+        "Story & dialogues",
+        "PWA optimization",
+        "Performance tuning",
+        "Beta testing"
+      ],
+      "success_criteria": "Stable, performant, visually appealing, ready for public beta"
+    },
+    "phase_5": {
+      "name": "Post-Launch",
+      "duration": "Ongoing",
+      "deliverables": [
+        "Seasonal events",
+        "New content (maps, units, quests)",
+        "Monetization features",
+        "Analytics integration",
+        "Community features"
+      ],
+      "success_criteria": "Retained player base, positive feedback, revenue growth"
+    }
+  },
+  "monetization_strategy": {
+    "phase_1_free": {
+      "description": "Completely free, no monetization",
+      "purpose": "Build player base, gather feedback, test retention"
+    },
+    "phase_2_placeholder": {
+      "description": "Gem shop visible but non-functional (or mock purchases)",
+      "purpose": "Test UI/UX, measure purchase intent without real transactions"
+    },
+    "phase_3_soft_launch": {
+      "description": "Real IAP via Stripe (web) or Apple/Google (if native)",
+      "offerings": [
+        "Gem packs",
+        "Monthly sub (premium daily)",
+        "Cosmetic packs (skins, avatars, frames, effects)"
+      ]
+    },
+    "phase_4_full": {
+      "description": "Full monetization suite",
+      "additions": [
+        "Rewarded ads (optional, player-initiated)",
+        "Limited-time cosmetic offers",
+        "Bundle deals (cosmetic bundles)",
+        "Exclusive time-limited cosmetics"
+      ]
+    }
+  },
+  "kpis": {
+    "retention": {
+      "d1": ">40%",
+      "d7": ">15%",
+      "d30": ">5%"
+    },
+    "engagement": {
+      "avg_session": ">10 min",
+      "sessions_per_day": ">2"
+    },
+    "monetization": {
+      "arpu": "TBD - cosmetics only, expected lower ARPU but higher player satisfaction",
+      "conversion_rate": ">2%"
+    }
+  }
+}

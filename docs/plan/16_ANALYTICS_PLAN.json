@@ -1,0 +1,74 @@
+{
+  "document_title": "16 - Analytics Plan",
+  "version": "0.1.0",
+  "date": "2026-06-23",
+  "philosophy": "Measure what matters. Focus on player experience and business health, not vanity metrics. Privacy-first - minimal data collection, anonymized where possible.",
+  "tools": {
+    "primary": "Supabase Analytics (built-in) + custom events table",
+    "secondary": "Google Analytics 4 (optional, for acquisition tracking)",
+    "error_tracking": "Sentry (free tier)",
+    "performance": "Web Vitals (built into Next.js)"
+  },
+  "key_metrics": {
+    "acquisition": {
+      "metrics": ["New registrations", "Registration source", "Guest-to-registered conversion", "OAuth vs email split"],
+      "target": "50% of guests convert to registered within 7 days"
+    },
+    "activation": {
+      "metrics": ["First battle completion", "First unit upgrade", "First quest complete", "Time to first battle"],
+      "target": "80% of new players complete first battle within 5 minutes"
+    },
+    "engagement": {
+      "metrics": ["DAU/MAU ratio", "Avg session length", "Sessions per day", "Screens per session", "Feature usage heatmap"],
+      "target": "DAU/MAU > 20%, avg session > 10 min"
+    },
+    "retention": {
+      "metrics": ["D1 retention", "D7 retention", "D30 retention", "D90 retention", "Churn rate"],
+      "target": "D1 > 40%, D7 > 15%, D30 > 5%"
+    },
+    "monetization": {
+      "metrics": ["ARPU", "ARPPU", "Conversion rate", "Avg purchase value", "LTV"],
+      "target": "TBD post soft-launch"
+    },
+    "technical": {
+      "metrics": ["Page load time", "API response time", "Error rate", "Crash rate", "PWA install rate"],
+      "target": "Lighthouse > 90, API < 200ms p95, Error rate < 0.1%"
+    }
+  },
+  "event_tracking": {
+    "player_events": [
+      "registration_complete",
+      "login",
+      "battle_start",
+      "battle_complete",
+      "unit_upgrade",
+      "quest_accept",
+      "quest_complete",
+      "shop_purchase",
+      "wheel_spin",
+      "tower_attempt",
+      "world_boss_participate",
+      "settings_change",
+      "pwa_install",
+      "share"
+    ],
+    "system_events": [
+      "api_error",
+      "sync_conflict",
+      "offline_start",
+      "offline_end",
+      "cheat_detected"
+    ]
+  },
+  "reporting": {
+    "daily": "Active players, new registrations, revenue, critical errors",
+    "weekly": "Retention cohorts, feature usage, battle balance metrics",
+    "monthly": "LTV analysis, churn reasons, roadmap prioritization data"
+  },
+  "privacy": {
+    "data_minimization": "Collect only what's needed for game function and analytics",
+    "anonymization": "Hash player IDs in external analytics, no PII in event logs",
+    "retention": "Raw events: 90 days, Aggregated: indefinite, Personal: until account deletion",
+    "consent": "Analytics consent separate from essential function consent"
+  }
+}

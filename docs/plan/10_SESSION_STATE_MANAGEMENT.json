@@ -1,0 +1,82 @@
+{
+  "document_title": "10 - Session & State Management",
+  "version": "0.1.0",
+  "date": "2026-06-23",
+  "state_architecture": {
+    "client_state": {
+      "tool": "Zustand",
+      "scope": "UI state, temporary game state, user preferences",
+      "persistence": "localStorage for preferences, IndexedDB for large state",
+      "structure": {
+        "gameStore": "Current battle, army, inventory, active quests",
+        "uiStore": "Modals, toasts, navigation, theme",
+        "authStore": "User session, profile, permissions",
+        "settingsStore": "Audio, graphics, notification preferences"
+      }
+    },
+    "server_state": {
+      "tool": "TanStack Query (React Query)",
+      "scope": "Player data, leaderboard, shop inventory, config",
+      "caching": "Stale-while-revalidate, background refetch",
+      "optimistic_updates": true,
+      "rollback_on_error": true
+    },
+    "realtime_state": {
+      "tool": "Supabase Realtime",
+      "scope": "Global announcements, world boss HP, guild chat, live leaderboard",
+      "subscription_management": "Auto-subscribe on relevant screens, unsubscribe on leave"
+    }
+  },
+  "session_lifecycle": {
+    "anonymous_session": {
+      "creation": "On first visit, create anonymous Supabase user",
+      "storage": "localStorage token",
+      "upgrade_path": "Anonymous user can link email/password or Google account",
+      "data_retention": "Anonymous data kept for 30 days, then purged if not upgraded"
+    },
+    "authenticated_session": {
+      "creation": "After email verification or OAuth callback",
+      "token_storage": "httpOnly cookie (preferred) or secure localStorage",
+      "refresh": "Automatic via Supabase client",
+      "expiration": "1 hour access token, 7 day refresh token"
+    },
+    "session_recovery": {
+      "offline": "Continue playing with local state",
+      "reconnect": "Sync local state with server, resolve conflicts",
+      "conflict_resolution": "Server wins for currency/progress, client wins for preferences"
+    }
+  },
+  "offline_support": {
+    "service_worker": "Cache static assets, API responses",
+    "indexeddb": "Store game state, action queue, assets",
+    "offline_actions": [
+      "Battle (HYBRID: simulated locally, action log synced to server for verification and reward processing)",
+      "Quest progress (tracked locally, synced after)",
+      "Inventory changes (queued, synced after)",
+      "Settings changes (applied immediately, synced after)"
+    ],
+    "sync_strategy": {
+      "trigger": "On reconnect, periodic (every 30s when online)",
+      "conflict_handling": "Timestamp wins. For battles: server replays action log to verify result. Mismatch = server verdict.",
+      "error_handling": "Retry 3x with exponential backoff, then notify user"
+    }
+  },
+  "save_system": {
+    "auto_save": {
+      "trigger": "Every 30s during active play, on significant events (battle end, quest complete)",
+      "scope": "Full player state",
+      "compression": "JSON compressed with lz-string for large states"
+    },
+    "manual_save": {
+      "trigger": "User-initiated from settings",
+      "scope": "Full player state + settings export",
+      "format": "JSON file download"
+    },
+    "cloud_save": {
+      "provider": "Supabase Storage",
+      "frequency": "Auto-save pushes to cloud",
+      "retention": "Last 10 saves kept, older auto-deleted",
+      "cross_device": "Same account = same save across devices"
+    }
+  }
+}

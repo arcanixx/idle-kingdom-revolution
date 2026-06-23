@@ -1,0 +1,53 @@
+{
+  "document_title": "05 - Legal & Compliance",
+  "version": "0.1.0",
+  "date": "2026-06-23",
+  "intellectual_property": {
+    "original_game": "Idle Bounty Adventures by Post Physical Games",
+    "status": "Abandoned since ~2021, no active trademark enforcement observed",
+    "our_approach": "Inspired by mechanics, NOT a direct copy. All assets, code, story are original.",
+    "asset_policy": "AI-generated or custom-created assets only - no extraction from original APK",
+    "name": "Idle Kingdom Revolution is original branding",
+    "mechanics_copyright": "Game mechanics cannot be copyrighted - only expression (art, code, story)"
+  },
+  "privacy_policy_requirements": {
+    "data_collected": [
+      "Email (auth)",
+      "Display name (optional)",
+      "Game progress",
+      "Device info (analytics)"
+    ],
+    "third_party_services": [
+      "Supabase (hosting)",
+      "Netlify (hosting)",
+      "Google Analytics (optional)"
+    ],
+    "cookies": "Essential only (auth token), analytics cookies with consent",
+    "age_restriction": "13+ (COPPA compliance), 16+ for EU (GDPR)"
+  },
+  "terms_of_service": {
+    "user_generated_content": "No UGC in MVP - all content is developer-created",
+    "account_termination": "Reserve right to terminate for cheating or abuse",
+    "virtual_goods": "All in-game purchases are virtual goods, no real money value",
+    "refund_policy": "No refunds for virtual currency (consistent with platform policies)"
+  },
+  "monetization_compliance": {
+    "current_phase": "No real money transactions (placeholder shop only)",
+    "future_iap": {
+      "platforms": "Web (Stripe), Mobile (if wrapped - Apple/Google IAP)",
+      "loot_boxes": "Disclose drop rates if implemented",
+      "gambling": "Avoid mechanics that could be classified as gambling"
+    },
+    "ads": {
+      "current": "None",
+      "future": "Optional rewarded ads only (player-initiated)",
+      "children": "No ads if targeting under-13 audience"
+    }
+  },
+  "regulations": {
+    "gdpr": "EU players - right to data export, erasure, consent management",
+    "ccpa": "California players - right to know, delete, opt-out",
+    "coppa": "No data collection from under-13 without parental consent",
+    "app_stores": "If native app later - comply with Apple/Google review guidelines"
+  }
+}

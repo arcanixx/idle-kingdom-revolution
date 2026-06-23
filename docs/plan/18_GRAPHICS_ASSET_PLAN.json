@@ -1,0 +1,65 @@
+{
+  "document_title": "18 - Graphics & Asset Plan",
+  "version": "0.1.0",
+  "date": "2026-06-23",
+  "art_direction": "Fantasy idle RPG with modern, slightly stylized 3D-rendered 2D look. Rich colors, clear silhouettes, readable at small sizes. Consistent style across all assets.",
+  "asset_types": {
+    "vector_fallback": {
+      "description": "SVG icons for UI, simple unit representations, map markers",
+      "tools": ["Figma", "Inkscape", "AI vector generation"],
+      "use_case": "UI elements, fallback when 3D assets not loaded, low-end devices",
+      "priority": "P0 - MVP"
+    },
+    "png_3d_rendered": {
+      "description": "AI-generated 3D-style character/unit renders, transparent background",
+      "tools": ["Midjourney (commercial plan)", "DALL-E 3", "Stable Diffusion + ControlNet", "Photoshop/GIMP for cleanup"],
+      "specs": {
+        "resolution": "512x512 base, downscaled to 256x256 and 128x128",
+        "format": "PNG with alpha channel",
+        "style": "Consistent fantasy 3D render, soft lighting, transparent background",
+        "prompt_template": "3D render of fantasy {unit_type}, {faction} style, {rarity} quality, transparent background, game asset, isometric view, soft lighting, detailed --ar 1:1 --v 6"
+      },
+      "use_case": "Unit portraits, battle sprites, item icons, boss images",
+      "priority": "P1 - Phase 2"
+    },
+    "environment": {
+      "description": "Background images for battle fields, map nodes, UI screens",
+      "tools": ["Midjourney", "DALL-E 3", "Stable Diffusion"],
+      "specs": {
+        "resolution": "1920x1080 for backgrounds, 800x600 for map nodes",
+        "format": "WebP with JPEG fallback",
+        "style": "Fantasy landscape, atmospheric, painterly but not photorealistic"
+      },
+      "priority": "P2 - Phase 3"
+    },
+    "effects": {
+      "description": "Battle effects, UI animations, particle sprites",
+      "tools": ["After Effects / Lottie", "CSS animations", "Canvas particles"],
+      "priority": "P2 - Phase 3"
+    },
+    "audio": {
+      "description": "Sound effects and music",
+      "tools": ["Epidemic Sound (licensed)", "AI music generation", "Freesound.org (CC0)"],
+      "priority": "P3 - Phase 4"
+    }
+  },
+  "asset_pipeline": {
+    "generation": "AI tools generate base assets from detailed prompts",
+    "cleanup": "Manual or semi-automated background removal, color correction",
+    "optimization": "Convert to WebP, generate multiple resolutions, lazy loading",
+    "versioning": "Assets in Git LFS, versioned with game releases",
+    "cdn": "Upload to Supabase Storage / Cloudflare R2, served via CDN"
+  },
+  "consistency_strategy": {
+    "style_guide": "docs/design/STYLE_GUIDE.md - Color palette, proportions, lighting rules",
+    "reference_board": "Mood board with 20-30 reference images for consistent style",
+    "batch_generation": "Generate assets in batches with same seed/style parameters",
+    "review_process": "Visual review against style guide before acceptance"
+  },
+  "placeholder_strategy": {
+    "mvp": "Colored rectangles with unit class icons (Font Awesome / custom SVG)",
+    "phase_2": "Basic AI-generated portraits for units",
+    "phase_3": "Full environment backgrounds",
+    "phase_4": "Polished effects and audio"
+  }
+}

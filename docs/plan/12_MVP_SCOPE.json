@@ -1,0 +1,47 @@
+{
+  "document_title": "12 - MVP Scope Definition",
+  "version": "0.1.0",
+  "date": "2026-06-23",
+  "mvp_definition": "Minimum Viable Product = playable game loop with progression, save system, and basic admin. Everything else is post-MVP.",
+  "in_scope": {
+    "auth": ["Email registration", "Google OAuth", "Guest mode", "Password reset"],
+    "profile": ["Display name", "Level/XP", "Basic stats", "Settings (audio, language)"],
+    "battle": ["Auto-battle", "5 battle fields", "Formation grid", "Unit classes", "Boss every 5 waves", "Battle speed 1x/2x"],
+    "army": ["Unit collection", "Leveling", "Basic equipment", "Formation editor", "Power rating"],
+    "economy": ["Gold currency", "XP", "Basic idle earnings", "Offline progress"],
+    "progression": ["Player levels 1-50", "Unit levels", "5 battle fields unlocking"],
+    "settings": ["Audio (master/music/SFX)", "Graphics quality", "Language PL/EN", "Battle speed"],
+    "admin": ["Basic resource injection", "Player search", "Config viewing"],
+    "tech": ["PWA installable", "Offline play", "Auto-save", "Responsive design"]
+  },
+  "out_of_scope": {
+    "quests": "Post-MVP - basic battle loop is enough for MVP",
+    "map": "Post-MVP - linear progression through fields for MVP",
+    "shop": "Post-MVP - no transactions in MVP",
+    "leaderboard": "Post-MVP - single player only",
+    "tower": "Post-MVP - endgame content",
+    "world_boss": "Post-MVP - endgame content",
+    "wheel": "Post-MVP - mini-game",
+    "guilds": "Post-MVP - social features",
+    "perks": "Post-MVP - complexity beyond MVP",
+    "story": "Post-MVP - lore comes later",
+    "mail": "Post-MVP - notifications sufficient",
+    "promo_codes": "Post-MVP - no need yet",
+    "card_game": "Post-MVP - mini-game",
+    "sound_music": "Post-MVP - placeholder sufficient",
+    "advanced_graphics": "Post-MVP - basic sprites sufficient"
+  },
+  "mvp_success_criteria": [
+    "New player can register and start playing in <2 minutes",
+    "Player can complete 5 battle fields",
+    "Player can upgrade units and see power increase",
+    "Progress saves automatically and restores on return",
+    "Game works on mobile browser (responsive)",
+    "Game installs as PWA",
+    "Admin can inject resources for testing",
+    "No critical bugs, <5 known minor bugs",
+    "Lighthouse score >80 on mobile"
+  ],
+  "mvp_timeline": "4-6 weeks (Phase 0 + Phase 1)",
+  "post_mvp_priority": ["Quest system", "Shop placeholder", "Leaderboard", "Tower", "World Boss", "Story content", "New graphics"]
+}

@@ -1,0 +1,36 @@
+{
+  "project_name": "Idle Kingdom Revolution",
+  "codename": "IKR",
+  "version": "0.1.0-alpha",
+  "status": "Architecture & Planning Phase",
+  "inspiration": {
+    "original_game": "Idle Bounty Adventures (v1.3.2319)",
+    "original_engine": "Unity (IL2CPP)",
+    "original_backend": "Azure + Firebase",
+    "last_update": "~2021",
+    "note": "Game is abandoned, no legal risk for inspired re-creation with original assets replaced"
+  },
+  "game_genre": "Idle RPG / Auto-Battle / Kingdom Builder",
+  "target_platforms": [
+    "Web (PWA)",
+    "Mobile (PWA via Netlify)",
+    "Desktop (browser)"
+  ],
+  "target_audience": "Casual RPG players, idle game enthusiasts, fans of King's Bounty / Heroes of Might and Magic mechanics",
+  "project_goal": "Create a modern, fully-owned idle RPG inspired by Idle Bounty Adventures mechanics, but rebuilt from scratch with new tech, new graphics, expanded story, and future-proof architecture",
+  "key_differentiators": [
+    "100% self-owned stack (no dependency on external game servers)",
+    "Modern web-first architecture (PWA, works offline)",
+    "AI-generated unique graphics (no copyright issues)",
+    "Expanded story-driven campaign with lore",
+    "Rich endgame systems (Tower, World Boss, PvP, Guilds)",
+    "Admin panel for live content management",
+    "No forced 2-3h check-in mechanics (player-friendly idle)",
+    "Full i18n (PL/EN) from day one"
+  ],
+  "folder_structure_target": "C:\\Users\\Administrator\\GitHub\\Idle Kingdom Revolution",
+  "documentation_format": "JSON files in /docs/plan/ (this phase), to be converted to .md in final phase",
+  "created_by": "AI Assistant (Kimi)",
+  "date_created": "2026-06-23",
+  "next_phase_trigger": "Approval of architecture + completion of all planning docs"
+}

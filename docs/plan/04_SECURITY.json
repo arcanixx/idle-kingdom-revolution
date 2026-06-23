@@ -1,0 +1,78 @@
+{
+  "document_title": "04 - Security Plan",
+  "version": "0.1.0",
+  "date": "2026-06-23",
+  "authentication": {
+    "provider": "Supabase Auth",
+    "methods": [
+      "Email + Password",
+      "Google OAuth",
+      "Anonymous (guest mode)"
+    ],
+    "jwt_config": {
+      "access_token_ttl": "1 hour",
+      "refresh_token_ttl": "7 days",
+      "rotation": true,
+      "storage": "httpOnly cookie (preferred) or secure localStorage"
+    },
+    "session_management": {
+      "max_concurrent_sessions": 3,
+      "invalidation": "On password change or explicit logout from all devices",
+      "device_tracking": "Store device fingerprint for security alerts"
+    }
+  },
+  "authorization": {
+    "rls_policies": "Mandatory on ALL tables",
+    "player_data_access": "Players can only access their own data",
+    "admin_access": "Separate admin role with elevated policies",
+    "api_endpoints": {
+      "public": [
+        "GET /api/config",
+        "GET /api/leaderboard"
+      ],
+      "authenticated": [
+        "ALL player-specific endpoints"
+      ],
+      "admin_only": [
+        "POST /api/admin/*",
+        "GET /api/admin/*"
+      ]
+    }
+  },
+  "data_protection": {
+    "encryption_at_rest": "Supabase handles PostgreSQL encryption",
+    "encryption_in_transit": "TLS 1.3 for all connections",
+    "sensitive_fields": "Encrypt email, display_name in logs (masking)",
+    "pii_handling": "Minimize collection - only email required, display_name optional",
+    "gdpr_compliance": {
+      "data_portability": "Export all player data on request",
+      "right_to_erasure": "Soft delete + anonymization after 30 days",
+      "consent_tracking": "Store consent timestamp and version"
+    }
+  },
+  "cheat_prevention": {
+    "client_trust": "NEVER trust client for critical calculations",
+    "server_validation": [
+      "All reward calculations validated server-side",
+      "Purchase transactions atomic (check balance, deduct, grant item)",
+      "Battle results verified against battle seed",
+      "Speed hack detection (validate action timestamps)"
+    ],
+    "rate_limiting": {
+      "api_calls": "100 req/min per IP",
+      "auth_attempts": "5 attempts per 15 min",
+      "battle_actions": "No limit (client-side), but sync throttled"
+    }
+  },
+  "dependency_security": {
+    "scanning": "npm audit on every build",
+    "auto_updates": "Dependabot for patch updates",
+    "manual_review": "Major version updates require review",
+    "supply_chain": "Pin exact versions in package-lock.json"
+  },
+  "incident_response": {
+    "detection": "Supabase logs + Sentry error tracking",
+    "escalation": "Email alerts for auth anomalies, rate limit breaches",
+    "recovery": "Database point-in-time recovery (Supabase Pro feature, consider for launch)"
+  }
+}

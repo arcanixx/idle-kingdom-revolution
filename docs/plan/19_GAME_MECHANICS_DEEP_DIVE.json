@@ -1,0 +1,266 @@
+{
+  "document_title": "19 - Game Mechanics Deep Dive",
+  "version": "0.1.0",
+  "date": "2026-06-23",
+  "battle_engine": {
+    "tick_rate": "1 second per tick (configurable for speed modes)",
+    "formation_grid": {
+      "size": "3x3 grid (front row, middle row, back row)",
+      "position_effects": {
+        "front_row": "+20% defense, -10% attack range",
+        "middle_row": "No modifiers",
+        "back_row": "+20% attack range, -10% defense"
+      },
+      "synergies": {
+        "adjacent_bonus": "Units of same class adjacent get +5% stats",
+        "faction_bonus": "3+ units of same faction = +10% all stats",
+        "class_combo": "Warrior + Healer adjacent = Warrior gets +15% HP regen",
+        "tank_protect": "Tank in front row protects back row from single-target attacks"
+      }
+    },
+    "combat_formula": {
+      "damage": "(attacker_attack * attacker_multiplier) - (defender_defense * defender_multiplier)",
+      "critical_hit": "Base 5% chance, +2% per crit stat, 1.5x damage",
+      "dodge": "Base 3% chance, +1% per agility stat, negates damage",
+      "healing": "healer_magic * 0.8 + base_heal",
+      "life_steal": "Damage dealt * lifesteal_percentage heals attacker"
+    },
+    "wave_structure": {
+      "normal_waves": "3-5 enemies, random composition from field pool",
+      "boss_waves": "1 boss + 2-3 minions, boss has special abilities",
+      "elite_waves": "Every 3rd wave (non-boss) has 1 elite enemy with +50% stats",
+      "reward_scaling": "Gold = base * wave_number * difficulty_multiplier, XP = base * wave_number"
+    },
+    "difficulty_modes": {
+      "easy": {
+        "enemy_hp": 0.7,
+        "enemy_attack": 0.7,
+        "rewards": 0.8,
+        "unlock": "Always"
+      },
+      "normal": {
+        "enemy_hp": 1,
+        "enemy_attack": 1,
+        "rewards": 1,
+        "unlock": "Always"
+      },
+      "hard": {
+        "enemy_hp": 1.5,
+        "enemy_attack": 1.3,
+        "rewards": 1.3,
+        "unlock": "Complete field on Normal"
+      },
+      "brutal": {
+        "enemy_hp": 2.5,
+        "enemy_attack": 2,
+        "rewards": 2,
+        "unlock": "Complete field on Hard"
+      }
+    },
+    "tactical_hints": {
+      "generation": "AI-generated based on unit composition vs enemy type",
+      "examples": [
+        "Place your Healer behind your Tank for protection",
+        "Rangers deal bonus damage to flying enemies - prioritize them",
+        "This boss deals AoE damage - spread your units across rows",
+        "Your Mage has low HP - consider moving to back row"
+      ],
+      "display": "Shown before battle start, toggleable in settings"
+    }
+  },
+  "unit_power_rating": {
+    "formula": "((hp * 0.5) + (attack * 2) + (defense * 1.5) + (speed * 1)) * (1 + level * 0.1) * equipment_multiplier * perk_multiplier",
+    "display": "Shown on unit card as 'Power: X,XXX'",
+    "use_cases": [
+      "Quick comparison between units",
+      "Formation total power vs recommended power for field",
+      "Army power for leaderboard"
+    ]
+  },
+  "idle_mechanics": {
+    "offline_earnings": {
+      "base_rate": "Highest wave reached * 10 gold per hour",
+      "cap": "12 hours maximum (configurable by admin)",
+      "boosters": "2x for 4h (watch ad), 3x for 2h (use item), permanent +10% (perk)",
+      "formula": "offline_hours * base_rate * booster_multiplier * perk_multiplier"
+    },
+    "respawn_mechanic": {
+      "old_problem": "Original game forced 2-3h check-ins for resource collection",
+      "new_approach": "No forced check-ins, no energy cap",
+      "active_farming": "No energy/stamina - play freely",
+      "philosophy": "ZERO stamina/energy. The only limit is enemy strength."
+    }
+  },
+  "equipment_system": {
+    "slots": [
+      "Weapon",
+      "Armor",
+      "Accessory"
+    ],
+    "tiers": {
+      "tier_1": {
+        "name": "Common",
+        "max_level": 5,
+        "bonus": "Base stats"
+      },
+      "tier_2": {
+        "name": "Uncommon",
+        "max_level": 10,
+        "bonus": "Base + 1 random stat"
+      },
+      "tier_3": {
+        "name": "Rare",
+        "max_level": 15,
+        "bonus": "Base + 2 random stats + set bonus"
+      },
+      "tier_4": {
+        "name": "Epic",
+        "max_level": 20,
+        "bonus": "Base + 3 random stats + active skill"
+      },
+      "tier_5": {
+        "name": "Legendary",
+        "max_level": 25,
+        "bonus": "Base + 4 random stats + active skill + passive aura"
+      }
+    },
+    "upgrade_cost": "Gold + materials (dropped from battles)",
+    "set_bonuses": "2/4/6 pieces of same set grant additional bonuses"
+  },
+  "mini_games": {
+    "design_philosophy": "Optional. Daily passes. No stamina.",
+    "daily_pass_system": {
+      "base": 3,
+      "recharge": "midnight UTC",
+      "bonus": "achievements/events"
+    },
+    "coal_mine": {
+      "name": "Deep Mine",
+      "name_pl": "Kopalnia",
+      "mechanics": {
+        "durations": [
+          "30m",
+          "1h",
+          "2h",
+          "4h",
+          "8h"
+        ],
+        "resources": [
+          "Iron",
+          "Crystals",
+          "Coins",
+          "Gems"
+        ],
+        "progression": "10 levels by ore"
+      },
+      "passes": 3,
+      "unlock": "Level 5"
+    },
+    "tower_defense": {
+      "name": "Fortress Siege",
+      "name_pl": "Twierdza",
+      "mechanics": {
+        "grid": "6x4",
+        "waves": 10,
+        "roles": "Class-based TD functions"
+      },
+      "passes": 3,
+      "unlock": "Level 10"
+    },
+    "castle_defense": {
+      "name": "Castle Defender",
+      "name_pl": "Obrońca",
+      "mechanics": {
+        "upgrades": [
+          "Walls",
+          "Gate",
+          "Towers",
+          "Moat",
+          "Barracks"
+        ],
+        "persistent": true
+      },
+      "passes": 3,
+      "unlock": "Level 15"
+    }
+  },
+  "gacha_system": {
+    "name": "Cosmetic Gallery",
+    "description": "Cosmetic-only gacha.NP",
+    "currencies": [
+      "Tickets",
+      "Valor",
+      "Gems"
+    ],
+    "pools": {
+      "common": "60% basic",
+      "rare": "30% animated",
+      "epic": "9% premium",
+      "legendary": "1% exclusive"
+    },
+    "pity_system": {
+      "soft_pity": "30 pulls +3% per pull",
+      "hard_pity": "60 epic+",
+      "legendary_pity": "150 legendary"
+    },
+    "banner_system": "Weekly rotation",
+    "gameplay_impact": "NONE"
+  },
+  "event_system": {
+    "types": [
+      {
+        "name": "Double Rewards",
+        "effect": "2x gold/XP from battles",
+        "duration": "24-48h"
+      },
+      {
+        "name": "World Boss Invasion",
+        "effect": "Special world boss with unique rewards",
+        "duration": "72h"
+      },
+      {
+        "name": "Tower Challenge",
+        "effect": "Special tower with exclusive rewards",
+        "duration": "7 days"
+      },
+      {
+        "name": "Login Event",
+        "effect": "Bonus rewards for daily login",
+        "duration": "14 days"
+      },
+      {
+        "name": "Collection Event",
+        "effect": "Collect tokens from battles for rewards",
+        "duration": "7 days"
+      }
+    ],
+    "scheduling": "Managed via admin panel, can schedule months ahead"
+  },
+  "promo_code_system": {
+    "code_format": "IKR-XXXX-XXXX (alphanumeric, case insensitive)",
+    "types": [
+      {
+        "type": "one_time",
+        "usage": "Single use per account",
+        "example": "Launch celebration gems"
+      },
+      {
+        "type": "limited",
+        "usage": "First N redeemers",
+        "example": "Early access bonus"
+      },
+      {
+        "type": "recurring",
+        "usage": "Weekly code from social media",
+        "example": "Community engagement"
+      },
+      {
+        "type": "admin",
+        "usage": "Individual player compensation",
+        "example": "Bug fix apology"
+      }
+    ],
+    "rewards": "Configurable: currency, items, units, boosters",
+    "tracking": "Usage count, redemption rate, revenue impact (if applicable)"
+  }
+}

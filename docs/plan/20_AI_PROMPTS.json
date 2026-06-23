@@ -1,0 +1,149 @@
+{
+  "document_title": "20 - AI Prompts for Asset Generation",
+  "version": "0.1.0",
+  "date": "2026-06-23",
+  "purpose": "Ready-to-use prompts for AI image generation tools (Midjourney, DALL-E 3, Stable Diffusion) to create consistent game assets.",
+  "style_guide_summary": {
+    "art_style": "Fantasy 3D-rendered 2D, soft lighting, rich colors, clean transparent backgrounds",
+    "consistency_rules": [
+      "Always use --style raw or equivalent for less 'artistic' interpretation",
+      "Same seed range for batches (e.g., --s 250 for Midjourney)",
+      "Consistent aspect ratio: --ar 1:1 for units, --ar 16:9 for backgrounds",
+      "Include 'transparent background, game asset, isolated subject' in every prompt"
+    ]
+  },
+  "prompt_templates": {
+    "unit_portrait": {
+      "tool": "Midjourney v6 / DALL-E 3",
+      "template": "3D render of a fantasy {unit_class} character, {faction} faction, {rarity} quality, {description}, wearing {armor_type}, holding {weapon_type}, dynamic pose, soft studio lighting, transparent background, game asset, isolated subject, high detail, 4K --ar 1:1 --style raw --v 6",
+      "examples": [
+        {
+          "name": "Human Warrior (Common)",
+          "prompt": "3D render of a fantasy warrior character, human faction, common quality, young male with short brown hair, wearing leather armor, holding a steel sword and wooden shield, standing guard pose, soft studio lighting, transparent background, game asset, isolated subject, high detail, 4K --ar 1:1 --style raw --v 6"
+        },
+        {
+          "name": "Elf Ranger (Rare)",
+          "prompt": "3D render of a fantasy ranger character, elf faction, rare quality, female with long silver hair and pointed ears, wearing green cloak and leather armor, holding a glowing bow, aiming pose, soft studio lighting, transparent background, game asset, isolated subject, high detail, 4K --ar 1:1 --style raw --v 6"
+        },
+        {
+          "name": "Demon Mage (Epic)",
+          "prompt": "3D render of a fantasy mage character, demon faction, epic quality, male with horns and red skin, wearing dark robes with glowing runes, holding a staff with crystal orb, casting spell pose, magical aura, soft studio lighting, transparent background, game asset, isolated subject, high detail, 4K --ar 1:1 --style raw --v 6"
+        }
+      ]
+    },
+    "item_icon": {
+      "tool": "Midjourney v6 / DALL-E 3",
+      "template": "3D render of a fantasy {item_type}, {material} material, {rarity} quality, {description}, glowing edges, soft studio lighting, transparent background, game item icon, isolated subject, centered, high detail --ar 1:1 --style raw --v 6",
+      "examples": [
+        {
+          "name": "Legendary Sword",
+          "prompt": "3D render of a fantasy sword, mythril material, legendary quality, ornate golden hilt with dragon engraving, blade glowing with blue fire, soft studio lighting, transparent background, game item icon, isolated subject, centered, high detail --ar 1:1 --style raw --v 6"
+        },
+        {
+          "name": "Health Potion",
+          "prompt": "3D render of a fantasy health potion bottle, glass material, common quality, round flask with red glowing liquid inside, cork stopper, soft studio lighting, transparent background, game item icon, isolated subject, centered, high detail --ar 1:1 --style raw --v 6"
+        }
+      ]
+    },
+    "battle_background": {
+      "tool": "Midjourney v6 / DALL-E 3",
+      "template": "Fantasy landscape {environment_type}, {time_of_day}, {mood}, atmospheric perspective, painterly style, rich colors, detailed environment, game background, 16:9 aspect ratio, no characters, no text --ar 16:9 --style raw --v 6",
+      "examples": [
+        {
+          "name": "Plains Battlefield",
+          "prompt": "Fantasy landscape green rolling plains, golden hour sunset, peaceful but epic mood, distant mountains, scattered wildflowers, atmospheric perspective, painterly style, rich colors, detailed environment, game background, 16:9 aspect ratio, no characters, no text --ar 16:9 --style raw --v 6"
+        },
+        {
+          "name": "Volcano Lair",
+          "prompt": "Fantasy landscape volcanic wasteland, night with lava glow, dangerous and intense mood, cracked ground with magma rivers, smoke and embers, atmospheric perspective, painterly style, rich colors, detailed environment, game background, 16:9 aspect ratio, no characters, no text --ar 16:9 --style raw --v 6"
+        }
+      ]
+    },
+    "boss_creature": {
+      "tool": "Midjourney v6 / DALL-E 3",
+      "template": "3D render of a massive fantasy {creature_type} boss monster, {theme} theme, {rarity} boss, {description}, intimidating pose, dramatic lighting, transparent background, game boss asset, isolated subject, high detail, epic scale --ar 1:1 --style raw --v 6",
+      "examples": [
+        {
+          "name": "Fire Dragon Boss",
+          "prompt": "3D render of a massive fantasy dragon boss monster, fire theme, legendary boss, red scales with magma cracks, wings spread wide, breathing fire, intimidating pose, dramatic lighting, transparent background, game boss asset, isolated subject, high detail, epic scale --ar 1:1 --style raw --v 6"
+        }
+      ]
+    },
+    "ui_element": {
+      "tool": "Midjourney v6 / Stable Diffusion",
+      "template": "Fantasy game UI {element_type}, {style} style, {color_scheme}, ornate borders, metallic and gemstone details, transparent background, game UI asset, isolated, high detail --ar 1:1 --style raw --v 6",
+      "examples": [
+        {
+          "name": "Gold Button",
+          "prompt": "Fantasy game UI button, medieval style, gold and sapphire color scheme, ornate borders with dragon motifs, metallic shine, transparent background, game UI asset, isolated, high detail --ar 1:1 --style raw --v 6"
+        }
+      ]
+    }
+  },
+  "batch_generation_workflow": {
+    "step_1": "Define batch theme (e.g., 'Human faction units')",
+    "step_2": "Create 5-10 prompts using template with consistent parameters",
+    "step_3": "Generate in Midjourney with --s 250 for consistency",
+    "step_4": "Review against style guide - reject off-style results",
+    "step_5": "Upscale accepted images, remove background if needed (Photoshop/Remove.bg)",
+    "step_6": "Resize to 512x512, 256x256, 128x128 for responsive loading",
+    "step_7": "Convert to WebP with alpha channel, add to asset pipeline",
+    "step_8": "Update asset manifest in database"
+  },
+  "free_ai_tools": {
+    "image_generation": [
+      {
+        "name": "Bing Image Creator (DALL-E 3)",
+        "cost": "Free",
+        "limits": "15 boosts/day, then slower",
+        "best_for": "High quality unit portraits"
+      },
+      {
+        "name": "Leonardo.ai",
+        "cost": "Free tier",
+        "limits": "150 tokens/day",
+        "best_for": "Consistent style training, batch generation"
+      },
+      {
+        "name": "Playground AI",
+        "cost": "Free tier",
+        "limits": "500 images/day",
+        "best_for": "Quick iterations, mixed models"
+      },
+      {
+        "name": "Stable Diffusion (local)",
+        "cost": "Free (GPU required)",
+        "limits": "None",
+        "best_for": "Unlimited generation, full control"
+      }
+    ],
+    "background_removal": [
+      {
+        "name": "remove.bg",
+        "cost": "Free (1 credit/image)",
+        "limits": "50 free credits",
+        "best_for": "Quick background removal"
+      },
+      {
+        "name": "Photopea (online Photoshop)",
+        "cost": "Free",
+        "limits": "None",
+        "best_for": "Manual cleanup, color correction"
+      }
+    ],
+    "upscaling": [
+      {
+        "name": "Upscayl (local)",
+        "cost": "Free",
+        "limits": "None",
+        "best_for": "Batch upscaling without limits"
+      },
+      {
+        "name": "Bigjpg",
+        "cost": "Free",
+        "limits": "20 images/month",
+        "best_for": "Quick online upscaling"
+      }
+    ]
+  }
+}

@@ -1,0 +1,264 @@
+{
+  "document_title": "28 - Admin Panel Specification",
+  "version": "0.1.0",
+  "date": "2026-06-23",
+  "purpose": "Detailed specification for the admin dashboard - tools for game management, player support, content creation, and live operations.",
+  
+  "access_control": {
+    "roles": {
+      "admin": {
+        "permissions": ["all"],
+        "description": "Full access to all admin features"
+      },
+      "moderator": {
+        "permissions": ["players_read", "players_edit_resources", "broadcast", "mail_send", "audit_log_read"],
+        "description": "Player support and community management"
+      },
+      "support": {
+        "permissions": ["players_read", "mail_send", "audit_log_read"],
+        "description": "Read-only player lookup and mail"
+      }
+    },
+    "authentication": "Separate admin login page at /admin, 2FA recommended",
+    "session_timeout": "30 minutes idle",
+    "audit": "All actions logged with admin ID, timestamp, IP, action details"
+  },
+  
+  "dashboard": {
+    "layout": "Grid of KPI cards + charts",
+    "kpi_cards": [
+      {"label": "Active Players (24h)", "value": "number", "trend": "up/down %"},
+      {"label": "New Registrations (24h)", "value": "number", "trend": "up/down %"},
+      {"label": "Revenue (24h)", "value": "currency", "trend": "up/down %"},
+      {"label": "Server Health", "value": "status", "states": ["Healthy", "Warning", "Critical"]},
+      {"label": "Active Events", "value": "number", "action": "View events"},
+      {"label": "Pending Support Tickets", "value": "number", "action": "View tickets"}
+    ],
+    "charts": [
+      {"type": "line", "title": "DAU (7 days)", "data": "daily_active_users"},
+      {"type": "bar", "title": "Revenue by Category (7 days)", "data": "revenue_breakdown"},
+      {"type": "pie", "title": "Player Distribution by Level", "data": "level_distribution"},
+      {"type": "line", "title": "Battle Completion Rate", "data": "battle_stats"}
+    ],
+    "alerts": {
+      "types": ["Server overload", "Cheat detection spike", "Payment failure rate", "Negative review trend"],
+      "display": "Banner at top, dismissible, color-coded by severity"
+    }
+  },
+  
+  "player_management": {
+    "search": {
+      "fields": ["Player ID", "Display Name", "Email", "Registration Date", "Last Online", "Level Range", "Status"],
+      "filters": "Active / Banned / Guest / Premium",
+      "export": "CSV export of search results"
+    },
+    "player_detail_view": {
+      "tabs": ["Overview", "Inventory", "Battle History", "Transactions", "Mail", "Actions"],
+      "overview_tab": {
+        "profile_card": "Avatar, name, level, VIP status, registration date, last online",
+        "stats_grid": "Total battles, win rate, highest wave, PvP rating, guild",
+        "currency_card": "Gold, gems, valor, battle coins (editable by admin)",
+        "progress_timeline": "Level ups, chapter completions, achievements (visual timeline)"
+      },
+      "inventory_tab": {
+        "view": "Same as player inventory but read-only for admin",
+        "actions": ["Grant item", "Remove item", "Modify quantity"]
+      },
+      "battle_history_tab": {
+        "list": "Recent battles with result, duration, rewards, formation snapshot",
+        "filter": "By date, battle type, result",
+        "replay": "View battle log (if stored)"
+      },
+      "transactions_tab": {
+        "list": "All purchases, refunds, resource injections",
+        "filter": "By date, type, amount",
+        "actions": ["Issue refund", "Compensate"]
+      },
+      "actions_tab": {
+        "buttons": [
+          {"label": "Send Mail", "action": "open_mail_modal"},
+          {"label": "Inject Resources", "action": "open_inject_modal"},
+          {"label": "Ban Player", "action": "open_ban_modal", "danger": true},
+          {"label": "Reset Progress", "action": "open_reset_modal", "danger": true}
+        ]
+      }
+    },
+    "resource_injection": {
+      "modal": {
+        "title": "Inject Resources",
+        "fields": [
+          {"label": "Target Player", "type": "search_select", "source": "player_search"},
+          {"label": "Resource Type", "type": "select", "options": ["Gold", "Gems", "Valor", "Battle Coins", "XP", "Item", "Unit"]},
+          {"label": "Amount / Item ID", "type": "number_or_text"},
+          {"label": "Reason", "type": "textarea", "required": true, "placeholder": "Compensation for bug #123"},
+          {"label": "Notify Player", "type": "toggle", "default": true}
+        ],
+        "validation": "Amount > 0, reason min 10 chars, confirm dialog for >1000 gems",
+        "audit": "Logged as admin_action with full details"
+      }
+    },
+    "ban_system": {
+      "types": [
+        {"id": "temporary", "duration": "1-30 days", "effect": "Cannot login, progress frozen"},
+        {"id": "permanent", "duration": "infinite", "effect": "Account disabled, data retained for 90 days"},
+        {"id": "chat_mute", "duration": "1-7 days", "effect": "Can play but cannot chat"}
+      ],
+      "appeal": "Player can submit appeal via mail, admin reviews in panel",
+      "audit": "All bans logged with evidence (screenshots, logs)"
+    }
+  },
+  
+  "content_management": {
+    "quest_editor": {
+      "layout": "Split screen: form left, preview right",
+      "form_sections": [
+        {
+          "name": "Basic Info",
+          "fields": [
+            {"label": "Quest ID", "type": "number", "auto": true},
+            {"label": "Title (EN)", "type": "text", "required": true},
+            {"label": "Title (PL)", "type": "text", "required": true},
+            {"label": "Description (EN)", "type": "textarea"},
+            {"label": "Description (PL)", "type": "textarea"},
+            {"label": "Quest Type", "type": "select", "options": ["story", "daily", "weekly", "side", "event"]},
+            {"label": "Chapter", "type": "number", "condition": "type=story"},
+            {"label": "Active", "type": "toggle", "default": true}
+          ]
+        },
+        {
+          "name": "Objectives",
+          "fields": [
+            {"label": "Objective Type", "type": "select", "options": ["kill", "collect", "reach_wave", "reach_level", "win_pvp", "craft"]},
+            {"label": "Target", "type": "text", "help": "Enemy ID, item ID, wave number, etc."},
+            {"label": "Required Amount", "type": "number", "min": 1},
+            {"label": "Add Objective", "type": "button", "action": "add_objective_row"}
+          ],
+          "dynamic": "Can add multiple objectives"
+        },
+        {
+          "name": "Rewards",
+          "fields": [
+            {"label": "Gold", "type": "number", "min": 0},
+            {"label": "XP", "type": "number", "min": 0},
+            {"label": "Valor", "type": "number", "min": 0},
+            {"label": "Item", "type": "search_select", "source": "game_items"},
+            {"label": "Unit", "type": "search_select", "source": "game_units"},
+            {"label": "Add Reward", "type": "button", "action": "add_reward_row"}
+          ]
+        },
+        {
+          "name": "Requirements",
+          "fields": [
+            {"label": "Min Level", "type": "number", "min": 1},
+            {"label": "Required Quests", "type": "multi_select", "source": "game_quests"},
+            {"label": "Required Items", "type": "multi_select", "source": "game_items"}
+          ]
+        }
+      ],
+      "preview": "Shows quest card as player would see it",
+      "actions": ["Save Draft", "Publish", "Duplicate", "Delete"],
+      "validation": "All required fields, objectives > 0, rewards > 0"
+    },
+    
+    "event_scheduler": {
+      "layout": "Calendar view (month/week) + event list sidebar",
+      "event_creation": {
+        "fields": [
+          {"label": "Event Name", "type": "text", "required": true},
+          {"label": "Event Type", "type": "select", "options": ["double_rewards", "world_boss", "tower_challenge", "login_event", "collection_event"]},
+          {"label": "Start Time", "type": "datetime_local"},
+          {"label": "End Time", "type": "datetime_local"},
+          {"label": "Modifiers", "type": "json_editor", "help": "e.g., {'gold_multiplier': 2.0, 'xp_multiplier': 2.0}"},
+          {"label": "Rewards", "type": "json_editor"},
+          {"label": "Announcement Message", "type": "textarea"}
+        ],
+        "recurring": "Option to repeat weekly/monthly with same settings"
+      },
+      "active_events": {
+        "display": "List with countdown timers, edit button, early end button",
+        "actions": ["Edit", "Clone", "End Early", "Extend"]
+      }
+    },
+    
+    "shop_management": {
+      "layout": "Tabbed by shop type",
+      "item_management": {
+        "fields": [
+          {"label": "Item", "type": "search_select", "source": "game_items"},
+          {"label": "Price", "type": "number"},
+          {"label": "Currency", "type": "select", "options": ["gold", "gems", "valor", "battle_coins"]},
+          {"label": "Stock", "type": "number", "help": "-1 for unlimited"},
+          {"label": "Discount %", "type": "number", "min": 0, "max": 99}
+        ],
+        "rotation": "Set daily rotation pool, schedule special offers"
+      }
+    },
+    
+    "config_editor": {
+      "layout": "Tree view of config categories + JSON editor",
+      "categories": [
+        {"id": "battle_balance", "description": "Damage formulas, crit rates, dodge rates"},
+        {"id": "economy", "description": "Gold drops, XP curves, offline earnings rates"},
+        {"id": "progression", "description": "Level requirements, unlock conditions, prestige costs"},
+        {"id": "pvp", "description": "Rating system, matchmaking parameters, rewards"},
+        {"id": "events", "description": "Default event modifiers, spawn rates"},
+        {"id": "notifications", "description": "Push notification templates, timing"}
+      ],
+      "editor": "JSON editor with schema validation, syntax highlighting, diff view",
+      "actions": ["Save", "Revert", "Preview Changes", "Schedule Deployment"],
+      "safety": "Changes require confirmation for live environment, staging environment for testing"
+    }
+  },
+  
+  "communication_tools": {
+    "broadcast": {
+      "modal": {
+        "fields": [
+          {"label": "Message (EN)", "type": "textarea", "required": true},
+          {"label": "Message (PL)", "type": "textarea", "required": true},
+          {"label": "Type", "type": "select", "options": ["info", "warning", "event", "maintenance"]},
+          {"label": "Duration", "type": "select", "options": ["5min", "15min", "1h", "4h", "24h", "until_dismissed"]},
+          {"label": "Target", "type": "select", "options": ["all", "online_only", "specific_segment"]}
+        ],
+        "preview": "Shows banner as player would see it",
+        "actions": ["Send Now", "Schedule", "Save Draft"]
+      }
+    },
+    "mail_sender": {
+      "fields": [
+        {"label": "Recipients", "type": "multi_select", "options": ["all", "active_24h", "inactive_7d", "specific_players"]},
+        {"label": "Subject", "type": "text"},
+        {"label": "Body", "type": "rich_text"},
+        {"label": "Attachments", "type": "json_editor", "help": "Rewards to attach"},
+        {"label": "Expires In", "type": "select", "options": ["7 days", "30 days", "never"]}
+      ],
+      "templates": "Save/load templates for common messages (welcome, maintenance, event)"
+    }
+  },
+  
+  "promo_code_manager": {
+    "layout": "Table of codes + creation form",
+    "code_creation": {
+      "fields": [
+        {"label": "Code", "type": "text", "help": "Auto-generate or custom"},
+        {"label": "Type", "type": "select", "options": ["one_time", "limited", "recurring", "admin"]},
+        {"label": "Max Uses", "type": "number", "condition": "type=limited"},
+        {"label": "Rewards", "type": "json_editor"},
+        {"label": "Valid From", "type": "datetime_local"},
+        {"label": "Valid Until", "type": "datetime_local"},
+        {"label": "Active", "type": "toggle", "default": true}
+      ]
+    },
+    "code_table": {
+      "columns": ["Code", "Type", "Uses", "Max Uses", "Valid", "Status", "Actions"],
+      "actions": ["View Stats", "Edit", "Deactivate", "Delete"]
+    }
+  },
+  
+  "audit_log": {
+    "layout": "Filterable table with pagination",
+    "columns": ["Timestamp", "Admin", "Action", "Target", "Details", "IP"],
+    "filters": ["Date range", "Admin", "Action type", "Target player"],
+    "export": "CSV export for compliance"
+  }
+}

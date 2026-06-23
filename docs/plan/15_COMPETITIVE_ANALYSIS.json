@@ -1,0 +1,104 @@
+{
+  "document_title": "15 - Competitive Analysis",
+  "version": "0.1.0",
+  "date": "2026-06-23",
+  "market_overview": "Idle RPG market is saturated but growing. Key differentiators are story depth, visual quality, and fair monetization. Players are tired of predatory gacha and forced check-ins.",
+  "competitors": [
+    {
+      "name": "Idle Heroes",
+      "strengths": [
+        "Deep hero collection",
+        "Guild wars",
+        "Established player base",
+        "Rich PvP"
+      ],
+      "weaknesses": [
+        "Heavy pay-to-win",
+        "Complex for casual players",
+        "Stale graphics",
+        "Forced daily grind"
+      ],
+      "our_advantage": "Fairer monetization, better story, no forced 2-3h check-ins, modern web-first approach"
+    },
+    {
+      "name": "AFK Arena",
+      "strengths": [
+        "Beautiful art",
+        "Generous free rewards",
+        "Strong brand",
+        "Good idle mechanics"
+      ],
+      "weaknesses": [
+        "Gacha heavy",
+        "Power creep",
+        "Limited tactical depth",
+        "Mobile-only"
+      ],
+      "our_advantage": "Tactical formation system, web accessibility, admin-driven live events, cosmetic-only gacha (fair system)"
+    },
+    {
+      "name": "King's Bounty: Legions",
+      "strengths": [
+        "Tactical combat",
+        "Rich lore",
+        "PvP arena",
+        "Unit variety"
+      ],
+      "weaknesses": [
+        "Dated UI",
+        "Slow progression",
+        "Paywalls",
+        "Limited idle features"
+      ],
+      "our_advantage": "Modern idle mechanics, auto-battle, offline progress, better UX, active development"
+    },
+    {
+      "name": "Heroes of Might and Magic (various mobile)",
+      "strengths": [
+        "Iconic IP",
+        "Strategic depth",
+        "Campaign stories",
+        "Brand recognition"
+      ],
+      "weaknesses": [
+        "Expensive licensing",
+        "Clunky mobile ports",
+        "Not truly idle",
+        "Heavy downloads"
+      ],
+      "our_advantage": "Lightweight web app, true idle gameplay, instant updates, no app store gatekeeping"
+    },
+    {
+      "name": "Idle Bounty Adventures (original)",
+      "strengths": [
+        "Good core loop",
+        "Unit variety",
+        "Formation system",
+        "Free to play"
+      ],
+      "weaknesses": [
+        "Abandoned",
+        "Dated graphics",
+        "Buggy",
+        "No updates",
+        "Azure dependency",
+        "No web version"
+      ],
+      "our_advantage": "Active development, modern stack, new graphics, expanded content, full ownership, PWA"
+    }
+  ],
+  "market_gaps": [
+    "Story-driven idle RPG with actual narrative depth",
+    "Fair monetization (cosmetic-only gacha, no pay-to-win)",
+    "Web-first with true mobile PWA experience",
+    "Admin tools for live ops (events, balance tuning)",
+    "Offline-first that actually works",
+    "Community-driven content (guilds, player events)"
+  ],
+  "target_positioning": "The fair idle RPG - deep mechanics without predatory monetization, cosmetic-only purchases, accessible everywhere",
+  "differentiation_strategy": {
+    "short_term": "Superior UX, fair economy, active development",
+    "medium_term": "Rich story content, live events, community features",
+    "long_term": "Player-generated content, modding support, cross-platform"
+  }
+}

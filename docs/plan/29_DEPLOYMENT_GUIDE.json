@@ -1,0 +1,205 @@
+{
+  "document_title": "29 - Deployment Guide",
+  "version": "0.1.0",
+  "date": "2026-06-23",
+  "purpose": "Step-by-step guide for deploying Idle Kingdom Revolution from local development to production.",
+  
+  "prerequisites": {
+    "accounts": [
+      {"service": "GitHub", "purpose": "Code repository + CI/CD\", "free": true},
+      {"service": "Supabase", "purpose": "Database + Auth + Storage + Realtime\", "free": true},
+      {"service": "Netlify", "purpose": "Frontend hosting + CDN\", "free": true},
+      {"service": "Cloudflare", "purpose": "DNS + CDN + DDoS protection (optional)\", "free": true}
+    ],
+    "local_tools": [
+      "Node.js 20+",
+      "npm or pnpm",
+      "Git",
+      "Supabase CLI (npm install -g supabase)",
+      "VS Code (recommended) with extensions: ESLint, Prettier, Tailwind CSS IntelliSense"
+    ]
+  },
+  
+  "phase_1_project_setup": {
+    "step_1_create_repo": {
+      "action": "Create GitHub repository 'idle-kingdom-revolution'",
+      "settings": ["Add README", "Add .gitignore (Node)", "License: MIT"]
+    },
+    "step_2_clone_local": {
+      "command": "git clone https://github.com/YOUR_USERNAME/idle-kingdom-revolution.git",
+      "cd": "cd idle-kingdom-revolution"
+    },
+    "step_3_init_nextjs": {
+      "command": "npx create-next-app@latest . --typescript --tailwind --eslint --app --src-dir --import-alias '@/*'",
+      "options": "Use Turbopack for dev server"
+    },
+    "step_4_install_dependencies": {
+      "command": "npm install zustand @tanstack/react-query @supabase/supabase-js @supabase/auth-helpers-nextjs framer-motion lucide-react clsx tailwind-merge",
+      "dev_dependencies": "npm install -D @types/node @types/react @types/react-dom vitest @testing-library/react @testing-library/jest-dom @playwright/test msw"
+    },
+    "step_5_install_shadcn": {
+      "command": "npx shadcn-ui@latest init",
+      "components": "npx shadcn-ui@latest add button card dialog input label select slider switch tabs toast"
+    },
+    "step_6_configure_tailwind": {
+      "file": "tailwind.config.ts",
+      "add": "Custom colors from UI_UX_SKELETON, font families (Inter, Cinzel)"
+    },
+    "step_7_setup_folder_structure": {
+      "folders": [
+        "src/app/(auth)/",
+        "src/app/(game)/",
+        "src/app/admin/",
+        "src/app/api/",
+        "src/components/ui/",
+        "src/components/battle/",
+        "src/components/army/",
+        "src/components/quests/",
+        "src/lib/supabase/",
+        "src/lib/game/",
+        "src/stores/",
+        "src/types/",
+        "src/hooks/",
+        "supabase/migrations/",
+        "supabase/seed/",
+        "tests/unit/",
+        "tests/e2e/"
+      ]
+    }
+  },
+  
+  "phase_2_supabase_setup": {
+    "step_1_create_project": {
+      "action": "Go to supabase.com, create new project",
+      "settings": "Region: closest to your users (eu-central-1 for Europe), Password: strong generated password"
+    },
+    "step_2_get_credentials": {
+      "action": "Project Settings > API",
+      "copy": ["Project URL", "anon public key", "service_role key (for admin)"]
+    },
+    "step_3_env_local": {
+      "file": ".env.local",
+      "content": "NEXT_PUBLIC_SUPABASE_URL=your_project_url\nNEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key\nSUPABASE_SERVICE_ROLE_KEY=your_service_role_key\nNEXT_PUBLIC_APP_URL=http://localhost:3000"
+    },
+    "step_4_run_schema": {
+      "action": "Open Supabase SQL Editor, paste contents of 26_DATABASE_SCHEMA.sql",
+      "note": "Run in order: extensions -> tables -> indexes -> RLS -> triggers -> functions"
+    },
+    "step_5_setup_auth": {
+      "action": "Authentication > Settings",
+      "configure": [
+        "Enable Email provider (with confirmation)",
+        "Enable Google OAuth (create credentials in Google Cloud Console)",
+        "Site URL: http://localhost:3000 (dev) / https://your-domain.com (prod)",
+        "Redirect URLs: same as above + /auth/callback"
+      ]
+    },
+    "step_6_seed_data": {
+      "action": "Run supabase/seed.sql in SQL Editor",
+      "content": "Initial game_units, game_items, game_battle_fields, game_quests, game_achievements"
+    }
+  },
+  
+  "phase_3_development": {
+    "step_1_auth_implementation": {
+      "files": [
+        "src/lib/supabase/client.ts (browser client)",
+        "src/lib/supabase/server.ts (server client)",
+        "src/app/(auth)/login/page.tsx",
+        "src/app/(auth)/register/page.tsx",
+        "src/hooks/useAuth.ts"
+      ]
+    },
+    "step_2_game_shell": {
+      "files": [
+        "src/app/(game)/layout.tsx (auth guard + bottom nav)",
+        "src/components/layout/BottomNav.tsx",
+        "src/components/layout/TopBar.tsx",
+        "src/stores/gameStore.ts",
+        "src/stores/uiStore.ts"
+      ]
+    },
+    "step_3_core_screens": {
+      "order": ["game_hub", "battle", "army", "quests", "settings"],
+      "for_each": "Component + route + store integration + basic tests"
+    },
+    "step_4_api_routes": {
+      "files": [
+        "src/app/api/battle/start/route.ts",
+        "src/app/api/battle/complete/route.ts",
+        "src/app/api/profile/route.ts",
+        "src/app/api/quests/route.ts"
+      ],
+      "note": "Server-side validation for all game logic"
+    },
+    "step_5_testing": {
+      "unit": "npm run test:unit",
+      "e2e": "npx playwright test",
+      "coverage": "npx vitest --coverage"
+    }
+  },
+  
+  "phase_4_deployment": {
+    "step_1_github_actions": {
+      "file": ".github/workflows/ci.yml",
+      "content": "name: CI\non: [push, pull_request]\njobs:\n  test:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n      - uses: actions/setup-node@v4\n        with: { node-version: '20' }\n      - run: npm ci\n      - run: npm run lint\n      - run: npm run typecheck\n      - run: npm run test:unit\n      - run: npx playwright install\n      - run: npx playwright test"
+    },
+    "step_2_netlify_setup": {
+      "action": "Connect GitHub repo to Netlify",
+      "settings": [
+        "Build command: npm run build",
+        "Publish directory: out (for static export) or .next (for SSR)",
+        "Environment variables: Add all from .env.local (without secrets)",
+        "Deploy previews: Enable for pull requests"
+      ]
+    },
+    "step_3_environment_variables": {
+      "netlify": "Site settings > Environment variables",
+      "add": ["NEXT_PUBLIC_SUPABASE_URL", "NEXT_PUBLIC_SUPABASE_ANON_KEY", "NEXT_PUBLIC_APP_URL"]
+    },
+    "step_4_custom_domain": {
+      "action": "Domain settings > Add custom domain",
+      "note": "Update Supabase Auth redirect URLs to include custom domain"
+    },
+    "step_5_pwa_verification": {
+      "checklist": [
+        "manifest.json is valid",
+        "Service worker registers",
+        "Icons present in all sizes",
+        "Works offline (test in DevTools)",
+        "Install prompt appears on mobile"
+      ]
+    }
+  },
+  
+  "phase_5_post_deploy": {
+    "monitoring": {
+      "supabase": "Dashboard > Usage (watch database connections, storage)",
+      "netlify": "Analytics tab (watch bandwidth, build minutes)",
+      "sentry": "Error tracking setup (optional, free tier available)",
+      "lighthouse": "Run CI check for every deploy"
+    },
+    "backup_strategy": {
+      "database": "Supabase > Database > Backups (daily automated)",
+      "manual_backup": "pg_dump via Supabase CLI weekly",
+      "code": "GitHub is backup for code"
+    },
+    "update_workflow": {
+      "feature_branch": "git checkout -b feature/new-feature",
+      "development": "npm run dev, test locally",
+      "pr": "Create pull request, CI runs tests",
+      "review": "Code review (self or AI)",
+      "merge": "Merge to main, auto-deploy to Netlify",
+      "verify": "Check production, monitor errors"
+    }
+  },
+  
+  "troubleshooting": {
+    "build_fails": "Check Node version (20+), clear node_modules, npm ci",
+    "auth_not_working": "Verify redirect URLs in Supabase match your domain exactly",
+    "rls_errors": "Check RLS policies, ensure user is authenticated",
+    "cors_errors": "Add your domain to Supabase CORS origins",
+    "database_connection_limit": "Supabase free = 60 connections. Use connection pooling for serverless.",
+    "netlify_build_timeout": "Build taking >15 min? Check for infinite loops in static generation."
+  }
+}

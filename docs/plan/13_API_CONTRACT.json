@@ -1,0 +1,379 @@
+{
+  "document_title": "13 - API Contract",
+  "version": "0.1.0",
+  "date": "2026-06-23",
+  "base_url": "https://api.idlekingdomrevolution.com (or Netlify/Vercel domain)",
+  "authentication": "Bearer token in Authorization header (Supabase JWT)",
+  "content_type": "application/json",
+  "rate_limiting": "100 requests/minute per IP (sufficient - no per-tick polling)",
+  "endpoints": {
+    "auth": {
+      "POST /api/auth/register": {
+        "body": {
+          "email": "string",
+          "password": "string",
+          "display_name": "string?"
+        },
+        "response": {
+          "user": "UserObject",
+          "session": "SessionObject"
+        },
+        "errors": [
+          "400: Invalid email",
+          "409: Email exists",
+          "500: Server error"
+        ]
+      },
+      "POST /api/auth/login": {
+        "body": {
+          "email": "string",
+          "password": "string"
+        },
+        "response": {
+          "user": "UserObject",
+          "session": "SessionObject"
+        },
+        "errors": [
+          "401: Invalid credentials",
+          "429: Too many attempts"
+        ]
+      },
+      "POST /api/auth/logout": {
+        "headers": "Authorization: Bearer {token}",
+        "response": {
+          "success": true
+        },
+        "errors": [
+          "401: Unauthorized"
+        ]
+      },
+      "POST /api/auth/refresh": {
+        "body": {
+          "refresh_token": "string"
+        },
+        "response": {
+          "session": "SessionObject"
+        },
+        "errors": [
+          "401: Invalid refresh token"
+        ]
+      }
+    },
+    "profile": {
+      "GET /api/profile": {
+        "headers": "Authorization: Bearer {token}",
+        "response": {
+          "player": "PlayerObject",
+          "progress": "ProgressObject"
+        },
+        "errors": [
+          "401: Unauthorized",
+          "404: Player not found"
+        ]
+      },
+      "PUT /api/profile": {
+        "headers": "Authorization: Bearer {token}",
+        "body": {
+          "display_name": "string?",
+          "settings": "SettingsObject?"
+        },
+        "response": {
+          "player": "PlayerObject"
+        },
+        "errors": [
+          "400: Invalid data",
+          "401: Unauthorized"
+        ]
+      }
+    },
+    "battle": {
+      "POST /api/battle/start": {
+        "headers": "Authorization: Bearer {token}",
+        "body": {
+          "field_id": "number",
+          "formation": "FormationObject",
+          "difficulty": "string?"
+        },
+        "response": {
+          "battle_id": "string",
+          "initial_state": "BattleStateObject"
+        },
+        "errors": [
+          "400: Invalid field",
+          "401: Unauthorized",
+          "403: Field locked"
+        ]
+      },
+      "POST /api/battle/complete": {
+        "headers": "Authorization: Bearer {token}",
+        "body": {
+          "battle_id": "string",
+          "action_log": "ActionLogArray (deterministic RNG seed + unit actions per second)",
+          "client_result": "BattleResultObject"
+        },
+        "response": {
+          "verified": true,
+          "rewards": "RewardObject",
+          "new_state": "PlayerStateObject"
+        },
+        "errors": [
+          "400: Invalid result",
+          "401: Unauthorized",
+          "409: Result mismatch"
+        ],
+        "description": "Send battle action log for server-side verification and reward processing"
+      }
+    },
+    "army": {
+      "GET /api/army": {
+        "headers": "Authorization: Bearer {token}",
+        "response": {
+          "units": "UnitArray",
+          "formation": "FormationObject",
+          "inventory": "ItemArray"
+        },
+        "errors": [
+          "401: Unauthorized"
+        ]
+      },
+      "PUT /api/army/formation": {
+        "headers": "Authorization: Bearer {token}",
+        "body": {
+          "formation": "FormationObject"
+        },
+        "response": {
+          "success": true,
+          "power_rating": "number"
+        },
+        "errors": [
+          "400: Invalid formation",
+          "401: Unauthorized"
+        ]
+      },
+      "POST /api/army/upgrade": {
+        "headers": "Authorization: Bearer {token}",
+        "body": {
+          "unit_id": "string",
+          "levels": "number?"
+        },
+        "response": {
+          "unit": "UnitObject",
+          "cost": "CostObject",
+          "new_power": "number"
+        },
+        "errors": [
+          "400: Invalid unit",
+          "401: Unauthorized",
+          "402: Insufficient gold"
+        ]
+      }
+    },
+    "quests": {
+      "GET /api/quests": {
+        "headers": "Authorization: Bearer {token}",
+        "query": {
+          "type": "string?",
+          "status": "string?"
+        },
+        "response": {
+          "quests": "QuestArray"
+        },
+        "errors": [
+          "401: Unauthorized"
+        ]
+      },
+      "POST /api/quests/accept": {
+        "headers": "Authorization: Bearer {token}",
+        "body": {
+          "quest_id": "number"
+        },
+        "response": {
+          "quest": "QuestObject",
+          "active_quests": "QuestArray"
+        },
+        "errors": [
+          "400: Invalid quest",
+          "401: Unauthorized",
+          "409: Already active"
+        ]
+      },
+      "POST /api/quests/claim": {
+        "headers": "Authorization: Bearer {token}",
+        "body": {
+          "quest_id": "number"
+        },
+        "response": {
+          "rewards": "RewardObject",
+          "completed_quests": "number[]"
+        },
+        "errors": [
+          "400: Not complete",
+          "401: Unauthorized",
+          "409: Already claimed"
+        ]
+      }
+    },
+    "shop": {
+      "GET /api/shop": {
+        "headers": "Authorization: Bearer {token}",
+        "query": {
+          "category": "string?"
+        },
+        "response": {
+          "items": "ShopItemArray",
+          "refresh_in": "number"
+        },
+        "errors": [
+          "401: Unauthorized"
+        ]
+      },
+      "POST /api/shop/buy": {
+        "headers": "Authorization: Bearer {token}",
+        "body": {
+          "item_id": "string",
+          "quantity": "number?"
+        },
+        "response": {
+          "success": true,
+          "item": "ItemObject",
+          "new_balance": "BalanceObject"
+        },
+        "errors": [
+          "400: Invalid item",
+          "401: Unauthorized",
+          "402: Insufficient currency",
+          "410: Out of stock"
+        ]
+      }
+    },
+    "leaderboard": {
+      "GET /api/leaderboard": {
+        "query": {
+          "type": "string?",
+          "season": "number?",
+          "limit": "number?"
+        },
+        "response": {
+          "entries": "LeaderboardEntryArray",
+          "my_rank": "number?"
+        },
+        "errors": [
+          "400: Invalid type"
+        ]
+      },
+      "POST /api/leaderboard/sync": {
+        "headers": "Authorization: Bearer {token}",
+        "response": {
+          "synced": true,
+          "rank": "number"
+        },
+        "errors": [
+          "401: Unauthorized"
+        ]
+      }
+    },
+    "admin": {
+      "GET /api/admin/players": {
+        "headers": "Authorization: Bearer {token}",
+        "query": {
+          "search": "string?",
+          "page": "number?"
+        },
+        "response": {
+          "players": "PlayerSummaryArray",
+          "total": "number"
+        },
+        "errors": [
+          "401: Unauthorized",
+          "403: Admin only"
+        ]
+      },
+      "POST /api/admin/inject": {
+        "headers": "Authorization: Bearer {token}",
+        "body": {
+          "player_id": "string",
+          "resource": "string",
+          "amount": "number",
+          "reason": "string"
+        },
+        "response": {
+          "success": true,
+          "new_balance": "BalanceObject"
+        },
+        "errors": [
+          "400: Invalid request",
+          "401: Unauthorized",
+          "403: Admin only"
+        ]
+      },
+      "POST /api/admin/broadcast": {
+        "headers": "Authorization: Bearer {token}",
+        "body": {
+          "message": "string",
+          "type": "string?",
+          "duration": "number?"
+        },
+        "response": {
+          "sent": true,
+          "recipients": "number"
+        },
+        "errors": [
+          "400: Invalid message",
+          "401: Unauthorized",
+          "403: Admin only"
+        ]
+      }
+    },
+    "config": {
+      "GET /api/config": {
+        "response": {
+          "game_config": "GameConfigObject",
+          "version": "string"
+        },
+        "cache": "5 minutes"
+      },
+      "GET /api/config/game-data": {
+        "response": {
+          "units": "UnitConfigArray",
+          "items": "ItemConfigArray",
+          "quests": "QuestConfigArray",
+          "fields": "FieldConfigArray"
+        },
+        "cache": "1 hour"
+      }
+    }
+  },
+  "webhook_events": {
+    "supabase_realtime": [
+      "player_update",
+      "leaderboard_change",
+      "global_announcement",
+      "world_boss_spawn"
+    ],
+    "stripe_webhooks": [
+      "payment.success",
+      "payment.failed",
+      "subscription.cancelled"
+    ]
+  },
+  "error_format": {
+    "structure": {
+      "error": {
+        "code": "string",
+        "message": "string",
+        "details": "object?"
+      }
+    },
+    "http_codes": {
+      "400": "Bad Request - invalid input",
+      "401": "Unauthorized - missing/invalid token",
+      "403": "Forbidden - valid token but insufficient permissions",
+      "404": "Not Found - resource doesn't exist",
+      "409": "Conflict - resource state conflict",
+      "410": "Gone - resource no longer available",
+      "429": "Too Many Requests - rate limit exceeded",
+      "500": "Internal Server Error"
+    }
+  },
+  "battle_endpoint_note": "HYBRID BATTLE MODEL: Battle is simulated locally on client. Action log (deterministic RNG seed + player actions) is sent to server for verification. Server replays the log, verifies result, and distributes rewards. NO per-tick polling - single POST /api/battle/complete at the end."
+}

@@ -1,0 +1,332 @@
+{
+  "document_title": "06 - Feature Specification",
+  "version": "0.1.0",
+  "date": "2026-06-23",
+  "core_systems": {
+    "auth_system": {
+      "features": [
+        "Email/password registration with verification",
+        "Google OAuth login",
+        "Guest mode (anonymous, upgradable to full account)",
+        "Password reset via email",
+        "Account deletion (GDPR)"
+      ],
+      "priority": "P0 - MVP",
+      "estimated_effort": "2 days"
+    },
+    "player_profile": {
+      "features": [
+        "Display name, avatar, title",
+        "Level, XP, total play time",
+        "Achievement showcase",
+        "Account settings (language, sound, notifications)"
+      ],
+      "priority": "P0 - MVP",
+      "estimated_effort": "2 days"
+    },
+    "battle_system": {
+      "features": [
+        "Auto-battle with waves",
+        "Formation grid (tactical positioning)",
+        "Unit classes with synergies",
+        "Boss fights every 5 waves",
+        "Battle speed control (1x, 2x, 3x - unlocked via progression)",
+        "Difficulty modes: Easy, Normal, Hard, Brutal (admin configurable)",
+        "Battle log with detailed breakdown",
+        "Tactical hints (AI-generated tips for formations)"
+      ],
+      "priority": "P0 - MVP",
+      "estimated_effort": "5-7 days"
+    },
+    "army_management": {
+      "features": [
+        "Unit collection and leveling",
+        "Equipment slots (weapon, armor, accessory)",
+        "Formation editor with drag-drop",
+        "Unit power rating (calculated from stats + gear + level)",
+        "Tactical recommendations (which unit next to which)",
+        "Unit fusion/evolution (cosmetic evolutions only - no stat changes)"
+      ],
+      "priority": "P0 - MVP",
+      "estimated_effort": "4-5 days"
+    },
+    "quest_system": {
+      "features": [
+        "Story quests (linear campaign)",
+        "Daily quests (rotating objectives)",
+        "Weekly quests (larger objectives)",
+        "Side quests (optional exploration)",
+        "Event quests (limited time)",
+        "Quest chain visualization (where does this lead?)",
+        "Location hints (which map/area for continuation)"
+      ],
+      "priority": "P1 - Phase 2",
+      "estimated_effort": "4-5 days"
+    },
+    "map_exploration": {
+      "features": [
+        "World map with nodes/islands",
+        "Progressive unlocking",
+        "Node types: Battle, Resource, Event, Boss",
+        "Fast travel between unlocked nodes",
+        "Fog of war for unexplored areas"
+      ],
+      "priority": "P1 - Phase 2",
+      "estimated_effort": "3-4 days"
+    }
+  },
+  "economy_systems": {
+    "currencies": {
+      "gold": {
+        "type": "soft",
+        "sources": [
+          "battles",
+          "quests",
+          "idle earnings"
+        ],
+        "uses": [
+          "unit upgrades",
+          "shop purchases"
+        ]
+      },
+      "valor": {
+        "type": "soft_premium",
+        "sources": [
+          "achievements",
+          "daily login",
+          "events"
+        ],
+        "uses": [
+          "speed boosts",
+          "premium shop"
+        ]
+      },
+      "gems": {
+        "type": "premium",
+        "sources": [
+          "purchases",
+          "rare drops",
+          "events"
+        ],
+        "uses": [
+          "gacha pulls",
+          "instant upgrades",
+          "cosmetics"
+        ]
+      },
+      "battle_coins": {
+        "type": "event",
+        "sources": [
+          "PvP",
+          "tower"
+        ],
+        "uses": [
+          "PvP shop",
+          "tower rewards"
+        ]
+      }
+    },
+    "shop_system": {
+      "features": [
+        "Daily rotating stock",
+        "Multiple shop tabs (general, PvP, event, premium)",
+        "Bundle offers",
+        "Free daily gift"
+      ],
+      "priority": "P1 - Phase 2",
+      "estimated_effort": "3 days"
+    },
+    "idle_earnings": {
+      "features": [
+        "Offline gold generation based on highest reached wave",
+        "Max offline time cap (configurable, default 12h)",
+        "Offline earnings booster (watch ad or use item)",
+        "No forced check-ins - play at your own pace. No energy/stamina system."
+      ],
+      "priority": "P1 - Phase 2",
+      "estimated_effort": "2 days"
+    }
+  },
+  "progression_systems": {
+    "player_level": {
+      "max_level": 999,
+      "xp_curve": "Exponential (each level requires ~1.15x previous)",
+      "rewards_per_level": "Stat points, unlocks, currency"
+    },
+    "unit_progression": {
+      "leveling": "XP from battles, max level = player level + 10",
+      "ascension": "At max level, units can ascend (increase rarity, reset level)",
+      "equipment": "5 tiers per slot, upgradeable to +15"
+    },
+    "perk_system": {
+      "features": [
+        "Passive bonuses (damage, defense, gold, XP)",
+        "Perk trees by category (combat, economy, utility)",
+        "Respec option (costs gems or valor)",
+        "Synergy bonuses for completing trees"
+      ],
+      "priority": "P2 - Phase 3",
+      "estimated_effort": "3-4 days"
+    }
+  },
+  "endgame_systems": {
+    "tower_of_ascension": {
+      "description": "Infinite tower with increasing difficulty, seasonal resets",
+      "rewards": "Tower coins, exclusive items, leaderboard ranking",
+      "mechanics": "Daily attempts limit, floor skip tickets, boss every 10 floors",
+      "priority": "P2 - Phase 3",
+      "estimated_effort": "4-5 days"
+    },
+    "world_boss": {
+      "description": "Global boss that all players fight simultaneously",
+      "schedule": "3x daily (configurable via admin)",
+      "rewards": "Based on damage dealt, participation guaranteed minimum",
+      "priority": "P2 - Phase 3",
+      "estimated_effort": "3-4 days"
+    },
+    "wheel_of_fortune": {
+      "description": "Daily free spin + paid spins for cosmetic items only (no gameplay advantage)",
+      "rewards": "Currency, items, rare units, jackpot",
+      "pity_system": "Guaranteed rare after X spins",
+      "priority": "P2 - Phase 3",
+      "estimated_effort": "2-3 days"
+    },
+    "card_game": {
+      "description": "Daily cosmetic reward mini-game",
+      "rewards": "Small currency, buff items",
+      "daily_limit": "3 plays per day",
+      "priority": "P3 - Phase 4",
+      "estimated_effort": "2 days"
+    },
+    "guild_system": {
+      "description": "Player guilds with shared progress",
+      "features": [
+        "Guild boss",
+        "Guild shop",
+        "Guild chat",
+        "Guild leaderboard"
+      ],
+      "priority": "P3 - Phase 4",
+      "estimated_effort": "5-7 days"
+    }
+  },
+  "social_systems": {
+    "leaderboard": {
+      "types": [
+        "Global",
+        "Friends",
+        "Guild",
+        "Seasonal"
+      ],
+      "categories": [
+        "Highest Wave",
+        "Total Power",
+        "Tower Floor",
+        "World Boss Damage"
+      ],
+      "refresh": "Real-time for top 100, hourly for rest",
+      "priority": "P1 - Phase 2",
+      "estimated_effort": "2-3 days"
+    },
+    "friends": {
+      "features": [
+        "Add/remove friends",
+        "View friend progress",
+        "Send gifts (limited daily)"
+      ],
+      "priority": "P3 - Phase 4",
+      "estimated_effort": "2 days"
+    }
+  },
+  "admin_systems": {
+    "admin_panel": {
+      "features": [
+        "Player management (view, edit, ban)",
+        "Resource injection (give currency/items to specific player)",
+        "Quest management (create, edit, enable/disable)",
+        "Event management (schedule events, configure rewards)",
+        "Balance tuning (modify drop rates, prices, XP curves)",
+        "Broadcast messages (global announcements)",
+        "Promo codes (create, expire, track usage)"
+      ],
+      "access_control": "Role-based (admin, moderator, support)",
+      "audit_log": "All admin actions logged with timestamp and admin ID",
+      "priority": "P1 - Phase 2",
+      "estimated_effort": "4-5 days"
+    },
+    "content_management": {
+      "features": [
+        "Add new locations/islands via UI",
+        "Create quests with visual quest editor",
+        "Upload new assets (images, audio)",
+        "Configure shop rotations",
+        "Manage event schedules"
+      ],
+      "priority": "P2 - Phase 3",
+      "estimated_effort": "3-4 days"
+    }
+  },
+  "settings_system": {
+    "audio": {
+      "master_volume": "0-100",
+      "music_volume": "0-100",
+      "sfx_volume": "0-100",
+      "mute_on_background": true
+    },
+    "graphics": {
+      "quality": [
+        "Low",
+        "Medium",
+        "High"
+      ],
+      "particle_effects": true,
+      "screen_shake": true,
+      "battle_speed": "1x, 2x, 3x (unlockable)"
+    },
+    "notifications": {
+      "push_enabled": true,
+      "event_reminders": true,
+      "daily_reminder_time": "Configurable",
+      "world_boss_alerts": true
+    },
+    "gameplay": {
+      "language": "PL / EN",
+      "auto_battle_preference": "Remember last setting",
+      "formation_templates": "Save/load formation presets",
+      "confirm_spending": "Toggle for gem purchases"
+    },
+    "priority": "P0 - MVP",
+    "estimated_effort": "2-3 days"
+  },
+  "mail_system": {
+    "features": [
+      "Inbox for system messages",
+      "Reward collection from mail",
+      "Event announcements",
+      "Maintenance notices",
+      "Auto-expire after 30 days"
+    ],
+    "priority": "P1 - Phase 2",
+    "estimated_effort": "2 days"
+  },
+  "mini_games": {
+    "coal_mine": {
+      "name": "Deep Mine",
+      "description": "Send units to mine resources",
+      "priority": "P2 - Phase 3",
+      "passes": 3
+    },
+    "tower_defense": {
+      "name": "Fortress Siege",
+      "description": "TD with owned units on defense grid",
+      "priority": "P2 - Phase 3",
+      "passes": 3
+    },
+    "castle_defense": {
+      "name": "Castle Defender",
+      "description": "Defend your castle from siege",
+      "priority": "P2 - Phase 3",
+      "passes": 3
+    }
+  }
+}

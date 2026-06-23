@@ -1,0 +1,176 @@
+{
+  "document_title": "01 - System Architecture & Technology Stack",
+  "version": "0.1.0",
+  "date": "2026-06-23",
+  "executive_summary": "Idle Kingdom Revolution uses a modern JAMstack architecture with serverless backend, edge deployment, and real-time data synchronization. The stack prioritizes developer velocity, cost efficiency, and scalability.",
+  "technology_stack": {
+    "frontend": {
+      "framework": "Next.js 15 (App Router)",
+      "language": "TypeScript 5.x (strict mode)",
+      "styling": "Tailwind CSS 4.x + shadcn/ui components",
+      "state_management": "Zustand (client game state) + TanStack Query (server state)",
+      "animation": "Framer Motion (UI) + CSS animations (battle)",
+      "pwa": "next-pwa + Serwist (service worker, offline support)",
+      "build_tool": "Turbopack (Next.js built-in)",
+      "why": "Next.js provides SSR/SSG for SEO, API routes for backend logic, and excellent PWA support. App Router is the modern standard."
+    },
+    "backend": {
+      "primary": "Supabase (PostgreSQL + Auth + Storage + Realtime)",
+      "edge_functions": "Supabase Edge Functions (Deno/TypeScript) for heavy compute",
+      "api_layer": "Next.js API Routes (for game logic that needs to be close to frontend)",
+      "why_supabase": "Open source, PostgreSQL-based, generous free tier, realtime subscriptions, row-level security, no vendor lock-in like Firebase"
+    },
+    "database": {
+      "primary": "PostgreSQL 16 (via Supabase)",
+      "caching": "Redis (Upstash) for hot data + rate limiting",
+      "why": "PostgreSQL is battle-tested, supports JSONB for flexible game data, has excellent GIS support for map features"
+    },
+    "storage": {
+      "game_assets": "Supabase Storage (images, audio)",
+      "cdn": "Cloudflare R2 or Supabase CDN (free tier sufficient for start)",
+      "save_data": "Supabase Storage + localStorage fallback"
+    },
+    "deployment": {
+      "frontend": "Netlify (free tier, automatic deploys from Git)",
+      "alternative": "Vercel (if Netlify limits hit)",
+      "domain": "Custom domain TBD (e.g., idlekingdomrevolution.com)",
+      "ssl": "Let's Encrypt (auto via Netlify/Vercel)"
+    },
+    "testing": {
+      "unit": "Vitest + React Testing Library",
+      "e2e": "Playwright",
+      "api": "Supabase Test Helpers + MSW (Mock Service Worker)",
+      "coverage_target": ">80% for business logic, >60% for UI components"
+    },
+    "devops": {
+      "ci_cd": "GitHub Actions",
+      "linting": "ESLint + Prettier + TypeScript strict",
+      "git_strategy": "Git Flow (main, develop, feature/*, release/*, hotfix/*)"
+    }
+  },
+  "architecture_diagram": {
+    "layers": [
+      {
+        "layer": "Client Layer",
+        "components": [
+          "Next.js App (PWA)",
+          "Zustand Game Store",
+          "Service Worker (offline cache)",
+          "LocalStorage (offline queue)"
+        ]
+      },
+      {
+        "layer": "Edge / CDN Layer",
+        "components": [
+          "Netlify Edge (static assets)",
+          "Cloudflare R2 (game assets CDN)",
+          "Supabase Realtime (WebSocket subscriptions)"
+        ]
+      },
+      {
+        "layer": "API Layer",
+        "components": [
+          "Next.js API Routes (game logic)",
+          "Supabase Edge Functions (heavy compute)",
+          "Upstash Redis (caching, rate limits)"
+        ]
+      },
+      {
+        "layer": "Data Layer",
+        "components": [
+          "Supabase PostgreSQL (primary DB)",
+          "Supabase Auth (user management)",
+          "Supabase Storage (files)"
+        ]
+      }
+    ]
+  },
+  "data_flow": {
+    "offline_first": true,
+    "sync_strategy": "Optimistic UI with rollback on conflict",
+    "conflict_resolution": "Server timestamp wins, client gets notification",
+    "queue_mechanism": "Offline actions queued in IndexedDB, synced when online"
+  },
+  "security": {
+    "auth": "Supabase Auth (JWT tokens, refresh token rotation)",
+    "rls": "Row Level Security on ALL database tables",
+    "api_protection": "Rate limiting via Upstash Redis",
+    "cheat_prevention": "Critical calculations (rewards, purchases) validated server-side",
+    "admin_access": "Separate admin role with elevated RLS policies"
+  },
+  "scalability": {
+    "current_plan": "Free tiers across all services (sufficient for ~10k MAU)",
+    "scaling_triggers": {
+      "database": ">100k MAU -> Supabase Pro ($25/mo)",
+      "cdn": ">1TB bandwidth -> Cloudflare Pro",
+      "compute": ">10k concurrent -> Add Vercel/Netlify paid plan"
+    }
+  },
+  "alternative_technologies_considered": {
+    "firebase": {
+      "pros": [
+        "Mature ecosystem",
+        "Great mobile SDKs",
+        "Firestore realtime"
+      ],
+      "cons": [
+        "Vendor lock-in",
+        "NoSQL limits complex queries",
+        "Pricing surprises at scale"
+      ],
+      "verdict": "REJECTED - vendor lock-in and query limitations"
+    },
+    "vercel": {
+      "pros": [
+        "Best Next.js integration",
+        "Fastest deploys",
+        "Superior DX"
+      ],
+      "cons": [
+        "More expensive at scale",
+        "Less generous free tier than Netlify for bandwidth"
+      ],
+      "verdict": "ALTERNATIVE - use if Netlify limits hit"
+    },
+    "self_hosted": {
+      "pros": [
+        "Full control",
+        "No recurring costs",
+        "No vendor limits"
+      ],
+      "cons": [
+        "High maintenance overhead",
+        "Security responsibility",
+        "QNAP NAS too weak for production"
+      ],
+      "verdict": "REJECTED for MVP - reconsider for v2.0 if game succeeds"
+    },
+    "aws_amplify": {
+      "pros": [
+        "AWS ecosystem",
+        "Scalable"
+      ],
+      "cons": [
+        "Complex pricing",
+        "Steep learning curve",
+        "Overkill for MVP"
+      ],
+      "verdict": "REJECTED - too complex for indie project"
+    }
+  },
+  "risk_assessment": {
+    "supabase_dependency": {
+      "risk": "Medium - if Supabase changes pricing or shuts down",
+      "mitigation": "PostgreSQL is standard - migration to any Postgres host is straightforward",
+      "backup_strategy": "Daily pg_dump to S3/R2, schema always in version control"
+    },
+    "netlify_limits": {
+      "risk": "Low - free tier is generous for static sites",
+      "mitigation": "Easy migration to Vercel or Cloudflare Pages"
+    },
+    "realtime_performance": {
+      "risk": "Medium - WebSocket connections can be flaky on mobile",
+      "mitigation": "Graceful degradation to polling, local state as source of truth"
+    }
+  }
+}

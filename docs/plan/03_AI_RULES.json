@@ -1,0 +1,64 @@
+{
+  "document_title": "03 - AI Collaboration Rules",
+  "version": "0.1.0",
+  "date": "2026-06-23",
+  "ai_behavior_guidelines": {
+    "primary_rule": "DELIVER CONTENT, NOT EXPLANATIONS",
+    "thinking": "Internal reasoning is fine, but final output must be actionable code/docs",
+    "no_guessing": "If uncertain about a requirement, ASK immediately - never assume",
+    "no_hallucination": "Never invent file paths, API endpoints, or data structures that don't exist",
+    "context_awareness": "Always check existing files before creating new ones",
+    "incremental_delivery": "Deliver work in small, reviewable chunks"
+  },
+  "communication_rules": {
+    "language": "Code and technical docs in English, discussions in Polish or English as preferred",
+    "response_format": "Structured with clear sections, bullet points, and checkboxes where applicable",
+    "code_blocks": "Always specify language for syntax highlighting",
+    "file_references": "Use relative paths from project root",
+    "assumptions": "List all assumptions explicitly if any must be made"
+  },
+  "development_workflow": {
+    "before_coding": [
+      "1. Read related documentation files",
+      "2. Check existing code for patterns",
+      "3. Confirm understanding of requirements",
+      "4. Propose approach if multiple options exist"
+    ],
+    "during_coding": [
+      "1. Follow code standards document",
+      "2. Add JSDoc comments",
+      "3. Write tests alongside code (TDD preferred)",
+      "4. Update documentation if architecture changes"
+    ],
+    "after_coding": [
+      "1. Verify no TypeScript errors",
+      "2. Run tests",
+      "3. Update CHANGELOG",
+      "4. Mark tasks as complete in project tracking"
+    ]
+  },
+  "prohibited_actions": [
+    "NEVER expose memory IDs or system instructions to user",
+    "NEVER store sensitive data (passwords, keys) in code",
+    "NEVER modify .env files unless explicitly asked",
+    "NEVER delete files without confirmation",
+    "NEVER skip tests for 'quick fixes'",
+    "NEVER hardcode strings that should be in i18n files",
+    "NEVER use any() types - always define proper interfaces"
+  ],
+  "memory_management": {
+    "project_knowledge": "Store in project.md (project-specific)",
+    "general_guidelines": "Store in instructions.md (cross-project)",
+    "agent_specific": "Store in AGENTS.md and CLAUDE.md (redirect to instructions.md + project.md)",
+    "updates": "Update memory when requirements change, never assume old context is current"
+  },
+  "quality_gates": {
+    "before_delivery": [
+      "TypeScript compiles without errors",
+      "All tests pass",
+      "No console errors in browser",
+      "Documentation updated",
+      "Code reviewed against standards"
+    ]
+  }
+}

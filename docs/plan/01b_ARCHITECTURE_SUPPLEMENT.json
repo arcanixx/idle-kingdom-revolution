@@ -1,0 +1,94 @@
+{
+  "document_title": "01b - Architecture Supplement: Detailed Decisions",
+  "version": "0.1.0",
+  "date": "2026-06-23",
+  "why_not_vite": {
+    "vite_pros": [
+      "Faster dev server",
+      "Simpler config",
+      "Lighter bundle"
+    ],
+    "vite_cons": [
+      "No built-in API routes (need separate backend)",
+      "No SSR/SSG for SEO",
+      "PWA setup more manual"
+    ],
+    "decision": "Next.js chosen because API routes allow us to keep backend logic in the same repo, SSR helps with game landing page SEO, and PWA support is first-class."
+  },
+  "why_not_react_native": {
+    "react_native_pros": [
+      "True native app",
+      "App store distribution",
+      "Better mobile performance"
+    ],
+    "react_native_cons": [
+      "Separate build for iOS/Android",
+      "App store review process",
+      "Harder to update instantly",
+      "No web version without extra work"
+    ],
+    "decision": "PWA approach - one codebase, instant updates, no app store gatekeeping. Can wrap in Capacitor later for native stores if needed."
+  },
+  "why_not_godot_unity": {
+    "godot_unity_pros": [
+      "Better for complex games",
+      "Native 3D support",
+      "Asset store ecosystem"
+    ],
+    "godot_unity_cons": [
+      "Not web-first",
+      "Heavy downloads",
+      "Harder to integrate with modern web stack",
+      "No instant updates"
+    ],
+    "decision": "Web-first HTML5/Canvas approach - lighter, faster loading, easier to iterate, better integration with web services."
+  },
+  "database_design_principles": {
+    "normalization": "3NF for relational data (players, accounts), denormalized JSONB for game config (items, quests)",
+    "partitioning": "Consider time-based partitioning for battle_logs, event_logs when >1M rows",
+    "indexing_strategy": "B-tree on primary keys, GIN on JSONB columns, BRIN on timestamps",
+    "soft_deletes": "All tables have deleted_at column - never hard delete player data"
+  },
+  "caching_strategy": {
+    "client_side": {
+      "localStorage": "User preferences, auth tokens, offline action queue",
+      "IndexedDB": "Game assets cache, large config files",
+      "Cache API": "Service worker cache for static assets"
+    },
+    "server_side": {
+      "redis": "Session data, rate limits, leaderboard hot data",
+      "cdn": "Game assets, static images, audio files",
+      "db_cache": "Materialized views for expensive queries (leaderboard aggregates)"
+    }
+  },
+  "realtime_architecture": {
+    "primary": "Supabase Realtime (PostgreSQL LISTEN/NOTIFY via WebSocket)",
+    "use_cases": [
+      "Global announcements",
+      "World Boss spawn notifications",
+      "Guild chat",
+      "Live leaderboard updates"
+    ],
+    "fallback": "Short polling every 30s for clients without WebSocket support",
+    "bandwidth_optimization": "Delta updates only, full sync on reconnect"
+  },
+  "file_organization": {
+    "project_root": "idle-kingdom-revolution/",
+    "src_structure": {
+      "app/": "Next.js App Router pages",
+      "components/": "React components (feature-based folders)",
+      "lib/": "Utility functions, game logic, API clients",
+      "hooks/": "Custom React hooks",
+      "stores/": "Zustand stores",
+      "types/": "TypeScript types/interfaces",
+      "styles/": "Global styles, Tailwind config",
+      "public/": "Static assets, PWA manifest"
+    },
+    "docs_structure": {
+      "docs/plan/": "Planning documents (JSON, this phase)",
+      "docs/design/": "UI/UX designs, mockups",
+      "docs/api/": "API documentation",
+      "docs/assets/": "Asset guidelines, AI prompts"
+    }
+  }
+}

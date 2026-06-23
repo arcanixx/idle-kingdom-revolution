@@ -1,0 +1,72 @@
+{
+  "document_title": "09 - Notifications & Reminders System",
+  "version": "0.1.0",
+  "date": "2026-06-23",
+  "notification_types": {
+    "push_notifications": {
+      "provider": "Supabase (via Firebase Cloud Messaging for Android, APNs for iOS if native)",
+      "web_push": "Browser Push API for PWA",
+      "types": [
+        {"id": "daily_reminder", "trigger": "Configurable time", "content": "Your daily rewards are ready!"},
+        {"id": "world_boss_spawn", "trigger": "15 min before spawn", "content": "World Boss spawns in 15 minutes!"},
+        {"id": "event_start", "trigger": "Event start", "content": "New event: {event_name} has started!"},
+        {"id": "idle_cap", "trigger": "Offline earnings at 90% cap", "content": "Your offline earnings are almost full!"},
+        {"id": "quest_complete", "trigger": "Quest objective met", "content": "Quest completed: {quest_name}"},
+        {"id": "guild_message", "trigger": "Guild member message", "content": "New message in guild chat"},
+        {"id": "maintenance", "trigger": "Scheduled maintenance", "content": "Maintenance in 30 minutes"}
+      ]
+    },
+    "in_game_notifications": {
+      "types": [
+        {"id": "level_up", "style": "Toast", "duration": "3s"},
+        {"id": "reward_claim", "style": "Toast + particle effect", "duration": "3s"},
+        {"id": "achievement_unlock", "style": "Modal", "duration": "Until dismissed"},
+        {"id": "system_announcement", "style": "Banner", "duration": "10s"},
+        {"id": "friend_request", "style": "Toast", "duration": "5s"}
+      ]
+    },
+    "email_notifications": {
+      "provider": "Supabase Auth (transactional) or SendGrid (marketing)",
+      "types": [
+        {"id": "welcome", "trigger": "Registration", "content": "Welcome to Idle Kingdom Revolution!"},
+        {"id": "password_reset", "trigger": "Request", "content": "Password reset link"},
+        {"id": "come_back", "trigger": "7 days inactive", "content": "We miss you! Here's a welcome back gift."},
+        {"id": "weekly_digest", "trigger": "Weekly", "content": "Your weekly progress summary"}
+      ]
+    }
+  },
+  "notification_preferences": {
+    "user_controlled": [
+      "Push notifications on/off",
+      "Daily reminder time",
+      "World boss alerts on/off",
+      "Event notifications on/off",
+      "Guild notifications on/off",
+      "Email frequency (all/weekly/none)"
+    ],
+    "default_settings": {
+      "push_enabled": true,
+      "daily_reminder": "20:00",
+      "world_boss_alerts": true,
+      "event_notifications": true,
+      "guild_notifications": true,
+      "email_frequency": "weekly"
+    }
+  },
+  "reminder_system": {
+    "daily_login": {
+      "streak_mechanic": "Consecutive days = better rewards",
+      "reminder": "Push notification if not logged in by 20:00",
+      "grace_period": "Streak preserved if missed 1 day (with reduced reward)"
+    },
+    "event_reminders": {
+      "before_start": "15 min push",
+      "during": "Progress updates (if opted in)",
+      "ending_soon": "1 hour before end"
+    },
+    "idle_reminders": {
+      "soft_cap": "Notification at 80% offline cap",
+      "hard_cap": "Notification at 100% (no more earnings until login)"
+    }
+  }
+}
