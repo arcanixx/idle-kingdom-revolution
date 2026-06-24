@@ -1,1 +1,1 @@
-"'use client'; import Link from 'next/link'; export default function InventoryPage() { return <div className=\"container mx-auto py-8\"><h1 className=\"text-3xl font-bold mb-4\">Inventory</h1><p>Your items will appear here.</p><Link href=\"/dashboard\" className=\"mt-4 text-blue-600 hover:underline\">Back to Dashboard</Link></div>; }" 
+export default function InventoryPage() { return <div>Inventory Page</div> } 

@@ -15,7 +15,7 @@ export async function GET(request: NextRequest) {
     if (pErr || !player) return errorResponse("Player not found", 404);
 
     // Call the existing DB function for offline earnings
-    const { data: result, error: funcErr } = await supabase.rfc("claim_offline_earnings", {
+    const { data: result, error: funcErr } = await supabase.rpc("claim_offline_earnings", {
       p_player_id: player.id,
     });
     if (funcErr) throw new Error(funcErr.message);

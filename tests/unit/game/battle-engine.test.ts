@@ -55,8 +55,8 @@ describe("startBattle", () => {
     // here, which is falsy, so an un-augmented Unit is silently dropped from
     // the battle roster. Tests below pass isActive: true explicitly to
     // exercise the intended path.
-    const active = makeUnit({ id: "u1", unit_id: "human_warrior_common", isActive: true } as never);
-    const inactive = makeUnit({ id: "u2", unit_id: "human_mage_common", isActive: false } as never);
+    const active = makeUnit({ id: "u1", unit_id: "human_warrior_common", isActive: true });
+    const inactive = makeUnit({ id: "u2", unit_id: "human_mage_common", isActive: false });
     const field = makeField();
     const formation: Formation = {
       front: [{ unit_id: active.unit_id, row: 0, col: 0 }, { unit_id: inactive.unit_id, row: 0, col: 1 }, null],

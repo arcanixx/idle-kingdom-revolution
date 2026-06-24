@@ -22,10 +22,10 @@ export async function POST(request: NextRequest) {
       attack: (pu.game_units?.base_attack || 10) * (1 + (pu.level || 1) * 0.1),
       defense: (pu.game_units?.base_defense || 10) * (1 + (pu.level || 1) * 0.1),
       speed: pu.game_units?.base_speed || 100,
-      equipment: {}, power_rating: 0, isActive: true,
+      equipment: {}, faction: "human", power_rating: 0, isActive: true,
     }));
     const formation = { front: [null, null, null], back: [null, null, null] };
-    battleUnits.forEach((u, i) => { if (i < 3) formation.front[i] = { unit_id: u.id, row: 0, col: i }; else formation.back[i - 3] = { unit_id: u.id, row: 1, col: i - 3 }; });
+    battleUnits.forEach((u, i) => { if (i < 3) formation.front[i] = { unit_id: u.unit_id, row: 0, col: i }; else formation.back[i - 3] = { unit_id: u.unit_id, row: 1, col: i - 3 }; });
     let battle = startBattle(field, battleUnits, formation);
     for (let i = 0; i < 200; i++) { processTick(battle); if (battle.status !== "active") break; }
     const xpGained = battle.status === "victory" ? (field.rewards?.xp || 30) : Math.floor((field.rewards?.xp || 30) * 0.3);

@@ -48,15 +48,6 @@ CREATE TABLE IF NOT EXISTS public.game_battle_fields (
     difficulty INTEGER DEFAULT 1,  
     created_at TIMESTAMPTZ DEFAULT NOW(),  
     updated_at TIMESTAMPTZ DEFAULT NOW()  
-  
-CREATE TABLE IF NOT EXISTS public.game_battle_fields (  
-    id TEXT PRIMARY KEY,  
-    name TEXT NOT NULL,  
-    description TEXT,  
-    icon TEXT DEFAULT '??',  
-    difficulty INTEGER DEFAULT 1,  
-    created_at TIMESTAMPTZ DEFAULT NOW(),  
-    updated_at TIMESTAMPTZ DEFAULT NOW()  
 ); 
   
 CREATE TABLE IF NOT EXISTS public.game_quests (  
