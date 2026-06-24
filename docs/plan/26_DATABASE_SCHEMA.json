@@ -1,663 +1,82 @@
 {
-    "document_title": "26 - Database Schema (PostgreSQL / Supabase)",
-    "version": "0.1.0",
-    "date": "2026-06-23",
-    "purpose": "Complete SQL schema for Idle Kingdom Revolution. Run in Supabase SQL Editor to create all tables, indexes, RLS policies, and triggers.",
-    
-    "notes": [
-        "All tables use UUID primary keys for security and scalability",
-        "RLS policies are mandatory - no table without RLS",
-        "Soft deletes via deleted_at column",
-        "Created/updated timestamps auto-managed by triggers",
-        "JSONB used for flexible game data (config, inventory, etc.)",
-        "Partitioning recommended for battle_logs and event_logs when >1M rows"
-    ],
-    
-    "sql_schema": """
--- ============================================================
--- EXTENSIONS
--- ============================================================
-CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
-CREATE EXTENSION IF NOT EXISTS "pgcrypto";
-
--- ============================================================
--- AUTH (managed by Supabase, but custom fields here)
--- ============================================================
--- Supabase auth.users table is pre-created
--- We add custom fields via public.users
-
-CREATE TABLE public.users (
-    id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
-    display_name TEXT DEFAULT 'Adventurer',
-    avatar_url TEXT,
-    role TEXT DEFAULT 'player' CHECK (role IN ('player', 'moderator', 'admin')),
-    language TEXT DEFAULT 'en' CHECK (language IN ('en', 'pl')),
-    timezone TEXT DEFAULT 'UTC',
-    email_notifications BOOLEAN DEFAULT true,
-    push_notifications BOOLEAN DEFAULT true,
-    created_at TIMESTAMPTZ DEFAULT NOW(),
-    updated_at TIMESTAMPTZ DEFAULT NOW(),
-    deleted_at TIMESTAMPTZ
-);
-
--- ============================================================
--- PLAYERS (game progress - separate from auth for data isolation)
--- ============================================================
-CREATE TABLE public.players (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    user_id UUID NOT NULL REFERENCES public.users(id) ON DELETE CASCADE,
-    
-    -- Progression
-    level INT DEFAULT 1 CHECK (level >= 1 AND level <= 999),
-    xp BIGINT DEFAULT 0 CHECK (xp >= 0),
-    prestige_count INT DEFAULT 0,
-    prestige_currency INT DEFAULT 0,
-    
-    -- Currencies
-    gold BIGINT DEFAULT 1000 CHECK (gold >= 0),
-    valor INT DEFAULT 0 CHECK (valor >= 0),
-    gems INT DEFAULT 0 CHECK (gems >= 0),
-    battle_coins INT DEFAULT 0 CHECK (battle_coins >= 0),
-    
-    -- Battle stats
-    highest_wave INT DEFAULT 0,
-    highest_field_id INT DEFAULT 1,
-    total_battles INT DEFAULT 0,
-    total_wins INT DEFAULT 0,
-    
-    -- Social
-    guild_id UUID,
-    pvp_rating INT DEFAULT 1000,
-    pvp_tier TEXT DEFAULT 'bronze',
-    
-    -- Idle
-    last_online_at TIMESTAMPTZ DEFAULT NOW(),
-    offline_earnings_cap_hours INT DEFAULT 12,
-    
-    -- Settings
-    battle_speed INT DEFAULT 1 CHECK (battle_speed IN (1, 2, 3)),
-    auto_battle BOOLEAN DEFAULT false,
-    confirm_spending BOOLEAN DEFAULT true,
-    
-    created_at TIMESTAMPTZ DEFAULT NOW(),
-    updated_at TIMESTAMPTZ DEFAULT NOW(),
-    deleted_at TIMESTAMPTZ,
-    
-    UNIQUE(user_id)
-);
-
--- ============================================================
--- GAME CONFIG (static data - seed on setup)
--- ============================================================
-CREATE TABLE public.game_units (
-    id TEXT PRIMARY KEY,
-    name TEXT NOT NULL,
-    name_pl TEXT,
-    description TEXT,
-    description_pl TEXT,
-    class TEXT NOT NULL CHECK (class IN ('warrior', 'ranger', 'mage', 'tank', 'healer', 'assassin', 'support')),
-    faction TEXT NOT NULL CHECK (faction IN ('human', 'elf', 'orc', 'undead', 'demon', 'celestial')),
-    rarity TEXT NOT NULL CHECK (rarity IN ('common', 'uncommon', 'rare', 'epic', 'legendary', 'mythic')),
-    
-    base_hp INT NOT NULL CHECK (base_hp > 0),
-    base_attack INT NOT NULL CHECK (base_attack > 0),
-    base_defense INT NOT NULL CHECK (base_defense >= 0),
-    base_speed INT DEFAULT 100,
-    base_crit_chance FLOAT DEFAULT 0.05,
-    base_dodge_chance FLOAT DEFAULT 0.03,
-    
-    ability_id TEXT,
-    ability_description TEXT,
-    
-    unlock_requirement JSONB,
-    cost JSONB,
-    
-    sprite_id TEXT,
-    portrait_url TEXT,
-    
-    is_active BOOLEAN DEFAULT true,
-    created_at TIMESTAMPTZ DEFAULT NOW()
-);
-
-CREATE TABLE public.game_items (
-    id TEXT PRIMARY KEY,
-    name TEXT NOT NULL,
-    name_pl TEXT,
-    description TEXT,
-    description_pl TEXT,
-    type TEXT NOT NULL CHECK (type IN ('weapon', 'armor', 'accessory', 'consumable', 'material', 'cosmetic')),
-    rarity TEXT NOT NULL CHECK (rarity IN ('common', 'uncommon', 'rare', 'epic', 'legendary', 'mythic')),
-    
-    stats JSONB NOT NULL DEFAULT '{}',
-    effects JSONB,
-    
-    equip_slot TEXT CHECK (equip_slot IN ('weapon', 'armor', 'accessory')),
-    required_level INT DEFAULT 1,
-    
-    cost JSONB,
-    sell_value INT DEFAULT 0,
-    
-    max_stack INT DEFAULT 1,
-    is_consumable BOOLEAN DEFAULT false,
-    
-    sprite_id TEXT,
-    icon_url TEXT,
-    
-    is_active BOOLEAN DEFAULT true,
-    created_at TIMESTAMPTZ DEFAULT NOW()
-);
-
-CREATE TABLE public.game_battle_fields (
-    id INT PRIMARY KEY,
-    name TEXT NOT NULL,
-    name_pl TEXT,
-    description TEXT,
-    description_pl TEXT,
-    chapter_id INT NOT NULL,
-    
-    difficulty INT DEFAULT 1 CHECK (difficulty >= 1),
-    wave_count INT DEFAULT 5 CHECK (wave_count > 0),
-    boss_wave INT DEFAULT 5,
-    
-    enemy_pool JSONB NOT NULL,
-    terrain_type TEXT DEFAULT 'plains',
-    
-    rewards JSONB,
-    recommended_power INT,
-    
-    unlock_requirement JSONB,
-    
-    background_url TEXT,
-    music_track TEXT,
-    
-    is_active BOOLEAN DEFAULT true,
-    created_at TIMESTAMPTZ DEFAULT NOW()
-);
-
-CREATE TABLE public.game_quests (
-    id INT PRIMARY KEY,
-    title TEXT NOT NULL,
-    title_pl TEXT,
-    description TEXT,
-    description_pl TEXT,
-    
-    quest_type TEXT NOT NULL CHECK (quest_type IN ('story', 'daily', 'weekly', 'side', 'event')),
-    chapter_id INT,
-    quest_group INT DEFAULT 0,
-    
-    objectives JSONB NOT NULL,
-    rewards JSONB NOT NULL,
-    
-    next_quest_ids INT[] DEFAULT '{}',
-    unlock_requirement JSONB,
-    
-    cooldown_hours INT,
-    max_concurrent INT DEFAULT 1,
-    
-    is_active BOOLEAN DEFAULT true,
-    created_at TIMESTAMPTZ DEFAULT NOW()
-);
-
-CREATE TABLE public.game_shops (
-    id INT PRIMARY KEY,
-    name TEXT NOT NULL,
-    name_pl TEXT,
-    shop_type TEXT NOT NULL CHECK (shop_type IN ('general', 'premium', 'pvp', 'event', 'guild')),
-    
-    items JSONB NOT NULL,
-    refresh_interval_hours INT DEFAULT 24,
-    
-    is_active BOOLEAN DEFAULT true,
-    created_at TIMESTAMPTZ DEFAULT NOW()
-);
-
-CREATE TABLE public.game_achievements (
-    id TEXT PRIMARY KEY,
-    name TEXT NOT NULL,
-    name_pl TEXT,
-    description TEXT,
-    description_pl TEXT,
-    
-    category TEXT NOT NULL CHECK (category IN ('combat', 'progression', 'collection', 'social', 'special')),
-    
-    requirement_type TEXT NOT NULL,
-    requirement_value INT NOT NULL,
-    
-    reward_valor INT DEFAULT 0,
-    reward_gold INT DEFAULT 0,
-    reward_item_id TEXT,
-    reward_title TEXT,
-    reward_frame TEXT,
-    
-    is_hidden BOOLEAN DEFAULT false,
-    is_active BOOLEAN DEFAULT true,
-    created_at TIMESTAMPTZ DEFAULT NOW()
-);
-
--- ============================================================
--- PLAYER STATE (frequently updated)
--- ============================================================
-CREATE TABLE public.player_units (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    player_id UUID NOT NULL REFERENCES public.players(id) ON DELETE CASCADE,
-    unit_id TEXT NOT NULL REFERENCES public.game_units(id),
-    
-    level INT DEFAULT 1 CHECK (level >= 1),
-    xp INT DEFAULT 0,
-    ascension_count INT DEFAULT 0,
-    
-    equipped_weapon_id TEXT REFERENCES public.game_items(id),
-    equipped_armor_id TEXT REFERENCES public.game_items(id),
-    equipped_accessory_id TEXT REFERENCES public.game_items(id),
-    
-    formation_row INT CHECK (formation_row BETWEEN 0 AND 2),
-    formation_col INT CHECK (formation_col BETWEEN 0 AND 2),
-    
-    is_favorite BOOLEAN DEFAULT false,
-    
-    created_at TIMESTAMPTZ DEFAULT NOW(),
-    updated_at TIMESTAMPTZ DEFAULT NOW(),
-    
-    UNIQUE(player_id, unit_id)
-);
-
-CREATE TABLE public.player_inventory (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    player_id UUID NOT NULL REFERENCES public.players(id) ON DELETE CASCADE,
-    item_id TEXT NOT NULL REFERENCES public.game_items(id),
-    
-    quantity INT DEFAULT 1 CHECK (quantity > 0),
-    is_equipped BOOLEAN DEFAULT false,
-    
-    created_at TIMESTAMPTZ DEFAULT NOW(),
-    updated_at TIMESTAMPTZ DEFAULT NOW()
-);
-
-CREATE TABLE public.player_quests (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    player_id UUID NOT NULL REFERENCES public.players(id) ON DELETE CASCADE,
-    quest_id INT NOT NULL REFERENCES public.game_quests(id),
-    
-    status TEXT NOT NULL CHECK (status IN ('active', 'completed', 'claimed', 'expired')),
-    progress JSONB DEFAULT '{}',
-    
-    accepted_at TIMESTAMPTZ DEFAULT NOW(),
-    completed_at TIMESTAMPTZ,
-    claimed_at TIMESTAMPTZ,
-    expires_at TIMESTAMPTZ,
-    
-    created_at TIMESTAMPTZ DEFAULT NOW(),
-    updated_at TIMESTAMPTZ DEFAULT NOW(),
-    
-    UNIQUE(player_id, quest_id)
-);
-
-CREATE TABLE public.player_achievements (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    player_id UUID NOT NULL REFERENCES public.players(id) ON DELETE CASCADE,
-    achievement_id TEXT NOT NULL REFERENCES public.game_achievements(id),
-    
-    progress INT DEFAULT 0,
-    is_completed BOOLEAN DEFAULT false,
-    completed_at TIMESTAMPTZ,
-    
-    created_at TIMESTAMPTZ DEFAULT NOW(),
-    updated_at TIMESTAMPTZ DEFAULT NOW(),
-    
-    UNIQUE(player_id, achievement_id)
-);
-
-CREATE TABLE public.player_valor (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    player_id UUID NOT NULL REFERENCES public.players(id) ON DELETE CASCADE,
-    
-    tree_name TEXT NOT NULL CHECK (tree_name IN ('combat_mastery', 'economy_mastery', 'quality_of_life', 'kingdom_mastery')),
-    perk_name TEXT NOT NULL,
-    points_spent INT DEFAULT 0,
-    
-    created_at TIMESTAMPTZ DEFAULT NOW(),
-    updated_at TIMESTAMPTZ DEFAULT NOW(),
-    
-    UNIQUE(player_id, tree_name, perk_name)
-);
-
--- ============================================================
--- BATTLE LOGS (high volume - consider partitioning)
--- ============================================================
-CREATE TABLE public.battle_logs (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    player_id UUID NOT NULL REFERENCES public.players(id) ON DELETE CASCADE,
-    
-    battle_type TEXT NOT NULL CHECK (battle_type IN ('campaign', 'tower', 'world_boss', 'pvp', 'guild_boss')),
-    field_id INT,
-    
-    formation JSONB NOT NULL,
-    enemy_formation JSONB,
-    
-    result TEXT NOT NULL CHECK (result IN ('victory', 'defeat', 'retreat')),
-    waves_cleared INT DEFAULT 0,
-    
-    rewards JSONB,
-    duration_seconds INT,
-    
-    created_at TIMESTAMPTZ DEFAULT NOW()
-);
-
--- ============================================================
--- SOCIAL
--- ============================================================
-CREATE TABLE public.guilds (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    name TEXT NOT NULL,
-    tag TEXT NOT NULL UNIQUE,
-    description TEXT,
-    
-    leader_id UUID NOT NULL REFERENCES public.players(id),
-    
-    level INT DEFAULT 1,
-    xp INT DEFAULT 0,
-    
-    max_members INT DEFAULT 20,
-    
-    created_at TIMESTAMPTZ DEFAULT NOW(),
-    updated_at TIMESTAMPTZ DEFAULT NOW()
-);
-
-CREATE TABLE public.guild_members (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    guild_id UUID NOT NULL REFERENCES public.guilds(id) ON DELETE CASCADE,
-    player_id UUID NOT NULL REFERENCES public.players(id) ON DELETE CASCADE,
-    
-    role TEXT DEFAULT 'member' CHECK (role IN ('leader', 'officer', 'member')),
-    joined_at TIMESTAMPTZ DEFAULT NOW(),
-    
-    UNIQUE(guild_id, player_id)
-);
-
--- ============================================================
--- LEADERBOARD
--- ============================================================
-CREATE TABLE public.leaderboard (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    player_id UUID NOT NULL REFERENCES public.players(id) ON DELETE CASCADE,
-    
-    category TEXT NOT NULL CHECK (category IN ('highest_wave', 'total_power', 'tower_floor', 'pvp_rating', 'world_boss_damage', 'quest_completion', 'achievement_points', 'play_time')),
-    season INT DEFAULT 1,
-    score BIGINT NOT NULL,
-    
-    updated_at TIMESTAMPTZ DEFAULT NOW(),
-    
-    UNIQUE(player_id, category, season)
-);
-
--- ============================================================
--- MAIL SYSTEM
--- ============================================================
-CREATE TABLE public.player_mail (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    player_id UUID NOT NULL REFERENCES public.players(id) ON DELETE CASCADE,
-    
-    sender_type TEXT DEFAULT 'system' CHECK (sender_type IN ('system', 'admin', 'event')),
-    sender_name TEXT DEFAULT 'System',
-    
-    subject TEXT NOT NULL,
-    body TEXT NOT NULL,
-    
-    attachments JSONB,
-    
-    is_read BOOLEAN DEFAULT false,
-    is_claimed BOOLEAN DEFAULT false,
-    
-    expires_at TIMESTAMPTZ,
-    created_at TIMESTAMPTZ DEFAULT NOW()
-);
-
--- ============================================================
--- ADMIN / AUDIT
--- ============================================================
-CREATE TABLE public.admin_actions (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    admin_id UUID NOT NULL REFERENCES public.users(id),
-    
-    action_type TEXT NOT NULL CHECK (action_type IN ('resource_inject', 'ban', 'unban', 'config_change', 'broadcast', 'quest_create', 'event_schedule')),
-    target_player_id UUID REFERENCES public.players(id),
-    
-    details JSONB NOT NULL,
-    
-    created_at TIMESTAMPTZ DEFAULT NOW()
-);
-
-CREATE TABLE public.promo_codes (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    code TEXT NOT NULL UNIQUE,
-    
-    code_type TEXT NOT NULL CHECK (code_type IN ('one_time', 'limited', 'recurring', 'admin')),
-    max_uses INT,
-    used_count INT DEFAULT 0,
-    
-    rewards JSONB NOT NULL,
-    
-    valid_from TIMESTAMPTZ DEFAULT NOW(),
-    valid_until TIMESTAMPTZ,
-    
-    is_active BOOLEAN DEFAULT true,
-    created_by UUID NOT NULL REFERENCES public.users(id),
-    created_at TIMESTAMPTZ DEFAULT NOW()
-);
-
-CREATE TABLE public.player_promo_redeems (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    player_id UUID NOT NULL REFERENCES public.players(id) ON DELETE CASCADE,
-    promo_code_id UUID NOT NULL REFERENCES public.promo_codes(id),
-    
-    redeemed_at TIMESTAMPTZ DEFAULT NOW(),
-    
-    UNIQUE(player_id, promo_code_id)
-);
-
--- ============================================================
--- INDEXES
--- ============================================================
-CREATE INDEX idx_players_user_id ON public.players(user_id);
-CREATE INDEX idx_players_guild_id ON public.players(guild_id);
-CREATE INDEX idx_players_pvp_rating ON public.players(pvp_rating DESC);
-
-CREATE INDEX idx_player_units_player_id ON public.player_units(player_id);
-CREATE INDEX idx_player_inventory_player_id ON public.player_inventory(player_id);
-CREATE INDEX idx_player_quests_player_id ON public.player_quests(player_id);
-CREATE INDEX idx_player_achievements_player_id ON public.player_achievements(player_id);
-
-CREATE INDEX idx_battle_logs_player_id ON public.battle_logs(player_id);
-CREATE INDEX idx_battle_logs_created_at ON public.battle_logs(created_at DESC);
-
-CREATE INDEX idx_leaderboard_category_season_score ON public.leaderboard(category, season, score DESC);
-CREATE INDEX idx_player_mail_player_id ON public.player_mail(player_id);
-
--- ============================================================
--- RLS POLICIES
--- ============================================================
-ALTER TABLE public.users ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.players ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.player_units ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.player_inventory ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.player_quests ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.player_achievements ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.player_valor ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.battle_logs ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.guilds ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.guild_members ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.leaderboard ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.player_mail ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.admin_actions ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.promo_codes ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.player_promo_redeems ENABLE ROW LEVEL SECURITY;
-
--- Users: players see own, admins see all
-CREATE POLICY "Users own data" ON public.users
-    FOR ALL USING (auth.uid() = id OR EXISTS (
-        SELECT 1 FROM public.users WHERE id = auth.uid() AND role IN ('admin', 'moderator')
-    ));
-
--- Players: own data only (admins via function)
-CREATE POLICY "Players own data" ON public.players
-    FOR ALL USING (user_id = auth.uid());
-
--- Player state tables: own data only
-CREATE POLICY "Player units own" ON public.player_units FOR ALL USING (
-    player_id IN (SELECT id FROM public.players WHERE user_id = auth.uid())
-);
-CREATE POLICY "Player inventory own" ON public.player_inventory FOR ALL USING (
-    player_id IN (SELECT id FROM public.players WHERE user_id = auth.uid())
-);
-CREATE POLICY "Player quests own" ON public.player_quests FOR ALL USING (
-    player_id IN (SELECT id FROM public.players WHERE user_id = auth.uid())
-);
-CREATE POLICY "Player achievements own" ON public.player_achievements FOR ALL USING (
-    player_id IN (SELECT id FROM public.players WHERE user_id = auth.uid())
-);
-CREATE POLICY "Player valor own" ON public.player_valor FOR ALL USING (
-    player_id IN (SELECT id FROM public.players WHERE user_id = auth.uid())
-);
-CREATE POLICY "Battle logs own" ON public.battle_logs FOR ALL USING (
-    player_id IN (SELECT id FROM public.players WHERE user_id = auth.uid())
-);
-CREATE POLICY "Player mail own" ON public.player_mail FOR ALL USING (
-    player_id IN (SELECT id FROM public.players WHERE user_id = auth.uid())
-);
-
--- Game config: read-only for all
-CREATE POLICY "Game config public read" ON public.game_units FOR SELECT USING (true);
-CREATE POLICY "Game config public read" ON public.game_items FOR SELECT USING (true);
-CREATE POLICY "Game config public read" ON public.game_battle_fields FOR SELECT USING (true);
-CREATE POLICY "Game config public read" ON public.game_quests FOR SELECT USING (true);
-CREATE POLICY "Game config public read" ON public.game_shops FOR SELECT USING (true);
-CREATE POLICY "Game config public read" ON public.game_achievements FOR SELECT USING (true);
-
--- Guilds: members can read, leader/officer can update
-CREATE POLICY "Guilds members read" ON public.guilds FOR SELECT USING (true);
-CREATE POLICY "Guilds leader update" ON public.guilds FOR UPDATE USING (
-    leader_id IN (SELECT id FROM public.players WHERE user_id = auth.uid())
-);
-
-CREATE POLICY "Guild members read" ON public.guild_members FOR SELECT USING (true);
-
--- Leaderboard: public read
-CREATE POLICY "Leaderboard public read" ON public.leaderboard FOR SELECT USING (true);
-
--- Admin actions: admin only
-CREATE POLICY "Admin actions admin only" ON public.admin_actions
-    FOR ALL USING (EXISTS (
-        SELECT 1 FROM public.users WHERE id = auth.uid() AND role = 'admin'
-    ));
-
--- Promo codes: public read active, admin all
-CREATE POLICY "Promo codes public read" ON public.promo_codes FOR SELECT USING (is_active = true);
-CREATE POLICY "Promo codes admin" ON public.promo_codes
-    FOR ALL USING (EXISTS (
-        SELECT 1 FROM public.users WHERE id = auth.uid() AND role = 'admin'
-    ));
-
-CREATE POLICY "Player promo own" ON public.player_promo_redeems FOR ALL USING (
-    player_id IN (SELECT id FROM public.players WHERE user_id = auth.uid())
-);
-
--- ============================================================
--- TRIGGERS
--- ============================================================
-CREATE OR REPLACE FUNCTION public.update_updated_at_column()
-RETURNS TRIGGER AS $$
-BEGIN
-    NEW.updated_at = NOW();
-    RETURN NEW;
-END;
-$$ language 'plpgsql';
-
-CREATE TRIGGER update_users_updated_at BEFORE UPDATE ON public.users
-    FOR EACH ROW EXECUTE FUNCTION public.update_updated_at_column();
-CREATE TRIGGER update_players_updated_at BEFORE UPDATE ON public.players
-    FOR EACH ROW EXECUTE FUNCTION public.update_updated_at_column();
-CREATE TRIGGER update_player_units_updated_at BEFORE UPDATE ON public.player_units
-    FOR EACH ROW EXECUTE FUNCTION public.update_updated_at_column();
-CREATE TRIGGER update_player_inventory_updated_at BEFORE UPDATE ON public.player_inventory
-    FOR EACH ROW EXECUTE FUNCTION public.update_updated_at_column();
-CREATE TRIGGER update_player_quests_updated_at BEFORE UPDATE ON public.player_quests
-    FOR EACH ROW EXECUTE FUNCTION public.update_updated_at_column();
-CREATE TRIGGER update_player_achievements_updated_at BEFORE UPDATE ON public.player_achievements
-    FOR EACH ROW EXECUTE FUNCTION public.update_updated_at_column();
-CREATE TRIGGER update_player_valor_updated_at BEFORE UPDATE ON public.player_valor
-    FOR EACH ROW EXECUTE FUNCTION public.update_updated_at_column();
-CREATE TRIGGER update_guilds_updated_at BEFORE UPDATE ON public.guilds
-    FOR EACH ROW EXECUTE FUNCTION public.update_updated_at_column();
-
--- ============================================================
--- FUNCTIONS
--- ============================================================
-CREATE OR REPLACE FUNCTION public.calculate_unit_power(
-    p_unit_id TEXT,
-    p_level INT,
-    p_equipment JSONB DEFAULT '{}'
-)
-RETURNS INT AS $$
-DECLARE
-    v_base_hp INT;
-    v_base_attack INT;
-    v_base_defense INT;
-    v_base_speed INT;
-    v_power INT;
-BEGIN
-    SELECT base_hp, base_attack, base_defense, base_speed
-    INTO v_base_hp, v_base_attack, v_base_defense, v_base_speed
-    FROM public.game_units WHERE id = p_unit_id;
-    
-    v_power := ((v_base_hp * 0.5) + (v_base_attack * 2) + (v_base_defense * 1.5) + (v_base_speed * 0.01))::INT;
-    v_power := v_power * (1 + p_level * 0.1)::INT;
-    
-    -- Add equipment bonuses
-    IF p_equipment->>'weapon_attack' IS NOT NULL THEN
-        v_power := v_power + (p_equipment->>'weapon_attack')::INT * 2;
-    END IF;
-    IF p_equipment->>'armor_defense' IS NOT NULL THEN
-        v_power := v_power + (p_equipment->>'armor_defense')::INT * 1.5;
-    END IF;
-    
-    RETURN v_power;
-END;
-$$ LANGUAGE plpgsql SECURITY DEFINER;
-
-CREATE OR REPLACE FUNCTION public.claim_offline_earnings(p_player_id UUID)
-RETURNS JSONB AS $$
-DECLARE
-    v_last_online TIMESTAMPTZ;
-    v_hours_offline FLOAT;
-    v_cap_hours INT;
-    v_gold_earned BIGINT;
-    v_highest_wave INT;
-    v_result JSONB;
-BEGIN
-    SELECT last_online_at, offline_earnings_cap_hours, highest_wave
-    INTO v_last_online, v_cap_hours, v_highest_wave
-    FROM public.players WHERE id = p_player_id;
-    
-    v_hours_offline := EXTRACT(EPOCH FROM (NOW() - v_last_online)) / 3600;
-    v_hours_offline := LEAST(v_hours_offline, v_cap_hours);
-    
-    v_gold_earned := (v_highest_wave * 10 * v_hours_offline)::BIGINT;
-    
-    UPDATE public.players 
-    SET gold = gold + v_gold_earned, last_online_at = NOW()
-    WHERE id = p_player_id;
-    
-    v_result := jsonb_build_object(
-        'hours_offline', v_hours_offline,
-        'gold_earned', v_gold_earned,
-        'capped', v_hours_offline >= v_cap_hours
-    );
-    
-    RETURN v_result;
-END;
-$$ LANGUAGE plpgsql SECURITY DEFINER;
-""",
-
-    "seed_data_note": "After schema creation, run seed.sql to populate game_units, game_items, game_battle_fields, game_quests, game_shops, game_achievements with initial data.",
-    "migration_note": "Use Supabase CLI for migrations: supabase db diff > supabase/migrations/001_initial_schema.sql"
+  "document_title": "26 - Database Schema (PostgreSQL / Supabase)",
+  "version": "0.1.0",
+  "date": "2026-06-23",
+  "purpose": "Complete SQL schema for Idle Kingdom Revolution. Run in Supabase SQL Editor to create all tables, indexes, RLS policies, and triggers.",
+  "notes": [
+    "All tables use UUID primary keys for security and scalability",
+    "RLS policies are mandatory - no table without RLS",
+    "Soft deletes via deleted_at column",
+    "Created/updated timestamps auto-managed by triggers",
+    "JSONB used for flexible game data (config, inventory, etc.)",
+    "Partitioning recommended for battle_logs and event_logs when >1M rows"
+  ],
+  "sql_schema": "\n-- ============================================================\n-- EXTENSIONS\n-- ============================================================\nCREATE EXTENSION IF NOT EXISTS \"uuid-ossp\";\nCREATE EXTENSION IF NOT EXISTS \"pgcrypto\";\n\n-- ============================================================\n-- AUTH (managed by Supabase, but custom fields here)\n-- ============================================================\n-- Supabase auth.users table is pre-created\n-- We add custom fields via public.users\n\nCREATE TABLE public.users (\n    id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,\n    display_name TEXT DEFAULT 'Adventurer',\n    avatar_url TEXT,\n    role TEXT DEFAULT 'player' CHECK (role IN ('player', 'moderator', 'admin')),\n    language TEXT DEFAULT 'en' CHECK (language IN ('en', 'pl')),\n    timezone TEXT DEFAULT 'UTC',\n    email_notifications BOOLEAN DEFAULT true,\n    push_notifications BOOLEAN DEFAULT true,\n    created_at TIMESTAMPTZ DEFAULT NOW(),\n    updated_at TIMESTAMPTZ DEFAULT NOW(),\n    deleted_at TIMESTAMPTZ\n);\n\n-- ============================================================\n-- PLAYERS (game progress - separate from auth for data isolation)\n-- ============================================================\nCREATE TABLE public.players (\n    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),\n    user_id UUID NOT NULL REFERENCES public.users(id) ON DELETE CASCADE,\n    \n    -- Progression\n    level INT DEFAULT 1 CHECK (level >= 1 AND level <= 999),\n    xp BIGINT DEFAULT 0 CHECK (xp >= 0),\n    prestige_count INT DEFAULT 0,\n    prestige_currency INT DEFAULT 0,\n    \n    -- Currencies\n    gold BIGINT DEFAULT 1000 CHECK (gold >= 0),\n    valor INT DEFAULT 0 CHECK (valor >= 0),\n    gems INT DEFAULT 0 CHECK (gems >= 0),\n    battle_coins INT DEFAULT 0 CHECK (battle_coins >= 0),\n    \n    -- Battle stats\n    highest_wave INT DEFAULT 0,\n    highest_field_id INT DEFAULT 1,\n    total_battles INT DEFAULT 0,\n    total_wins INT DEFAULT 0,\n    \n    -- Social\n    guild_id UUID,\n    pvp_rating INT DEFAULT 1000,\n    pvp_tier TEXT DEFAULT 'bronze',\n    \n    -- Idle\n    last_online_at TIMESTAMPTZ DEFAULT NOW(),\n    offline_earnings_cap_hours INT DEFAULT 12,\n    \n    -- Settings\n    battle_speed INT DEFAULT 1 CHECK (battle_speed IN (1, 2, 3)),\n    auto_battle BOOLEAN DEFAULT false,\n    confirm_spending BOOLEAN DEFAULT true,\n    \n    created_at TIMESTAMPTZ DEFAULT NOW(),\n    updated_at TIMESTAMPTZ DEFAULT NOW(),\n    deleted_at TIMESTAMPTZ,\n    \n    UNIQUE(user_id)\n);\n\n-- ============================================================\n-- GAME CONFIG (static data - seed on setup)\n-- ============================================================\nCREATE TABLE public.game_units (\n    id TEXT PRIMARY KEY,\n    name TEXT NOT NULL,\n    name_pl TEXT,\n    description TEXT,\n    description_pl TEXT,\n    class TEXT NOT NULL CHECK (class IN ('warrior', 'ranger', 'mage', 'tank', 'healer', 'assassin', 'support')),\n    faction TEXT NOT NULL CHECK (faction IN ('human', 'elf', 'orc', 'undead', 'demon', 'celestial')),\n    rarity TEXT NOT NULL CHECK (rarity IN ('common', 'uncommon', 'rare', 'epic', 'legendary', 'mythic')),\n    \n    base_hp INT NOT NULL CHECK (base_hp > 0),\n    base_attack INT NOT NULL CHECK (base_attack > 0),\n    base_defense INT NOT NULL CHECK (base_defense >= 0),\n    base_speed INT DEFAULT 100,\n    base_crit_chance FLOAT DEFAULT 0.05,\n    base_dodge_chance FLOAT DEFAULT 0.03,\n    \n    ability_id TEXT,\n    ability_description TEXT,\n    \n    unlock_requirement JSONB,\n    cost JSONB,\n    \n    sprite_id TEXT,\n    portrait_url TEXT,\n    \n    is_active BOOLEAN DEFAULT true,\n    created_at TIMESTAMPTZ DEFAULT NOW()\n);\n\nCREATE TABLE public.game_items (\n    id TEXT PRIMARY KEY,\n    name TEXT NOT NULL,\n    name_pl TEXT,\n    description TEXT,\n    description_pl TEXT,\n    type TEXT NOT NULL CHECK (type IN ('weapon', 'armor', 'accessory', 'consumable', 'material', 'cosmetic')),\n    rarity TEXT NOT NULL CHECK (rarity IN ('common', 'uncommon', 'rare', 'epic', 'legendary', 'mythic')),\n    \n    stats JSONB NOT NULL DEFAULT '{}',\n    effects JSONB,\n    \n    equip_slot TEXT CHECK (equip_slot IN ('weapon', 'armor', 'accessory')),\n    required_level INT DEFAULT 1,\n    \n    cost JSONB,\n    sell_value INT DEFAULT 0,\n    \n    max_stack INT DEFAULT 1,\n    is_consumable BOOLEAN DEFAULT false,\n    \n    sprite_id TEXT,\n    icon_url TEXT,\n    \n    is_active BOOLEAN DEFAULT true,\n    created_at TIMESTAMPTZ DEFAULT NOW()\n);\n\nCREATE TABLE public.game_battle_fields (\n    id INT PRIMARY KEY,\n    name TEXT NOT NULL,\n    name_pl TEXT,\n    description TEXT,\n    description_pl TEXT,\n    chapter_id INT NOT NULL,\n    \n    difficulty INT DEFAULT 1 CHECK (difficulty >= 1),\n    wave_count INT DEFAULT 5 CHECK (wave_count > 0),\n    boss_wave INT DEFAULT 5,\n    \n    enemy_pool JSONB NOT NULL,\n    terrain_type TEXT DEFAULT 'plains',\n    \n    rewards JSONB,\n    recommended_power INT,\n    \n    unlock_requirement JSONB,\n    \n    background_url TEXT,\n    music_track TEXT,\n    \n    is_active BOOLEAN DEFAULT true,\n    created_at TIMESTAMPTZ DEFAULT NOW()\n);\n\nCREATE TABLE public.game_quests (\n    id INT PRIMARY KEY,\n    title TEXT NOT NULL,\n    title_pl TEXT,\n    description TEXT,\n    description_pl TEXT,\n    \n    quest_type TEXT NOT NULL CHECK (quest_type IN ('story', 'daily', 'weekly', 'side', 'event')),\n    chapter_id INT,\n    quest_group INT DEFAULT 0,\n    \n    objectives JSONB NOT NULL,\n    rewards JSONB NOT NULL,\n    \n    next_quest_ids INT[] DEFAULT '{}',\n    unlock_requirement JSONB,\n    \n    cooldown_hours INT,\n    max_concurrent INT DEFAULT 1,\n    \n    is_active BOOLEAN DEFAULT true,\n    created_at TIMESTAMPTZ DEFAULT NOW()\n);\n\nCREATE TABLE public.game_shops (\n    id INT PRIMARY KEY,\n    name TEXT NOT NULL,\n    name_pl TEXT,\n    shop_type TEXT NOT NULL CHECK (shop_type IN ('general', 'premium', 'pvp', 'event', 'guild')),\n    \n    items JSONB NOT NULL,\n    refresh_interval_hours INT DEFAULT 24,\n    \n    is_active BOOLEAN DEFAULT true,\n    created_at TIMESTAMPTZ DEFAULT NOW()\n);\n\nCREATE TABLE public.game_achievements (\n    id TEXT PRIMARY KEY,\n    name TEXT NOT NULL,\n    name_pl TEXT,\n    description TEXT,\n    description_pl TEXT,\n    \n    category TEXT NOT NULL CHECK (category IN ('combat', 'progression', 'collection', 'social', 'special')),\n    \n    requirement_type TEXT NOT NULL,\n    requirement_value INT NOT NULL,\n    \n    reward_valor INT DEFAULT 0,\n    reward_gold INT DEFAULT 0,\n    reward_item_id TEXT,\n    reward_title TEXT,\n    reward_frame TEXT,\n    \n    is_hidden BOOLEAN DEFAULT false,\n    is_active BOOLEAN DEFAULT true,\n    created_at TIMESTAMPTZ DEFAULT NOW()\n);\n\n-- ============================================================\n-- PLAYER STATE (frequently updated)\n-- ============================================================\nCREATE TABLE public.player_units (\n    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),\n    player_id UUID NOT NULL REFERENCES public.players(id) ON DELETE CASCADE,\n    unit_id TEXT NOT NULL REFERENCES public.game_units(id),\n    \n    level INT DEFAULT 1 CHECK (level >= 1),\n    xp INT DEFAULT 0,\n    ascension_count INT DEFAULT 0,\n    \n    equipped_weapon_id TEXT REFERENCES public.game_items(id),\n    equipped_armor_id TEXT REFERENCES public.game_items(id),\n    equipped_accessory_id TEXT REFERENCES public.game_items(id),\n    \n    formation_row INT CHECK (formation_row BETWEEN 0 AND 2),\n    formation_col INT CHECK (formation_col BETWEEN 0 AND 2),\n    \n    is_favorite BOOLEAN DEFAULT false,\n    \n    created_at TIMESTAMPTZ DEFAULT NOW(),\n    updated_at TIMESTAMPTZ DEFAULT NOW(),\n    \n    UNIQUE(player_id, unit_id)\n);\n\nCREATE TABLE public.player_inventory (\n    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),\n    player_id UUID NOT NULL REFERENCES public.players(id) ON DELETE CASCADE,\n    item_id TEXT NOT NULL REFERENCES public.game_items(id),\n    \n    quantity INT DEFAULT 1 CHECK (quantity > 0),\n    is_equipped BOOLEAN DEFAULT false,\n    \n    created_at TIMESTAMPTZ DEFAULT NOW(),\n    updated_at TIMESTAMPTZ DEFAULT NOW()\n);\n\nCREATE TABLE public.player_quests (\n    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),\n    player_id UUID NOT NULL REFERENCES public.players(id) ON DELETE CASCADE,\n    quest_id INT NOT NULL REFERENCES public.game_quests(id),\n    \n    status TEXT NOT NULL CHECK (status IN ('active', 'completed', 'claimed', 'expired')),\n    progress JSONB DEFAULT '{}',\n    \n    accepted_at TIMESTAMPTZ DEFAULT NOW(),\n    completed_at TIMESTAMPTZ,\n    claimed_at TIMESTAMPTZ,\n    expires_at TIMESTAMPTZ,\n    \n    created_at TIMESTAMPTZ DEFAULT NOW(),\n    updated_at TIMESTAMPTZ DEFAULT NOW(),\n    \n    UNIQUE(player_id, quest_id)\n);\n\nCREATE TABLE public.player_achievements (\n    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),\n    player_id UUID NOT NULL REFERENCES public.players(id) ON DELETE CASCADE,\n    achievement_id TEXT NOT NULL REFERENCES public.game_achievements(id),\n    \n    progress INT DEFAULT 0,\n    is_completed BOOLEAN DEFAULT false,\n    completed_at TIMESTAMPTZ,\n    \n    created_at TIMESTAMPTZ DEFAULT NOW(),\n    updated_at TIMESTAMPTZ DEFAULT NOW(),\n    \n    UNIQUE(player_id, achievement_id)\n);\n\nCREATE TABLE public.player_valor (\n    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),\n    player_id UUID NOT NULL REFERENCES public.players(id) ON DELETE CASCADE,\n    \n    tree_name TEXT NOT NULL CHECK (tree_name IN ('combat_mastery', 'economy_mastery', 'quality_of_life', 'kingdom_mastery')),\n    perk_name TEXT NOT NULL,\n    points_spent INT DEFAULT 0,\n    \n    created_at TIMESTAMPTZ DEFAULT NOW(),\n    updated_at TIMESTAMPTZ DEFAULT NOW(),\n    \n    UNIQUE(player_id, tree_name, perk_name)\n);\n\n-- ============================================================\n-- BATTLE LOGS (high volume - consider partitioning)\n-- ============================================================\nCREATE TABLE public.battle_logs (\n    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),\n    player_id UUID NOT NULL REFERENCES public.players(id) ON DELETE CASCADE,\n    \n    battle_type TEXT NOT NULL CHECK (battle_type IN ('campaign', 'tower', 'world_boss', 'pvp', 'guild_boss')),\n    field_id INT,\n    \n    formation JSONB NOT NULL,\n    enemy_formation JSONB,\n    \n    result TEXT NOT NULL CHECK (result IN ('victory', 'defeat', 'retreat')),\n    waves_cleared INT DEFAULT 0,\n    \n    rewards JSONB,\n    duration_seconds INT,\n    \n    created_at TIMESTAMPTZ DEFAULT NOW()\n);\n\n-- ============================================================\n-- SOCIAL\n-- ============================================================\nCREATE TABLE public.guilds (\n    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),\n    name TEXT NOT NULL,\n    tag TEXT NOT NULL UNIQUE,\n    description TEXT,\n    \n    leader_id UUID NOT NULL REFERENCES public.players(id),\n    \n    level INT DEFAULT 1,\n    xp INT DEFAULT 0,\n    \n    max_members INT DEFAULT 20,\n    \n    created_at TIMESTAMPTZ DEFAULT NOW(),\n    updated_at TIMESTAMPTZ DEFAULT NOW()\n);\n\nCREATE TABLE public.guild_members (\n    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),\n    guild_id UUID NOT NULL REFERENCES public.guilds(id) ON DELETE CASCADE,\n    player_id UUID NOT NULL REFERENCES public.players(id) ON DELETE CASCADE,\n    \n    role TEXT DEFAULT 'member' CHECK (role IN ('leader', 'officer', 'member')),\n    joined_at TIMESTAMPTZ DEFAULT NOW(),\n    \n    UNIQUE(guild_id, player_id)\n);\n\n-- ============================================================\n-- LEADERBOARD\n-- ============================================================\nCREATE TABLE public.leaderboard (\n    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),\n    player_id UUID NOT NULL REFERENCES public.players(id) ON DELETE CASCADE,\n    \n    category TEXT NOT NULL CHECK (category IN ('highest_wave', 'total_power', 'tower_floor', 'pvp_rating', 'world_boss_damage', 'quest_completion', 'achievement_points', 'play_time')),\n    season INT DEFAULT 1,\n    score BIGINT NOT NULL,\n    \n    updated_at TIMESTAMPTZ DEFAULT NOW(),\n    \n    UNIQUE(player_id, category, season)\n);\n\n-- ============================================================\n-- MAIL SYSTEM\n-- ============================================================\nCREATE TABLE public.player_mail (\n    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),\n    player_id UUID NOT NULL REFERENCES public.players(id) ON DELETE CASCADE,\n    \n    sender_type TEXT DEFAULT 'system' CHECK (sender_type IN ('system', 'admin', 'event')),\n    sender_name TEXT DEFAULT 'System',\n    \n    subject TEXT NOT NULL,\n    body TEXT NOT NULL,\n    \n    attachments JSONB,\n    \n    is_read BOOLEAN DEFAULT false,\n    is_claimed BOOLEAN DEFAULT false,\n    \n    expires_at TIMESTAMPTZ,\n    created_at TIMESTAMPTZ DEFAULT NOW()\n);\n\n-- ============================================================\n-- ADMIN / AUDIT\n-- ============================================================\nCREATE TABLE public.admin_actions (\n    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),\n    admin_id UUID NOT NULL REFERENCES public.users(id),\n    \n    action_type TEXT NOT NULL CHECK (action_type IN ('resource_inject', 'ban', 'unban', 'config_change', 'broadcast', 'quest_create', 'event_schedule')),\n    target_player_id UUID REFERENCES public.players(id),\n    \n    details JSONB NOT NULL,\n    \n    created_at TIMESTAMPTZ DEFAULT NOW()\n);\n\nCREATE TABLE public.promo_codes (\n    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),\n    code TEXT NOT NULL UNIQUE,\n    \n    code_type TEXT NOT NULL CHECK (code_type IN ('one_time', 'limited', 'recurring', 'admin')),\n    max_uses INT,\n    used_count INT DEFAULT 0,\n    \n    rewards JSONB NOT NULL,\n    \n    valid_from TIMESTAMPTZ DEFAULT NOW(),\n    valid_until TIMESTAMPTZ,\n    \n    is_active BOOLEAN DEFAULT true,\n    created_by UUID NOT NULL REFERENCES public.users(id),\n    created_at TIMESTAMPTZ DEFAULT NOW()\n);\n\nCREATE TABLE public.player_promo_redeems (\n    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),\n    player_id UUID NOT NULL REFERENCES public.players(id) ON DELETE CASCADE,\n    promo_code_id UUID NOT NULL REFERENCES public.promo_codes(id),\n    \n    redeemed_at TIMESTAMPTZ DEFAULT NOW(),\n    \n    UNIQUE(player_id, promo_code_id)\n);\n\n-- ============================================================\n-- INDEXES\n-- ============================================================\nCREATE INDEX idx_players_user_id ON public.players(user_id);\nCREATE INDEX idx_players_guild_id ON public.players(guild_id);\nCREATE INDEX idx_players_pvp_rating ON public.players(pvp_rating DESC);\n\nCREATE INDEX idx_player_units_player_id ON public.player_units(player_id);\nCREATE INDEX idx_player_inventory_player_id ON public.player_inventory(player_id);\nCREATE INDEX idx_player_quests_player_id ON public.player_quests(player_id);\nCREATE INDEX idx_player_achievements_player_id ON public.player_achievements(player_id);\n\nCREATE INDEX idx_battle_logs_player_id ON public.battle_logs(player_id);\nCREATE INDEX idx_battle_logs_created_at ON public.battle_logs(created_at DESC);\n\nCREATE INDEX idx_leaderboard_category_season_score ON public.leaderboard(category, season, score DESC);\nCREATE INDEX idx_player_mail_player_id ON public.player_mail(player_id);\n\n-- ============================================================\n-- RLS POLICIES\n-- ============================================================\nALTER TABLE public.users ENABLE ROW LEVEL SECURITY;\nALTER TABLE public.players ENABLE ROW LEVEL SECURITY;\nALTER TABLE public.player_units ENABLE ROW LEVEL SECURITY;\nALTER TABLE public.player_inventory ENABLE ROW LEVEL SECURITY;\nALTER TABLE public.player_quests ENABLE ROW LEVEL SECURITY;\nALTER TABLE public.player_achievements ENABLE ROW LEVEL SECURITY;\nALTER TABLE public.player_valor ENABLE ROW LEVEL SECURITY;\nALTER TABLE public.battle_logs ENABLE ROW LEVEL SECURITY;\nALTER TABLE public.guilds ENABLE ROW LEVEL SECURITY;\nALTER TABLE public.guild_members ENABLE ROW LEVEL SECURITY;\nALTER TABLE public.leaderboard ENABLE ROW LEVEL SECURITY;\nALTER TABLE public.player_mail ENABLE ROW LEVEL SECURITY;\nALTER TABLE public.admin_actions ENABLE ROW LEVEL SECURITY;\nALTER TABLE public.promo_codes ENABLE ROW LEVEL SECURITY;\nALTER TABLE public.player_promo_redeems ENABLE ROW LEVEL SECURITY;\n\n-- Users: players see own, admins see all\nCREATE POLICY \"Users own data\" ON public.users\n    FOR ALL USING (auth.uid() = id OR EXISTS (\n        SELECT 1 FROM public.users WHERE id = auth.uid() AND role IN ('admin', 'moderator')\n    ));\n\n-- Players: own data only (admins via function)\nCREATE POLICY \"Players own data\" ON public.players\n    FOR ALL USING (user_id = auth.uid());\n\n-- Player state tables: own data only\nCREATE POLICY \"Player units own\" ON public.player_units FOR ALL USING (\n    player_id IN (SELECT id FROM public.players WHERE user_id = auth.uid())\n);\nCREATE POLICY \"Player inventory own\" ON public.player_inventory FOR ALL USING (\n    player_id IN (SELECT id FROM public.players WHERE user_id = auth.uid())\n);\nCREATE POLICY \"Player quests own\" ON public.player_quests FOR ALL USING (\n    player_id IN (SELECT id FROM public.players WHERE user_id = auth.uid())\n);\nCREATE POLICY \"Player achievements own\" ON public.player_achievements FOR ALL USING (\n    player_id IN (SELECT id FROM public.players WHERE user_id = auth.uid())\n);\nCREATE POLICY \"Player valor own\" ON public.player_valor FOR ALL USING (\n    player_id IN (SELECT id FROM public.players WHERE user_id = auth.uid())\n);\nCREATE POLICY \"Battle logs own\" ON public.battle_logs FOR ALL USING (\n    player_id IN (SELECT id FROM public.players WHERE user_id = auth.uid())\n);\nCREATE POLICY \"Player mail own\" ON public.player_mail FOR ALL USING (\n    player_id IN (SELECT id FROM public.players WHERE user_id = auth.uid())\n);\n\n-- Game config: read-only for all\nCREATE POLICY \"Game config public read\" ON public.game_units FOR SELECT USING (true);\nCREATE POLICY \"Game config public read\" ON public.game_items FOR SELECT USING (true);\nCREATE POLICY \"Game config public read\" ON public.game_battle_fields FOR SELECT USING (true);\nCREATE POLICY \"Game config public read\" ON public.game_quests FOR SELECT USING (true);\nCREATE POLICY \"Game config public read\" ON public.game_shops FOR SELECT USING (true);\nCREATE POLICY \"Game config public read\" ON public.game_achievements FOR SELECT USING (true);\n\n-- Guilds: members can read, leader/officer can update\nCREATE POLICY \"Guilds members read\" ON public.guilds FOR SELECT USING (true);\nCREATE POLICY \"Guilds leader update\" ON public.guilds FOR UPDATE USING (\n    leader_id IN (SELECT id FROM public.players WHERE user_id = auth.uid())\n);\n\nCREATE POLICY \"Guild members read\" ON public.guild_members FOR SELECT USING (true);\n\n-- Leaderboard: public read\nCREATE POLICY \"Leaderboard public read\" ON public.leaderboard FOR SELECT USING (true);\n\n-- Admin actions: admin only\nCREATE POLICY \"Admin actions admin only\" ON public.admin_actions\n    FOR ALL USING (EXISTS (\n        SELECT 1 FROM public.users WHERE id = auth.uid() AND role = 'admin'\n    ));\n\n-- Promo codes: public read active, admin all\nCREATE POLICY \"Promo codes public read\" ON public.promo_codes FOR SELECT USING (is_active = true);\nCREATE POLICY \"Promo codes admin\" ON public.promo_codes\n    FOR ALL USING (EXISTS (\n        SELECT 1 FROM public.users WHERE id = auth.uid() AND role = 'admin'\n    ));\n\nCREATE POLICY \"Player promo own\" ON public.player_promo_redeems FOR ALL USING (\n    player_id IN (SELECT id FROM public.players WHERE user_id = auth.uid())\n);\n\n-- ============================================================\n-- TRIGGERS\n-- ============================================================\nCREATE OR REPLACE FUNCTION public.update_updated_at_column()\nRETURNS TRIGGER AS $$\nBEGIN\n    NEW.updated_at = NOW();\n    RETURN NEW;\nEND;\n$$ language 'plpgsql';\n\nCREATE TRIGGER update_users_updated_at BEFORE UPDATE ON public.users\n    FOR EACH ROW EXECUTE FUNCTION public.update_updated_at_column();\nCREATE TRIGGER update_players_updated_at BEFORE UPDATE ON public.players\n    FOR EACH ROW EXECUTE FUNCTION public.update_updated_at_column();\nCREATE TRIGGER update_player_units_updated_at BEFORE UPDATE ON public.player_units\n    FOR EACH ROW EXECUTE FUNCTION public.update_updated_at_column();\nCREATE TRIGGER update_player_inventory_updated_at BEFORE UPDATE ON public.player_inventory\n    FOR EACH ROW EXECUTE FUNCTION public.update_updated_at_column();\nCREATE TRIGGER update_player_quests_updated_at BEFORE UPDATE ON public.player_quests\n    FOR EACH ROW EXECUTE FUNCTION public.update_updated_at_column();\nCREATE TRIGGER update_player_achievements_updated_at BEFORE UPDATE ON public.player_achievements\n    FOR EACH ROW EXECUTE FUNCTION public.update_updated_at_column();\nCREATE TRIGGER update_player_valor_updated_at BEFORE UPDATE ON public.player_valor\n    FOR EACH ROW EXECUTE FUNCTION public.update_updated_at_column();\nCREATE TRIGGER update_guilds_updated_at BEFORE UPDATE ON public.guilds\n    FOR EACH ROW EXECUTE FUNCTION public.update_updated_at_column();\n\n-- ============================================================\n-- FUNCTIONS\n-- ============================================================\nCREATE OR REPLACE FUNCTION public.calculate_unit_power(\n    p_unit_id TEXT,\n    p_level INT,\n    p_equipment JSONB DEFAULT '{}'\n)\nRETURNS INT AS $$\nDECLARE\n    v_base_hp INT;\n    v_base_attack INT;\n    v_base_defense INT;\n    v_base_speed INT;\n    v_power INT;\nBEGIN\n    SELECT base_hp, base_attack, base_defense, base_speed\n    INTO v_base_hp, v_base_attack, v_base_defense, v_base_speed\n    FROM public.game_units WHERE id = p_unit_id;\n    \n    v_power := ((v_base_hp * 0.5) + (v_base_attack * 2) + (v_base_defense * 1.5) + (v_base_speed * 0.01))::INT;\n    v_power := v_power * (1 + p_level * 0.1)::INT;\n    \n    -- Add equipment bonuses\n    IF p_equipment->>'weapon_attack' IS NOT NULL THEN\n        v_power := v_power + (p_equipment->>'weapon_attack')::INT * 2;\n    END IF;\n    IF p_equipment->>'armor_defense' IS NOT NULL THEN\n        v_power := v_power + (p_equipment->>'armor_defense')::INT * 1.5;\n    END IF;\n    \n    RETURN v_power;\nEND;\n$$ LANGUAGE plpgsql SECURITY DEFINER;\n\nCREATE OR REPLACE FUNCTION public.claim_offline_earnings(p_player_id UUID)\nRETURNS JSONB AS $$\nDECLARE\n    v_last_online TIMESTAMPTZ;\n    v_hours_offline FLOAT;\n    v_cap_hours INT;\n    v_gold_earned BIGINT;\n    v_highest_wave INT;\n    v_result JSONB;\nBEGIN\n    SELECT last_online_at, offline_earnings_cap_hours, highest_wave\n    INTO v_last_online, v_cap_hours, v_highest_wave\n    FROM public.players WHERE id = p_player_id;\n    \n    v_hours_offline := EXTRACT(EPOCH FROM (NOW() - v_last_online)) / 3600;\n    v_hours_offline := LEAST(v_hours_offline, v_cap_hours);\n    \n    v_gold_earned := (v_highest_wave * 10 * v_hours_offline)::BIGINT;\n    \n    UPDATE public.players \n    SET gold = gold + v_gold_earned, last_online_at = NOW()\n    WHERE id = p_player_id;\n    \n    v_result := jsonb_build_object(\n        'hours_offline', v_hours_offline,\n        'gold_earned', v_gold_earned,\n        'capped', v_hours_offline >= v_cap_hours\n    );\n    \n    RETURN v_result;\nEND;\n$$ LANGUAGE plpgsql SECURITY DEFINER;\n",
+  "seed_data_note": "After schema creation, run seed.sql to populate game_units, game_items, game_battle_fields, game_quests, game_shops, game_achievements with initial data.",
+  "migration_note": "Use Supabase CLI for migrations: supabase db diff > supabase/migrations/001_initial_schema.sql",
+  "castle_tables": {
+    "castle_state": {
+      "columns": {
+        "id": "uuid PK",
+        "user_id": "uuid FK",
+        "stone": "int DEFAULT 0",
+        "wood": "int DEFAULT 0",
+        "gold": "int DEFAULT 0",
+        "created_at": "timestamp",
+        "updated_at": "timestamp"
+      }
+    },
+    "castle_buildings": {
+      "columns": {
+        "id": "uuid PK",
+        "castle_id": "uuid FK",
+        "building_type": "building_type_enum",
+        "level": "int DEFAULT 1",
+        "status": "text",
+        "upgrade_started_at": "timestamp",
+        "upgrade_finishes_at": "timestamp"
+      }
+    }
+  },
+  "marketplace_tables": {
+    "marketplace_listings": {
+      "columns": {
+        "id": "uuid PK",
+        "seller_id": "uuid FK",
+        "item_id": "uuid FK",
+        "item_type": "text",
+        "price": "int",
+        "quantity": "int",
+        "status": "text",
+        "created_at": "timestamp"
+      }
+    },
+    "marketplace_transactions": {
+      "columns": {
+        "id": "uuid PK",
+        "listing_id": "uuid FK",
+        "buyer_id": "uuid FK",
+        "price": "int",
+        "quantity": "int",
+        "created_at": "timestamp"
+      }
+    }
+  },
+  "event_tables": {
+    "event_log": {
+      "columns": {
+        "id": "uuid PK",
+        "user_id": "uuid FK",
+        "event_type": "text",
+        "choice": "text",
+        "reward_claimed": "bool",
+        "created_at": "timestamp"
+      }
+    }
+  },
+  "new_enums": [
+    "building_type_enum",
+    "listing_status_enum",
+    "event_type_enum"
+  ]
 }

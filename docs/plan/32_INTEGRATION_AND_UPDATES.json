@@ -1,0 +1,127 @@
+{
+  "document_title": "32 - Integration and Updates",
+  "version": "1.0.0",
+  "date": "2026-06-24",
+  "purpose": "Mapa integracji wszystkich systemów, nowe API, strategia wdrażania oraz lista dokumentacji i testów.",
+  "integration_map": {
+    "auth": {
+      "endpoints": [
+        "POST /api/auth/register",
+        "POST /api/auth/login",
+        "POST /api/auth/logout"
+      ],
+      "purpose": "Rejestracja, logowanie i wylogowanie użytkownika (JWT).",
+      "implemented": true
+    },
+    "battles": {
+      "endpoints": [
+        "POST /api/battles/start",
+        "POST /api/battles/simulate",
+        "GET /api/battles/history",
+        "POST /api/battles/retreat"
+      ],
+      "purpose": "Rozpoczynanie, symulowanie, wycofywanie i przeglądanie historii walk.",
+      "implemented": true
+    },
+    "events": {
+      "endpoints": [
+        "GET /api/events/active",
+        "GET /api/events/choose",
+        "POST /api/events/claim"
+      ],
+      "purpose": "Obsługa eventów w grze (in-game events), wybór opcji, odbiór nagród.",
+      "implemented": false
+    },
+    "castle": {
+      "endpoints": [
+        "GET /api/castle/state",
+        "POST /api/castle/upgrade",
+        "GET /api/castle/buildings"
+      ],
+      "purpose": "Stan zamku, rozbudowa i informacje o budynkach.",
+      "implemented": false
+    },
+    "inventory": {
+      "endpoints": [
+        "GET /api/inventory/items",
+        "POST /api/inventory/equip",
+        "POST /api/inventory/sell",
+        "POST /api/inventory/upgrade"
+      ],
+      "purpose": "Wyposażenie zarządzanie ekwipunkiem i przedmiotami.",
+      "implemented": false
+    },
+    "marketplace": {
+      "endpoints": [
+        "GET /api/marketplace/listings",
+        "POST /api/marketplace/buy",
+        "POST /api/marketplace/sell",
+        "POST /api/marketplace/report"
+      ],
+      "purpose": "Handel między graczami, kupno/sprzedaż przedmiotów.",
+      "implemented": false
+    },
+    "notifications": {
+      "endpoints": [
+        "GET /api/notifications",
+        "POST /api/notifications/dismiss"
+      ],
+      "purpose": "Powiadomienia o wydarzeniach (walki, eventy, nagrody).",
+      "implemented": false
+    },
+    "admin": {
+      "endpoints": [
+        "GET /api/admin/players",
+        "GET /api/admin/logs",
+        "POST /api/admin/ban",
+        "GET /api/admin/metrics"
+      ],
+      "purpose": "Panel administracyjny, zarządzanie graczami i logami.",
+      "implemented": false
+    }
+  },
+  "integration_requirements": {
+    "deployment": "Netlify z tagami wersji (git tag v1.2.3). CI/CD pipeline (GitHub Actions) z testami i lintem.",
+    "timeline": {
+      "phase_1": "Podstawowe API i frontend (auth, walka)",
+      "phase_2": "Rozbudowa UI, ekwipunek, sklep, pierwsze eventy",
+      "phase_3": "System zamku, poziomy trudności, zaawansowana walka, NG+"
+    },
+    "risk_management": {
+      "rollback_plan": "Rollback do poprzedniej działającej wersji Netlify (deploy z tagiem)",
+      "data_safety": "Wszystkie zmiany bazy danych są objęte migracjami z możliwością downgrade'u."
+    }
+  },
+  "documentation_updates": {
+    "readme": "Duża aktualizacja README.md z opisami nowych systemów.",
+    "api_docs": "Swagger/OpenAPI dokumentacja (endpointy).",
+    "changelog": "Prowadzenie pliku CHANGELOG.md z datami i opisami zmian.",
+    "wiki": "Stworzenie/wiki sekcji dla graczy."
+  },
+  "testing_strategy": {
+    "unit_tests": "Jest + React Testing Library dla komponentów i funkcji.",
+    "api_tests": "Supertest do testowania endpointów.",
+    "e2e_tests": "Cypress lub Playwright dla krytycznych ścieżek (logowanie, walka, zakupy).",
+    "coverage_target": "85%"
+  },
+  "nextjs_integration": {
+    "app_router": {
+      "pages": [
+        "/auth/login",
+        "/auth/register",
+        "/battle",
+        "/castle",
+        "/inventory",
+        "/marketplace",
+        "/events",
+        "/profile",
+        "/leaderboard",
+        "/admin"
+      ],
+      "layout": "MainLayout z nawigacją i NotificationProvider"
+    },
+    "server_actions": "Formularze (logowanie, rejestracja, zgłaszanie błędów)",
+    "api_routes": "Standardowe API Route Handlers (foldery api/*/route.ts)",
+    "middleware": "AuthMiddleware sprawdzający token JWT w każdym prywatnym żądaniu."
+  }
+}

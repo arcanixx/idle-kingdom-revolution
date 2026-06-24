@@ -1,66 +1,144 @@
 "use client";
 import Link from "next/link";
+import { useUser } from "@/hooks/use-user";
+import { createClient } from "@/lib/supabase/client";
+import { useState, useEffect } from "react";
+import { calculateLevel } from "@/lib/game/leveling";
+
+interface PlayerData {
+  id: string; gold: number; gems: number; valor: number;
+  battle_coins: number; level: number; xp: number;
+  last_online_at: string;
+}
+
+interface OfflineEarnings {
+  hours_offline: number; gold_earned: number; capped: boolean;
+}
 
 export default function DashboardPage() {
+  const { user, loading } = useUser();
+  const [player, setPlayer] = useState<PlayerData | null>(null);
+  const [offlineEarnings, setOfflineEarnings] = useState<OfflineEarnings | null>(null);
+  const [claiming, setClaiming] = useState(false);
+
+  const supabase = createClient();
+
+  useEffect(() => {
+    if (!loading && user) {
+      fetch("/api/player/profile")
+        .then(r => r.json())
+        .then(d => setPlayer(d));
+
+      fetch("/api/player/offline-earnings")
+        .then(r => r.json())
+        .then(d => setOfflineEarnings(d.earned))
+        .catch(() => {}); // silent fail if no earnings
+    }
+  }, [loading, user]);
+
+  async function claimEarnings() {
+    setClaiming(true);
+    try {
+      const r = await fetch("/api/player/offline-earnings");
+      const d = await r.json();
+      if (r.ok) {
+        setOfflineEarnings(null);
+        setPlayer(d.player);
+      }
+    } catch (e) {}
+    setClaiming(false);
+  }
+
+  async function handleLogout() {
+    await supabase.auth.signOut();
+    window.location.href = "/";
+  }
+
+  const levelInfo = player ? calculateLevel(player.xp) : null;
+
   return (
     <div className="space-y-6 px-4 py-8 max-w-3xl mx-auto">
-      <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
-      <p className="text-muted-foreground">Welcome, Chromisum - Your Kingdom Awaits</p>
-      
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="rounded-xl border p-4 bg-card">
-          <p className="text-2sm text-muted-foreground">Gold</p>
-          <p className="text-4xl font-bold mb-0">1,250</p>
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
+          <p className="text-muted-foreground">Welcome, {loading ? "..." : user?.user_metadata?.display_name || user?.email || "Adventurer"} — Your Kingdom Awaits</p>
         </div>
-        <div className="rounded-xl border p-4 bg-card">
-          <p className="text-2sm text-muted-foreground">Elixir</p>
-          <p className="text-4xl font-bold mb-0">5;500</p>
-        </div>
-        <div className="rounded-xl border p-4 bg-card">
-          <p className="text-2sm text-muted-foreground">Knowledge</p>
-          <p className="text-4xl font-bold mb-0">3</p>
-        </div>
-        <div className="rounded-xl border p-4 bg-card">
-          <p className="text-2sm text-muted-foreground">Daily Market</p>
-          <p className="text-4xl font-bold mb-0">3</p>
-        </div>
+        <button onClick={handleLogout} className="text-sm text-muted-foreground hover:text-foreground underline">Sign out</button>
       </div>
 
+      {offlineEarnings && (
+        <div className="rounded-lg border bg-yellow-50/50 p-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="font-semibold text-yellow-800">Offline Earnings</p>
+              <p className="text-sm text-muted-foreground">
+                Gained {offlineEarnings.gold_earned} gold over {Math.round(offlineEarnings.hours_offline)} hours
+              </p>
+            </div>
+            <button onClick={claimEarnings} disabled={claiming} className="px-4 py-2 bg-yellow-500 text-yellow-900 rounded-lg font-medium hover:opacity-90 disabled:opacity-50">
+              {claiming ? "Claiming..." : "Claim"}
+            </button>
+          </div>
+        </div>
+      )}
+
+      {player && (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="rounded-xl border p-4">
+            <p className="text-2sm text-muted-foreground">Level</p>
+            <p className="text-2xl font-bold">{player.level}</p>
+            <div className="w-full bg-muted rounded-full h-1.5 mt-2">
+              <div className="bg-blue-500 h-1.5 rounded-full" style={{width: (levelInfo?.progress || 0) * 100 + "%"}} />
+            </div>
+            <p className="text-xs text-muted-foreground mt-1">{levelInfo?.currentXp || player.xp} / {levelInfo?.nextLevelXp|| 1} XP</p>
+          </div>
+          <div className="rounded-xl border p-4">
+            <p className="text-2sm text-muted-foreground">Gold</p>
+            <p className="text-2xl font-bold text-yellow-600">{player.gold.toLocaleString()}</p>
+          </div>
+          <div className="rounded-xl border p-4">
+            <p className="text-2sm text-muted-foreground">Gems</p>
+            <p className="text-2xl font-bold text-purple-600">{player.gems}</p>
+          </div>
+          <div className="rounded-xl border p-4">
+            <p className="text-2sm text-muted-foreground">Valor</p>
+            <p className="text-2xl font-bold text-red-600">{player.valor}</p>
+          </div>
+          <div className="rounded-xl border p-4">
+            <p className="text-2sm text-muted-foreground">Battle Coins</p>
+            <p className="text-2xl font-bold text-cyan-600">{player.battle_coins}</p>
+          </div>
+        </div>
+      )}
+
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        <Link href="/game/battle" className="rounded-xl border p-6 hover:border-primary transition-colors text-decoration-none text-foreground">
-          <div className="text-center">
-            <p className="text-4xl"></p>
-            <h2 className="text-xl font-semibold rating-distained">Battle</h2>
-            <p className="text-sm text-muted-foreground">Form your army and comquer fields</p>
-          </div>
+        <Link href="/game/battle" className="rounded-xl border p-4 bg-card hover:bg-accent transition-colors block">
+          <p className="font-semibold">Battle</p>
+          <p className="text-2sm text-muted-foreground">Conquer your foes</p>
         </Link>
-        <Link href="/game/army" className="rounded-xl border p-6 hover:border-primary transition-colors text-decoration-none text-foreground">
-          <div className="text-center">
-            <p className="text-4xl"></p>
-            <h2 className="text-xl font-semibold rating-distained">Army</h2>
-            <p className="text-sm text-muted-foreground">View and manage your units</p>
-          </div>
+        <Link href="/game/army" className="rounded-xl border p-4 bg-card hover:bg-accent transition-colors block">
+          <p className="font-semibold">Army</p>
+          <p className="text-2sm text-muted-foreground">Build your forces</p>
         </Link>
-        <Link href="/game/mining" className="rounded-xl border p-6 hover:border-primary transition-colors text-decoration-none text-foreground">
-          <div className="text-center">
-            <p className="text-4xl"></p>
-            <h2 className="text-xl font-semibold rating-distained">Deep Mine</h2>
-            <p className="text-sm text-muted-foreground">Mine for resources</p>
-          </div>
+        <Link href="/game/mining" className="rounded-xl border p-4 bg-card hover:bg-accent transition-colors block">
+          <p className="font-semibold">Mining</p>
+          <p className="text-2sm text-muted-foreground">Gather resources</p>
         </Link>
-        <Link href="/game/td" className="rounded-xl border p-6 hover:border-primary transition-colors text-decoration-none text-foreground">
-          <div className="text-center">
-            <p className="text-4xl"></p>
-            <h2 className="text-xl font-semibold rating-distained">Fortress Siege</h2>
-            <p className="text-sm text-muted-foreground">Tower defense strategy</p>
-          </div>
+        <Link href="/game/td" className="rounded-xl border p-4 bg-card hover:bg-accent transition-colors block">
+          <p className="font-semibold">Tower Defense</p>
+          <p className="text-2sm text-muted-foreground">Defend your kingdom</p>
         </Link>
-        <Link href="/game/castle" className="rounded-xl border p-6 hover:border-primary transition-colors text-decoration-none text-foreground">
-          <div className="text-center">
-            <p className="text-4xl"></p>
-            <h2 className="text-xl font-semibold rating-distained">Castle Defender</h2>
-            <p className="text-sm text-muted-foreground">Defend the castle</p>
-          </div>
+        <Link href="/game/quests" className="rounded-xl border p-4 bg-card hover:bg-accent transition-colors block">
+          <p className="font-semibold">Quests</p>
+          <p className="text-2sm text-muted-foreground">Complete tasks</p>
+        </Link>
+        <Link href="/game/valor" className="rounded-xl border p-4 bg-card hover:bg-accent transition-colors block">
+          <p className="font-semibold">Valor</p>
+          <p className="text-2sm text-muted-foreground">Unlock skills</p>
+        </Link>
+        <Link href="/game/castle" className="rounded-xl border p-4 bg-card hover:bg-accent transition-colors block">
+          <p className="font-semibold">Castle</p>
+          <p className="text-2sm text-muted-foreground">Fortify your keep</p>
         </Link>
       </div>
     </div>

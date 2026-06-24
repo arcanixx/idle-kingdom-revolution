@@ -328,5 +328,47 @@
       "priority": "P2 - Phase 3",
       "passes": 3
     }
+  },
+  "game_systems": {
+    "castle": {
+      "description": "System rozwoju zamku z budynkami i pasywnymi bonusami.",
+      "features": [
+        "Budowa i ulepszanie 6 typów budynków",
+        "Zbieranie surowców (kamieñ, drewno, z³oto)",
+        "Pasywne bonusy dla jednostek"
+      ]
+    },
+    "advanced_combat": {
+      "description": "Zaawansowany system walki z formacjami i treningiem.",
+      "features": [
+        "Siatka 3x3 (upgrade do 4x4)",
+        "Tryb treningu bez wp³ywu na zasoby",
+        "Wypo¿yczalnia jednostek"
+      ]
+    },
+    "events": {
+      "description": "Losowe eventy fabularne z wyborem.",
+      "features": [
+        "Eventy czasowe (co 30 min)",
+        "Wybór z konsekwencjami",
+        "Ró¿ne scenariusze (kupiec, uchodŸcy, smok, plaga)"
+      ]
+    },
+    "equipment": {
+      "description": "Rozbudowany system ekwipunku i kosmetyków.",
+      "features": [
+        "Runy (slot od poziomu 30)",
+        "Skiny (avary, ramki, skrzyd³a, zwierzaki)",
+        "System ulepszeñ"
+      ]
+    },
+    "marketplace": {
+      "description": "Handel miêdzy graczami.",
+      "features": [
+        "Wystawianie przedmiotów na sprzeda¿",
+        "System raportowania",
+        "Kupno/sprzeda¿ za z³oto"
+      ]
+    }
   }
 }

@@ -262,5 +262,69 @@
     ],
     "rewards": "Configurable: currency, items, units, boosters",
     "tracking": "Usage count, redemption rate, revenue impact (if applicable)"
+  },
+  "castle_mechanics": {
+    "description": "System rozwoju zamku z budynkami daj¹cymi pasywne bonusy.",
+    "buildings": [
+      {
+        "id": "barracks",
+        "name": "Koszary",
+        "effect": "Skraca czas szkolenia jednostek"
+      },
+      {
+        "id": "forge",
+        "name": "KuŸnia",
+        "effect": "Obni¿a koszt ulepszeñ"
+      },
+      {
+        "id": "treasury",
+        "name": "Skarbiec",
+        "effect": "Zwiêksza dzienny limit z³ota"
+      },
+      {
+        "id": "walls",
+        "name": "Mury",
+        "effect": "Zwiêksza obronê jednostek"
+      },
+      {
+        "id": "magic_tower",
+        "name": "Wie¿a Magów",
+        "effect": "Przyspiesza badania"
+      },
+      {
+        "id": "marketplace",
+        "name": "Targowisko",
+        "effect": "Wymiana walut"
+      }
+    ]
+  },
+  "formation_mechanics": {
+    "grid": "3x3 (upgrade do 4x4)",
+    "bonus": "Jednostki obok siebie maj¹ +5% do synergii.",
+    "unlock": "Koszary level 5"
+  },
+  "event_mechanics": {
+    "trigger": "Co 30 min lub po walce",
+    "implementation": "Modal z opisem i opcjami",
+    "examples": [
+      "Kupiec z Dalekich Krain",
+      "UchodŸcy z Pó³nocy",
+      "Smoczy Cieñ",
+      "Plaga"
+    ]
+  },
+  "rental_mechanics": {
+    "durations": [
+      1,
+      3,
+      5
+    ],
+    "cost_per_walk": "50/40 gemów (1/3/5 walk)",
+    "unlock": "Poziom 20 konta"
+  },
+  "ng_plus_mechanics": {
+    "unlock": "Konto 60 + Hard completed",
+    "scaling": "x2 HP, x2 DMG",
+    "rewards": "Ekskluzywne skiny, tytu³y, runy"
   }
 }

@@ -1,0 +1,1 @@
+"import { NextRequest } from \"next/server\"; import { createApiClient, jsonResponse, errorResponse } from \"@/lib/supabase/api-helper\"; export async function GET(request: NextRequest) { const supabase = await createApiClient(); return jsonResponse({ mail: [] }); }"  

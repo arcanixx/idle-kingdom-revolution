@@ -49,6 +49,29 @@ CREATE TABLE IF NOT EXISTS public.game_achievements (
     created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
+
+
+CREATE TABLE IF NOT EXISTS public.players (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    user_id UUID NOT NULL REFERENCES public.users(id) ON DELETE CASCADE UNIQUE,
+    display_name TEXT,
+    level INT DEFAULT 1 CHECK (level >= 1 AND level <= 999),
+    xp BIGINT DEFAULT 0 CHECK (xp >= 0),
+    gold BIGINT DEFAULT 1000 CHECK (gold >= 0),
+    valor INT DEFAULT 0 CHECK (valor >= 0),
+    gems INT DEFAULT 0 CHECK (gems >= 0),
+    battle_coins INT DEFAULT 0 CHECK (battle_coins >= 0),
+    highest_wave INT DEFAULT 0,
+    highest_field_id INT DEFAULT 1,
+    total_battles INT DEFAULT 0,
+    total_wins INT DEFAULT 0,
+    pvp_rating INT DEFAULT 1000,
+    guild_id UUID,
+    last_online_at TIMESTAMPTZ DEFAULT NOW(),
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
 -- PLAYER STATE TABLES
 CREATE TABLE IF NOT EXISTS public.player_units (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),

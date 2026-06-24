@@ -1,0 +1,48 @@
+{
+  "document_title": "30 - Development Standards & Error Handling",
+  "version": "1.0.0",
+  "date": "2026-06-24",
+  "purpose": "Definiuje standardy kodowania, strukturę plików, system logowania błędów oraz wymagania dotyczące komentarzy i nagłówków.",
+  "coding_standards": {
+    "file_structure": {
+      "header_template": "PLIK: ścieżka/do/pliku.ts\n@purpose: Krótki, jednowierszowy opis celu pliku.\n@version: 1.0.0\n@path: {string} Relatywna ścieżka od głównego katalogu projektu.\n@depends_on: [biblioteka/narzędzie, inny/plik/funkcjonalny]\n@exports: [NazwaEksportowanejFunkcji1, NazwaEksportowanegoKomponentu2]\n@author: Twoje Imię / Zespół\n@created: 2026-06-24"
+    },
+    "comments": {
+      "functions": "Każda publiczna funkcja/metoda musi mieć komentarz JSDoc.",
+      "inline": "Używaj do wyjaśnienia DLACZEGO, a nie CO robi kod.",
+      "todo_format": "// TODO(@author): opis - ticket #123",
+      "fixme_format": "// FIXME(@author): opis - ticket #123"
+    }
+  },
+  "error_handling": {
+    "central_logger": {
+      "path": "src/lib/logger.ts",
+      "levels": [
+        "INFO",
+        "WARN",
+        "ERROR",
+        "DEBUG"
+      ],
+      "log_entry": {
+        "timestamp": "ISO string",
+        "level": "LogLevel",
+        "message": "string",
+        "file": "string (ścieżka pliku)",
+        "functionName": "string (opcjonalnie)",
+        "stack": "string (tylko dla ERROR)",
+        "metadata": "Record<string, any> (opcjonalnie)"
+      },
+      "logger_implementation": "class Logger z metodami error, warn, info, debug. Wysyłka na endpoint /api/logs lub do Sentry."
+    },
+    "bug_reporting": {
+      "frontend": "Formularz zgłaszania błędów z opisem i opcjonalnym zrzutem ekranu.",
+      "endpoint": "POST /api/support/report-bug",
+      "database_table": "bug_reports"
+    },
+    "try_catch_required": true
+  },
+  "code_example": {
+    "component": "src/components/battle/BattleArena.tsx",
+    "usage": "import { logger } from '@/lib/logger'; try { ... } catch (error) { logger.error('message', __filename, 'functionName', error, { metadata }); }"
+  }
+}

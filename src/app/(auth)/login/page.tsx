@@ -26,6 +26,20 @@ export default function LoginPage() {
     setLoading(false);
   }
 
+  async function handleForgotPassword() {
+    const r = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: window.location.origin + "/auth/callback?type=recovery",
+    });
+    if (r.error) setError(r.error.message); else setError("Check your email for the reset link.");
+  }
+
+  async function handleGuestLogin() {
+    setLoading(true);
+    const r = await supabase.auth.signInAnonymously();
+    if (r.error) setError(r.error.message); else window.location.href = "/dashboard";
+    setLoading(false);
+  }
+
   return (
     <div className="flex min-h-screen items-center justify-center p-4">
       <div className="w-full max-w-sm space-y-6">
@@ -38,7 +52,21 @@ export default function LoginPage() {
           <button type="submit" disabled={loading} className="w-full rounded-md bg-primary text-primary-foreground p-2 font-medium">
             {loading ? "Signing in..." : "Sign in"}
           </button>
+          <div className="flex items-center justify-between text-sm">
+            <button type="button" onClick={handleForgotPassword} className="text-muted-foreground hover:text-foreground underline">Forgot password?</button>
+          </div>
         </form>
+        <div className="relative">
+          <div className="absolute inset-0 flex items-center">
+            <span className="w-full border-t" />
+          </div>
+          <div className="relative flex justify-center text-xs uppercase">
+            <span className="bg-background px-2 text-muted-foreground">or</span>
+          </div>
+        </div>
+        <button onClick={handleGuestLogin} disabled={loading} className="w-full rounded-md border border-border p-2 text-sm font-medium hover:bg-accent transition-colors">
+          Continue as Guest
+        </button>
         <p className="text-center text-sm text-muted-foreground">
           Dont have an account? <Link href="/register" className="underline">Sign up</Link>
         </p>

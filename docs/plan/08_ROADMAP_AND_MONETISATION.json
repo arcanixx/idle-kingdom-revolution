@@ -124,5 +124,42 @@
       "arpu": "TBD - cosmetics only, expected lower ARPU but higher player satisfaction",
       "conversion_rate": ">2%"
     }
+  },
+  "new_milestones": {
+    "phase_2_5_castle": {
+      "description": "Podstawowy system zamku (3 budynki, zbieranie surowców).",
+      "timeline": "Tydzieñ 4-5",
+      "effort": "5 dni"
+    },
+    "phase_3_events": {
+      "description": "System eventów fabularnych (4 scenariusze).",
+      "timeline": "Tydzieñ 6",
+      "effort": "3 dni"
+    },
+    "phase_3_equipment": {
+      "description": "System run i skinów.",
+      "timeline": "Tydzieñ 6-7",
+      "effort": "4 dni"
+    },
+    "phase_3_marketplace": {
+      "description": "Handel miêdzy graczami.",
+      "timeline": "Tydzieñ 7",
+      "effort": "3 dni"
+    },
+    "phase_4_advanced_combat": {
+      "description": "Formacje 3x3, tryb treningu, NG+.",
+      "timeline": "Tydzieñ 8",
+      "effort": "5 dni"
+    },
+    "phase_4_full_castle": {
+      "description": "Pe³ny system zamku (6 budynków, level 20).",
+      "timeline": "Tydzieñ 8-9",
+      "effort": "4 dni"
+    }
+  },
+  "monetisation_additions": {
+    "rental_units": "Wypo¿yczenie potê¿nych jednostek za gemy.",
+    "skins_shop": "Sklep z skinami (avary, ramki, skrzyd³a, zwierzaki).",
+    "speedups": "Kamienie przyspieszenia budowy zamku."
   }
 }

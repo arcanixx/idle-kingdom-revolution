@@ -1,58 +1,135 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useUser } from "@/hooks/use-user";
 
-const SAMPLE_UNITS = [
-  { id: "warrior_01", name: "Footman", class: "Warrior", level: 5, power: 320, faction: "Human" },
-  { id: "archer_03", name: "Longbowman", class: "Ranger", level: 3, power: 280, faction: "Human" },
-  { id: "mage_02", name: "Apprentice", class: "Mage", level: 2, power: 240, faction: "Elf" },
-  { id: "tank_01", name: "Knight", class: "Tank", level: 1, power: 200, faction: "Human" },
-  { id: "healer_01", name: "Priest", class: "Healer", level: 1, power: 150, faction: "Human" },
-];
+interface ArmyUnit {
+  id: string; unit_id: string; name: string; class: string;
+  faction: string; rarity: string; level: number;
+  hp: number; attack: number; defense: number; speed: number;
+  power_rating: number;
+  formation_row?: number | null; formation_col?: number | null;
+}
 
+type FormationCell = { unit_id: string; row: number; col: number } | null;
+type FormationState = { front: FormationCell[]; back: FormationCell[] };
+const ROWS = ["front","back"] as const;
+const ROW_LABELS: Record<string, string> = { front: "Front Line", back: "Back Line" };
+
+const CLASS_COLORS: Record<string, string> = {
+  warrior: "border-red-400 bg-red-50",
+  ranger: "border-green-400 bg-green-50",
+  mage: "border-blue-400 bg-blue-50",
+  tank: "border-yellow-400 bg-yellow-50",
+  healer: "border-purple-400 bg-purple-50",
+  assassin: "border-orange-400 bg-orange-50",
+  support: "border-teal-400 bg-teal-50",
+};
 export default function ArmyPage() {
-  const [selected, setSelected] = useState<string | null>(null);
+  const { user } = useUser();
+  const [units, setUnits] = useState<ArmyUnit[]>([]);
+  const [formation, setFormation] = useState<FormationState>({ front: [null, null, null], back: [null, null, null] });
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+
+  useEffect(() => { fetchData(); }, []);
+
+  async function fetchData() {
+    try {
+      const [uRes, fRes] = await Promise.all([fetch("/api/player/units"), fetch("/api/player/formation")]);
+      const uData = await uRes.json();
+      const fData = await fRes.json();
+      if (Array.isArray(uData)) setUnits(uData);
+      if (fData?.front) setFormation(fData);
+    } catch (e) { console.error(e); }
+    setLoading(false);
+  }
+
+  async function saveFormation() {
+    setSaving(true);
+    const f: { unit_id: string; row: number; col: number }[] = [];
+    for (const rowKey of ROWS) {
+      for (let col = 0; col < 3; col++) {
+        const cell = formation[rowKey][col];
+        if (cell) f.push({ unit_id: cell.unit_id, row: rowKey === "front" ? 0 : 1, col });
+      }
+    }
+    await fetch("/api/player/formation", { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ formations: f }) });
+    setSaving(false);
+  }
+
+  function place(uId: string) {
+    for (let c = 0; c < 3; c++) { if (!formation.front[c]) { setFormation(p => ({...p, front: p.front.map((x,i) => i===c ? {unit_id: uId, row:0, col:c} : x) })); return; } }
+    for (let c = 0; c < 3; c++) { if (!formation.back[c]) { setFormation(p => ({...p, back: p.back.map((x,i) => i===c ? {unit_id: uId, row:1, col:c} : x) })); return; } }
+  }
+
+  function remove(row: number, col: number) { setFormation(p => ({...p, ["front"]: p.front.map((x,i) => i===col && row===0 ? null : x), ["back"]: p.back.map((x,i) => i===col && row===1 ? null : x) })); }
+
+  function isDeployed(uid: string) { for (const r of ROWS) for (const c of formation[r]) if (c?.unit_id === uid) return true; return false; }
+
+  const totalPower = units.reduce((s, u) => s + u.power_rating, 0);
+
+  if (loading) return <div className="p-8 text-center text-muted-foreground">Loading army...</div>;
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold">\uD83D\uDEE1 Army</h1>
-      <p className="text-sm text-muted-foreground">Total Power: 1,190</p>
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-2xl font-bold">🛡 Army</h1>
+          <p className="text-sm text-muted-foreground">Power: {totalPower.toLocaleString()} | Units: {units.length}</p>
+        </div>
+        <button onClick={saveFormation} disabled={saving} className="px-4 py-2 bg-primary text-primary-foreground rounded-lg text-sm font-medium hover:opacity-90 disabled:opacity-50">
+          {saving ? "Saving..." : "Save Formation"}
+        </button>
+      </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="rounded-lg border p-4">
-          <h2 className="font-semibold mb-3">Your Units</h2>
-          <div className="space-y-2">
-            {SAMPLE_UNITS.map((u) => (
-              <div
-                key={u.id}
-                onClick={() => setSelected(u.id)}
-                className={`p-3 rounded-lg border cursor-pointer transition-colors ${
-                  selected === u.id
-                    ? "border-primary bg-primary/5"
-                    : "hover:bg-muted"
-                }`}
-              >
-                <div className="flex justify-between items-center">
-                  <div>
-                    <p className="font-medium">{u.name}</p>
-                    <p className="text-xs text-muted-foreground">{u.class} \u00B7 {u.faction} \u00B7 Lv.{u.level}</p>
+          <h2 className="font-semibold mb-3">Formation Grid</h2>
+          {ROWS.map((rowKey) => (
+            <div key={rowKey} className="mb-3">
+              <p className="text-xs text-muted-foreground mb-1">{ROW_LABELS[rowKey]}</p>
+              <div className="grid grid-cols-3 gap-2">
+                {formation[rowKey].map((cell, col) => (
+                  <div key={col} onClick={() => cell ? remove(cell.row, col) : null} className={"aspect-square rounded-lg border-2 flex flex-col items-center justify-center text-center p-1 cursor-pointer transition-colors "+ (cell ? (CLASS_COLORS[units.find(u => u.id === cell.unit_id)?.class || ""] || "border-gray-400 bg-card") : "border-dashed border-muted-foreground/30 hover:border-muted-foreground/60")}>
+                    {cell ? (
+                      <>
+                        <span className="text-xs font-bold leading-tight">{units.find(u => u.id === cell.unit_id)?.name || cell.unit_id}</span>
+                        <span className="text-[10px] text-muted-foreground">Lv.{units.find(u => u.id === cell.unit_id)?.level || 1}</span>
+                      </>
+                    ) : (
+                      <span className="text-xs text-muted-foreground/40">Empty</span>
+                    )}
                   </div>
-                  <p className="text-sm font-mono">{u.power}</p>
-                </div>
+                ))}
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
+          <p className="text-xs text-muted-foreground mt-1">Click slot to remove unit. Click a unit below to place it.</p>
         </div>
 
         <div className="rounded-lg border p-4">
-          <h2 className="font-semibold mb-3">Formation (3x3)</h2>
-          <div className="grid grid-cols-3 gap-2">
-            {Array.from({ length: 9 }).map((_, i) => (
-              <div key={i} className="aspect-square rounded-lg border border-dashed flex items-center justify-center text-xs text-muted-foreground">
-                {i === 4 ? "\uD83D\uDEE1" : ""}
-              </div>
-            ))}
+          <h2 className="font-semibold mb-3">Available Units</h2>
+          <div className="space-y-2 max-h-[500px] overflow-y-auto">
+            {units.length === 0 ? (
+              <p className="text-muted-foreground text-sm">No units yet. Complete battles to recruit them.</p>
+            ) : (
+              units.map((u) => (
+                <div key={u.id} onClick={() => { setSelectedId(u.id); if (!isDeployed(u.id)) place(u.id); }} className={"p-3 rounded-lg border cursor-pointer transition-colors "+ (isDeployed(u.id) ? "opacity-50 border-dashed" : (selectedId === u.id ? "border-primary bg-primary/5" : "hover:bg-muted"))}>
+                  <div className="flex justify-between items-center">
+                    <div>
+                      <p className="font-medium text-sm">{u.name}</p>
+                      <p className="text-xs text-muted-foreground">{u.class} · {u.faction} · Lv.{u.level}</p>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-sm font-mono">{u.power_rating}</p>
+                      {isDeployed(u.id) && <span className="text-[10px] text-green-600">Deployed</span>}
+                    </div>
+                  </div>
+                </div>
+              ))
+            )}
           </div>
-          <p className="text-xs text-muted-foreground mt-2">Drag units onto the grid to form your battle line</p>
         </div>
       </div>
     </div>

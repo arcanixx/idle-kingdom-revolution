@@ -1,0 +1,162 @@
+{
+  "document_title": "31 - Game Systems Expansion",
+  "version": "1.0.0",
+  "date": "2026-06-24",
+  "purpose": "Szczegółowy opis nowych systemów gry: Rozwój Zamku, Eventy Fabularne, Poziomy Trudności, Zaawansowane Systemy, Nowe Jednostki i Szkolenie.",
+  "castle_system": {
+    "description": "Gracz posiada własny zamek, który rozwija w miarę postępów. Budynki dają pasywne bonusy lub odblokowują nowe możliwości.",
+    "location": "Nowa zakładka 'Zamek' w głównym menu.",
+    "resources": [
+      "Kamień",
+      "Drewno",
+      "Złoto"
+    ],
+    "upgrade_requirements": "Złoto, surowce (z mini-gier) i czas (lub 'Kamienie Przyspieszenia').",
+    "buildings": [
+      {
+        "id": "barracks",
+        "name": "Koszary",
+        "effect": "Skraca czas szkolenia jednostek i odblokowuje nowe klasy.",
+        "max_level": 20
+      },
+      {
+        "id": "forge",
+        "name": "Kuźnia",
+        "effect": "Obniża koszt ulepszania ekwipunku i run.",
+        "max_level": 20
+      },
+      {
+        "id": "treasury",
+        "name": "Skarbiec",
+        "effect": "Zwiększa dzienny limit złota z bitew.",
+        "max_level": 20
+      },
+      {
+        "id": "walls",
+        "name": "Mury Obronne",
+        "effect": "Zwiększa obronę wszystkich jednostek o X%.",
+        "max_level": 20
+      },
+      {
+        "id": "magic_tower",
+        "name": "Wieża Magów",
+        "effect": "Przyspiesza badania (system perków).",
+        "max_level": 20
+      },
+      {
+        "id": "marketplace",
+        "name": "Targowisko",
+        "effect": "Pozwala na wymianę walut (np. złoto na gemy) po niekorzystnym kursie.",
+        "max_level": 10
+      }
+    ]
+  },
+  "advanced_combat": {
+    "formation_grid": {
+      "default_size": "3x3",
+      "upgradeable_to": "4x4",
+      "unlock_condition": "Koszary na poziomie 5"
+    },
+    "training_mode": {
+      "description": "Symulacja bitwy z wybranym wrogiem (z dowolnego pola), BEZ wpływu na zasoby ani postęp.",
+      "purpose": "Testowanie formacji i jednostek."
+    }
+  },
+  "unit_system": {
+    "rental_units": {
+      "description": "Wypożyczenie potężnej jednostki za walutę (np. Gemy) na ograniczoną liczbę walk.",
+      "durations": [
+        1,
+        3,
+        5
+      ],
+      "source": "Sklep lub osobna usługa"
+    },
+    "new_unit_tutorial": {
+      "trigger": "Zdobycie nowej, unikalnej jednostki (np. z eventu)",
+      "content": [
+        "Prezentacja wyglądu i animacji.",
+        "Opis umiejętności (jak działa w formacji).",
+        "Przykładowa, symulowana walka pokazująca jej mocne strony."
+      ]
+    }
+  },
+  "player_equipment_and_cosmetics": {
+    "skins_tab": {
+      "avatars": "Portrety do wyboru (zdobywane w eventach, questach lub za walutę premium).",
+      "frames": "Ozdabiają awatar.",
+      "wings": "Dodają efekt wizualny do awatara.",
+      "pets": "Towarzyszą graczowi w lobby (wyłącznie kosmetyczne)."
+    },
+    "runes": {
+      "description": "Potężne przedmioty, które można włożyć do ekwipunku jednostek (osobny slot).",
+      "unlock_condition": "Jednostka na poziomie 30+",
+      "effects": "Duże bonusy (np. +15% obrażeń od ognia).",
+      "sources": [
+        "World Boss",
+        "Tower",
+        "wysokopoziomowe eventy"
+      ]
+    }
+  },
+  "in_game_events": {
+    "description": "Losowe, okazjonalne zdarzenia pojawiające się podczas gry, które przerywają rozgrywkę oferując wybór.",
+    "implementation": "System oparty na setInterval lub eventach czasowych. Okno wyboru pojawia się jako modal.",
+    "examples": [
+      {
+        "name": "Kupiec z Dalekich Krain",
+        "choices": [
+          "Wymień (np. 100 gemów za unikalny przedmiot)",
+          "Oszukaj (ryzyko, ale większy zysk)"
+        ]
+      },
+      {
+        "name": "Uchodźcy z Północy",
+        "choices": [
+          "Przyjmij (zyskujesz jednostki, tracisz jedzenie/złoto)",
+          "Odrzuć (zyskujesz złoto)"
+        ]
+      },
+      {
+        "name": "Smoczy Cień",
+        "choices": [
+          "Zaatakuj (trudna walka, świetny łup)",
+          "Schowaj się (nic nie tracisz)",
+          "Złóż ofiarę (tracisz złoto, smok odlatuje)"
+        ]
+      },
+      {
+        "name": "Plaga",
+        "choices": [
+          "Zamknij bramy (spowolnienie postępu, bezpieczeństwo)",
+          "Pomóż chłopom (ryzyko, ale nagroda)"
+        ]
+      }
+    ]
+  },
+  "difficulty_and_new_game": {
+    "difficulty_levels": [
+      "Easy",
+      "Normal",
+      "Hard",
+      "Hell (odblokowywany po ukończeniu Hard)"
+    ],
+    "new_game_plus": {
+      "description": "Rozpoczęcie kampanii od nowa, ale z przeciwnikami o wiele silniejszymi i z nowymi nagrodami.",
+      "requirements": "Konto 60 poziom",
+      "rewards": "Specjalne skiny, tytuły, unikalne runy."
+    }
+  },
+  "game_balance": {
+    "strategies": [
+      {
+        "name": "Equip Scaling",
+        "description": "Każdy poziom ekwipunku dodaje X% do statystyk jednostki."
+      },
+      {
+        "name": "Live Statistics Calibration",
+        "description": "Wykorzystanie danych z produkcji do kalibracji balansu (np. miesięczny reset statystyk)."
+      }
+    ]
+  }
+}

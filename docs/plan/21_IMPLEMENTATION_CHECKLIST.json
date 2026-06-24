@@ -531,5 +531,46 @@
       }
     ],
     "quality_gate": "Retained player base, positive feedback, revenue growth"
-  }
+  },
+  "castle_system": [
+    "Utwórz tabelê castle_state",
+    "Utwórz tabelê castle_buildings",
+    "API GET /api/castle/state",
+    "API POST /api/castle/upgrade",
+    "Frontend panel zamku",
+    "Frontend karty budynku",
+    "Testy jednostkowe systemu zamku"
+  ],
+  "marketplace": [
+    "Utwórz tabelê marketplace_listings",
+    "Utwórz tabelê marketplace_transactions",
+    "API GET /api/marketplace/listings",
+    "API POST /api/marketplace/buy",
+    "API POST /api/marketplace/sell",
+    "Frontend marketplace",
+    "System raportowania ofert",
+    "Testy marketplace"
+  ],
+  "events": [
+    "Utwórz tabelê event_log",
+    "API GET /api/events/active",
+    "API POST /api/events/choose",
+    "API POST /api/events/claim",
+    "Frontend modal eventu",
+    "4 scenariusze eventów",
+    "Testy eventów"
+  ],
+  "advanced_combat": [
+    "System formacji 3x3",
+    "Tryb treningu",
+    "Wypo¿yczalnia jednostek",
+    "System NG+",
+    "Testy formacji i treningu"
+  ],
+  "equipment_and_cosmetics": [
+    "System run (slot od 30 poziomu)",
+    "Sklep z skinami",
+    "System ulepszeñ ekwipunku",
+    "Testy ekwipunku"
+  ]
 }

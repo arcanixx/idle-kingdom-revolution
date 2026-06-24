@@ -49,3 +49,15 @@ export interface DailyPassInfo { game_type: MiniGameType; passes_used: number; m
 export interface MineExpedition { id: string; unit_ids: string[]; duration_minutes: number; started_at: string; completes_at: string; mine_level: number; }
 export interface CastleState { castle_hp: number; max_castle_hp: number; wall_level: number; gate_level: number; tower_level: number; moat_level: number; barracks_level: number; }
 export interface TDProgress { fortress_level: number; highest_wave: number; total_wins: number; }
+export type FormationCell = { unit_id: string; row: number; col: number; };
+export type Formation = Record<'front'|'back', (FormationCell | null)[]>;
+
+export interface BattleResultData {
+  result: 'victory'|'defeat'|'retreat';
+  waves_cleared: number;
+  total_waves: number;
+  rewards: Record<string, number>;
+  battle_log: string[];
+  xp_gained: number;
+  units_survived: string[];
+}
