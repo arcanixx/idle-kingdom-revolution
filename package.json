@@ -7,6 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "check": "node tests/check-files.js"
   },
   "dependencies": {
@@ -34,6 +37,7 @@
     "eslint-config-next": "16.2.9",
     "postcss": "^8.5.15",
     "tailwindcss": "3",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vitest": "^3"
   }
 }

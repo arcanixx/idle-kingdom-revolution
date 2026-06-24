@@ -1,0 +1,1332 @@
+# 01 – Battle Backgrounds
+
+> Tła walki – 7 krajobrazów, każdy przypisany do innej frakcji lub lokacji.
+> Rozmiar: 1920×1080 WebP
+> Styl: Fantasy landscape, epicki widok, bez postaci
+
+---
+
+## Zasady stylu
+
+- **Kompozycja:** Szeroki, panoramiczny widok (16:9).
+- **Oświetlenie:** Dramatyczne niebo, światło z jednej strony, ciepłe lub chłodne tony.
+- **Elementy:** Krajobraz, roślinność, formacje skalne, budowle, efekty pogodowe.
+- **Bez postaci:** Tło nie może zawierać żadnych postaci (tylko natura / architektura).
+- **Bez UI:** Nie dodawaj żadnych elementów interfejsu.
+
+---
+
+## Lista backgroundów
+
+| # | Nazwa | Frakcja / Lokacja | Klimat | Motyw |
+|---|-------|-------------------|--------|-------|
+| 1 | Plains | Human / Neutralne | Spokojny, epicki | Złote wzgórza, odległe góry |
+| 2 | Forest | Elf | Magiczny, tajemniczy | Wysokie drzewa, promienie słońca |
+| 3 | Mountains | Ogólne / Neutralne | Majestatyczny | Ośnieżone szczyty, doliny |
+| 4 | Desert | Orc | Pustynny, surowy | Złote wydmy, oaza, skały |
+| 5 | Ice Land | Undead | Mroźny, ponury | Lodowe kryształy, zorza polarna |
+| 6 | Volcano | Demon | Ognisty, groźny | Lawa, obsydian, dym |
+| 7 | Dungeon | Celestial / Neutralny | Mroczny, mistyczny | Kamienne łuki, pochodnie, kryształy |
+
+---
+
+## Prompty
+
+### Wzorzec
+
+Fantasy landscape {environment_type}, {time_of_day}, {mood}, atmospheric perspective, painterly style, rich colors, detailed environment, game background, 16:9 aspect ratio, no characters, no text --ar 16:9 --style raw --v 6
+
+### Przykłady
+
+**Plains (Równina):**
+
+Fantasy landscape golden rolling plains, golden hour sunset, peaceful but epic mood, distant mountains, scattered wildflowers, soft clouds, warm lighting, game background, 16:9 aspect ratio, no characters, no text --ar 16:9 --style raw --v 6
+
+**Forest (Las):**
+
+Fantasy landscape enchanted forest, midday with sun rays through canopy, mystical mood, towering ancient trees with moss, glowing ferns, game background, 16:9 aspect ratio, no characters, no text --ar 16:9 --style raw --v 6
+
+**Volcano (Wulkan):**
+
+Fantasy landscape volcanic wasteland, night with lava glow, dangerous and intense mood, cracked ground with magma rivers, smoke and embers, game background, 16:9 aspect ratio, no characters, no text --ar 16:9 --style raw --v 6
+
+---
+
+## Efekty pogodowe (opcjonalne)
+
+Dla urozmaicenia możesz generować warianty pogodowe:
+
+| Efekt | Dodatek do promptu |
+|-------|-------------------|
+| Deszcz | heavy rain, storm clouds, wet ground |
+| Śnieg | snowfall, frozen lake, white mist |
+| Mgła | thick fog, mystical atmosphere |
+| Burza | lightning strikes, dark storm clouds |
+| Złota godzina | golden hour sunset, warm light |
+| Noc | starry night, moonlight, dark sky |
+
+---
+
+## Struktura plików
+
+public/assets/backgrounds/
+├── plains.webp
+├── forest.webp
+├── mountains.webp
+├── desert.webp
+├── ice_land.webp
+├── volcano.webp
+└── dungeon.webp
+
+**Nazewnictwo:** `{location}.webp` (tylko małe litery, bez spacji)
+
+---
+
+## Uwagi
+
+- **Narzędzie:** Bing Image Creator lub Leonardo.ai (preferowane dla spójności stylu).
+- **Rozmiar:** Generuj w 1024×1024 lub większym, potem przeskaluj do 1920×1080.
+- **Jakość WebP:** 75-80% (ważniejszy jest ładunek niż detal).
+- **Bez przezroczystości:** Backgroundi nie mają alpha channel.
+# 02 – Unit Portraits
+
+> Jednostki – hierarchia BASE → RARITY dla każdej kombinacji Frakcja + Klasa.
+> Rozmiar: 512×512 WebP (z alpha channel)
+> Styl: 3D render fantasy character, pełna sylwetka (lub 3/4 widok), skupienie na sylwetce i detalach zbroi.
+
+---
+
+## Hierarchia BASE → RARITY
+
+**KLUCZOWA ZMIANA:** Generujemy **jeden bazowy model** dla każdej kombinacji Frakcja + Klasa, a następnie **6 wariantów rarity** (Common → Mythic) na jego podstawie.
+
+**Korzyści:**
+- Spójność twarzy, sylwetki i proporcji
+- Gracz widzi progresję tej samej postaci
+- Łatwiejsza kontrola jakości
+
+**Przykład – Human Warrior:**
+
+Human Warrior BASE (referencja)
+├── Human Warrior Common (prosta zbroja, zwykły miecz)
+├── Human Warrior Uncommon (lepsza zbroja, stalowy miecz, delikatne zdobienia)
+├── Human Warrior Rare (srebrna zbroja z niebieskimi klejnotami, runy)
+├── Human Warrior Epic (złota zbroja z rubinami, aura mocy)
+├── Human Warrior Legendary (celestial armor of light, skrzydlaty hełm)
+└── Human Warrior Mythic (zbroja z żywych gwiazd, zmieniające się konstelacje)
+
+---
+
+## Zasady kompozycji
+
+- **Kadr:** Full body (cała postać) lub 3/4 widok.
+- **Pozycja:** Centralna, dynamiczna, gotowa do walki.
+- **Zajętość kadru:** 75-80% (5-10% marginesu z każdej strony).
+- **Tło:** Przezroczyste (alpha channel).
+- **Oświetlenie:** Soft studio lighting, warm key light, cool fill light.
+- **Detale:** Poziom szczegółowości jak w przykładowym Human Warrior – herb na tarczy, detal na zbroi.
+
+---
+
+## Prompty
+
+### Krok 1 – Generowanie Bazowego Modelu (BASE)
+
+**Cel:** Ustalić twarz, sylwetkę, proporcje i styl dla danej frakcji + klasy.
+
+**Prompt BASE:**
+
+3D render of a fantasy {faction} {class}, base model, neutral stance, full body, 3/4 view, simple equipment, soft studio lighting, transparent background, game character portrait, isolated subject, centered, high detail --ar 1:1 --style raw --v 6
+
+**Przykład – Human Warrior BASE:**
+
+3D render of a fantasy human warrior, base model, neutral stance, full body, 3/4 view, simple steel armor with lion motif on chest, simple sword and shield with small lion emblem, soft studio lighting, transparent background, game character portrait, isolated subject, centered, high detail --ar 1:1 --style raw --v 6
+
+**UWAGA:** Wygeneruj ten BASE raz, a następnie używaj go jako **Image Guidance (Init Image)** dla wszystkich rarity tej samej klasy/frakcji.
+
+---
+
+### Krok 2 – Generowanie Rarity (Common → Mythic)
+
+**Zasada:** Użyj BASE jako referencji (Image Guidance) z siłą **35-45%** – Leonardo zachowa twarz i sylwetkę, a zmieni tylko ekwipunek, aurę i ozdoby.
+
+**Szablon dla Rarity:**
+
+3D render of a fantasy {faction} {class}, {rarity} quality, {equipment_upgrade}, {aura_effect}, {ornaments}, full body, 3/4 view, same character as reference, soft studio lighting, transparent background, game character portrait, isolated subject, centered, high detail --ar 1:1 --style raw --v 6
+
+**Modyfikatory według rarity:**
+
+| Rarity | Equipment Upgrade | Aura Effect | Ornaments |
+|--------|-------------------|-------------|-----------|
+| Common | simple steel armor, basic weapon | none | minimal |
+| Uncommon | improved iron armor with gold trim | subtle glow | simple patterns |
+| Rare | enchanted silver armor with blue gems | soft magical glow | runic engravings |
+| Epic | ornate golden armor with rubies | moderate aura with sparks | elaborate filigree |
+| Legendary | celestial armor of light and gold | strong aura with particles | winged helmet, divine symbols |
+| Mythic | armor of living starlight, shifting constellations | intense animated glow, godly aura | reality-warping ornaments |
+
+---
+
+## Frakcje – Klasy i Motywy
+
+| Frakcja | Motyw | Klasy (do wyboru) |
+|---------|-------|-------------------|
+| Human | Lion | Warrior, Mage, Tank, Healer, Ranger, Assassin, Support |
+| Elf | Tree / Leaf | Warrior, Ranger, Mage, Healer, Assassin, Support, Tank |
+| Orc | Tusk / Bone | Warrior, Tank, Berserker, Shaman, Hunter, Support, Mage |
+| Undead | Skull | Warrior, Mage, Tank, Healer, Assassin, Support, Ranger |
+| Demon | Horn | Warrior, Mage, Tank, Assassin, Support, Healer, Ranger |
+| Celestial | Star | Warrior, Mage, Healer, Tank, Support, Ranger, Assassin |
+
+**Uwaga:** Orc ma unikalny zestaw 7 klas (zamiast Ranger/Healer/Assassin używa Berserker/Shaman/Hunter) – przy liczeniu łącznej liczby plików (frakcje × klasy × rarity × stany) ta frakcja nie jest 1:1 wymienna z resztą, mimo że liczba klas się zgadza (7).
+
+---
+
+## Struktura plików
+
+public/assets/units/
+├── human/
+│ ├── human_warrior_common_idle.webp
+│ ├── human_warrior_uncommon_idle.webp
+│ ├── human_warrior_rare_idle.webp
+│ ├── human_warrior_epic_idle.webp
+│ ├── human_warrior_legendary_idle.webp
+│ ├── human_warrior_mythic_idle.webp
+│ ├── human_warrior_common_attack.webp
+│ ├── human_warrior_common_hit.webp
+│ └── ... (dla każdej rarity)
+├── elf/
+├── orc/
+├── undead/
+├── demon/
+└── celestial/
+
+**Nazewnictwo:** `{faction}_{class}_{rarity}_{state}.webp`
+
+**Stany:** `idle`, `attack`, `hit`
+
+---
+
+## Uwagi
+
+- **Image Guidance (Init Image) to klucz do spójności.** Zawsze używaj BASE jako referencji.
+- **Nie generuj wszystkich rarity naraz.** Zacznij od Common dla wszystkich frakcji (Faza 1), potem dodawaj kolejne rarity (Faza 2 i 3).
+- **Jeśli używasz różnych narzędzi** (Leonardo, Midjourney, DALL-E), zawsze używaj tej samej referencji i tych samych parametrów stylu.
+- **Warianty attack/hit:** Możesz wygenerować je osobno (dodając "mid-swing" lub "reeling from impact") lub ja mogę je stworzyć w post-processingu przez proste przekształcenia (szybsze na start).
+# 03 – Item Icons
+
+> Przedmioty, bronie, eliksyry, tarcze, waluta.
+> Rozmiar: 256×256 WebP (z alpha channel)
+> Styl: 3D render fantasy item, isolated on transparent background, product shot style.
+
+---
+
+## Zasady stylu
+
+- **Kadr:** Wyśrodkowany, obiekt zajmuje 80-90% kadru.
+- **Tło:** Przezroczyste.
+- **Oświetlenie:** Soft studio lighting, delikatny połysk.
+- **Kąt:** 3/4 widok lub widok z góry (dla eliksyrów).
+
+---
+
+## Kategorie przedmiotów
+
+### Bronie
+- Iron Sword (Common)
+- Mythril Blade (Rare)
+- Flaming Sword (Epic)
+- Celestial Blade (Legendary)
+- Orcish War Axe (Uncommon)
+- Elven Longbow (Rare)
+
+### Eliksyry i mikstury
+- Health Potion (Common)
+- Mana Potion (Uncommon)
+- Potion of Strength (Rare)
+- Elixir of Life (Legendary)
+
+### Tarcze i zbroje
+- Wooden Shield (Common)
+- Steel Shield (Uncommon)
+- Dragon Scale Shield (Epic)
+- Chainmail Chest (Common)
+- Plate Armor (Rare)
+
+### Waluta i klejnoty
+- Gold Coin
+- Silver Coin
+- Gem (Red, Blue, Purple)
+- Valor Token
+- Mana Crystal
+
+### Akcesoria
+- Leather Backpack (Common)
+- Healing Herb (Common)
+- Magic Scroll (Uncommon)
+
+---
+
+## Prompty
+
+### Wzorzec dla broni
+
+3D render of a fantasy {item}, {material} material, {rarity} quality, {description}, soft studio lighting, transparent background, game item icon, isolated subject, centered, high detail --ar 1:1 --style raw --v 6
+
+**Przykład – Iron Sword (Common):**
+
+3D render of a fantasy sword, iron material, common quality, simple steel blade, leather-wrapped hilt, crossguard with scratches, worn but functional, soft studio lighting, transparent background, game item icon, isolated subject, centered, high detail --ar 1:1 --style raw --v 6
+
+### Wzorzec dla eliksyrów
+
+3D render of a fantasy potion, glass material, {rarity} quality, {color} glowing liquid, {container_shape}, {details}, soft studio lighting, transparent background, game item icon, isolated subject, centered, high detail --ar 1:1 --style raw --v 6
+
+**Przykład – Health Potion (Common):**
+
+3D render of a fantasy potion, glass material, common quality, red glowing liquid, round flask, cork stopper, soft studio lighting, transparent background, game item icon, isolated subject, centered, high detail --ar 1:1 --style raw --v 6
+
+### Wzorzec dla waluty
+
+3D render of a fantasy {item}, {material} material, {details}, game item icon, transparent background, isolated subject, centered --ar 1:1 --style raw --v 6
+
+**Przykład – Gold Coin:**
+
+3D render of a fantasy gold coin, gold material, shiny with crown emblem and text, stacked in small pile, game item icon, transparent background, isolated subject, centered --ar 1:1 --style raw --v 6
+
+---
+
+## Struktura plików
+
+public/assets/items/
+├── iron_sword.webp
+├── health_potion.webp
+├── gold_coin.webp
+├── mana_crystal.webp
+├── ...
+
+**Nazewnictwo:** `{item_name}.webp` (małe litery, bez spacji)
+
+---
+
+## Uwagi
+
+- **Narzędzie:** Leonardo.ai lub Midjourney (lepsza kontrola nad detalami).
+- **Image Guidance:** Możesz użyć jednego przedmiotu jako referencji dla wszystkich (np. Health Potion jako wzorzec stylu dla innych eliksyrów).
+- **Wielkość:** Generuj w 512×512, potem przeskaluj do 256×256.
+# 04 – Boss Creatures
+
+> Bossowie etapów – epickie stworzenia.
+> Rozmiar: 512×512 WebP (1024×1024 dla bossów Epic/Legendary/Mythic)
+> Styl: 3D render fantasy boss creature, pełna sylwetka, epicka skala.
+
+---
+
+## Zasady stylu
+
+- **Kadr:** Pełna sylwetka (lub 3/4 widok), dynamiczna poza.
+- **Skala:** Boss powinien sprawiać wrażenie potężnego – może zajmować 90% kadru.
+- **Tło:** Przezroczyste (alpha channel).
+- **Oświetlenie:** Dramatyczne, z wyraźnym rim light.
+- **Detale:** Bardzo wysoki poziom szczegółowości, widoczne tekstury skóry/pancerza.
+
+---
+
+## Lista bossów
+
+| # | Boss | Frakcja | Rarity | Motyw |
+|---|------|---------|--------|-------|
+| 1 | Fire Dragon | Neutralny | Legendary | Ogień, magma |
+| 2 | Ice Lich | Undead | Epic | Lód, śmierć |
+| 3 | Earth Elemental | Neutralny | Rare | Kamień, natura |
+| 4 | Abyss Demon | Demon | Mythic | Otchłań, chaos |
+| 5 | Ancient Treant | Elf | Epic | Las, natura |
+| 6 | Kraken | Neutralny | Legendary | Głębia, woda |
+| 7 | Shadow Assassin | Neutralny | Legendary | Cień, mrok |
+| 8 | Celestial Avatar | Celestial | Legendary | Światło, boskość |
+
+---
+
+## Prompty
+
+### Wzorzec
+
+3D render of a fantasy {boss_name}, {theme} theme, {rarity} boss, {description}, dramatic lighting, transparent background, game boss asset, isolated subject, epic scale --ar 1:1 --style raw --v 6
+
+### Przykłady
+
+**Fire Dragon (Legendary Boss):**
+
+3D render of a fantasy fire dragon, fire theme, legendary boss, massive red-scaled dragon with magma cracks in wings, horns, breathing fire, glowing eyes, dramatic lighting, transparent background, game boss asset, isolated subject, epic scale --ar 1:1 --style raw --v 6
+
+**Ice Lich (Epic Boss):**
+
+3D render of a fantasy ice lich, ice theme, epic boss, skeletal figure in frozen royal robes, ice crown, staff of frost, blue glowing eyes, frozen aura, icicles swirling, transparent background, game boss asset, isolated subject, epic scale --ar 1:1 --style raw --v 6
+
+---
+
+## Struktura plików
+
+public/assets/bosses/
+├── fire_dragon_idle.webp
+├── fire_dragon_attack.webp
+├── fire_dragon_hit.webp
+├── ice_lich_idle.webp
+├── ...
+
+**Nazewnictwo:** `{boss_name}_{state}.webp`
+
+**Stany:** `idle`, `attack`, `hit`
+
+---
+
+## Uwagi
+
+- **Rozmiar:** Dla największych bossów (smok, kraken) generuj w 1024×1024.
+- **Warianty:** Tak samo jak jednostki – idle, attack, hit.
+- **Narzędzie:** Leonardo.ai lub Midjourney (najlepsza jakość dla bossów).
+- **Image Guidance:** Użyj jednego bossa jako referencji stylistycznej dla pozostałych.
+# 05 – UI Elements
+
+> Elementy interfejsu – ramki, przyciski, paski, ikony.
+> Styl: Fantasy UI, metaliczne efekty, klejnoty, ornamenty.
+
+---
+
+## Zasady stylu
+
+- **Styl:** Średniowieczny fantasy, metaliczne obramowania, klejnoty.
+- **Tło:** Przezroczyste (alpha channel) dla ramek i przycisków.
+- **Kolory:** Zgodne z paletą frakcji lub rarity.
+
+---
+
+## Kategorie UI
+
+### Ramki paneli (dla okienek, ekwipunku, statów)
+- Panel Frame (Common) – żelazo, proste nity
+- Panel Frame (Uncommon) – srebro, liściaste wzory
+- Panel Frame (Rare) – srebro z niebieskimi klejnotami
+- Panel Frame (Epic) – złoto z fioletowymi klejnotami
+- Panel Frame (Legendary) – celestial gold, świecące
+- Panel Frame (Mythic) – boskie złoto, animowane iskry
+
+### Przyciski
+- Button Gold (złoto, smocze motywy)
+- Button Silver (srebro, wilcze motywy)
+- Button Wood (drewno, żelazne okucia)
+
+### Ikony i symbole
+- Heart Icon (HP)
+- Mana Orb (MP)
+- Shield Icon (obrona)
+- Sword Crossed (walka)
+
+### Paski postępu
+- HP Bar Fill (czerwony, gradient)
+- MP Bar Fill (niebieski, gradient)
+- EXP Bar Fill (żółty, gradient)
+
+---
+
+## Prompty
+
+### Ramki paneli
+
+Fantasy game UI panel frame, {style} style, {color_scheme}, {description}, transparent background, game UI asset, isolated, high detail --ar 1:1 --style raw --v 6
+
+**Przykład – Panel Frame (Epic):**
+
+Fantasy game UI panel frame, royal gold style, gold and purple color scheme, elaborate decorative borders with gemstones, transparent background, game UI asset, isolated, high detail --ar 1:1 --style raw --v 6
+
+### Przyciski
+
+Fantasy game UI button, medieval style, {color} color scheme, {motif} motifs, metallic shine, transparent background, game UI asset, isolated, high detail --ar 1:1 --style raw --v 6
+
+**Przykład – Button Gold:**
+
+Fantasy game UI button, medieval style, gold and sapphire color scheme, dragon motifs, metallic shine, transparent background, game UI asset, isolated, high detail --ar 1:1 --style raw --v 6
+
+### Ikony
+
+Simple {color} {icon_name} symbol, glossy finish, slight bevel, transparent background, game UI asset --ar 1:1 --style raw --v 6
+
+**Przykład – Heart Icon:**
+
+Simple red heart symbol, glossy finish, slight bevel, transparent background, game UI asset --ar 1:1 --style raw --v 6
+
+---
+
+## Struktura plików
+
+public/assets/ui/
+├── panel_frame_common.webp
+├── panel_frame_rare.webp
+├── panel_frame_epic.webp
+├── button_gold.webp
+├── heart_icon.webp
+├── mana_orb.webp
+├── hp_bar_fill.webp
+├── ...
+
+**Nazewnictwo:** `{element}_{variant}.webp`
+
+---
+
+## Uwagi
+
+- **Proste elementy** (ikony, paski) lepiej zrobić w SVG lub CSS.
+- **Grafiki AI** są potrzebne dla: ramek paneli, dekoracyjnych przycisków, unikalnych elementów.
+- **Narzędzie:** Leonardo.ai (lepsza kontrola nad detalami).
+# 06 – Emotion Portraits
+
+> Portrety do scen fabularnych, tutoriali, dialogów.
+> Rozmiar: 512×512 WebP (z alpha channel)
+> Styl: 3D render fantasy character portrait, half-body, zbliżenie na twarz i górną część ciała.
+
+---
+
+## Zasady stylu
+
+- **Kadr:** Half-body (od pasa w górę), twarz zajmuje 40-50% kadru.
+- **Tło:** Przezroczyste (alpha channel).
+- **Oświetlenie:** Soft studio lighting, z naciskiem na wyraz twarzy.
+- **Detale:** Widoczny detal zbroi/ubioru, motyw frakcji.
+- **Spójność:** Użyj bazowego modelu jednostki jako referencji (Image Guidance).
+
+---
+
+## Lista emocji
+
+| # | Emotion | Opis | Prompt modifier |
+|---|---------|------|-----------------|
+| 1 | Neutral | Spokojny, neutralny wyraz | calm neutral expression, standing straight |
+| 2 | Happy | Uśmiechnięty, ciepły | warm smile, relaxed, slight head tilt |
+| 3 | Angry | Zły, groźny | furious glare, intense, leaning forward |
+| 4 | Sad | Smutny, przygnębiony | sad expression, looking down, solemn |
+| 5 | Surprised | Zaskoczony | wide eyes, mouth slightly open, stepping back |
+| 6 | Scared | Przestraszony | fearful expression, defensive pose |
+| 7 | Serious | Poważny, zdeterminowany | serious focused expression, determined |
+| 8 | Laughing | Śmiejący się | joyful laugh, head back, open mouth |
+| 9 | Suspicious | Podejrzliwy | suspicious squint, tilted head, arms crossed |
+| 10 | Shocked | W szoku | extreme shock, recoiling, hands to face |
+| 11 | Confused | Zdezorientowany | confused, furrowed brow, questioning gesture |
+| 12 | Tired | Zmęczony | exhausted, heavy eyelids, slumped posture |
+| 13 | Scheming | Knujący, podstępny | sly smirk, half-closed eyes, subtle gesture |
+| 14 | Heroic | Bohaterski, dumny | heroic pose, proud, chest out, weapon raised |
+| 15 | Menacing | Groźny, złowrogi | menacing, looming posture, glowing eyes |
+
+---
+
+## Prompty
+
+### Wzorzec
+
+Fantasy 3D render portrait of a {emotion} {faction} {class}, {rarity} quality, {emotion_description}, half-body shot, {pose_hint}, soft studio lighting, warm key light, detailed fantasy armor with faction motif ({faction_motif}), transparent background, game portrait, high detail, 4K --ar 1:1 --style raw --v 6
+
+### Przykłady
+
+**Human Warrior – Happy:**
+
+Fantasy 3D render portrait of a happy human warrior, common quality, warm smile and relaxed expression, half-body shot, slight head tilt with open hand gesture, soft studio lighting, warm key light, detailed steel armor with golden trim and lion motif on chest, transparent background, game portrait, high detail, 4K --ar 1:1 --style raw --v 6
+
+**Elf Ranger – Suspicious:**
+
+Fantasy 3D render portrait of a suspicious elf ranger, rare quality, narrowed eyes and skeptical expression, half-body shot, tilted head with arms crossed, soft studio lighting, warm key light, detailed green leather armor with leaf motif and silver trim, transparent background, game portrait, high detail, 4K --ar 1:1 --style raw --v 6
+
+**Demon Mage – Menacing:**
+
+Fantasy 3D render portrait of a menacing demon mage, epic quality, threatening glare with glowing red eyes, half-body shot, looming posture with hands crackling with fire, soft studio lighting, warm key light, detailed dark robes with horn-shaped crystal ornaments, transparent background, game portrait, high detail, 4K --ar 1:1 --style raw --v 6
+
+---
+
+## Struktura plików
+
+public/assets/portraits/
+├── human/
+│ ├── human_warrior_happy.webp
+│ ├── human_warrior_angry.webp
+│ ├── human_warrior_sad.webp
+│ ├── ...
+├── elf/
+│ ├── elf_ranger_neutral.webp
+│ ├── ...
+├── ...
+
+**Nazewnictwo:** `{faction}_{class}_{emotion}.webp`
+
+---
+
+## Uwagi
+
+- **Image Guidance (Init Image) to klucz do spójności.** Użyj bazowego modelu jednostki jako referencji.
+- **Generuj partiami:** Najpierw dla Human (najważniejsza frakcja), potem dla pozostałych.
+- **Narzędzie:** ChatGPT/DALL-E (szybkie iteracje) lub Leonardo.ai (pełna spójność).
+- **Zastosowanie w grze:** Tutoriale, sceny fabularne, eventy, dialogi, powiadomienia.
+# 07 – Environment Effects
+
+> Pogoda, efekty specjalne, eventy na mapie, elementy planszy.
+> Rozmiar: różny (zwykle 256×256 do 512×512)
+> Styl: Fantasy 3D-rendered 2D, przezroczyste tło (gdzie potrzebne).
+
+---
+
+## Efekty pogodowe
+
+| Efekt | Opis | Zastosowanie |
+|-------|------|--------------|
+| Deszcz | Pionowe smugi, krople | Battle backgrounds, map |
+| Śnieg | Płatki śniegu, mroźna mgła | Ice Land, eventy zimowe |
+| Mgła | Gęsta, tajemnicza | Dungeon, forest, eventy |
+| Burza | Błyskawice, ciemne chmury | Volcano, epic battles |
+| Liście | Wirujące liście | Forest, elf eventy |
+| Iskry | Ulotne iskry | Magiczne efekty, kowal |
+| Dym | Unoszący się dym | Volcano, ogniska |
+
+---
+
+## Efekty specjalne (eventy, animacje)
+
+| Efekt | Opis | Zastosowanie |
+|-------|------|--------------|
+| Portal | Wirująca brama, magiczny krąg | Teleporty, eventy |
+| Błysk | Rozbłysk światła | Ataki, krytyczne ciosy |
+| Leczenie | Zielone świecące cząsteczki | Uzdrowienie, buff |
+| Ogień | Płomienie, iskry | Ataki ogniste, smoki |
+| Lód | Kryształki lodu, mróz | Ataki lodowe, Ice Lich |
+| Cień | Wirujące ciemne smugi | Ataki ciemności, demony |
+| Światło | Promienie światła, gwiazdki | Ataki święte, celestial |
+
+---
+
+## Prompty (przykłady)
+
+### Deszcz (oddzielny overlay)
+
+3D render of falling rain, vertical streaks, semi-transparent, soft blue-grey, game effect overlay, transparent background, isolated --ar 1:1 --style raw --v 6
+
+### Magiczny portal
+
+3D render of a magical portal, swirling purple energy, glowing ring, cosmic effect, transparent background, game effect, isolated --ar 1:1 --style raw --v 6
+
+### Płomienie
+
+3D render of fantasy flames, orange and red, dynamic shape, semi-transparent, game effect, transparent background, isolated --ar 1:1 --style raw --v 6
+
+---
+
+## Struktura plików
+
+public/assets/effects/
+├── weather/
+│ ├── rain_overlay.webp
+│ ├── snow_overlay.webp
+│ ├── fog_overlay.webp
+│ └── ...
+├── magic/
+│ ├── portal_blue.webp
+│ ├── portal_purple.webp
+│ ├── fire_effect.webp
+│ ├── ice_effect.webp
+│ └── ...
+└── events/
+├── festival_sparks.webp
+├── harvest_glow.webp
+└── ...
+
+**Nazewnictwo:** `{category}_{effect}_{variant}.webp`
+
+---
+
+## Uwagi
+
+- **Oddzielne overlay'e:** Efekty pogodowe i magiczne generuj jako osobne warstwy (nie na stałe na tle).
+- **Przezroczystość:** Większość efektów powinna mieć alpha channel.
+- **Rozmiar:** 256×256 do 512×512 – skalowalne.
+- **Narzędzie:** Leonardo.ai (lepsza kontrola nad przezroczystością) lub Bing (dla prostych efektów).
+# 08 – Workflow and Tools
+
+> Jak pracujemy – podział zadań, narzędzia, pipeline, współpraca.
+
+---
+
+## Podział pracy
+
+| Krok | Wykonawca | Narzędzie | Szczegóły |
+|------|-----------|-----------|-----------|
+| Generowanie obrazków | **TY** | Leonardo.ai / Bing / ChatGPT | Przez przeglądarkę, wg promptów |
+| Usunięcie tła | **JA** | rembg (Python) | Batch processing, bez limitów |
+| Upscale (opcjonalnie) | **TY lub JA** | Upscayl / Real-ESRGAN | Jeśli potrzeba większej rozdzielczości |
+| Konwersja do WebP | **JA** | Squoosh CLI | Batch: PNG → WebP z alpha |
+| Zmiana nazw + sortowanie | **JA** | Python skrypt | Zgodnie z konwencją |
+| Struktura folderów | **JA** | mkdir + mv | `public/assets/{kategoria}/` |
+| Asset manifest | **JA** | Python → JSON | Mapa asset_id → ścieżka + metadata |
+| Sprawdzenie spójności | **JA** | Wizualna + nazwy | Czy style zgodne, brak watermarków |
+
+---
+
+## Narzędzia (szczegóły)
+
+### Generowanie obrazków (Ty)
+
+| Narzędzie | Plusy | Minusy | Zalecane do |
+|-----------|-------|--------|-------------|
+| Leonardo.ai | Image Guidance, spójność stylu, kontrola | 150 tokenów/dzień | Jednostki, bossowie, przedmioty |
+| ChatGPT (DALL-E) | Szybkie, wygodne, dobre dla portretów | Mniejsza kontrola | Emotion portraits, prototypy |
+| Bing Image Creator | Darmowe, dobre krajobrazy | Wolniejsze | Backgroundi, tła |
+| Midjourney | Najlepsza jakość | Płatne, trudniejsza kontrola | Premium asset |
+
+### Obróbka (Ja)
+
+- **rembg** – usuwanie tła (lokalne AI, darmowe, bez limitów)
+- **Squoosh CLI** – konwersja do WebP (batch, z alpha)
+- **Python** – skrypty do zmiany nazw, organizacji, generowania manifestu
+- **ImageMagick** – resize, konwersja, manipulacja obrazami
+
+---
+
+## Pipeline – krok po kroku
+
+**KROK 1: TY generujesz obrazki**
+- Otwierasz narzędzie (Leonardo.ai / ChatGPT / Bing)
+- Używasz odpowiedniego promptu z dokumentacji
+- Image Guidance = referencja (dla jednostek i bossów)
+- Zapisujesz jako PNG do `C:\game\raw_assets\`
+
+**KROK 2: Mówisz mi "mam obrazki"**
+- Komunikat: "wygenerowałem 7 jednostek human i 3 itemy, są w raw_assets"
+
+**KROK 3: JA obrabiam batch**
+1. rembg (usunięcie tla – jeśli potrzebne)
+2. Upscale (opcjonalnie)
+3. Squoosh → WebP (quality 80)
+4. Rename zgodnie z konwencją
+5. mv do `public/assets/{kategoria}/`
+6. Generuje JSON manifest
+
+**KROK 4: TY sprawdzasz efekt**
+- Otwierasz .webp
+- Sprawdzasz spójność stylistyczną
+- Mówisz "ok" lub "popraw X"
+
+**KROK 5: JA aktualizuje manifest**
+- `assets.json` z ścieżkami, typami, wymiarami
+- Gotowe do importu w React
+
+---
+
+## Image Guidance – technika spójności
+
+1. Wygeneruj **jeden wzorzec referencyjny** (np. Human Warrior Base)
+2. Zapisz jako `ref_base.webp`
+3. Przy każdej kolejnej generacji użyj go jako Init Image z **siłą 30-50%**
+4. To zapewni spójność niezależnie od konta czy dnia
+
+---
+
+## Struktura folderów (finalna)
+
+public/assets/
+├── backgrounds/
+├── units/
+│ ├── human/
+│ ├── elf/
+│ ├── orc/
+│ ├── undead/
+│ ├── demon/
+│ └── celestial/
+├── items/
+├── bosses/
+├── ui/
+├── portraits/
+│ ├── human/
+│ ├── elf/
+│ └── ...
+├── avatars/
+│ ├── human/
+│ └── ...
+└── effects/
+├── weather/
+├── magic/
+└── events/
+
+---
+
+## Checklist przed wrzuceniem do gry
+
+- [ ] Format: WebP z alpha channel
+- [ ] Rozmiar: zgodny z tabelą
+- [ ] Waga: nie przekracza maksimum
+- [ ] Przezroczystość działa prawidłowo
+- [ ] Brak watermarków, logotypów AI
+- [ ] Stylistycznie spójny z resztą
+- [ ] Nazewnictwo zgodne z konwencją
+- [ ] Lazy loading w kodzie (next/image)
+
+---
+
+## Tabela wag plików (WebP)
+
+| Asset Type | Rozmiar | Maks. waga | Idealna |
+|------------|---------|------------|---------|
+| Battle Background | 1920×1080 | 300 KB | 150-250 KB |
+| Unit Portrait | 512×512 | 100 KB | 40-80 KB |
+| Item Icon | 256×256 | 30 KB | 15-25 KB |
+| Boss Sprite | 512×512 | 150 KB | 60-120 KB |
+| Boss Sprite (epic) | 1024×1024 | 400 KB | 200-300 KB |
+| UI Element | zmienna | 50 KB | 10-30 KB |
+| Avatar | 128×128 | 20 KB | 8-15 KB |
+| Emotion Portrait | 512×512 | 100 KB | 40-80 KB |
+# 09 – Asset List Reference
+
+> Pełna lista wszystkich assetów z podziałem na kategorie, ilości i fazy.
+
+---
+
+## Podsumowanie
+
+| Kategoria | Sztuk | Rozmiar | Faza |
+|-----------|-------|---------|------|
+| Battle Backgrounds | 7 | 1920×1080 | 1 |
+| Unit Portraits (BASE × 6 rarity) | 42 | 512×512 | 1-3 |
+| Item Icons | ~15 | 256×256 | 1-2 |
+| Boss Creatures | 6 | 512×512 / 1024×1024 | 1-2 |
+| UI Elements | ~8 | zmienna | 2-3 |
+| Avatars (crop) | 42 | 128×128 | 3 |
+| Emotion Portraits | ~10-15 | 512×512 | 1-3 |
+| Environment Effects | ~10 | 256×512 | 2-3 |
+
+---
+
+## Szczegółowa lista
+
+### Battle Backgrounds (7)
+
+| # | Nazwa pliku | Frakcja |
+|---|-------------|---------|
+| 1 | plains.webp | Human / Neutral |
+| 2 | forest.webp | Elf |
+| 3 | mountains.webp | Neutral |
+| 4 | desert.webp | Orc |
+| 5 | ice_land.webp | Undead |
+| 6 | volcano.webp | Demon |
+| 7 | dungeon.webp | Celestial / Neutral |
+
+### Unit Portraits (42 bazowych modeli → z rarity: 252)
+
+**Frakcje (6):** Human, Elf, Orc, Undead, Demon, Celestial
+**Klasy (7):** Warrior, Mage, Tank, Healer, Ranger, Assassin, Support
+**Rarity (6):** Common, Uncommon, Rare, Epic, Legendary, Mythic
+**Stany (3):** idle, attack, hit
+
+**Docelowo:** 6 × 7 × 6 × 3 = 756 plików (ale pracujemy etapami)
+
+### Item Icons (~15)
+
+| # | Nazwa | Rarity |
+|---|-------|--------|
+| 1 | iron_sword | Common |
+| 2 | mythril_blade | Rare |
+| 3 | flaming_sword | Epic |
+| 4 | celestial_blade | Legendary |
+| 5 | orcish_war_axe | Uncommon |
+| 6 | elven_longbow | Rare |
+| 7 | health_potion | Common |
+| 8 | mana_potion | Uncommon |
+| 9 | potion_of_strength | Rare |
+| 10 | elixir_of_life | Legendary |
+| 11 | wooden_shield | Common |
+| 12 | steel_shield | Uncommon |
+| 13 | dragon_scale_shield | Epic |
+| 14 | gold_coin | Common |
+| 15 | mana_crystal | Uncommon |
+
+### Boss Creatures (6)
+
+| # | Boss | Rarity |
+|---|------|--------|
+| 1 | Fire Dragon | Legendary |
+| 2 | Ice Lich | Epic |
+| 3 | Earth Elemental | Rare |
+| 4 | Abyss Demon | Mythic |
+| 5 | Ancient Treant | Epic |
+| 6 | Kraken | Legendary |
+
+### Emotion Portraits (podstawowy zestaw – 15 emocji × 1 frakcja)
+
+| # | Emotion | # | Emotion |
+|---|---------|---|---------|
+| 1 | Neutral | 9 | Suspicious |
+| 2 | Happy | 10 | Shocked |
+| 3 | Angry | 11 | Confused |
+| 4 | Sad | 12 | Tired |
+| 5 | Surprised | 13 | Scheming |
+| 6 | Scared | 14 | Heroic |
+| 7 | Serious | 15 | Menacing |
+| 8 | Laughing | | |
+
+---
+
+## Fazy realizacji
+
+**FAZA 1 (MVP):**
+- 7 × Battle Backgrounds
+- 7 × Unit Portraits (BASE, tylko Common, idle)
+- 3 × Item Icons (health_potion, gold_coin, mana_crystal)
+- 1 × Boss (Fire Dragon)
+- 3 × Emotion Portraits (Happy, Angry, Scared – Human)
+
+**FAZA 2 (Podstawowy zestaw):**
+- 7 × Unit Portraits → wszystkie rarity (Common → Mythic, idle)
+- 28 × Unit Portraits (4 klasy × 1 frakcja, wszystkie rarity)
+- Reszta Item Icons
+- 3 × Boss (Ice Lich, Earth Elemental, Abyss Demon)
+- UI ramki na 3 rarity
+- 10 × Emotion Portraits (podstawowy zestaw dla Human)
+
+**FAZA 3 (Pełnia):**
+- Wszystkie jednostki (42 bazowe × 6 rarity × 3 stany)
+- Wszyscy bossowie (6)
+- Wszystkie UI (8)
+- Avatary (42)
+- Pełen zestaw Emotion Portraits (dla wszystkich frakcji)
+# ASSET_STYLE_BIBLE_MASTER v1.0
+
+Project:
+Idle Kingdom Revolution
+
+Purpose:
+Single source of truth for all generated visual assets.
+
+---
+
+## CORE VISUAL IDENTITY
+
+Style:
+Stylized Fantasy 3D Render
+
+Target:
+Looks like a modern mobile fantasy RPG.
+
+Visual inspirations:
+
+* Warcraft
+* Hearthstone
+* Raid Shadow Legends
+* AFK Arena
+
+Not photorealistic.
+Not anime.
+Not painterly.
+
+---
+
+## ART DIRECTION
+
+Visual readability is more important than realism.
+
+Every asset must remain recognizable at:
+
+* 128x128
+* 64x64
+
+Silhouette clarity is mandatory.
+
+---
+
+## CAMERA RULES
+
+Characters:
+3/4 front view
+
+Portraits:
+Chest-up
+
+Bosses:
+3/4 full body
+
+Items:
+Centered product-shot view
+
+Backgrounds:
+Wide cinematic landscape
+
+---
+
+## LIGHTING RULES
+
+Always use:
+
+Soft studio lighting
+
+Warm key light:
+upper-left
+
+Cool fill light:
+upper-right
+
+Subtle rim light:
+back outline
+
+No hard shadows.
+
+No dramatic movie lighting.
+
+---
+
+## MATERIAL RULES
+
+Metal:
+clean fantasy metal
+
+Leather:
+stylized fantasy leather
+
+Wood:
+clean fantasy wood
+
+Crystal:
+glowing internal light
+
+Never:
+photorealistic scratches
+PBR realism
+grunge textures
+
+---
+
+## CHARACTER COMPOSITION
+
+Character occupies:
+
+70-80% of canvas
+
+Always centered.
+
+Never cropped.
+
+5-10% transparent padding.
+
+---
+
+## RENDER STYLE
+
+High detail.
+
+Game-ready.
+
+Fantasy collectible card quality.
+
+Readable shapes.
+
+Strong focal point.
+
+Clean edges.
+
+Transparent background.
+
+---
+
+## NEGATIVE STYLE
+
+Forbidden:
+
+photorealism
+anime
+manga
+pixel art
+watercolor
+oil painting
+comic book
+concept sketch
+real human photography
+dark horror realism
+
+---
+
+## UNIVERSAL NEGATIVE PROMPT
+
+low quality,
+blurry,
+watermark,
+logo,
+signature,
+cropped,
+extra arms,
+extra fingers,
+multiple characters,
+duplicate weapons,
+deformed face,
+ugly anatomy,
+bad hands,
+photorealistic,
+anime,
+pixel art,
+concept sketch,
+painting,
+text,
+UI elements
+
+---
+
+## CONSISTENCY PRIORITY
+
+When in doubt:
+
+Consistency > Detail
+
+Readability > Realism
+
+Game Asset > Artwork
+
+Asset Set > Individual Asset
+
+
+---
+
+## FACTION VISUAL MOTIFS
+
+Each faction must be recognizable by shape and symbol alone, even without colors.
+
+| Faction | Primary Motif | Secondary Motif | Heraldic Symbol |
+|---------|---------------|-----------------|-----------------|
+| Human | Lion | Crown, Sword | Lion rampant on shield |
+| Elf | Tree / Leaf | Silver crescent, Bow | Ancient oak with stars |
+| Orc | Tusk / Bone | Axe, Skull | Crossed tusks with axe |
+| Undead | Skull | Chains, Scythe | Cracked skull with crown |
+| Demon | Horn | Flame, Crystal | Horned skull with fire |
+| Celestial | Star | Wing, Halo | Eight-pointed star with eye |
+
+**Rule:** Every unit from a faction must include at least one of these motifs in their design (on armor, weapon, shield, or accessory). This ensures instant faction recognition even in small sprites.
+
+---
+# PROMPT_CONSTRUCTOR v1.0
+
+INPUT:
+
+Faction:
+{faction}
+
+Class:
+{class}
+
+Rarity:
+{rarity}
+
+Pose:
+{pose}
+
+AssetType:
+{portrait|boss|item|background}
+
+---
+
+FACTION DEFINITIONS
+
+Human:
+gold, blue, steel
+
+Elf:
+green, silver, white
+
+Orc:
+brown, green, bone
+
+Undead:
+gray, corpse-green
+
+Demon:
+red, black, purple
+
+Celestial:
+gold, white, azure
+
+---
+
+RARITY DEFINITIONS
+
+Common:
+simple equipment
+
+Uncommon:
+enhanced equipment
+
+Rare:
+enchanted equipment
+
+Epic:
+ornate magical equipment
+
+Legendary:
+divine equipment
+
+Mythic:
+reality-bending equipment
+
+---
+
+POSE DEFINITIONS
+
+idle:
+neutral stance
+
+attack:
+mid-swing,
+dynamic motion
+
+hit:
+staggered,
+reacting to impact
+
+---
+
+OUTPUT TEMPLATE
+
+Stylized fantasy 3D render of a {rarity} {faction} {class},
+{equipment description},
+{pose description},
+soft studio lighting,
+warm key light,
+cool fill light,
+subtle rim light,
+transparent background,
+centered composition,
+clean silhouette,
+high readability,
+mobile RPG game asset,
+high detail,
+4k quality,
+fantasy collectible character.
+
+Negative prompt:
+
+low quality,
+blurry,
+watermark,
+text,
+logo,
+multiple characters,
+cropped,
+extra limbs,
+anime,
+photorealistic,
+pixel art
+
+---
+
+## PORTRAIT / DIALOGUE PROMPT TEMPLATE
+
+For story scenes, tutorials, and dialogue portraits where characters show emotion.
+
+**INPUT:**
+
+Faction:
+{faction}
+
+Class:
+{class}
+
+Rarity:
+{rarity}
+
+Emotion:
+{emotion}
+
+**EMOTIONS LIST:**
+
+| Emotion | Description | Pose Hint |
+|---------|-------------|-----------|
+| Neutral | Default, calm expression | Standing straight, hands relaxed |
+| Happy | Smiling, warm expression | Slight head tilt, open gesture |
+| Sad | Downcast eyes, solemn | Looking down, lowered shoulders |
+| Angry | Frowning, intense glare | Lean forward, clenched fist |
+| Surprised | Eyes wide, mouth slightly open | Step back, hands raised |
+| Scared | Fearful expression, defensive | Guarded pose, visible tension |
+| Serious | Focused, determined | Strong stance, hand on weapon |
+| Laughing | Joyful, head back | Open mouth, relaxed posture |
+| Suspicious | Squinted eyes, skeptical | Tilted head, arms crossed |
+| Shocked | Extreme surprise | Recoiling, hands to face |
+| Confused | Tilted head, furrowed brow | One hand raised, questioning |
+| Tired | Exhausted, heavy eyes | Slumped posture, hand on forehead |
+| Scheming | Smirk, sly look | Half-closed eyes, subtle gesture |
+| Heroic | Proud, inspiring | Chest out, weapon raised |
+| Menacing | Threatening, dark | Looming posture, glowing eyes |
+
+**OUTPUT TEMPLATE:**
+
+Fantasy 3D render portrait of a {emotion} {faction} {class}, {rarity} quality, {emotion_description}, half-body shot, {pose_hint}, soft studio lighting, warm key light, detailed fantasy armor with faction motif ({faction_motif}), transparent background, game portrait, high detail, 4K --ar 1:1 --style raw --v 6
+
+**EXAMPLE (Human Warrior, Happy):**
+
+Fantasy 3D render portrait of a happy human warrior, common quality, warm smile and relaxed expression, half-body shot, slight head tilt with open hand gesture, soft studio lighting, warm key light, detailed steel armor with golden trim and lion motif on chest, transparent background, game portrait, high detail, 4K --ar 1:1 --style raw --v 6
+
+**EXAMPLE (Demon Mage, Menacing):**
+
+Fantasy 3D render portrait of a menacing demon mage, epic quality, threatening glare with glowing red eyes, half-body shot, looming posture with hands crackling with fire, soft studio lighting, warm key light, detailed dark robes with horn-shaped crystal ornaments, transparent background, game portrait, high detail, 4K --ar 1:1 --style raw --v 6
+
+**USAGE:** Generate these as 512x512 assets stored in `public/assets/portraits/{faction}/` for use in story scenes, tutorials, dialogue, and event popups.
+# Asset Generation – Spis Treści
+
+> Dokumentacja do generowania assetów dla **Idle Kingdom Revolution**.
+> Styl: Fantasy 3D-rendered 2D, spójny, lekki (WebP), zoptymalizowany pod gry mobilne.
+
+---
+
+## Struktura dokumentacji
+
+| Plik | Zawartość | Rozmiar |
+|------|-----------|---------|
+| [ASSET_STYLE_BIBLE.md](./ASSET_STYLE_BIBLE.md) | Zasady stylu, kolory, oświetlenie, motywy frakcji | ~5 KB |
+| [PROMPT_CONSTRUCTOR.md](./PROMPT_CONSTRUCTOR.md) | Szablony promptów dla różnych kategorii | ~3 KB |
+| [01_BATTLE_BACKGROUNDS.md](./01_BATTLE_BACKGROUNDS.md) | Tła walki – 7 krajobrazów, pogoda, efekty | ~4 KB |
+| [02_UNIT_PORTRAITS.md](./02_UNIT_PORTRAITS.md) | Jednostki – hierarchia BASE→RARITY, klasy, frakcje | ~6 KB |
+| [03_ITEM_ICONS.md](./03_ITEM_ICONS.md) | Przedmioty – bronie, eliksiry, tarcze, waluta | ~4 KB |
+| [04_BOSS_CREATURES.md](./04_BOSS_CREATURES.md) | Bossowie – smoki, licze, demony, warianty | ~3 KB |
+| [05_UI_ELEMENTS.md](./05_UI_ELEMENTS.md) | UI – ramki, przyciski, paski, ikony | ~3 KB |
+| [06_EMOTION_PORTRAITS.md](./06_EMOTION_PORTRAITS.md) | Portrety emocji – do fabuły, tutoriali, dialogów | ~5 KB |
+| [07_ENVIRONMENT_EFFECTS.md](./07_ENVIRONMENT_EFFECTS.md) | Pogoda, efekty specjalne, eventy na mapie | ~4 KB |
+| [08_WORKFLOW_AND_TOOLS.md](./08_WORKFLOW_AND_TOOLS.md) | Workflow, narzędzia, pipeline, współpraca | ~5 KB |
+| [09_ASSET_LIST_REFERENCE.md](./09_ASSET_LIST_REFERENCE.md) | Pełna lista wszystkich assetów (kategorie, ilości) | ~3 KB |
+
+---
+
+## Szybki start
+
+1. Przeczytaj [ASSET_STYLE_BIBLE.md](./ASSET_STYLE_BIBLE.md) – poznaj zasady stylu.
+2. Zdecyduj, co generujesz – wybierz odpowiedni plik z listy powyżej.
+3. Użyj promptów z wybranego pliku + [PROMPT_CONSTRUCTOR.md](./PROMPT_CONSTRUCTOR.md).
+4. Wygeneruj PNG, zapisz w `raw_assets/`, przekaż do obróbki.
+5. Otrzymasz gotowe WebP w `public/assets/` + `assets.json`.
+
+---
+
+## Narzędzia (skrót)
+
+| Narzędzie | Do czego | Limit |
+|-----------|----------|-------|
+| Leonardo.ai | Jednostki, bossowie, przedmioty | 150 tokenów/dzień |
+| Bing Image Creator | Backgroundi, krajobrazy | Darmowe (wolniejsze) |
+| ChatGPT (DALL-E) | Emotion portraits, prototypy | Limit wg planu |
+| Midjourney | Premium asset, okładki | Płatne |
+
+Szczegóły: [08_WORKFLOW_AND_TOOLS.md](./08_WORKFLOW_AND_TOOLS.md)
+
+---
+
+## Co generujemy – w skrócie
+
+| Kategoria | Ilość | Rozmiar |
+|-----------|-------|---------|
+| Battle Backgrounds | 7 | 1920×1080 |
+| Unit Portraits (BASE → 6 rarity) | 42 | 512×512 |
+| Item Icons | ~15 | 256×256 |
+| Boss Creatures | 6 | 512×512 / 1024×1024 |
+| UI Elements | ~8 | zmienne |
+| Avatars (crop z portretów) | 42 | 128×128 |
+| Emotion Portraits | ~10-15 | 512×512 |
+
+---
+
+Wersja: 3.0
+Data: 2026-06-24
+Autor: Asystent AI (współpraca z Tobą)
+
