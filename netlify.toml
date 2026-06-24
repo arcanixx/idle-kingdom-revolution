@@ -1,6 +1,6 @@
 [build]  
-"  command = \"npm install\""  
-"  publish = \".\""  
+command = "bun run build --webpack"  
+publish = "."  
 [dev]  
-"  command = \"npm run dev\""  
-"  port = 3000" 
+command = "bun run dev"  
+port = 3000 
