@@ -51,7 +51,7 @@ export function startBattle(field: BattleField, playerUnits: Unit[], formation: 
     for (let col = 0; col < 3; col++) {
       const cell = formation[row]?.[col];
       if (!cell) continue;
-      const pu = playerUnits.find(u => u.id === cell.unit_id);
+      const pu = playerUnits.find(u => u.unit_id === cell.unit_id);
       if (!pu || !pu.isActive) continue;
       combatUnits.push({
         id: pu.id,
@@ -152,3 +152,4 @@ export function processTick(state: BattleState): void {
     }
   }
 }
+

@@ -1,7 +1,7 @@
 {
   "document_title": "13 - API Contract",
   "version": "0.1.0",
-  "date": "2026-06-23",
+  "date": "2026-06-25",
   "base_url": "https://api.idlekingdomrevolution.com (or Netlify/Vercel domain)",
   "authentication": "Bearer token in Authorization header (Supabase JWT)",
   "content_type": "application/json",
@@ -375,5 +375,11 @@
       "500": "Internal Server Error"
     }
   },
-  "battle_endpoint_note": "HYBRID BATTLE MODEL: Battle is simulated locally on client. Action log (deterministic RNG seed + player actions) is sent to server for verification. Server replays the log, verifies result, and distributes rewards. NO per-tick polling - single POST /api/battle/complete at the end."
+  "battle_endpoint_note": "HYBRID BATTLE MODEL: Battle is simulated locally on client. Action log (deterministic RNG seed + player actions) is sent to server for verification. Server replays the log, verifies result, and distributes rewards. NO per-tick polling - single POST /api/battle/complete at the end.",
+  "implementation_status": {
+    "date": "2026-06-25",
+    "note": "Many documented endpoints differ from actual implementation. Actual routes: /api/player/*, /api/game/*, /api/mining/*, /api/castle/*, /api/td/*, /api/leaderboard. Documented /api/auth/*, /api/quests/*, /api/army/upgrade, /api/admin/*, /api/config/* not yet implemented. See actual API folders in src/app/api/ for up-to-date list.",
+    "validation": "Validation middleware in src/lib/api/validation-middleware.ts (validateRequest, requireAuth, requireAdmin, requireBody, withErrorHandling)",
+    "test_coverage": "51 unit tests across 11 suites (June 2026) � game logic, validation, supabase connection, API helpers"
+  }
 }

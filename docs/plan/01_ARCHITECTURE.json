@@ -1,14 +1,14 @@
 {
   "document_title": "01 - System Architecture & Technology Stack",
   "version": "0.1.0",
-  "date": "2026-06-23",
+  "date": "2026-06-25",
   "executive_summary": "Idle Kingdom Revolution uses a modern JAMstack architecture with serverless backend, edge deployment, and real-time data synchronization. The stack prioritizes developer velocity, cost efficiency, and scalability.",
   "technology_stack": {
     "frontend": {
       "framework": "Next.js 15 (App Router)",
       "language": "TypeScript 5.x (strict mode)",
       "styling": "Tailwind CSS 4.x + shadcn/ui components",
-      "state_management": "Zustand (client game state) + TanStack Query (server state)",
+      "state_management": "Zustand 5.x (game state, persist middleware) + TanStack Query 5.x (installed, not yet integrated)",
       "animation": "Framer Motion (UI) + CSS animations (battle)",
       "pwa": "next-pwa + Serwist (service worker, offline support)",
       "build_tool": "Turbopack (Next.js built-in)",
@@ -37,10 +37,10 @@
       "ssl": "Let's Encrypt (auto via Netlify/Vercel)"
     },
     "testing": {
-      "unit": "Vitest + React Testing Library",
-      "e2e": "Playwright",
-      "api": "Supabase Test Helpers + MSW (Mock Service Worker)",
-      "coverage_target": ">80% for business logic, >60% for UI components"
+      "unit": "Vitest + React Testing Library (tests/unit/)",
+      "e2e": "Playwright (tests/e2e/)",
+      "api": "Vitest with mocked Supabase (tests/unit/api/)",
+      "coverage_target": ">80% for business logic, >60% for UI components",`n      "test_count": "51 unit tests across 11 suites (June 2026)"
     },
     "devops": {
       "ci_cd": "GitHub Actions",
@@ -172,5 +172,6 @@
       "risk": "Medium - WebSocket connections can be flaky on mobile",
       "mitigation": "Graceful degradation to polling, local state as source of truth"
     }
-  }
+  },
+  "state_management_note": "Zustand integrated into game layout for initial data population (profile, units, formation, inventory). Army page reads from store. TanStack Query installed but not yet active -- manual fetch pattern used. Zustand persist middleware saves to localStorage for cross-page cache."
 }

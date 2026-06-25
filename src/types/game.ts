@@ -12,7 +12,7 @@ export type UnitRarity = "common" | "uncommon" | "rare" | "epic" | "legendary" |
 export interface Unit {
   id: string; unit_id: string; name: string; class: UnitClass; faction: UnitFaction;
   rarity: UnitRarity; level: number; xp: number; hp: number; attack: number;
-  defense: number; speed: number;
+  defense: number; speed: number; isActive: boolean;
   equipment: { weapon?: string; armor?: string; accessory?: string; };
   formation_row?: number; formation_col?: number; power_rating: number;
 }

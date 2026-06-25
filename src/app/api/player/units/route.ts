@@ -1,8 +1,9 @@
 import { NextRequest } from "next/server";
 import { createApiClient, jsonResponse, errorResponse } from "@/lib/supabase/api-helper";
+import { withErrorHandler } from "@/lib/api/validation-middleware";
 
 export async function GET(request: NextRequest) {
-  try {
+  return withErrorHandler(async () => {
     const supabase = await createApiClient();
     const { data: { user }, error: authError } = await supabase.auth.getUser();
     if (authError || !user) return errorResponse("Unauthorized", 401);
@@ -11,7 +12,7 @@ export async function GET(request: NextRequest) {
     const { data, error } = await supabase.from("player_units").select("*, game_units!inner(*)").eq("player_id", player.id).order("created_at");
     if (error) return errorResponse(error.message);
     if (!data || data.length === 0) return jsonResponse([]);
-    const units = data.map((pu: any) => ({
+    const units = data.map((pu) => ({
       id: pu.id,
       unit_id: pu.unit_id,
       name: pu.game_units?.name || pu.unit_id,
@@ -30,7 +31,5 @@ export async function GET(request: NextRequest) {
       formation_col: pu.formation_col,
     }));
     return jsonResponse(units);
-  } catch (e) {
-    return errorResponse(e instanceof Error ? e.message : "Unknown error", 500);
-  }
-}
+  });
+};

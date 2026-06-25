@@ -1,442 +1,439 @@
 {
-  "document_title": "22 - Competitive Deep Dive: Games & Repositories Analysis",
-  "version": "0.1.0",
+  "documet_title": "22 - Competitive Deep Dive: Games & Repositories Aalysis",
+  "versio": "0.1.0",
   "date": "2026-06-23",
-  "purpose": "Detailed analysis of reference games and open-source repositories for mechanics, features, and code patterns to borrow, adapt, or avoid in Idle Kingdom Revolution.",
+  "purpose": "Detailed aalysis of referece games ad ope-source repositories for mechaics, features, ad code patters to borrow, adapt, or avoid iIdle Kigdom Revolutio.",
   
-  "games_analyzed": {
-    "yet_another_idle_rpg": {
-      "name": "Yet Another Idle RPG",
-      "repo": "https://github.com/miktaew/yet-another-idle-rpg",
-      "wiki": "https://protokind.miraheze.org/wiki/Yet_Another_Idle_RPG",
+  "games_aalyzed": {
+    "yet_aother_idle_rpg": {
+      "ame": "Yet Aother Idle RPG",
+      "repo": "https://github.com/miktaew/yet-aother-idle-rpg",
+      "wiki": "https://protokid.miraheze.org/wiki/Yet_Aother_Idle_RPG",
       "platform": "Web (browser)",
-      "tech_stack": "JavaScript (vanilla), HTML, CSS - pure browser game",
-      "license": "Open source (check repo for specific license)",
+      "tech_stack": "JavaScript (vailla), HTML, CSS - pure browser game",
+      "licese": "Opesource (check repo for specific licese)",
       
-      "mechanics_analysis": {
+      "mechaics_aalysis": {
         "combat_system": {
-          "description": "Turn-based auto-combat with attack speed, defense, evasion stats",
-          "details": "Player and enemies take turns based on attack speed. Damage = attack - defense (with minimum 1). Evasion chance based on agility difference.",
-          "borrow_for_ikr": "Attack speed-based turn order, evasion mechanics, minimum damage guarantee",
-          "adaptation": "Add formation bonuses, class synergies, skill abilities on top of base system"
+          "descriptio": "Tur-based auto-combat with attack speed, defese, evasiostats",
+          "details": "Player ad eemies take turs based oattack speed. Damage = attack - defese (with miimum 1). Evasiochace based oagility differece.",
+          "borrow_for_ikr": "Attack speed-based turorder, evasiomechaics, miimum damage guaratee",
+          "adaptatio": "Add formatiobouses, class syergies, skill abilities otop of base system"
         },
         "skill_system": {
-          "description": "Passive skill trees with unlockable bonuses",
-          "details": "Skills unlock as player progresses areas. Each skill gives permanent passive bonus (damage, defense, gold, XP). No active skills - all passive.",
-          "borrow_for_ikr": "Passive perk trees by category (combat, economy, utility)",
-          "adaptation": "Add active abilities triggered in battle, synergy bonuses for completing trees"
+          "descriptio": "Passive skill trees with ulockable bouses",
+          "details": "Skills ulock as player progresses areas. Each skill gives permaet passive bous (damage, defese, gold, XP). o active skills - all passive.",
+          "borrow_for_ikr": "Passive perk trees by category (combat, ecoomy, utility)",
+          "adaptatio": "Add active abilities triggered ibattle, syergy bouses for completig trees"
         },
-        "area_progression": {
-          "description": "Linear area unlock with increasing difficulty",
-          "details": "Each area has enemies with scaled stats. Beat area boss to unlock next. Can farm previous areas for gold/XP.",
-          "borrow_for_ikr": "Area-based progression with farming option, boss gate for next area",
-          "adaptation": "Add map nodes (battle, resource, event types), fast travel, fog of war"
+        "area_progressio": {
+          "descriptio": "Liear area ulock with icreasig difficulty",
+          "details": "Each area has eemies with scaled stats. Beat area boss to ulock ext. Cafarm previous areas for gold/XP.",
+          "borrow_for_ikr": "Area-based progressiowith farmig optio, boss gate for ext area",
+          "adaptatio": "Add map odes (battle, resource, evet types), fast travel, fog of war"
         },
-        "equipment_system": {
-          "description": "Simple equipment slots with stat bonuses",
-          "details": "Weapon, armor, accessory slots. Items drop from enemies with random stats. Rarity tiers (common to legendary).",
-          "borrow_for_ikr": "Equipment slots, rarity tiers, random stat rolls",
-          "adaptation": "Add upgrade system (+1 to +15), set bonuses, crafting from materials"
+        "equipmet_system": {
+          "descriptio": "Simple equipmet slots with stat bouses",
+          "details": "Weapo, armor, accessory slots. Items drop from eemies with radom stats. Rarity tiers (commoto legedary).",
+          "borrow_for_ikr": "Equipmet slots, rarity tiers, radom stat rolls",
+          "adaptatio": "Add upgrade system (+1 to +15), set bouses, craftig from materials"
         },
         "prestige_system": {
-          "description": "No traditional prestige - instead 'mastery' bonuses",
-          "details": "As you defeat enemies, you gain mastery in that enemy type, giving permanent bonuses against them.",
-          "borrow_for_ikr": "Enemy mastery system as secondary progression",
-          "adaptation": "Add faction mastery (bonus vs orcs, undead, etc.), weapon type mastery"
+          "descriptio": "o traditioal prestige - istead 'mastery' bouses",
+          "details": "As you defeat eemies, you gaimastery ithat eemy type, givig permaet bouses agaist them.",
+          "borrow_for_ikr": "Eemy mastery system as secodary progressio",
+          "adaptatio": "Add factiomastery (bous vs orcs, udead, etc.), weapotype mastery"
         },
-        "offline_progression": {
-          "description": "Offline earnings based on last area",
-          "details": "While offline, auto-farm gold/XP from highest unlocked area. Cap at 8 hours.",
-          "borrow_for_ikr": "Offline farming from highest area, time cap",
-          "adaptation": "Add offline boosters, configurable cap via admin, bonus for consecutive logins"
+        "offlie_progressio": {
+          "descriptio": "Offlie earigs based olast area",
+          "details": "While offlie, auto-farm gold/XP from highest ulocked area. Cap at 8 hours.",
+          "borrow_for_ikr": "Offlie farmig from highest area, time cap",
+          "adaptatio": "Add offlie boosters, cofigurable cap via admi, bous for cosecutive logis"
         }
       },
       
-      "ui_ux_patterns": {
-        "strengths": [
-          "Clean, minimal UI - no clutter",
-          "Combat log shows every action",
-          "Equipment comparison on hover",
-          "Progress bars for everything"
+      "ui_ux_patters": {
+        "stregths": [
+          "Clea, miimal UI - o clutter",
+          "Combat log shows every actio",
+          "Equipmet comparisoohover",
+          "Progress bars for everythig"
         ],
-        "weaknesses": [
-          "No mobile optimization",
-          "No PWA support",
-          "No save system (localStorage only)",
-          "No animations or visual feedback"
+        "weakesses": [
+          "o mobile optimizatio",
+          "o PWA support",
+          "o save system (localStorage oly)",
+          "o aimatios or visual feedback"
         ],
-        "borrow_for_ikr": "Clean minimal UI, detailed combat log, equipment comparison tooltips",
-        "avoid": "No mobile support, no cloud save, no animations"
+        "borrow_for_ikr": "Cleamiimal UI, detailed combat log, equipmet comparisotooltips",
+        "avoid": "o mobile support, o cloud save, o aimatios"
       },
       
-      "code_patterns": {
-        "architecture": "Single-file vanilla JS - not scalable",
-        "state_management": "Global object, saved to localStorage",
-        "game_loop": "setInterval-based tick",
-        "data_storage": "Hardcoded JSON objects for enemies, items",
-        "borrow_for_ikr": "Data structure patterns for enemies/items, combat formula logic",
-        "avoid": "Single-file architecture, setInterval (use requestAnimationFrame), hardcoded data"
+      "code_patters": {
+        "architecture": "Sigle-file vailla JS - ot scalable",
+        "state_maagemet": "Global object, saved to localStorage",
+        "game_loop": "setIterval-based tick",
+        "data_storage": "Hardcoded JSOobjects for eemies, items",
+        "borrow_for_ikr": "Data structure patters for eemies/items, combat formula logic",
+        "avoid": "Sigle-file architecture, setIterval (use requestAimatioFrame), hardcoded data"
       },
       
-      "verdict": "Good reference for core idle RPG mechanics and data structures. UI patterns worth borrowing. Architecture and tech stack to avoid - use modern React/Next.js instead."
+      "verdict": "Good referece for core idle RPG mechaics ad data structures. UI patters worth borrowig. Architecture ad tech stack to avoid - use moderReact/ext.js istead."
     },
     
-    "idle_fantasy": {
-      "name": "Idle Fantasy",
-      "repo": "https://github.com/tristinbaker/IdleFantasy",
-      "fdroid": "https://f-droid.org/packages/com.tristinbaker.idlefantasy/",
-      "platform": "Android (Kotlin)",
-      "tech_stack": "Kotlin, Android native, Room database",
-      "license": "Open source (likely MIT or GPL - verify in repo)",
+    "idle_fatasy": {
+      "ame": "Idle Fatasy",
+      "repo": "https://github.com/tristibaker/IdleFatasy",
+      "fdroid": "https://f-droid.org/packages/com.tristibaker.idlefatasy/",
+      "platform": "Adroid (Kotli)",
+      "tech_stack": "Kotli, Adroid ative, Room database",
+      "licese": "Opesource (likely MIT or GPL - verify irepo)",
       
-      "mechanics_analysis": {
-        "hero_collection": {
-          "description": "Gacha-style hero summoning with rarity tiers",
-          "details": "Summon heroes using in-game currency. Heroes have stars (1-5), classes, elements. Higher stars = better stats.",
-          "borrow_for_ikr": "Gacha summoning circle, star/ascension system, element/class combinations",
-          "adaptation": "Add pity system, rate-up banners, guaranteed epic every X pulls"
+      "mechaics_aalysis": {
+        "hero_collectio": {
+          "descriptio": "Gacha-style hero summoig with rarity tiers",
+          "details": "Summoheroes usig i-game currecy. Heroes have stars (1-5), classes, elemets. Higher stars = better stats.",
+          "borrow_for_ikr": "Gacha summoig circle, star/ascesiosystem, elemet/class combiatios",
+          "adaptatio": "Add pity system, rate-up baers, guarateed epic every X pulls"
         },
-        "team_formation": {
-          "description": "5-hero team with position-based bonuses",
-          "details": "Front row takes more damage, back row deals more. Class synergies when specific combinations present.",
-          "borrow_for_ikr": "Position-based bonuses, class synergy system",
-          "adaptation": "Expand to 3x3 grid, add faction synergies, tactical hints"
+        "team_formatio": {
+          "descriptio": "5-hero team with positio-based bouses",
+          "details": "Frot row takes more damage, back row deals more. Class syergies whespecific combiatios preset.",
+          "borrow_for_ikr": "Positio-based bouses, class syergy system",
+          "adaptatio": "Expad to 3x3 grid, add factiosyergies, tactical hits"
         },
-        "campaign_progression": {
-          "description": "Chapter-based story with battles",
-          "details": "Story divided into chapters, each with multiple battles. 3-star rating system based on performance.",
-          "borrow_for_ikr": "Chapter-based story structure, star ratings per battle",
-          "adaptation": "Add branching paths, hidden chapters, chapter rewards"
+        "campaig_progressio": {
+          "descriptio": "Chapter-based story with battles",
+          "details": "Story divided ito chapters, each with multiple battles. 3-star ratig system based operformace.",
+          "borrow_for_ikr": "Chapter-based story structure, star ratigs per battle",
+          "adaptatio": "Add brachig paths, hiddechapters, chapter rewards"
         },
-        "idle_earnings": {
-          "description": "Offline gold and XP generation",
-          "details": "Based on highest completed chapter. Collect manually or auto-collect on login.",
-          "borrow_for_ikr": "Chapter-based offline earnings, manual/auto collection",
-          "adaptation": "Add offline cap, boosters, multiple resource types"
+        "idle_earigs": {
+          "descriptio": "Offlie gold ad XP geeratio",
+          "details": "Based ohighest completed chapter. Collect maually or auto-collect ologi.",
+          "borrow_for_ikr": "Chapter-based offlie earigs, maual/auto collectio",
+          "adaptatio": "Add offlie cap, boosters, multiple resource types"
         },
-        "equipment_enhancement": {
-          "description": "Equipment upgrade with materials",
-          "details": "Use materials from battles to upgrade equipment. Risk of failure at higher levels.",
-          "borrow_for_ikr": "Material-based upgrades, failure chance at high levels",
-          "adaptation": "Add safety items (prevent downgrade on fail), guaranteed success items"
+        "equipmet_ehacemet": {
+          "descriptio": "Equipmet upgrade with materials",
+          "details": "Use materials from battles to upgrade equipmet. Risk of failure at higher levels.",
+          "borrow_for_ikr": "Material-based upgrades, failure chace at high levels",
+          "adaptatio": "Add safety items (prevet dowgrade ofail), guarateed success items"
         },
         "daily_activities": {
-          "description": "Daily quests, login rewards, limited-time dungeons",
-          "details": "Rotating daily content to encourage daily play without forcing long sessions.",
-          "borrow_for_ikr": "Daily quest rotation, login calendar, limited dungeons",
-          "adaptation": "Add weekly/monthly calendars, streak bonuses, catch-up mechanics"
+          "descriptio": "Daily quests, logirewards, limited-time dugeos",
+          "details": "Rotatig daily cotet to ecourage daily play without forcig log sessios.",
+          "borrow_for_ikr": "Daily quest rotatio, logicaledar, limited dugeos",
+          "adaptatio": "Add weekly/mothly caledars, streak bouses, catch-up mechaics"
         }
       },
       
-      "ui_ux_patterns": {
-        "strengths": [
-          "Mobile-first design",
-          "Smooth animations between screens",
-          "Hero collection showcase (gallery feel)",
+      "ui_ux_patters": {
+        "stregths": [
+          "Mobile-first desig",
+          "Smooth aimatios betweescrees",
+          "Hero collectioshowcase (gallery feel)",
           "Clear visual hierarchy"
         ],
-        "weaknesses": [
-          "Heavy gacha push (pay-to-win feel)",
+        "weakesses": [
+          "Heavy gacha push (pay-to-wifeel)",
           "Limited tactical depth",
-          "Repetitive battle animations",
-          "No web version"
+          "Repetitive battle aimatios",
+          "o web versio"
         ],
-        "borrow_for_ikr": "Mobile-first responsive design, hero gallery, smooth transitions",
-        "avoid": "Aggressive monetization, shallow tactics, native-only"
+        "borrow_for_ikr": "Mobile-first resposive desig, hero gallery, smooth trasitios",
+        "avoid": "Aggressive moetizatio, shallow tactics, ative-oly"
       },
       
-      "code_patterns": {
-        "architecture": "MVVM with Room database, Repository pattern",
-        "state_management": "LiveData + ViewModel",
-        "game_loop": "Coroutine-based async operations",
-        "data_storage": "Room database with entities for heroes, items, progress",
-        "borrow_for_ikr": "Repository pattern for data access, entity relationships, async game operations",
-        "avoid": "Android-specific code (use web APIs), LiveData (use Zustand/TanStack Query)"
+      "code_patters": {
+        "architecture": "MVVM with Room database, Repository patter",
+        "state_maagemet": "LiveData + ViewModel",
+        "game_loop": "Coroutie-based asyc operatios",
+        "data_storage": "Room database with etities for heroes, items, progress",
+        "borrow_for_ikr": "Repository patterfor data access, etity relatioships, asyc game operatios",
+        "avoid": "Adroid-specific code (use web APIs), LiveData (use Zustad/TaStack Query)"
       },
       
-      "verdict": "Excellent reference for mobile idle RPG UX and gacha mechanics. Code architecture patterns valuable. Monetization approach to avoid - focus on fair/free first."
+      "verdict": "Excellet referece for mobile idle RPG UX ad gacha mechaics. Code architecture patters valuable. Moetizatioapproach to avoid - focus ofair/free first."
     },
     
     "melvor_idle": {
-      "name": "Melvor Idle",
+      "ame": "Melvor Idle",
       "platform": "Web, Steam, Mobile",
       "tech_stack": "JavaScript (browser), later ported to multiple platforms",
-      "license": "Proprietary (but moddable community)",
+      "licese": "Proprietary (but moddable commuity)",
       "wiki": "https://wiki.melvoridle.com/",
       
-      "mechanics_analysis": {
+      "mechaics_aalysis": {
         "skill_system": {
-          "description": "20+ skills each with independent leveling",
-          "details": "Combat skills (attack, strength, defense, ranged, magic) + non-combat (woodcutting, fishing, mining, crafting, etc.). Each skill has its own XP bar and unlocks.",
-          "borrow_for_ikr": "Multiple parallel progression systems, skill trees with unlocks",
-          "adaptation": "Combat skills (sword, bow, magic, defense) + kingdom skills (mining, crafting, alchemy)"
+          "descriptio": "20+ skills each with idepedet levelig",
+          "details": "Combat skills (attack, stregth, defese, raged, magic) + o-combat (woodcuttig, fishig, miig, craftig, etc.). Each skill has its owXP bar ad ulocks.",
+          "borrow_for_ikr": "Multiple parallel progressiosystems, skill trees with ulocks",
+          "adaptatio": "Combat skills (sword, bow, magic, defese) + kigdom skills (miig, craftig, alchemy)"
         },
-        "bank_system": {
-          "description": "Extensive inventory/bank with tabs and organization",
-          "details": "Items stack, bank has tabs, search, sorting. Equipment sets can be saved/loaded.",
-          "borrow_for_ikr": "Organized inventory with tabs, equipment sets, search/filter",
-          "adaptation": "Add auto-sort, favorite items, quick-equip sets"
+        "bak_system": {
+          "descriptio": "Extesive ivetory/bak with tabs ad orgaizatio",
+          "details": "Items stack, bak has tabs, search, sortig. Equipmet sets cabe saved/loaded.",
+          "borrow_for_ikr": "Orgaized ivetory with tabs, equipmet sets, search/filter",
+          "adaptatio": "Add auto-sort, favorite items, quick-equip sets"
         },
-        "combat_triangle": {
-          "description": "Melee > Ranged > Magic > Melee",
-          "details": "Classic rock-paper-scissors for combat styles. Using correct style gives accuracy bonus.",
-          "borrow_for_ikr": "Combat triangle for class balance, accuracy bonuses",
-          "adaptation": "Warrior > Ranger > Mage > Warrior, with visual indicators"
+        "combat_triagle": {
+          "descriptio": "Melee > Raged > Magic > Melee",
+          "details": "Classic rock-paper-scissors for combat styles. Usig correct style gives accuracy bous.",
+          "borrow_for_ikr": "Combat triagle for class balace, accuracy bouses",
+          "adaptatio": "Warrior > Rager > Mage > Warrior, with visual idicators"
         },
         "slayer_tasks": {
-          "description": "Bounty system - kill X of specific enemy type",
-          "details": "Slayer master assigns tasks. Completing gives bonus XP and rewards. Tasks get harder as level increases.",
-          "borrow_for_ikr": "Bounty/contract system for daily objectives",
-          "adaptation": "Multiple bounty boards (daily, weekly, guild), scaling difficulty"
+          "descriptio": "Bouty system - kill X of specific eemy type",
+          "details": "Slayer master assigs tasks. Completig gives bous XP ad rewards. Tasks get harder as level icreases.",
+          "borrow_for_ikr": "Bouty/cotract system for daily objectives",
+          "adaptatio": "Multiple bouty boards (daily, weekly, guild), scalig difficulty"
         },
-        "dungeoneering": {
-          "description": "Procedurally generated dungeon runs",
-          "details": "Enter dungeon, fight through rooms, get loot, boss at end. Different dungeon tiers.",
-          "borrow_for_ikr": "Procedural dungeon system, room-based progression",
-          "adaptation": "Add dungeon modifiers, daily dungeons, guild dungeons"
+        "dugeoeerig": {
+          "descriptio": "Procedurally geerated dugeorus",
+          "details": "Eter dugeo, fight through rooms, get loot, boss at ed. Differet dugeotiers.",
+          "borrow_for_ikr": "Procedural dugeosystem, room-based progressio",
+          "adaptatio": "Add dugeomodifiers, daily dugeos, guild dugeos"
         },
         "mastery_system": {
-          "description": "Per-item mastery giving permanent bonuses",
-          "details": "Using a specific item/skill increases its mastery, unlocking permanent bonuses.",
-          "borrow_for_ikr": "Item mastery, skill mastery, enemy mastery",
-          "adaptation": "Weapon mastery (bonus with specific weapon type), unit mastery (bonus with specific unit)"
+          "descriptio": "Per-item mastery givig permaet bouses",
+          "details": "Usig a specific item/skill icreases its mastery, ulockig permaet bouses.",
+          "borrow_for_ikr": "Item mastery, skill mastery, eemy mastery",
+          "adaptatio": "Weapomastery (bous with specific weapotype), uit mastery (bous with specific uit)"
         }
       },
       
-      "ui_ux_patterns": {
-        "strengths": [
-          "Tab-based navigation for skills",
+      "ui_ux_patters": {
+        "stregths": [
+          "Tab-based avigatiofor skills",
           "Progress bars everywhere",
-          "Detailed stat breakdowns",
-          "Offline progress summary on login",
-          "Mod support (community content)"
+          "Detailed stat breakdows",
+          "Offlie progress summary ologi",
+          "Mod support (commuity cotet)"
         ],
-        "weaknesses": [
-          "Overwhelming for new players (20+ skills at once)",
-          "No story/narrative",
-          "Grindy progression at high levels",
+        "weakesses": [
+          "Overwhelmig for ew players (20+ skills at oce)",
+          "o story/arrative",
+          "Gridy progressioat high levels",
           "Limited social features"
         ],
-        "borrow_for_ikr": "Tab navigation, progress bars, stat breakdowns, offline summary, mod support concept",
-        "avoid": "Overwhelming new players, no story, pure grind"
+        "borrow_for_ikr": "Tab avigatio, progress bars, stat breakdows, offlie summary, mod support cocept",
+        "avoid": "Overwhelmig ew players, o story, pure grid"
       },
       
-      "verdict": "Best reference for deep progression systems and skill variety. Bank/inventory system exemplary. Need to simplify onboarding and add narrative layer."
+      "verdict": "Best referece for deep progressiosystems ad skill variety. Bak/ivetory system exemplary. eed to simplify oboardig ad add arrative layer."
     },
     
     "trimps": {
-      "name": "Trimps",
+      "ame": "Trimps",
       "platform": "Web (browser)",
       "url": "https://trimps.github.io/",
-      "tech_stack": "JavaScript, HTML5 Canvas",
-      "license": "Open source (MIT)",
+      "tech_stack": "JavaScript, HTML5 Cavas",
+      "licese": "Opesource (MIT)",
       
-      "mechanics_analysis": {
+      "mechaics_aalysis": {
         "prestige_system": {
-          "description": "Portal system - reset progress for permanent bonuses",
-          "details": "Complete a 'run' by reaching certain milestone, then 'Portal' to reset most progress but gain permanent 'Helium' currency for upgrades. Each run is faster due to bonuses.",
-          "borrow_for_ikr": "Prestige/ascension system with permanent currency",
-          "adaptation": "Add 'Kingdom Reset' - reset chapter progress for 'Royal Seals' used for permanent kingdom upgrades"
+          "descriptio": "Portal system - reset progress for permaet bouses",
+          "details": "Complete a 'ru' by reachig certaimilestoe, the'Portal' to reset most progress but gaipermaet 'Helium' currecy for upgrades. Each ruis faster due to bouses.",
+          "borrow_for_ikr": "Prestige/ascesiosystem with permaet currecy",
+          "adaptatio": "Add 'Kigdom Reset' - reset chapter progress for 'Royal Seals' used for permaet kigdom upgrades"
         },
-        "permanent_upgrades": {
-          "description": "Helium spent on permanent multipliers",
-          "details": "Helium buys upgrades like +5% damage, +10% gold, new abilities. These persist across all future runs.",
-          "borrow_for_ikr": "Permanent upgrade shop with incremental costs",
-          "adaptation": "Royal Seal shop with categories: combat, economy, utility, quality of life"
+        "permaet_upgrades": {
+          "descriptio": "Helium spet opermaet multipliers",
+          "details": "Helium buys upgrades like +5% damage, +10% gold, ew abilities. These persist across all future rus.",
+          "borrow_for_ikr": "Permaet upgrade shop with icremetal costs",
+          "adaptatio": "Royal Seal shop with categories: combat, ecoomy, utility, quality of life"
         },
-        "challenge_system": {
-          "description": "Special challenge runs with restrictions",
-          "details": "Complete run with specific restriction (e.g., no healers, only warriors) for bonus rewards. Unlocks new permanent upgrades.",
-          "borrow_for_ikr": "Challenge modes with restrictions and bonus rewards",
-          "adaptation": "Daily challenges, weekly challenges, seasonal challenges with leaderboard"
+        "challege_system": {
+          "descriptio": "Special challege rus with restrictios",
+          "details": "Complete ruwith specific restrictio(e.g., o healers, oly warriors) for bous rewards. Ulocks ew permaet upgrades.",
+          "borrow_for_ikr": "Challege modes with restrictios ad bous rewards",
+          "adaptatio": "Daily challeges, weekly challeges, seasoal challeges with leaderboard"
         },
-        "automation_unlocks": {
-          "description": "Progressive automation of manual tasks",
-          "details": "Early game requires manual clicking. Mid-game unlocks auto-fighting. Late-game unlocks auto-portal, auto-equip, etc.",
-          "borrow_for_ikr": "Progressive automation (auto-battle, auto-equip, auto-quest)",
-          "adaptation": "Unlock automation via perks/achievements, not just progression"
+        "automatio_ulocks": {
+          "descriptio": "Progressive automatioof maual tasks",
+          "details": "Early game requires maual clickig. Mid-game ulocks auto-fightig. Late-game ulocks auto-portal, auto-equip, etc.",
+          "borrow_for_ikr": "Progressive automatio(auto-battle, auto-equip, auto-quest)",
+          "adaptatio": "Ulock automatiovia perks/achievemets, ot just progressio"
         },
-        "zone_scaling": {
-          "description": "Exponential difficulty scaling per zone",
-          "details": "Each zone enemies get ~1.5x stronger. Player must optimize build to push further. Soft caps create natural progression walls.",
-          "borrow_for_ikr": "Exponential scaling, soft caps, build optimization",
-          "adaptation": "Battle field scaling with recommended power ratings"
+        "zoe_scalig": {
+          "descriptio": "Expoetial difficulty scalig per zoe",
+          "details": "Each zoe eemies get ~1.5x stroger. Player must optimize build to push further. Soft caps create atural progressiowalls.",
+          "borrow_for_ikr": "Expoetial scalig, soft caps, build optimizatio",
+          "adaptatio": "Battle field scalig with recommeded power ratigs"
         }
       },
       
-      "ui_ux_patterns": {
-        "strengths": [
-          "Extensive numbers and stats (appeals to math-oriented players)",
-          "Clear progression visualization",
-          "Automation reduces tedium over time",
-          "Deep theory-crafting community"
+      "ui_ux_patters": {
+        "stregths": [
+          "Extesive umbers ad stats (appeals to math-orieted players)",
+          "Clear progressiovisualizatio",
+          "Automatioreduces tedium over time",
+          "Deep theory-craftig commuity"
         ],
-        "weaknesses": [
-          "Ugly by design (intentionally minimal)",
-          "Steep learning curve",
-          "No mobile support",
-          "No story whatsoever"
+        "weakesses": [
+          "Ugly by desig(itetioally miimal)",
+          "Steep learig curve",
+          "o mobile support",
+          "o story whatsoever"
         ],
-        "borrow_for_ikr": "Progressive automation, challenge system, permanent upgrades, stat-heavy UI option",
-        "avoid": "Ugly UI, no mobile, no story"
+        "borrow_for_ikr": "Progressive automatio, challege system, permaet upgrades, stat-heavy UI optio",
+        "avoid": "Ugly UI, o mobile, o story"
       },
       
-      "verdict": "Best reference for prestige/endgame loop and automation design. Challenge system directly applicable. UI to avoid - we want beautiful, not utilitarian."
+      "verdict": "Best referece for prestige/edgame loop ad automatiodesig. Challege system directly applicable. UI to avoid - we wat beautiful, ot utilitaria."
     },
     
-    "realm_grinder": {
-      "name": "Realm Grinder",
+    "realm_grider": {
+      "ame": "Realm Grider",
       "platform": "Web, Steam, Mobile",
-      "url": "https://www.kongregate.com/games/divinegames/realm-grinder",
-      "tech_stack": "Flash/HTML5 (web), Unity (mobile)",
-      "license": "Proprietary",
+      "url": "https://www.kogregate.com/games/diviegames/realm-grider",
+      "tech_stack": "Flash/HTML5 (web), Uity (mobile)",
+      "licese": "Proprietary",
       
-      "mechanics_analysis": {
-        "faction_system": {
-          "description": "Choose faction with unique bonuses and playstyles",
-          "details": "Good (Fairy, Elf, Angel) vs Evil (Goblin, Undead, Demon) vs Neutral (Titan, Druid, Faceless). Each has unique buildings, spells, upgrades.",
-          "borrow_for_ikr": "Faction choice with unique bonuses, buildings, abilities",
-          "adaptation": "Kingdom alignment (Order, Chaos, Nature) with unique unit pools and perks"
+      "mechaics_aalysis": {
+        "factio_system": {
+          "descriptio": "Choose factiowith uique bouses ad playstyles",
+          "details": "Good (Fairy, Elf, Agel) vs Evil (Gobli, Udead, Demo) vs eutral (Tita, Druid, Faceless). Each has uique buildigs, spells, upgrades.",
+          "borrow_for_ikr": "Factiochoice with uique bouses, buildigs, abilities",
+          "adaptatio": "Kigdom aligmet (Order, Chaos, ature) with uique uit pools ad perks"
         },
-        "alignment_mechanics": {
-          "description": "Prestige resets unlock new alignments",
-          "details": "First reset unlocks Neutral factions. Second unlocks Prestige factions (unique combinations). Each alignment has its own progression.",
-          "borrow_for_ikr": "Prestige unlocks new factions/alignments with unique mechanics",
-          "adaptation": "Kingdom Reset unlocks new kingdom types (Empire, Horde, Alliance) with unique units and buildings"
+        "aligmet_mechaics": {
+          "descriptio": "Prestige resets ulock ew aligmets",
+          "details": "First reset ulocks eutral factios. Secod ulocks Prestige factios (uique combiatios). Each aligmet has its owprogressio.",
+          "borrow_for_ikr": "Prestige ulocks ew factios/aligmets with uique mechaics",
+          "adaptatio": "Kigdom Reset ulocks ew kigdom types (Empire, Horde, Alliace) with uique uits ad buildigs"
         },
         "spell_system": {
-          "description": "Active spells with cooldowns and combos",
-          "details": "Each faction has unique spells. Casting spells in sequence creates combos. Spells have durations and cooldowns.",
-          "borrow_for_ikr": "Active abilities/spells with cooldowns and combos",
-          "adaptation": "Unit active abilities, commander spells, combo system for battle"
+          "descriptio": "Active spells with cooldows ad combos",
+          "details": "Each factiohas uique spells. Castig spells isequece creates combos. Spells have duratios ad cooldows.",
+          "borrow_for_ikr": "Active abilities/spells with cooldows ad combos",
+          "adaptatio": "Uit active abilities, commader spells, combo system for battle"
         },
         "research_system": {
-          "description": "Permanent upgrades unlocked through research",
-          "details": "Spend research points (from playtime) to unlock permanent bonuses. Research trees by category.",
-          "borrow_for_ikr": "Research/perk trees with points from playtime",
-          "adaptation": "Kingdom research - spend XP or special currency for permanent bonuses"
+          "descriptio": "Permaet upgrades ulocked through research",
+          "details": "Sped research poits (from playtime) to ulock permaet bouses. Research trees by category.",
+          "borrow_for_ikr": "Research/perk trees with poits from playtime",
+          "adaptatio": "Kigdom research - sped XP or special currecy for permaet bouses"
         },
         "trophy_system": {
-          "description": "Achievements give permanent bonuses",
-          "details": "Hundreds of trophies for various accomplishments. Each gives small permanent bonus. Collecting many unlocks more.",
-          "borrow_for_ikr": "Extensive achievement system with permanent bonuses",
-          "adaptation": "Achievement tiers (bronze/silver/gold/platinum) with scaling bonuses"
+          "descriptio": "Achievemets give permaet bouses",
+          "details": "Hudreds of trophies for various accomplishmets. Each gives small permaet bous. Collectig may ulocks more.",
+          "borrow_for_ikr": "Extesive achievemet system with permaet bouses",
+          "adaptatio": "Achievemet tiers (broze/silver/gold/platium) with scalig bouses"
         }
       },
       
-      "ui_ux_patterns": {
-        "strengths": [
-          "Faction choice is meaningful and replayable",
-          "Progression feels endless (in a good way)",
-n          "Trophy hunting gives long-term goals",
-          "Spell combo system adds active engagement"
+      "ui_ux_patters": {
+        "stregths": [
+          "Factiochoice is meaigful ad replayable",
+          "Progressiofeels edless (ia good way)",
+"Trophy hutig gives log-term goals",
+          "Spell combo system adds active egagemet"
         ],
-        "weaknesses": [
-          "Overwhelming complexity for casual players",
-          "No narrative whatsoever",
-          "Mobile port is clunky",
-          "Paywall for some content"
+        "weakesses": [
+          "Overwhelmig complexity for casual players",
+          "o arrative whatsoever",
+          "Mobile port is cluky",
+          "Paywall for some cotet"
         ],
-        "borrow_for_ikr": "Faction system, trophy/achievement bonuses, spell combos, research trees",
-        "avoid": "Overwhelming complexity, no story, paywalls"
+        "borrow_for_ikr": "Factiosystem, trophy/achievemet bouses, spell combos, research trees",
+        "avoid": "Overwhelmig complexity, o story, paywalls"
       },
       
-      "verdict": "Best reference for faction/replayability design and long-term achievement systems. Spell combo system excellent for active battle engagement."
+      "verdict": "Best referece for factio/replayability desigad log-term achievemet systems. Spell combo system excellet for active battle egagemet."
     },
     
-    "kings_bounty_legions": {
-      "name": "King's Bounty: Legions",
-      "platform": "Android, iOS, Web (Facebook)",
-      "url": "https://kings-bounty-legions.en.uptodown.com/android",
-      "play_store": "https://play.google.com/store/apps/details?id=com.nival.kb",
-      "tech_stack": "Unity (mobile), Flash (web originally)",
-      "license": "Proprietary",
+    "kigs_bouty_legios": {
+      "ame": "Kig's Bouty: Legios",
+      "platform": "Adroid, iOS, Web (Facebook)",
+      "url": "https://kigs-bouty-legios.e.uptodow.com/adroid",
+      "play_store": "https://play.google.com/store/apps/details?id=com.ival.kb",
+      "tech_stack": "Uity (mobile), Flash (web origially)",
+      "licese": "Proprietary",
       
-      "mechanics_analysis": {
-n        "tactical_combat": {
-          "description": "Hex-based tactical battles with unit abilities",
-          "details": "Units move on hex grid, have abilities with cooldowns, terrain affects movement and combat. Hero casts spells.",
-          "borrow_for_ikr": "Hex or grid-based tactical movement, terrain effects, hero spells",
-          "adaptation": "Simplified grid (3x3 formation), terrain bonuses, commander abilities"
+      "mechaics_aalysis": {
+"tactical_combat": {
+          "descriptio": "Hex-based tactical battles with uit abilities",
+          "details": "Uits move ohex grid, have abilities with cooldows, terraiaffects movemet ad combat. Hero casts spells.",
+          "borrow_for_ikr": "Hex or grid-based tactical movemet, terraieffects, hero spells",
+          "adaptatio": "Simplified grid (3x3 formatio), terraibouses, commader abilities"
         },
-        "unit_variety": {
-          "description": "50+ unit types across factions",
-          "details": "Humans, elves, dwarves, undead, demons each have unique unit rosters. Units have special abilities.",
-          "borrow_for_ikr": "Faction-specific unit pools, unit special abilities",
-          "adaptation": "7 classes x 6 factions = 42 base unit types, each with unique ability"
+        "uit_variety": {
+          "descriptio": "50+ uit types across factios",
+          "details": "Humas, elves, dwarves, udead, demos each have uique uit rosters. Uits have special abilities.",
+          "borrow_for_ikr": "Factio-specific uit pools, uit special abilities",
+          "adaptatio": "7 classes x 6 factios = 42 base uit types, each with uique ability"
         },
-        "hero_progression": {
-          "description": "Hero levels up, learns spells, equips artifacts",
-          "details": "Hero is separate from army. Gains XP, levels up, learns new spells, equips artifacts for army-wide bonuses.",
-          "borrow_for_ikr": "Hero/Commander system separate from units",
-          "adaptation": "Commander system - choose commander with unique aura and spell, level up independently"
+        "hero_progressio": {
+          "descriptio": "Hero levels up, lears spells, equips artifacts",
+          "details": "Hero is separate from army. Gais XP, levels up, lears ew spells, equips artifacts for army-wide bouses.",
+          "borrow_for_ikr": "Hero/Commader system separate from uits",
+          "adaptatio": "Commader system - choose commader with uique aura ad spell, level up idepedetly"
         },
-        "pvp_arena": {
-          "description": "Async PvP against other players' armies",
-          "details": "Attack other players' defensive formations. AI controls defender. Rankings and rewards.",
-          "borrow_for_ikr": "Async PvP with defensive formations",
-          "adaptation": "Arena system - set defense formation, attack others, daily ranking rewards"
+        "pvp_area": {
+          "descriptio": "Asyc PvP agaist other players' armies",
+          "details": "Attack other players' defesive formatios. AI cotrols defeder. Rakigs ad rewards.",
+          "borrow_for_ikr": "Asyc PvP with defesive formatios",
+          "adaptatio": "Area system - set defese formatio, attack others, daily rakig rewards"
         },
-        "quest_campaign": {
-          "description": "Story-driven campaign with map exploration",
-          "details": "Move on world map, complete quests, fight battles, discover locations. Branching paths.",
-          "borrow_for_ikr": "World map exploration, branching quest paths, discoverable locations",
-          "adaptation": "Chapter-based map with hidden paths, secret bosses, lore collectibles"
+        "quest_campaig": {
+          "descriptio": "Story-drivecampaigwith map exploratio",
+          "details": "Move oworld map, complete quests, fight battles, discover locatios. Brachig paths.",
+          "borrow_for_ikr": "World map exploratio, brachig quest paths, discoverable locatios",
+          "adaptatio": "Chapter-based map with hiddepaths, secret bosses, lore collectibles"
         }
       },
       
-      "ui_ux_patterns": {
-        "strengths": [
-n          "Rich tactical depth",
-n          "Beautiful unit art",
-n          "Meaningful faction choice",
-n          "PvP adds replayability"
-n        ],
-n        "weaknesses": [
-n          "Heavy pay-to-win (energy system, premium units)",
-n          "Grindy without paying",
-n          "Cluttered UI on mobile",
-n          "Server shutdown risk (original web version died)"
-n        ],
-n        "borrow_for_ikr": "Tactical depth, hero system, PvP arena, campaign structure",
-n        "avoid": "Pay-to-win energy system, premium unit advantage, server dependency"
-n      },
-n      
-n      "verdict": "Closest to our vision in terms of tactical combat and hero system. PvP arena directly applicable. Monetization to avoid completely - we go fair/free first."
-n    }
-n  },
-n  
-n  "cross_game_patterns": {
-n    "what_works": [
-n      "Prestige/ascension with permanent bonuses (Trimps, Melvor)",
-n      "Faction/alignment choice with unique playstyles (Realm Grinder, KB: Legions)",
-n      "Progressive automation reducing tedium (Trimps)",
-n      "Extensive achievement/trophy system (Realm Grinder, Melvor)",
-n      "Chapter/area-based story progression (Idle Fantasy, KB: Legions)",
-n      "Offline earnings with cap (YAIdleRPG, Idle Fantasy)",
-n      "Gacha with pity system (Idle Fantasy)",
-n      "Equipment upgrade with risk (Idle Fantasy)",
-n      "Combat triangle/rock-paper-scissors (Melvor)",
-n      "Daily/weekly rotating content (Idle Fantasy, Melvor)"
-n    ],
-n    "what_to_avoid": [
-n      "Heavy pay-to-win (KB: Legions, Idle Fantasy)",
-n      "No story/narrative (Trimps, Melvor, Realm Grinder)",
-n      "Overwhelming new players (Melvor, Realm Grinder)",
-n      "Forced check-ins (original Idle Bounty)",
-n      "Native-only (no web) (Idle Fantasy)",
-n      "Server dependency (KB: Legions web version died)",
-n      "Ugly/minimal UI by design (Trimps)",
-n      "No mobile optimization (YAIdleRPG, Trimps)"
-n    ]
-n  },
-n  
-n  "ikr_synthesis": {
-n    "core_loop": "Trimps prestige + Idle Fantasy chapter progression + Melvor skill variety",
-n    "combat": "KB: Legions tactical depth + YAIdleRPG turn order + Melvor combat triangle",
-n    "progression": "Realm Grinder factions + Melvor mastery + Trimps automation",
-n    "monetization": "Idle Fantasy gacha (fair version) + Melvor expansion model (cosmetics/content)",
-n    "social": "KB: Legions async PvP + Realm Grinder leaderboards",
-n    "story": "KB: Legions campaign structure + chapter-based narrative (unique to IKR)"
-n  }
-n}
+      "ui_ux_patters": {
+        "stregths": [
+"Rich tactical depth",
+"Beautiful uit art",
+"Meaigful factiochoice",
+"PvP adds replayability"
+],
+"weakesses": [
+"Heavy pay-to-wi(eergy system, premium uits)",
+"Gridy without payig",
+"Cluttered UI omobile",
+"Server shutdowrisk (origial web versiodied)"
+],
+"borrow_for_ikr": "Tactical depth, hero system, PvP area, campaigstructure",
+"avoid": "Pay-to-wieergy system, premium uit advatage, server depedecy"
+},
+"verdict": "Closest to our visioiterms of tactical combat ad hero system. PvP area directly applicable. Moetizatioto avoid completely - we go fair/free first."
+}
+},
+"cross_game_patters": {
+"what_works": [
+"Prestige/ascesiowith permaet bouses (Trimps, Melvor)",
+"Factio/aligmet choice with uique playstyles (Realm Grider, KB: Legios)",
+"Progressive automatioreducig tedium (Trimps)",
+"Extesive achievemet/trophy system (Realm Grider, Melvor)",
+"Chapter/area-based story progressio(Idle Fatasy, KB: Legios)",
+"Offlie earigs with cap (YAIdleRPG, Idle Fatasy)",
+"Gacha with pity system (Idle Fatasy)",
+"Equipmet upgrade with risk (Idle Fatasy)",
+"Combat triagle/rock-paper-scissors (Melvor)",
+"Daily/weekly rotatig cotet (Idle Fatasy, Melvor)"
+],
+"what_to_avoid": [
+"Heavy pay-to-wi(KB: Legios, Idle Fatasy)",
+"o story/arrative (Trimps, Melvor, Realm Grider)",
+"Overwhelmig ew players (Melvor, Realm Grider)",
+"Forced check-is (origial Idle Bouty)",
+"ative-oly (o web) (Idle Fatasy)",
+"Server depedecy (KB: Legios web versiodied)",
+"Ugly/miimal UI by desig(Trimps)",
+"o mobile optimizatio(YAIdleRPG, Trimps)"
+]
+},
+"ikr_sythesis": {
+"core_loop": "Trimps prestige + Idle Fatasy chapter progressio+ Melvor skill variety",
+"combat": "KB: Legios tactical depth + YAIdleRPG turorder + Melvor combat triagle",
+"progressio": "Realm Grider factios + Melvor mastery + Trimps automatio",
+"moetizatio": "Idle Fatasy gacha (fair versio) + Melvor expasiomodel (cosmetics/cotet)",
+"social": "KB: Legios asyc PvP + Realm Grider leaderboards",
+"story": "KB: Legios campaigstructure + chapter-based arrative (uique to IKR)"
+}
+}
