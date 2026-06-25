@@ -1,7 +1,6 @@
 import { NextRequest } from "next/server";
 import { createApiClient, jsonResponse, errorResponse } from "@/lib/supabase/api-helper";
 import { startBattle, processTick } from "@/lib/game/battle-engine";
-import { calculateLevel } from "@/lib/game/leveling";
 
 export async function POST(request: NextRequest) {
   try {
@@ -22,10 +21,10 @@ export async function POST(request: NextRequest) {
       attack: (pu.game_units?.base_attack || 10) * (1 + (pu.level || 1) * 0.1),
       defense: (pu.game_units?.base_defense || 10) * (1 + (pu.level || 1) * 0.1),
       speed: pu.game_units?.base_speed || 100,
-      equipment: {}, faction: "human", power_rating: 0, isActive: true,
+      equipment: {}, faction: "human" as UnitFaction, power_rating: 0, isActive: true,
     }));
-    const formation = { front: [null, null, null], back: [null, null, null] };
-    battleUnits.forEach((u, i) => { if (i < 3) formation.front[i] = { unit_id: u.unit_id, row: 0, col: i }; else formation.back[i - 3] = { unit_id: u.unit_id, row: 1, col: i - 3 }; });
+    const formation: Formation = { front: [null, null, null], back: [null, null, null] };
+    battleUnits.forEach((u, i) => { if (i < 3) { const cell: FormationCell = { unit_id: u.unit_id, row: 0, col: i }; formation.front[i] = cell; } else { const cell: FormationCell = { unit_id: u.unit_id, row: 1, col: i - 3 }; formation.back[i - 3] = cell; } });
     let battle = startBattle(field, battleUnits, formation);
     for (let i = 0; i < 200; i++) { processTick(battle); if (battle.status !== "active") break; }
     const xpGained = battle.status === "victory" ? (field.rewards?.xp || 30) : Math.floor((field.rewards?.xp || 30) * 0.3);
@@ -52,3 +51,5 @@ export async function POST(request: NextRequest) {
     return errorResponse(e instanceof Error ? e.message : "Unknown error", 500);
   }
 }
+import type { Formation, FormationCell, UnitFaction } from "@/types/game";
+import { calculateLevel } from "@/lib/game/leveling";

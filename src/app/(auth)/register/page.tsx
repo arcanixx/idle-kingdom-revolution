@@ -9,7 +9,7 @@ export default function RegisterPage() {
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
   const [supabase, setSupabase] = useState(null);
   useEffect(() => {
     if (!supabase) setSupabase(createBrowserClient(

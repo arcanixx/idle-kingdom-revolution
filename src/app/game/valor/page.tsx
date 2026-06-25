@@ -31,7 +31,7 @@ export default function ValorPage() {
   }, [loading, user]);
 
   async function learnPerk(treeName: string, perkName: string, cost: number) {
-    setBuy(true); setError("");
+    setBusy(true); setError("");
     try {
       const r = await fetch("/api/player/valor", {
         method: "POST",
@@ -45,7 +45,7 @@ export default function ValorPage() {
     } catch (e: any) {
       setError(e.message);
     }
-    setBuy(false);
+    setBusy(false);
   }
 
   function canUnlock(perk: PerkDefinition, treeName: string): boolean {
@@ -87,7 +87,7 @@ export default function ValorPage() {
                   <p className="text-xs text-green-600 mt-2">Unlocked</p>
                 ) : (
                   <button onClick={() => learnPerk(tree.id, perk.id, perk.cost)}
-                    disabled={!affordable || buy}
+                    disabled={!affordable || busy}
                     className={"w-full mt-2 py-2 rounded-lg text-sm font-medium " + (affordable ? "bg-primary text-primary-foreground hover:opacity-90" : "bg-muted text-muted-foreground cursor-not-allowed")}>
                     {affordable ? "Learn (" + perk.cost + " V)" : "Requirements not met"}
                   </button>
