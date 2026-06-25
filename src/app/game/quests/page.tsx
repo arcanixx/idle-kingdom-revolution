@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
+import { Skeleton } from "@/components/skeleton";
 import { useUser } from "@/hooks/use-user";
 
 interface Quest {
@@ -14,6 +15,7 @@ interface PlayerQuest {
 export default function QuestsPage() {
   const { user, loading } = useUser();
   const [quests, setQuests] = useState<Quest[]>([]);
+  const [questsLoading, setQuestsLoading] = useState(true);
   const [myQuests, setMyQuests] = useState<Map<number, PlayerQuest>>(new Map());
   const [busy, setBusy] = useState(false);
 

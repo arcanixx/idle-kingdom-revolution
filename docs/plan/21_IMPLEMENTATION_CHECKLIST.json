@@ -1,7 +1,7 @@
 {
   "document_title": "21 - Implementation Checklist",
   "version": "0.1.0",
-  "date": "2026-06-23",
+  "date": "2026-06-25",
   "purpose": "Phase-by-phase checklist with tasks, deliverables, and quality gates. Each phase must be 100% complete before starting next phase.",
   "phase_0_foundation": {
     "name": "Phase 0: Foundation",
@@ -16,14 +16,14 @@
         "id": "P0-01",
         "task": "Initialize Next.js 15 project with TypeScript, Tailwind, App Router",
         "owner": "AI",
-        "status": "pending",
+        "status": "completed",
         "deliverable": "Project builds without errors"
       },
       {
         "id": "P0-02",
         "task": "Configure ESLint + Prettier + TypeScript strict mode",
         "owner": "AI",
-        "status": "pending",
+        "status": "completed",
         "deliverable": "No lint errors, consistent formatting"
       },
       {
@@ -37,35 +37,35 @@
         "id": "P0-04",
         "task": "Create Supabase project and configure auth",
         "owner": "Maciek",
-        "status": "pending",
+        "status": "completed",
         "deliverable": "Supabase dashboard accessible"
       },
       {
         "id": "P0-05",
         "task": "Write database schema (all tables from ARCHITECTURE)",
         "owner": "AI",
-        "status": "pending",
+        "status": "completed",
         "deliverable": "Schema applied to Supabase, no errors"
       },
       {
         "id": "P0-06",
         "task": "Setup Supabase client (browser + server)",
         "owner": "AI",
-        "status": "pending",
+        "status": "completed",
         "deliverable": "Client connects, auth works"
       },
       {
         "id": "P0-07",
         "task": "Configure Row Level Security policies",
         "owner": "AI",
-        "status": "pending",
+        "status": "in_progress",
         "deliverable": "RLS tested, no unauthorized access"
       },
       {
         "id": "P0-08",
         "task": "Create basic landing page",
         "owner": "AI",
-        "status": "pending",
+        "status": "completed",
         "deliverable": "Page renders, responsive"
       },
       {
@@ -86,14 +86,14 @@
         "id": "P0-11",
         "task": "Write Phase 0 tests (build, lint, typecheck)",
         "owner": "AI",
-        "status": "pending",
+        "status": "completed",
         "deliverable": "All tests pass"
       },
       {
         "id": "P0-12",
         "task": "Update documentation with actual setup steps",
         "owner": "AI",
-        "status": "pending",
+        "status": "in_progress",
         "deliverable": "README.md accurate"
       }
     ],
@@ -111,28 +111,28 @@
         "id": "P1-01",
         "task": "Implement auth system (register, login, logout, guest)",
         "owner": "AI",
-        "status": "pending",
+        "status": "completed",
         "deliverable": "All auth flows work, tests pass"
       },
       {
         "id": "P1-02",
         "task": "Create player profile system",
         "owner": "AI",
-        "status": "pending",
+        "status": "completed",
         "deliverable": "Profile CRUD, stats display"
       },
       {
         "id": "P1-03",
         "task": "Implement battle engine (tick-based, deterministic)",
         "owner": "AI",
-        "status": "pending",
+        "status": "completed",
         "deliverable": "Battles run correctly, results reproducible"
       },
       {
         "id": "P1-04",
         "task": "Create formation grid system",
         "owner": "AI",
-        "status": "pending",
+        "status": "in_progress",
         "deliverable": "3x3 grid, drag-drop, synergies"
       },
       {
@@ -153,21 +153,21 @@
         "id": "P1-07",
         "task": "Implement 5 battle fields with progressive difficulty",
         "owner": "AI",
-        "status": "pending",
+        "status": "completed",
         "deliverable": "Fields unlock correctly, difficulty scales"
       },
       {
         "id": "P1-08",
         "task": "Create army management screen",
         "owner": "AI",
-        "status": "pending",
+        "status": "in_progress",
         "deliverable": "Unit list, upgrade, formation editor"
       },
       {
         "id": "P1-09",
         "task": "Implement unit leveling and power rating",
         "owner": "AI",
-        "status": "pending",
+        "status": "completed",
         "deliverable": "Leveling works, power rating accurate"
       },
       {
@@ -202,7 +202,7 @@
         "id": "P1-14",
         "task": "Write battle engine unit tests (100% coverage)",
         "owner": "AI",
-        "status": "pending",
+        "status": "completed",
         "deliverable": "All edge cases covered"
       },
       {
@@ -283,7 +283,7 @@
         "id": "P2-08",
         "task": "Create leaderboard system",
         "owner": "AI",
-        "status": "pending",
+        "status": "in_progress",
         "deliverable": "Leaderboard updates, filters work"
       },
       {
@@ -533,8 +533,8 @@
     "quality_gate": "Retained player base, positive feedback, revenue growth"
   },
   "castle_system": [
-    "Utwórz tabelê castle_state",
-    "Utwórz tabelê castle_buildings",
+    "Utwï¿½rz tabelï¿½ castle_state",
+    "Utwï¿½rz tabelï¿½ castle_buildings",
     "API GET /api/castle/state",
     "API POST /api/castle/upgrade",
     "Frontend panel zamku",
@@ -542,8 +542,8 @@
     "Testy jednostkowe systemu zamku"
   ],
   "marketplace": [
-    "Utwórz tabelê marketplace_listings",
-    "Utwórz tabelê marketplace_transactions",
+    "Utwï¿½rz tabelï¿½ marketplace_listings",
+    "Utwï¿½rz tabelï¿½ marketplace_transactions",
     "API GET /api/marketplace/listings",
     "API POST /api/marketplace/buy",
     "API POST /api/marketplace/sell",
@@ -552,25 +552,25 @@
     "Testy marketplace"
   ],
   "events": [
-    "Utwórz tabelê event_log",
+    "Utwï¿½rz tabelï¿½ event_log",
     "API GET /api/events/active",
     "API POST /api/events/choose",
     "API POST /api/events/claim",
     "Frontend modal eventu",
-    "4 scenariusze eventów",
-    "Testy eventów"
+    "4 scenariusze eventï¿½w",
+    "Testy eventï¿½w"
   ],
   "advanced_combat": [
     "System formacji 3x3",
     "Tryb treningu",
-    "Wypo¿yczalnia jednostek",
+    "Wypoï¿½yczalnia jednostek",
     "System NG+",
     "Testy formacji i treningu"
   ],
   "equipment_and_cosmetics": [
     "System run (slot od 30 poziomu)",
     "Sklep z skinami",
-    "System ulepszeñ ekwipunku",
+    "System ulepszeï¿½ ekwipunku",
     "Testy ekwipunku"
   ]
 }

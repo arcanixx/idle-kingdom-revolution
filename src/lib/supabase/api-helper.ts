@@ -1,4 +1,5 @@
 import { createServerClient } from "@supabase/ssr";
+import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 
 export async function createApiClient() {
@@ -8,21 +9,18 @@ export async function createApiClient() {
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "",
     {
       cookies: {
-        get(name) { return cookieStore.get(name)?.value; },
-        set(name, value, opts) { cookieStore.set(name, value, opts); },
-        remove(name, opts) { cookieStore.set(name, "", opts); },
+        get(name: string) { return cookieStore.get(name)?.value; },
+        set(name: string, value: string, opts: any) { cookieStore.set(name, value, opts); },
+        remove(name: string, opts: any) { cookieStore.set(name, "", opts); },
       },
     }
   );
 }
 
-export function jsonResponse(data, status = 200) {
-  return new Response(JSON.stringify(data), {
-    status,
-    headers: { "Content-Type": "application/json" },
-  });
+export function jsonResponse(data: unknown, status = 200) {
+  return NextResponse.json(data, { status });
 }
 
-export function errorResponse(message, status = 400) {
+export function errorResponse(message: string, status = 400) {
   return jsonResponse({ error: message }, status);
 }
