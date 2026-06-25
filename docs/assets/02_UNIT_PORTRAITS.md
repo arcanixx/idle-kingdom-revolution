@@ -6,6 +6,12 @@
 >
 > **WAŻNE rozróżnienie:** "3/4 view" w tym dokumencie oznacza KĄT OBROTU KAMERY (postać obrócona ok. 45° do obiektywu), NIE ucięcie kadru w 3/4 wysokości. Postać MUSI mieć widoczne nogi i stopy w każdym wariancie rarity (Base → Mythic). Jeśli model AI (np. Gemini) generuje postać bez nóg, dodaj do promptu explicite: "full body shot from head to feet, feet visible, NOT a cropped portrait, NOT half-body".
 
+> **UWAGA – stany bojowe:**
+> - `idle`, `attack`, `hit` to **osobne assety** (różne pozy/sylwetki). Generujemy je TYLKO dla **HERO CHARACTERS** (playable units).
+> - **GENERIC UNITS** (enemies, allies, troopers) mają TYLKO stan `idle`. Nie generujemy dla nich `attack` i `hit`.
+> - Wszystkie inne efekty wizualne (blood, burn, frozen, poison, death, necromancy) to **overlay'e** nakładane w kodzie/shadere – NIE generujemy osobnych assetów.
+> - Szczegóły: patrz [11_COMBAT_VISUAL_STATES.md](./11_COMBAT_VISUAL_STATES.md).
+
 ---
 
 ## Hierarchia BASE → RARITY
@@ -26,6 +32,41 @@ Human Warrior BASE (referencja)
 ├── Human Warrior Epic (złota zbroja z rubinami, aura mocy)
 ├── Human Warrior Legendary (celestial armor of light, skrzydlaty hełm)
 └── Human Warrior Mythic (zbroja z żywych gwiazd, zmieniające się konstelacje)
+
+---
+
+### Hero – definicja i zakres
+
+**Hero** to każda postać w drużynie gracza (party). W typowym idle RPG drużyna liczy 3–5 postaci, każda innej klasy. Wszystkie otrzymują pełną progresję rarity.
+
+| Aspekt | Zasada |
+|--------|--------|
+| Frakcja | 1 na playthrough (np. Human) |
+| Klasy | Tyle, ile miejsc w drużynie (zwykle 3–5 z 7 dostępnych) |
+| Rarity | Wszystkie 6 (Common → Mythic) + BASE |
+| Stany | idle, attack, hit |
+| Płeć | Obie (Male / Female), wybór per postać |
+| Wiek | Dostosowany do klasy i frakcji (patrz 00_ART_DIRECTION.md → Age Diversity) |
+
+> **Konsekwencja:** Dla JEDNEJ frakcji generujemy hero assets dla WSZYSTKICH 7 klas (gracz może dowolnie składać drużynę).
+> **7 klas × 6 rarity × 3 stany × 2 płcie = 252 pliki** na frakcję.
+> Tylko 1 frakcja jest aktywna na playthrough. Pozostałe 5 frakcji to Generic Units + NPC.
+
+### Generic Unit – 3 twarze (facial variants)
+
+> **Co to są "3 twarze"?** To 3 różne wyglądy twarzy dla tej samej klasy/frakcji, żeby wrogowie i żołnierze nie wyglądali jak klony.
+> To NIE są stany (idle/hit/attack) ani emocje (portrety).
+
+- Każda frakcja + klasa ma **3 warianty twarzy** (Generic 01, 02, 03).
+- Tylko Common rarity, tylko stan `idle`.
+- Różnią się ONLY seedem w promptcie – reszta (zbroja, broń, motyw) identyczna.
+- **Nie używamy** Image Guidance z Hero BASE.
+- Folder: `public/assets/units/{faction}/generic/`
+- Nazewnictwo: `{faction}_{class}_generic_01.webp` (02, 03)
+
+**Przykład:** `human_warrior_generic_01.webp` = inna twarz niż Hero Human Warrior.
+
+Szczegóły: [13_GENERIC_UNIT_GUIDE.md](./13_GENERIC_UNIT_GUIDE.md)
 
 ---
 

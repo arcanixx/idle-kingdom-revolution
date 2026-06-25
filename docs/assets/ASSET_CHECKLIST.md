@@ -55,6 +55,9 @@ Nazewnictwo: `{faction}_{class}_{rarity}_{state}.webp` | Stany: `idle`, `attack`
 
 ### 2.1. BASE models (referencja, przed rarity) — 1 per frakcja+klasa = 42 łącznie
 
+> **Uwaga:** Hero = 1 wybrana frakcja + 1 wybrana klasa. Reszta kombinacji to Generic Units.
+> BASE modele dla wszystkich 42 kombinacji są potrzebne jako Style Anchory dla Generics.
+
 **Human:**
 - [ ] human_warrior_base
 - [ ] human_mage_base
@@ -109,7 +112,12 @@ Nazewnictwo: `{faction}_{class}_{rarity}_{state}.webp` | Stany: `idle`, `attack`
 - [ ] celestial_ranger_base
 - [ ] celestial_assassin_base
 
-### 2.2. Rarity variants (idle state) — 6 rarity × 42 base = 252
+### 2.2. Rarity variants (idle state) — 6 rarity × 7 Hero classes = 42 (+42 dla drugiej płci)
+
+> **Hero = 252 pliki na frakcję:** 7 klas × 6 rarity × 3 stany × 2 płcie.
+> Gracz ma drużynę (party) – każda postać w drużynie to Hero i dostaje rarity.
+> Tylko 1 frakcja jest aktywna na playthrough. Generic Units (sekcja 9) pokrywają pozostałe.
+
 
 > Odznaczaj per frakcja+klasa, wszystkie 6 rarity naraz, żeby nie rozpisywać 252 osobnych linii.
 > Rarity: Common, Uncommon, Rare, Epic, Legendary, Mythic.
@@ -174,11 +182,11 @@ Nazewnictwo: `{faction}_{class}_{rarity}_{state}.webp` | Stany: `idle`, `attack`
 - [ ] Wszystkie powyższe × `hit` state (42 base × 6 rarity)
 
 
-### 2.4. Generic Unit Variants (3 different faces per faction+class)
+### 2.4. Generic Unit Variants (3 facial variants per faction+class)
 
-> **Character Identity Types** (see 00_ART_DIRECTION.md): Generic Units are faction members (enemies, allies, troopers).
-> Each should have a different face — do NOT reuse the HERO face.
-> Generate 3 variants per class using faction templates, NOT the hero BASE as Image Guidance.
+> **Co to znaczy "3 twarze"?** To 3 różne wyglądy twarzy dla tej samej klasy/frakcji — żeby wrogowie nie wyglądali jak klony.
+> To NIE są stany (idle/hit/attack) ani emocje (portrety). Tylko 3 różne seed’y w prompcie = 3 różne twarze.
+> Generics są zawsze Common rarity, tylko stan `idle`.
 
 **Human:** 3 variants × 7 classes = 21
 - [ ] human_warrior — 3 generic faces
@@ -334,25 +342,31 @@ Rozmiar: 512×512 WebP — folder: `public/assets/portraits/{faction}/`
 
 Nazewnictwo: `{faction}_{class}_{emotion}.webp`
 
-### 6.1. Human (priorytet — robimy jako pierwszą frakcję, faza 1-2)
+**Podział na priorytety:**
 
-21 General emotions (Neutral through Pain) + Special states (Mind Controlled through Berserk). See 06_EMOTION_PORTRAITS.md for full list.
+### 6.0. Zasady
+- **Core** (P0): Neutral, Happy, Angry, Sad, Surprised, Scared, Serious – generuj dla wszystkich klas.
+- **Extended** (P1): Laughing, Suspicious, Shocked, Confused, Tired, Scheming, Heroic, Menacing, Determined, Victorious, Defeated, Wounded, Exhausted, Pain – generuj na życzenie.
+- **Special** (P2): Mind Controlled, Sick, Poisoned, Frozen, Stoned, Burned, Charmed, Cursed, Blessed, Berserk – generuj TYLKO gdy scenariusz wymaga.
 
-- [ ] human_warrior — wszystkie 21 General emotions
-- [ ] human_mage — wszystkie 21 General emotions
-- [ ] human_tank — wszystkie 21 General emotions
-- [ ] human_healer — wszystkie 21 General emotions
-- [ ] human_ranger — wszystkie 21 General emotions
-- [ ] human_assassin — wszystkie 21 General emotions
-- [ ] human_support — wszystkie 21 General emotions
+### 6.1. Human (priorytet — Core)
+- [ ] human_warrior — 7 Core emotions
+- [ ] human_mage — 7 Core emotions
+- [ ] human_tank — 7 Core emotions
+- [ ] human_healer — 7 Core emotions
+- [ ] human_ranger — 7 Core emotions
+- [ ] human_assassin — 7 Core emotions
+- [ ] human_support — 7 Core emotions
 
-### 6.2. Pozostałe frakcje (faza 3 — pełny zestaw)
+### 6.2. Pozostałe frakcje (Core emotions)
+- [ ] elf — wszystkie klasy × 7 Core emotions
+- [ ] orc — wszystkie klasy × 7 Core emotions
+- [ ] undead — wszystkie klasy × 7 Core emotions
+- [ ] demon — wszystkie klasy × 7 Core emotions
+- [ ] celestial — wszystkie klasy × 7 Core emotions
 
-- [ ] elf — wszystkie klasy × 21 General emotions
-- [ ] orc — wszystkie klasy × 21 General emotions
-- [ ] undead — wszystkie klasy × 21 General emotions
-- [ ] demon — wszystkie klasy × 21 General emotions
-- [ ] celestial — wszystkie klasy × 21 General emotions
+### 6.3. Extended i Special (na życzenie)
+- [ ] Lista otwarta – dodawaj w miarę potrzeb fabularnych.
 
 ---
 
@@ -397,6 +411,19 @@ Generowane przez crop z Unit Portraits (sekcja 2), nie osobny prompt.
 - [ ] demon — 7 klas
 - [ ] celestial — 7 klas
 
+## 9. Generic Units (faza 2)
+
+Rozmiar: 512×512 WebP — folder: `public/assets/units/{faction}/generic/`
+**Tylko stan `idle`, tylko Common rarity.**
+
+- [ ] human — 7 klas × 3 warianty = 21
+- [ ] elf — 7 klas × 3 warianty = 21
+- [ ] orc — 7 klas × 3 warianty = 21
+- [ ] undead — 7 klas × 3 warianty = 21
+- [ ] demon — 7 klas × 3 warianty = 21
+- [ ] celestial — 7 klas × 3 warianty = 21
+
+**Łącznie: 126 plików.
 ---
 
 ## Podsumowanie postępu
@@ -404,9 +431,9 @@ Generowane przez crop z Unit Portraits (sekcja 2), nie osobny prompt.
 | Kategoria | Zrobione / Wszystkie | % |
 |-----------|----------------------|---|
 | Battle Backgrounds | 0 / 7 | 0% |
-| Unit Portraits BASE | 0 / 42 | 0% |
-| Unit Portraits (rarity, idle) | 0 / 252 | 0% |
-| Unit Portraits (attack+hit) | 0 / 504 | 0% |
+| Hero BASE | 0 / 7 | 0% |
+| Hero (rarity, idle, 2 genders) | 0 / 84 | 0% |
+| Hero (attack+hit, 2 genders) | 0 / 168 | 0% |
 | Generic Unit Variants (3 faces) | 0 / 126 | 0% |
 | Item Icons | 0 / 21 | 0% |
 | Boss Creatures (3 stany) | 0 / 24 | 0% |

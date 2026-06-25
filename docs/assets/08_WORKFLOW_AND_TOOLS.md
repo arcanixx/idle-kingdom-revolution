@@ -186,6 +186,33 @@ sa realizowane przez **overlaye i VFX**, a nie jako osobne warianty sprite'ow.
 - Nie generujesz zadnych dodatkowych sprite'ow dla stanow bojowych.
 - Oszczednosc: ~42 frakcja+klasa x 5 stanow = ~210 assetow mniej do generowania.
 
+## Placeholder Strategy (dev/test)
+
+> Zgodnie z zaleceniem – nie używamy customowych SVG jako placeholderów.
+> Szczegóły: [14_PLACEHOLDER_STRATEGY.md](./14_PLACEHOLDER_STRATEGY.md)
+
+### Zasady
+
+1. **Dev/Test:** Kolorowe bloki z nazwą assetu (np. `[HUMAN_WARRIOR_COMMON]`).
+2. **UI:** Ikony z biblioteki (Lucide/Heroicons) – nie generujemy ich jako assetów.
+3. **Produkcja:** WebP z alpha dla spriteów (jednostki, bossowie, przedmioty, tła). SVG tylko dla ikon UI (wektorowe).
+
+### Implementacja
+
+- `AssetResolver` – komponent, który mapuje `assetKey` → URL.
+- W dev: wszystkie klucze wskazują na placeholder.
+- W prod: wskazują na prawdziwe assety (WebP/PNG).
+- `ErrorBoundary` – jeśli asset nie istnieje, pokaż placeholder z logiem.
+
+**Dlaczego nie SVG?**
+- Customowe SVG to podwójna praca (potem i tak zastępujesz grafiką).
+- Placeholdery tekstowe są od razu rozpoznawalne jako "do zastąpienia".
+- SVG wygląda "gotowo" – ktoś może pomyśleć, że nie trzeba nic zmieniać.
+
+Źródło: [14_PLACEHOLDER_STRATEGY.md](./14_PLACEHOLDER_STRATEGY.md)
+
+---
+
 ## Tabela wag plików (WebP)
 
 | Asset Type | Rozmiar | Maks. waga | Idealna |
