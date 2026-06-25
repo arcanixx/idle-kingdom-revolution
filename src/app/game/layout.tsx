@@ -1,14 +1,17 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { ThemeToggle } from "@/components/theme-toggle";
+import { useGameData } from "@/hooks/use-game-data";
 
 export default function GameLayout({ children }: { children: React.ReactNode }) {
+  useGameData();
   const path = usePathname();
   const tabs = [
     { href: "/game/battle", label: "Battle", icon: "\u2694" },
     { href: "/game/army", label: "Army", icon: "\uD83D\uDEE1" },
     { href: "/game/mining", label: "Mine", icon: "\u26CF" },
-    { href: "/game/td", label: "TD", icon: "\uD83C\uDFF0" },
+    { href: "/game/td", label: "TD", icon: "\uD83C\uDFEF" },
     { href: "/game/castle", label: "Castle", icon: "\uD83C\uDFF0" },
   ];
   return (
@@ -28,7 +31,8 @@ export default function GameLayout({ children }: { children: React.ReactNode }) 
               {t.icon} {t.label}
             </Link>
           ))}
-          <Link href="/dashboard" className="ml-auto text-sm text-muted-foreground hover:text-foreground">
+          <ThemeToggle />
+          <Link href="/dashboard" className="text-sm text-muted-foreground hover:text-foreground">
             Dashboard
           </Link>
         </div>
@@ -37,3 +41,4 @@ export default function GameLayout({ children }: { children: React.ReactNode }) 
     </div>
   );
 }
+

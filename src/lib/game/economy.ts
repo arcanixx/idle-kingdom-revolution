@@ -18,7 +18,7 @@ export const BATTLE_LEVEL_MAP = {
 };
 
 export function getRewardMultiplier(level: number): number {
-  return 1 + (level - 1) * 0.05; // +5% per level
+  return 1 + (level - 1) * 0.05;
 }
 
 export function calcRewards(fieldKey: keyof typeof BASE_REWARDS, level: number): RewardBase {
@@ -33,7 +33,7 @@ export function calcRewards(fieldKey: keyof typeof BASE_REWARDS, level: number):
 }
 
 export function calcOfflineEarnings(highestWave: number, hoursOffline: number, level: number): { gold: number; xp: number; } {
-  const rate = Math.max(1, highestWave) * 10; // 10 gold/per wave per hour
+  const rate = Math.max(1, highestWave) * 10;
   const gold = Math.floor(rate * hoursOffline * getRewardMultiplier(level));
   const xp = Math.floor(highestWave * 5 * hoursOffline * getRewardMultiplier(level));
   return { gold, xp };

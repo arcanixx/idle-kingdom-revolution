@@ -1,26 +1,28 @@
 {
   "document_title": "29 - Deployment Guide",
-  "version": "0.1.0",
-  "date": "2026-06-23",
+  "version": "0.2.0",
+  "date": "2026-06-24",
   "purpose": "Step-by-step guide for deploying Idle Kingdom Revolution from local development to production.",
-  
+  "status_note": "v0.2.0 reconciles this guide with the actual Phase 0/Phase 1 implementation (bun instead of npm, no Playwright/MSW/shadcn yet, actual CI workflow). Phase 1-2 sections below are historical record of initial setup steps already completed; Phase 3+ reflects current real tooling. Rollback procedure added per Phase 1 follow-up.",
+
   "prerequisites": {
     "accounts": [
-      {"service": "GitHub", "purpose": "Code repository + CI/CD\", "free": true},
-      {"service": "Supabase", "purpose": "Database + Auth + Storage + Realtime\", "free": true},
-      {"service": "Netlify", "purpose": "Frontend hosting + CDN\", "free": true},
-      {"service": "Cloudflare", "purpose": "DNS + CDN + DDoS protection (optional)\", "free": true}
+      {"service": "GitHub", "purpose": "Code repository + CI/CD", "free": true},
+      {"service": "Supabase", "purpose": "Database + Auth + Storage + Realtime", "free": true},
+      {"service": "Netlify", "purpose": "Frontend hosting + CDN", "free": true},
+      {"service": "Cloudflare", "purpose": "DNS + CDN + DDoS protection (optional)", "free": true}
     ],
     "local_tools": [
       "Node.js 20+",
-      "npm or pnpm",
+      "Bun (actual package manager in use — see bun.lock)",
       "Git",
       "Supabase CLI (npm install -g supabase)",
       "VS Code (recommended) with extensions: ESLint, Prettier, Tailwind CSS IntelliSense"
     ]
   },
-  
+
   "phase_1_project_setup": {
+    "status": "COMPLETED (Phase 0) — kept here as historical record",
     "step_1_create_repo": {
       "action": "Create GitHub repository 'idle-kingdom-revolution'",
       "settings": ["Add README", "Add .gitignore (Node)", "License: MIT"]
@@ -31,175 +33,230 @@
     },
     "step_3_init_nextjs": {
       "command": "npx create-next-app@latest . --typescript --tailwind --eslint --app --src-dir --import-alias '@/*'",
-      "options": "Use Turbopack for dev server"
+      "options": "Actual project builds with --webpack flag (next build --webpack); Turbopack default was not used due to broken SWC native binary on the original Windows dev machine."
     },
     "step_4_install_dependencies": {
-      "command": "npm install zustand @tanstack/react-query @supabase/supabase-js @supabase/auth-helpers-nextjs framer-motion lucide-react clsx tailwind-merge",
-      "dev_dependencies": "npm install -D @types/node @types/react @types/react-dom vitest @testing-library/react @testing-library/jest-dom @playwright/test msw"
+      "note": "Original plan listed npm + framer-motion + auth-helpers-nextjs + testing-library + playwright + msw. Actual installed set is the bun.lock dependency list — narrower than originally planned. See package.json for current source of truth.",
+      "actual_package_manager": "bun"
     },
     "step_5_install_shadcn": {
-      "command": "npx shadcn-ui@latest init",
-      "components": "npx shadcn-ui@latest add button card dialog input label select slider switch tabs toast"
+      "status": "NOT DONE — shadcn/ui is not present in package.json or components.json usage yet. Revisit if/when a component library is adopted.",
+      "command_if_adopted": "npx shadcn@latest init"
     },
     "step_6_configure_tailwind": {
       "file": "tailwind.config.ts",
-      "add": "Custom colors from UI_UX_SKELETON, font families (Inter, Cinzel)"
+      "status": "DONE — tailwindcss 3 configured"
     },
     "step_7_setup_folder_structure": {
+      "status": "DONE, with one known gap",
       "folders": [
-        "src/app/(auth)/",
-        "src/app/(game)/",
-        "src/app/admin/",
-        "src/app/api/",
-        "src/components/ui/",
-        "src/components/battle/",
-        "src/components/army/",
-        "src/components/quests/",
-        "src/lib/supabase/",
-        "src/lib/game/",
-        "src/stores/",
-        "src/types/",
-        "src/hooks/",
-        "supabase/migrations/",
-        "supabase/seed/",
-        "tests/unit/",
-        "tests/e2e/"
+        "src/app/(auth)/ — DONE (login, register)",
+        "src/app/(game)/ — EXISTS BUT EMPTY, dead route group. Either populate it or delete it; real game pages currently live under src/app/game/ without a route group.",
+        "src/app/admin/ — NOT YET CREATED (admin panel is Phase 1 backlog item P1-13)",
+        "src/app/api/ — DONE, partially populated (see 21_IMPLEMENTATION_CHECKLIST / phase-1/completed.md for which routes still lack route.ts)",
+        "src/components/ — DONE",
+        "src/lib/supabase/ — DONE",
+        "src/lib/game/ — DONE (battle-engine.ts, economy.ts, leveling.ts, valor-trees.ts)",
+        "src/stores/ — EXISTS",
+        "src/types/ — DONE (types/game.ts)",
+        "src/hooks/ — EXISTS",
+        "supabase/migrations/ — DONE",
+        "supabase/seed/ — DONE (seed.sql)",
+        "tests/unit/ — DONE (added alongside this deployment guide update; see tests/unit/game/)",
+        "tests/e2e/ — NOT YET CREATED. No Playwright in the project yet; 07_TESTING_STRATEGY.json calls for it but it has not been installed."
       ]
     }
   },
-  
+
   "phase_2_supabase_setup": {
+    "status": "COMPLETED (Phase 0)",
     "step_1_create_project": {
       "action": "Go to supabase.com, create new project",
       "settings": "Region: closest to your users (eu-central-1 for Europe), Password: strong generated password"
     },
     "step_2_get_credentials": {
       "action": "Project Settings > API",
-      "copy": ["Project URL", "anon public key", "service_role key (for admin)"]
+      "copy": ["Project URL", "anon public key", "service_role key (for admin, NOT currently used anywhere in src/ — keep it out of client code if/when admin panel is built)"]
     },
     "step_3_env_local": {
       "file": ".env.local",
-      "content": "NEXT_PUBLIC_SUPABASE_URL=your_project_url\nNEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key\nSUPABASE_SERVICE_ROLE_KEY=your_service_role_key\nNEXT_PUBLIC_APP_URL=http://localhost:3000"
+      "content": "NEXT_PUBLIC_SUPABASE_URL=your_project_url\nNEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key\nNEXT_PUBLIC_APP_URL=http://localhost:3000",
+      "note": "SUPABASE_SERVICE_ROLE_KEY should only be added to .env.local once an admin-only server-side client is actually implemented. Never prefix it with NEXT_PUBLIC_."
     },
     "step_4_run_schema": {
-      "action": "Open Supabase SQL Editor, paste contents of 26_DATABASE_SCHEMA.sql",
-      "note": "Run in order: extensions -> tables -> indexes -> RLS -> triggers -> functions"
+      "action": "Open Supabase SQL Editor, paste contents of supabase/migrations/ in order",
+      "note": "Run in order: 001_initial_schema.sql -> 002_auth_triggers.sql -> 003 (game tables) migration. See phase-1/completed.md for the exact migration history and known schema fixes already applied."
     },
     "step_5_setup_auth": {
       "action": "Authentication > Settings",
       "configure": [
-        "Enable Email provider (with confirmation)",
-        "Enable Google OAuth (create credentials in Google Cloud Console)",
-        "Site URL: http://localhost:3000 (dev) / https://your-domain.com (prod)",
+        "Email provider — ENABLED (done)",
+        "Google OAuth — NOT YET ENABLED (backlog item, intentionally deferred)",
+        "Anonymous sign-in — ENABLED (guest mode uses supabase.auth.signInAnonymously)",
+        "Site URL: http://localhost:3000 (dev) / https://idle-kingdom-revolution.netlify.app (prod)",
         "Redirect URLs: same as above + /auth/callback"
       ]
     },
     "step_6_seed_data": {
       "action": "Run supabase/seed.sql in SQL Editor",
-      "content": "Initial game_units, game_items, game_battle_fields, game_quests, game_achievements"
+      "content": "12 units, 11 items, 5 fields, plus other seed datasets per phase-0/completed.md"
     }
   },
-  
+
   "phase_3_development": {
+    "status": "IN PROGRESS — Phase 1 (Core Game Loop)",
     "step_1_auth_implementation": {
+      "status": "DONE",
       "files": [
         "src/lib/supabase/client.ts (browser client)",
         "src/lib/supabase/server.ts (server client)",
         "src/app/(auth)/login/page.tsx",
         "src/app/(auth)/register/page.tsx",
-        "src/hooks/useAuth.ts"
+        "src/proxy.ts (route protection, replaces middleware.ts under Next.js 16)"
       ]
     },
     "step_2_game_shell": {
+      "status": "PARTIAL",
       "files": [
-        "src/app/(game)/layout.tsx (auth guard + bottom nav)",
-        "src/components/layout/BottomNav.tsx",
-        "src/components/layout/TopBar.tsx",
-        "src/stores/gameStore.ts",
-        "src/stores/uiStore.ts"
+        "src/app/game/layout.tsx — DONE",
+        "src/stores/ — EXISTS, verify gameStore/uiStore coverage matches actual usage"
       ]
     },
     "step_3_core_screens": {
-      "order": ["game_hub", "battle", "army", "quests", "settings"],
-      "for_each": "Component + route + store integration + basic tests"
+      "status": "Pages exist for: battle, army, mining, td, castle, inventory, leaderboard, mail, quests, shop, valor. Verify each against its required API route (some are missing — see step_4 below).",
+      "order": ["game_hub", "battle", "army", "quests", "settings"]
     },
     "step_4_api_routes": {
-      "files": [
+      "status": "PARTIAL — known gaps as of this audit",
+      "done": [
         "src/app/api/battle/start/route.ts",
-        "src/app/api/battle/complete/route.ts",
-        "src/app/api/profile/route.ts",
-        "src/app/api/quests/route.ts"
+        "src/app/api/game/units/route.ts",
+        "src/app/api/game/fields/route.ts",
+        "src/app/api/game/items/route.ts",
+        "src/app/api/player/profile/route.ts",
+        "src/app/api/player/units/route.ts",
+        "src/app/api/player/formation/route.ts",
+        "src/app/api/player/inventory/route.ts",
+        "src/app/api/player/mail/route.ts",
+        "src/app/api/player/offline-earnings/route.ts",
+        "src/app/api/player/quests/route.ts",
+        "src/app/api/player/valor/route.ts",
+        "src/app/api/player/achievements/route.ts",
+        "src/app/api/leaderboard/route.ts",
+        "src/app/api/shop/route.ts",
+        "src/app/api/mining/expedition/route.ts",
+        "src/app/api/mining/status/route.ts",
+        "src/app/api/castle/status/route.ts",
+        "src/app/api/td/status/route.ts"
       ],
-      "note": "Server-side validation for all game logic"
+      "missing_route_ts": [
+        "src/app/api/army/formation/ (folder exists, no route.ts)",
+        "src/app/api/battle/tick/ (folder exists, no route.ts)",
+        "src/app/api/castle/defend/ (folder exists, no route.ts)",
+        "src/app/api/game/achievements/ (folder exists, no route.ts)",
+        "src/app/api/game/quests/ (folder exists, no route.ts)",
+        "src/app/api/game/shops/ (folder exists, no route.ts)",
+        "src/app/api/td/wave/ (folder exists, no route.ts)"
+      ],
+      "note": "Several frontend pages (army, castle, td) already render and likely call these missing endpoints. Treat this list as the immediate next backend task, not just a future nice-to-have."
     },
     "step_5_testing": {
-      "unit": "npm run test:unit",
-      "e2e": "npx playwright test",
-      "coverage": "npx vitest --coverage"
+      "unit": "bun run test  (Vitest — added 2026-06-24, covers src/lib/game/*)",
+      "e2e": "NOT YET SET UP — Playwright is specified in 07_TESTING_STRATEGY.json but not installed. Add when Phase 1 critical paths (register -> battle -> save) are stable enough to be worth locking down with E2E.",
+      "coverage": "bunx vitest run --coverage (requires @vitest/coverage-v8, not yet installed)"
     }
   },
-  
+
   "phase_4_deployment": {
     "step_1_github_actions": {
       "file": ".github/workflows/ci.yml",
-      "content": "name: CI\non: [push, pull_request]\njobs:\n  test:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n      - uses: actions/setup-node@v4\n        with: { node-version: '20' }\n      - run: npm ci\n      - run: npm run lint\n      - run: npm run typecheck\n      - run: npm run test:unit\n      - run: npx playwright install\n      - run: npx playwright test"
+      "status": "DONE — updated 2026-06-24 to add typecheck (verified clean via `npm run typecheck` on 2026-06-24, now a blocking gate), unit tests (blocking), and non-blocking dependency audit, in addition to the existing file-presence check and webpack build.",
+      "note": "The CI workflow is bun-based (oven-sh/setup-bun), not npm-based — this guide previously assumed npm and was out of date."
     },
     "step_2_netlify_setup": {
       "action": "Connect GitHub repo to Netlify",
       "settings": [
-        "Build command: npm run build",
-        "Publish directory: out (for static export) or .next (for SSR)",
-        "Environment variables: Add all from .env.local (without secrets)",
+        "Build command: per netlify.toml",
+        "Publish directory: .next (SSR via Next.js runtime, not static export)",
+        "Environment variables: NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY",
         "Deploy previews: Enable for pull requests"
       ]
     },
     "step_3_environment_variables": {
       "netlify": "Site settings > Environment variables",
-      "add": ["NEXT_PUBLIC_SUPABASE_URL", "NEXT_PUBLIC_SUPABASE_ANON_KEY", "NEXT_PUBLIC_APP_URL"]
+      "add": ["NEXT_PUBLIC_SUPABASE_URL", "NEXT_PUBLIC_SUPABASE_ANON_KEY"],
+      "warning": "Never add SUPABASE_SERVICE_KEY or SUPABASE_PASSWORD to Netlify env vars unless an admin-only server context actually needs them, and even then double-check it's never exposed as NEXT_PUBLIC_*."
     },
     "step_4_custom_domain": {
-      "action": "Domain settings > Add custom domain",
-      "note": "Update Supabase Auth redirect URLs to include custom domain"
+      "action": "Domain settings > Add custom domain (not yet done — currently on idle-kingdom-revolution.netlify.app)",
+      "note": "Update Supabase Auth redirect URLs to include custom domain when this happens"
     },
     "step_5_pwa_verification": {
       "checklist": [
-        "manifest.json is valid",
-        "Service worker registers",
-        "Icons present in all sizes",
-        "Works offline (test in DevTools)",
-        "Install prompt appears on mobile"
+        "manifest.json is valid — DONE (public/manifest.json exists per phase-0/completed.md)",
+        "Service worker registers — VERIFY, not confirmed in this audit",
+        "Icons present in all sizes — VERIFY",
+        "Works offline (test in DevTools) — VERIFY",
+        "Install prompt appears on mobile — VERIFY"
       ]
     }
   },
-  
+
   "phase_5_post_deploy": {
     "monitoring": {
       "supabase": "Dashboard > Usage (watch database connections, storage)",
       "netlify": "Analytics tab (watch bandwidth, build minutes)",
-      "sentry": "Error tracking setup (optional, free tier available)",
-      "lighthouse": "Run CI check for every deploy"
+      "sentry": "NOT YET SET UP — optional, free tier available, consider before any real user traffic",
+      "lighthouse": "Not yet wired into CI despite 07_TESTING_STRATEGY.json mentioning a >80/>90 budget. Add as a CI step (e.g. treosh/lighthouse-ci-action) once there's a stable deployed preview URL to test against."
     },
     "backup_strategy": {
-      "database": "Supabase > Database > Backups (daily automated)",
-      "manual_backup": "pg_dump via Supabase CLI weekly",
+      "database": "Supabase > Database > Backups (daily automated on most plans — verify current plan tier)",
+      "manual_backup": "pg_dump via Supabase CLI weekly (not yet scheduled/automated — manual reminder for now)",
       "code": "GitHub is backup for code"
+    },
+    "rollback_procedure": {
+      "purpose": "What to do when a deploy to production breaks something, added per Phase 1 follow-up request — this was missing entirely from the original guide.",
+      "frontend_rollback": {
+        "netlify_instant_rollback": "Netlify keeps every previous deploy. Go to Site > Deploys, find the last known-good deploy, click 'Publish deploy' (or 'Rollback' depending on UI version) to instantly repoint production traffic to it. This does NOT touch the database — it only changes which built frontend bundle is served.",
+        "git_revert": "If the bad deploy came from a merged PR: git revert <merge-commit-sha> on main, push, let CI redeploy. Prefer this over force-pushing history rewrites on a shared branch.",
+        "when_to_use_which": "Netlify instant rollback = fastest, use first to stop the bleeding. git revert = proper fix afterward so main reflects reality and the next deploy doesn't reintroduce the bug."
+      },
+      "database_rollback": {
+        "migration_rollback": "Supabase migrations in this project are forward-only SQL files (001, 002, 003...). There is currently no down-migration / rollback script per migration. Before running a new migration against production, take a manual snapshot (see manual_backup above) or use Supabase's point-in-time recovery if on a paid plan.",
+        "point_in_time_recovery": "Supabase Pro+ plans support PITR (point-in-time recovery) — restores the whole database to a specific timestamp. This is the safety net for a bad migration, not a per-table undo. Confirm current plan tier supports this before relying on it.",
+        "risky_migration_checklist": [
+          "Does this migration drop or rename a column/table that existing code reads from?",
+          "Has it been tested against a local/staging Supabase instance first?",
+          "Is there a recent backup or PITR window to fall back to if it goes wrong?",
+          "Can the API routes that depend on the changed schema be deployed in the same release, or do they need to ship together?"
+        ]
+      },
+      "general_incident_steps": [
+        "1. Roll back the frontend first via Netlify (fastest mitigation, buys time).",
+        "2. Check Supabase logs + Netlify function/build logs to identify root cause.",
+        "3. If the issue is data corruption (not just bad code), stop — do not run further migrations until you've decided whether PITR or manual fix-up SQL is the right tool.",
+        "4. Fix forward via a new PR once the cause is understood; avoid re-deploying the same broken commit.",
+        "5. After resolution, add a regression test (unit or E2E) covering what broke, so CI catches it next time."
+      ]
     },
     "update_workflow": {
       "feature_branch": "git checkout -b feature/new-feature",
-      "development": "npm run dev, test locally",
-      "pr": "Create pull request, CI runs tests",
+      "development": "bun run dev, test locally with bun run test",
+      "pr": "Create pull request, CI runs check + typecheck + tests + build",
       "review": "Code review (self or AI)",
       "merge": "Merge to main, auto-deploy to Netlify",
-      "verify": "Check production, monitor errors"
+      "verify": "Check production, monitor errors, keep rollback_procedure above in mind if something looks wrong"
     }
   },
-  
+
   "troubleshooting": {
-    "build_fails": "Check Node version (20+), clear node_modules, npm ci",
+    "build_fails": "Check Node version (20+), clear node_modules, bun install --frozen-lockfile",
+    "swc_binary_broken_on_windows": "Known issue on this project's original Windows dev machine — use `next build --webpack` / `next dev` may need the same flag if Turbopack errors locally. @next/swc-win32-x64-msvc is in dependencies; if this is still failing, try removing node_modules and reinstalling before assuming it's a code issue.",
     "auth_not_working": "Verify redirect URLs in Supabase match your domain exactly",
     "rls_errors": "Check RLS policies, ensure user is authenticated",
     "cors_errors": "Add your domain to Supabase CORS origins",
     "database_connection_limit": "Supabase free = 60 connections. Use connection pooling for serverless.",
-    "netlify_build_timeout": "Build taking >15 min? Check for infinite loops in static generation."
+    "netlify_build_timeout": "Build taking >15 min? Check for infinite loops in static generation.",
+    "vitest_path_alias_not_resolving": "vitest.config.ts must declare resolve.alias for '@' pointing at ./src to match tsconfig.json's paths — Vitest does not read tsconfig paths automatically without a plugin like vite-tsconfig-paths. Fixed 2026-06-24."
   }
 }

@@ -1,13 +1,15 @@
 "use client";
 import { useState, useEffect } from "react";
+import { Skeleton } from "@/components/skeleton";
 import { useUser } from "@/hooks/use-user";
 
 export default function CastlePage() {
   const { user } = useUser();
   const [castle, setCastle] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("/api/castle/status").then(r=>r.json()).then(setCastle).catch(()=>{});
+    fetch("/api/castle/status").then(r=>r.json()).then(d => { setCastle(d); setLoading(false); }).catch(() => setLoading(false));
   }, []);
 
   const hpPct = castle ? Math.round((castle.hp / castle.maxHp) * 100) : 0;
@@ -15,7 +17,9 @@ export default function CastlePage() {
   return (
     <div className="space-y-6">
       <h1 className="text-2xl font-bold">🏰 Castle</h1>
-      {castle ? (
+      {loading ? (
+        <div className="space-y-4">{[1,2,3].map(i => <Skeleton key={i} className="h-24" />)}</div>
+      ) : castle ? (
         <>
           <div className="rounded-lg border p-4">
             <p className="text-sm text-muted-foreground mb-1">Castle HP ({castle.hp}/{castle.maxHp})</p>
@@ -48,7 +52,7 @@ export default function CastlePage() {
           </div>
         </>
       ) : (
-        <p className="text-muted-foreground">Loading castle data...</p>
+        <p className="text-muted-foreground">No castle data available.</p>
       )}
     </div>
   );
