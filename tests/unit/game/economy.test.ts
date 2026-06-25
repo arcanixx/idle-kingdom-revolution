@@ -39,7 +39,7 @@ describe("calcRewards", () => {
   });
 
   it("falls back to plains rewards for an unknown field key", () => {
-    // @ts-expect-error - intentionally testing runtime fallback with a bad key
+    // - intentionally testing runtime fallback with a bad key
     const result = calcRewards("nonexistent_field", 1);
     expect(result).toEqual(BASE_REWARDS.plains);
   });

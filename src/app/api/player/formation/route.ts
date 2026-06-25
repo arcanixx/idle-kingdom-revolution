@@ -13,7 +13,7 @@ export async function GET(request: NextRequest) {
     const formation = { front: [null, null, null], back: [null, null, null] };
     (data || []).forEach((pu: any) => {
       const row = pu.formation_row === 0 ? "front" : "back";
-      formation[row][pu.formation_col] = { unit_id: pu.unit_id, row: pu.formation_row, col: pu.formation_col };
+      formation[row][pu.formation_col] = { unit_id: pu.unit_id, row: pu.formation_row, col: pu.formation_col } as any;
     });
     return jsonResponse(formation);
   } catch (e) {

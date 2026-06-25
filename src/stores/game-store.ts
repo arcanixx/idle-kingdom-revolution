@@ -28,7 +28,7 @@ export const useGameStore = create<GameState>()(
       units: [], setUnits: (u) => set({ units: u }),
       addUnit: (u) => set((s) => ({ units: [...s.units, u] })),
       updateUnit: (id, updates) => set((s) => ({ units: s.units.map((u) => u.id === id ? { ...u, ...updates } : u) })),
-      formation: {}, setFormation: (f) => set({ formation: f }),
+      formation: { front: [], back: [] }, setFormation: (f) => set({ formation: f }),
       inventory: [], setInventory: (i) => set({ inventory: i }),
       currentBattle: null, setCurrentBattle: (b) => set({ currentBattle: b }),
       battleSpeed: 1, setBattleSpeed: (s) => set({ battleSpeed: s }),
