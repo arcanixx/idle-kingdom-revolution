@@ -1,1 +1,0 @@
-const fs=require("fs");\nconst b="C:/Users/Administrator/GitHub/idle-kingdom-revolution/src";\nfunction writeFile(rel,content){var p=b+"/"+rel;fs.writeFileSync(p,content);console.log("OK:",rel)}\n

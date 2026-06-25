@@ -1,39 +1,58 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import type { PlayerProfile, Unit, Formation, BattleResultData, Item } from "@/types/game";
+import type { PlayerProfile, Unit, Item } from "@/types/game";
+
+interface FormationSlot {
+  front: (Unit | null)[];
+  back: (Unit | null)[];
+}
 
 interface GameState {
+  isLoaded: boolean;
+  setLoaded: (v: boolean) => void;
   profile: PlayerProfile | null;
   setProfile: (profile: PlayerProfile) => void;
+  fetchProfile: () => Promise<void>;
   units: Unit[];
   setUnits: (units: Unit[]) => void;
-  addUnit: (unit: Unit) => void;
-  updateUnit: (id: string, unit: Partial<Unit>) => void;
-  formation: Formation;
-  setFormation: (formation: Formation) => void;
+  fetchUnits: () => Promise<void>;
+  formation: FormationSlot;
+  setFormation: (f: FormationSlot) => void;
+  fetchFormation: () => Promise<void>;
   inventory: Item[];
   setInventory: (items: Item[]) => void;
-  currentBattle: BattleResultData | null;
-  setCurrentBattle: (battle: BattleResultData | null) => void;
-  battleSpeed: 1 | 2 | 3;
-  setBattleSpeed: (speed: 1 | 2 | 3) => void;
-  isBattleRunning: boolean;
-  setBattleRunning: (running: boolean) => void;
+  fetchInventory: () => Promise<void>;
 }
 
 export const useGameStore = create<GameState>()(
   persist(
     (set) => ({
-      profile: null, setProfile: (p) => set({ profile: p }),
-      units: [], setUnits: (u) => set({ units: u }),
-      addUnit: (u) => set((s) => ({ units: [...s.units, u] })),
-      updateUnit: (id, updates) => set((s) => ({ units: s.units.map((u) => u.id === id ? { ...u, ...updates } : u) })),
-      formation: { front: [], back: [] }, setFormation: (f) => set({ formation: f }),
-      inventory: [], setInventory: (i) => set({ inventory: i }),
-      currentBattle: null, setCurrentBattle: (b) => set({ currentBattle: b }),
-      battleSpeed: 1, setBattleSpeed: (s) => set({ battleSpeed: s }),
-      isBattleRunning: false, setBattleRunning: (r) => set({ isBattleRunning: r }),
+      isLoaded: false,
+      setLoaded: (v: boolean) => set({ isLoaded: v }),
+      profile: null,
+      setProfile: (p) => set({ profile: p }),
+      fetchProfile: async () => {
+        try { const r = await fetch("/api/player/profile"); const d = await r.json(); if (r.ok) set({ profile: d }); } catch {}
+      },
+      units: [],
+      setUnits: (u) => set({ units: u }),
+      fetchUnits: async () => {
+        try { const r = await fetch("/api/player/units"); const d = await r.json(); if (Array.isArray(d)) set({ units: d }); } catch {}
+      },
+      formation: { front: [], back: [] },
+      setFormation: (f) => set({ formation: f }),
+      fetchFormation: async () => {
+        try { const r = await fetch("/api/player/formation"); const d = await r.json(); if (d?.front) set({ formation: d }); } catch {}
+      },
+      inventory: [],
+      setInventory: (i) => set({ inventory: i }),
+      fetchInventory: async () => {
+        try { const r = await fetch("/api/player/inventory"); const d = await r.json(); if (Array.isArray(d)) set({ inventory: d }); } catch {}
+      },
     }),
-    { name: "ikr-game-store", partialize: (state) => ({ profile: state.profile, units: state.units, formation: state.formation, inventory: state.inventory, battleSpeed: state.battleSpeed }) }
+    {
+      name: "ikr-game-store",
+      partialize: (state) => ({ profile: state.profile, units: state.units, formation: state.formation, inventory: state.inventory }),
+    }
   )
 );

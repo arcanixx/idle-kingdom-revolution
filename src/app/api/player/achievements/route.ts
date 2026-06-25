@@ -1,8 +1,9 @@
 import { NextRequest } from "next/server";
 import { createApiClient, jsonResponse, errorResponse } from "@/lib/supabase/api-helper";
+import { withErrorHandler } from "@/lib/api/validation-middleware";
 
 export async function GET(request: NextRequest) {
-  try {
+  return withErrorHandler(async () => {
     const supabase = await createApiClient();
     const { data: { user }, error: authError } = await supabase.auth.getUser();
     if (authError || !user) return errorResponse("Unauthorized", 401);
@@ -11,7 +12,5 @@ export async function GET(request: NextRequest) {
     const { data: achievements } = await supabase.from("game_achievements").select("*").eq("is_active", true);
     const { data: myAchievements } = await supabase.from("player_achievements").select("*").eq("player_id", player.id);
     return jsonResponse({ achievements: achievements || [], unlocked: myAchievements || [] });
-  } catch (e) {
-    return errorResponse(e instanceof Error ? e.message : "Unknown error", 500);
-  }
-}
+  });
+};

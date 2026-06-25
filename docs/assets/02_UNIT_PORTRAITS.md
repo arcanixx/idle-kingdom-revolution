@@ -1,16 +1,16 @@
-# 02 – Unit Portraits
+﻿# 02 – Unit Portraits
 
 > Jednostki – hierarchia BASE → RARITY dla każdej kombinacji Frakcja + Klasa.
 > Rozmiar: 512×512 WebP (z alpha channel)
 > Styl: 3D render fantasy character, PEŁNA POSTAĆ Z NOGAMI (full-body, od głowy do stóp), kąt kamery 3/4 (obrót, nie ucięcie kadru), skupienie na sylwetce i detalach zbroi.
 >
-> **WAŻNE rozróżnienie:** "3/4 view" w tym dokumencie oznacza KĄT OBROTU KAMERY (postać obrócona ok. 45° do obiektywu), NIE ucięcie kadru w 3/4 wysokości. Postać MUSI mieć widoczne nogi i stopy w każdym wariancie rarity (Common → Mythic). Jeśli model AI (np. Gemini) generuje postać bez nóg, dodaj do promptu explicite: "full body shot from head to feet, feet visible, NOT a cropped portrait, NOT half-body".
+> **WAŻNE rozróżnienie:** "3/4 view" w tym dokumencie oznacza KĄT OBROTU KAMERY (postać obrócona ok. 45° do obiektywu), NIE ucięcie kadru w 3/4 wysokości. Postać MUSI mieć widoczne nogi i stopy w każdym wariancie rarity (Base → Mythic). Jeśli model AI (np. Gemini) generuje postać bez nóg, dodaj do promptu explicite: "full body shot from head to feet, feet visible, NOT a cropped portrait, NOT half-body".
 
 ---
 
 ## Hierarchia BASE → RARITY
 
-**KLUCZOWA ZMIANA:** Generujemy **jeden bazowy model** dla każdej kombinacji Frakcja + Klasa, a następnie **6 wariantów rarity** (Common → Mythic) na jego podstawie.
+**KLUCZOWA ZMIANA:** Generujemy **jeden bazowy model** dla każdej kombinacji Frakcja + Klasa, a następnie **7 wariantów rarity** (Base → Mythic) na jego podstawie.
 
 **Korzyści:**
 - Spójność twarzy, sylwetki i proporcji
@@ -58,7 +58,7 @@ Human Warrior BASE (referencja)
 
 ---
 
-### Krok 2 – Generowanie Rarity (Common → Mythic)
+### Krok 2 – Generowanie Rarity (Base → Mythic)
 
 **Zasada:** Użyj BASE jako referencji (Image Guidance) z siłą **35-45%** – Leonardo zachowa twarz i sylwetkę, a zmieni tylko ekwipunek, aurę i ozdoby.
 
@@ -70,12 +70,13 @@ Human Warrior BASE (referencja)
 
 | Rarity | Equipment Upgrade | Aura Effect | Ornaments |
 |--------|-------------------|-------------|-----------|
+| Base | reference character, neutral equipment | none | none |
 | Common | simple steel armor, basic weapon | none | minimal |
 | Uncommon | improved iron armor with gold trim | subtle glow | simple patterns |
 | Rare | enchanted silver armor with blue gems | soft magical glow | runic engravings |
 | Epic | ornate golden armor with rubies | moderate aura with sparks | elaborate filigree |
 | Legendary | celestial armor of light and gold | strong aura with particles | winged helmet, divine symbols |
-| Mythic | armor of living starlight, shifting constellations | intense animated glow, godly aura | reality-warping ornaments |
+| Mythic | mythic divine armor, constellation engravings | living celestial energy, godly aura | ancient cosmic symbols |
 
 ---
 

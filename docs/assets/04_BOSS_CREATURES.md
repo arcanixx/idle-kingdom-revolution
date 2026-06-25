@@ -1,4 +1,4 @@
-# 04 – Boss Creatures
+﻿# 04 – Boss Creatures
 
 > Bossowie etapów – epickie stworzenia.
 > Rozmiar: 512×512 WebP (1024×1024 dla bossów Epic/Legendary/Mythic)
@@ -30,6 +30,27 @@
 | 8 | Celestial Avatar | Celestial | Legendary | Światło, boskość |
 
 ---
+
+
+---
+
+## BOSS SCALE RULES
+
+Bosses must feel visually distinct from regular units. Follow these scale and composition rules:
+
+- **Canvas occupation:** Boss occupies 85-90% of the canvas
+- **Framing:** Full body, wider than unit portraits (units use 70-80%)
+- **Silhouette:** More exaggerated silhouette with unique outline
+- **Centerpiece:** Every boss must have one unique visual centerpiece (e.g., glowing core, giant weapon, wings, aura)
+- **Height:** Boss should appear at least 2x larger than a standard unit would in the same frame
+- **Readability:** Despite larger size, maintain clear readable shapes — no clutter
+
+These rules apply to ALL bosses regardless of rarity.
+
+**Prompt modifier for bosses:**
+
+Add to the end of every boss prompt:
+"massive scale, intimidating presence, larger than life, unique silhouette, visual centerpiece"
 
 ## Prompty
 

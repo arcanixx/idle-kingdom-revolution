@@ -1,4 +1,4 @@
-# ASSET_STYLE_BIBLE_MASTER v1.0
+﻿# ASSET_STYLE_BIBLE_MASTER v1.0
 
 Project:
 Idle Kingdom Revolution
@@ -206,5 +206,22 @@ Each faction must be recognizable by shape and symbol alone, even without colors
 | Celestial | Star | Wing, Halo | Eight-pointed star with eye |
 
 **Rule:** Every unit from a faction must include at least one of these motifs in their design (on armor, weapon, shield, or accessory). This ensures instant faction recognition even in small sprites.
+
+---
+
+## SHAPE LANGUAGE
+
+Each faction has a characteristic shape silhouette that must be visible even at 64x64.
+
+| Faction | Dominant Shapes | Application |
+|---------|-----------------|-------------|
+| Human | rectangles, kite shields | Shield shapes, pauldron silhouette |
+| Elf | arches, curves, leaves | Helmet visors, cape hems, bow shapes |
+| Orc | triangles, spikes | Armor edges, shoulder spikes, axe blades |
+| Undead | broken lines | Torn capes, jagged armor, skeletal joints |
+| Demon | sharp horns | Crown/coronet, shoulder ornaments, weapon tips |
+| Celestial | stars and circles | Halo shapes, orb ornaments, circular gems |
+
+**Rule:** Shape language must be readable in silhouette alone. A unit's faction should be identifiable at 64x64 without color information.
 
 ---

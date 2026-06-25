@@ -1,4 +1,4 @@
-# Asset Checklist
+﻿# Asset Checklist
 
 > Stan na: 2026-06-24. Folder `public/assets/` jeszcze nie istnieje — wszystko poniżej jest do zrobienia.
 > Odznaczaj `[x]` po wygenerowaniu, obróbce (rembg + WebP) i wrzuceniu do `public/assets/{kategoria}/`.
@@ -351,5 +351,67 @@ Generowane przez crop z Unit Portraits (sekcja 2), nie osobny prompt.
 | Emotion Portraits (pozostałe 5 frakcji) | 0 / 525 | 0% |
 | Environment Effects | 0 / 17 | 0% |
 | Avatary | 0 / 42 | 0% |
+
+---
+
+## REFERENCE LOCK (BASE Models)
+
+Before any rarity variants are generated, each BASE model must be approved as a style anchor.
+
+**42 BASE models total — one per faction+class combination.**
+
+### Human (7)
+- [ ] REF_001 human_warrior_base (Style Anchor - PENDING)
+- [ ] REF_002 human_mage_base (Style Anchor - PENDING)
+- [ ] REF_003 human_tank_base (Style Anchor - PENDING)
+- [ ] REF_004 human_healer_base (Style Anchor - PENDING)
+- [ ] REF_005 human_ranger_base (Style Anchor - PENDING)
+- [ ] REF_006 human_assassin_base (Style Anchor - PENDING)
+- [ ] REF_007 human_support_base (Style Anchor - PENDING)
+
+### Elf (7)
+- [ ] REF_008 elf_warrior_base
+- [ ] REF_009 elf_ranger_base
+- [ ] REF_010 elf_mage_base
+- [ ] REF_011 elf_healer_base
+- [ ] REF_012 elf_assassin_base
+- [ ] REF_013 elf_support_base
+- [ ] REF_014 elf_tank_base
+
+### Orc (7)
+- [ ] REF_015 orc_warrior_base
+- [ ] REF_016 orc_tank_base
+- [ ] REF_017 orc_berserker_base
+- [ ] REF_018 orc_shaman_base
+- [ ] REF_019 orc_hunter_base
+- [ ] REF_020 orc_support_base
+- [ ] REF_021 orc_mage_base
+
+### Undead (7)
+- [ ] REF_022 undead_warrior_base
+- [ ] REF_023 undead_mage_base
+- [ ] REF_024 undead_tank_base
+- [ ] REF_025 undead_healer_base
+- [ ] REF_026 undead_assassin_base
+- [ ] REF_027 undead_support_base
+- [ ] REF_028 undead_ranger_base
+
+### Demon (7)
+- [ ] REF_029 demon_warrior_base
+- [ ] REF_030 demon_mage_base
+- [ ] REF_031 demon_tank_base
+- [ ] REF_032 demon_assassin_base
+- [ ] REF_033 demon_support_base
+- [ ] REF_034 demon_healer_base
+- [ ] REF_035 demon_ranger_base
+
+### Celestial (7)
+- [ ] REF_036 celestial_warrior_base
+- [ ] REF_037 celestial_mage_base
+- [ ] REF_038 celestial_healer_base
+- [ ] REF_039 celestial_tank_base
+- [ ] REF_040 celestial_support_base
+- [ ] REF_041 celestial_ranger_base
+- [ ] REF_042 celestial_assassin_base
 
 > Zaktualizuj tę tabelę ręcznie po większych partiach (nie musi być 1:1 z każdą sesją).

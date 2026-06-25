@@ -1,6 +1,8 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useUser } from "@/hooks/use-user";
+import type { BattleField } from "@/types/game";
+import { Skeleton } from "@/components/skeleton";
 
 interface BattleResult {
   status: "active"|"victory"|"defeat";
@@ -11,19 +13,24 @@ interface BattleResult {
   unitsSurvived: string[];
 }
 
-const FIELDS = [
-  { id: 1, name: "Plains of Beginning", level: 1 },
-  { id: 2, name: "Enchanted Forest", level: 2 },
-  { id: 3, name: "Mountain Pass", level: 3 },
-  { id: 4, name: "Scorching Desert", level: 4 },
-  { id: 5, name: "Ice Wasteland", level: 5 },
-];
+
 
 export default function BattlePage() {
   const { user } = useUser();
-  const [fieldId, setFieldId] = useState(1);
+  const [fields, setFields] = useState<BattleField[]>([]);
+  const [fieldsLoading, setFieldsLoading] = useState(true);
+  const [fieldId, setFieldId] = useState<number | null>(null);
+
+  useEffect(() => {
+    fetch("/api/game/fields")
+      .then(r => r.json())
+      .then(d => { setFields(d); if (d.length > 0) setFieldId(d[0].id); })
+      .catch(console.error)
+      .finally(() => setFieldsLoading(false));
+  }, []);
   const [result, setResult] = useState<BattleResult | null>(null);
   const [busy, setBusy] = useState(false);
+  const [difficulty, setDifficulty] = useState("Normal");
 
   async function doBattle() {
     setBusy(true); setResult(null);
@@ -48,18 +55,22 @@ export default function BattlePage() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className="rounded-lg border p-4">
           <p className="text-sm text-muted-foreground">Field</p>
-          <select className="w-full mt-2 rounded-md border p-2 bg-background" value={fieldId} onChange={e => setFieldId(Number(e.target.value))}>
-            {FIELDS.map(f => <option key={f.id} value={f.id}>{f.name}</option>)}
+          {fieldsLoading ? (
+            <Skeleton className="h-10 w-full mt-2" />
+          ) : (
+            <select className="w-full mt-2 rounded-md border p-2 bg-background" value={fieldId ?? ""} onChange={e => setFieldId(Number(e.target.value))}>
+            {fields.map(f => <option key={f.id} value={f.id}>{f.name}</option>)}
           </select>
+          )}
         </div>
         <div className="rounded-lg border p-4">
           <p className="text-sm text-muted-foreground">Difficulty</p>
           <div className="flex gap-2 mt-2">
-            {["Easy","Normal","Hard"].map((d,i) => <button key={i} className="px-3 py-1 rounded border text-sm hover:bg-muted">{d}</button>)}
+            {["Easy","Normal","Hard"].map((d) => <button key={d} onClick={() => setDifficulty(d)} className={"px-3 py-1 rounded border text-sm "+(difficulty===d?"bg-primary text-primary-foreground":"hover:bg-muted")}>{d}</button>)}
           </div>
         </div>
         <div className="rounded-lg border p-4 flex items-end">
-          <button onClick={doBattle} disabled={busy} className="w-full py-2 bg-primary text-primary-foreground rounded-lg font-medium hover:opacity-90 disabled:opacity-50">
+          <button onClick={doBattle} disabled={busy || fieldsLoading || fieldId === null} className="w-full py-2 bg-primary text-primary-foreground rounded-lg font-medium hover:opacity-90 disabled:opacity-50">
             {busy ? "Fighting..." : "Start Battle"}
           </button>
         </div>

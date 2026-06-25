@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
+import { Skeleton } from "@/components/skeleton";
 import { useUser } from "@/hooks/use-user";
 import { TREES } from "@/lib/game/valor-trees";
 import type { TreeDefinition, PerkDefinition } from "@/lib/game/valor-trees";
@@ -11,6 +12,7 @@ interface LearnedPerk {
 
 export default function ValorPage() {
   const { user, loading } = useUser();
+  const [valorLoading, setValorLoading] = useState(true);
   const [valor, setValor] = useState(0);
   const [learned, setLearned] = useState<Set<string>>(new Set());
   const [busy, setBusy] = useState(false);
@@ -53,6 +55,17 @@ export default function ValorPage() {
     if (valor < perk.cost) return false;
     return perk.requires.every(r => learned.has(learnedKey(treeName, r)));
   }
+
+  if (loading || valorLoading) return (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <Skeleton className="h-8 w-48" />
+        <Skeleton className="h-6 w-24" />
+      </div>
+      <div className="flex gap-2 flex-wrap">{[1,2,3].map(i => <Skeleton key={i} className="h-10 w-28 rounded-lg" />)}</div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">{[1,2,3,4,5,6].map(i => <Skeleton key={i} className="h-32 rounded-xl" />)}</div>
+    </div>
+  );
 
   return (
     <div className="space-y-6">

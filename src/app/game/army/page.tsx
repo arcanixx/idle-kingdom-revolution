@@ -1,5 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
+import { Skeleton } from "@/components/skeleton";
+import { useGameStore } from "@/stores/game-store";
 import { useUser } from "@/hooks/use-user";
 
 interface ArmyUnit {
@@ -26,24 +28,18 @@ const CLASS_COLORS: Record<string, string> = {
 };
 export default function ArmyPage() {
   const { user } = useUser();
-  const [units, setUnits] = useState<ArmyUnit[]>([]);
-  const [formation, setFormation] = useState<FormationState>({ front: [null, null, null], back: [null, null, null] });
-  const [selectedId, setSelectedId] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [saving, setSaving] = useState(false);
+  const storeUnits = useGameStore((s) => s.units) as unknown as ArmyUnit[];
+const storeFormation = useGameStore((s) => s.formation);
+const storeLoaded = useGameStore((s) => s.isLoaded);
+const [units, setUnits] = useState<ArmyUnit[]>([]);
+const [formation, setFormation] = useState<FormationState>({ front: [null, null, null], back: [null, null, null] });
+const [selectedId, setSelectedId] = useState<string | null>(null);
+const [loading, setLoading] = useState(true);
+const [saving, setSaving] = useState(false);
 
-  useEffect(() => { fetchData(); }, []);
+  useEffect(() => { setUnits(storeUnits); setLoading(!storeLoaded); }, [storeUnits, storeLoaded]);
 
-  async function fetchData() {
-    try {
-      const [uRes, fRes] = await Promise.all([fetch("/api/player/units"), fetch("/api/player/formation")]);
-      const uData = await uRes.json();
-      const fData = await fRes.json();
-      if (Array.isArray(uData)) setUnits(uData);
-      if (fData?.front) setFormation(fData);
-    } catch (e) { console.error(e); }
-    setLoading(false);
-  }
+  useEffect(() => { if (storeFormation.front) { setFormation({ front: storeFormation.front.map((u,i) => u ? {unit_id: u.id, row: 0, col: i} : null), back: storeFormation.back.map((u,i) => u ? {unit_id: u.id, row: 1, col: i} : null) }); setLoading(false); } }, [storeFormation]);
 
   async function saveFormation() {
     setSaving(true);
@@ -69,7 +65,7 @@ export default function ArmyPage() {
 
   const totalPower = units.reduce((s, u) => s + u.power_rating, 0);
 
-  if (loading) return <div className="p-8 text-center text-muted-foreground">Loading army...</div>;
+  if (loading) return <div className="p-8 space-y-4">{[1,2,3].map(i => <Skeleton key={i} className="h-16" />)}</div>;
 
   return (
     <div className="space-y-6">
