@@ -173,6 +173,69 @@ Nazewnictwo: `{faction}_{class}_{rarity}_{state}.webp` | Stany: `idle`, `attack`
 - [ ] Wszystkie powyższe × `attack` state (42 base × 6 rarity)
 - [ ] Wszystkie powyższe × `hit` state (42 base × 6 rarity)
 
+
+### 2.4. Generic Unit Variants (3 different faces per faction+class)
+
+> **Character Identity Types** (see 00_ART_DIRECTION.md): Generic Units are faction members (enemies, allies, troopers).
+> Each should have a different face — do NOT reuse the HERO face.
+> Generate 3 variants per class using faction templates, NOT the hero BASE as Image Guidance.
+
+**Human:** 3 variants × 7 classes = 21
+- [ ] human_warrior — 3 generic faces
+- [ ] human_mage — 3 generic faces
+- [ ] human_tank — 3 generic faces
+- [ ] human_healer — 3 generic faces
+- [ ] human_ranger — 3 generic faces
+- [ ] human_assassin — 3 generic faces
+- [ ] human_support — 3 generic faces
+
+**Elf:** 3 × 7 = 21
+- [ ] elf_warrior — 3 generic faces
+- [ ] elf_ranger — 3 generic faces
+- [ ] elf_mage — 3 generic faces
+- [ ] elf_healer — 3 generic faces
+- [ ] elf_assassin — 3 generic faces
+- [ ] elf_support — 3 generic faces
+- [ ] elf_tank — 3 generic faces
+
+**Orc:** 3 × 7 = 21
+- [ ] orc_warrior — 3 generic faces
+- [ ] orc_tank — 3 generic faces
+- [ ] orc_berserker — 3 generic faces
+- [ ] orc_shaman — 3 generic faces
+- [ ] orc_hunter — 3 generic faces
+- [ ] orc_support — 3 generic faces
+- [ ] orc_mage — 3 generic faces
+
+**Undead:** 3 × 7 = 21
+- [ ] undead_warrior — 3 generic faces
+- [ ] undead_mage — 3 generic faces
+- [ ] undead_tank — 3 generic faces
+- [ ] undead_healer — 3 generic faces
+- [ ] undead_assassin — 3 generic faces
+- [ ] undead_support — 3 generic faces
+- [ ] undead_ranger — 3 generic faces
+
+**Demon:** 3 × 7 = 21
+- [ ] demon_warrior — 3 generic faces
+- [ ] demon_mage — 3 generic faces
+- [ ] demon_tank — 3 generic faces
+- [ ] demon_assassin — 3 generic faces
+- [ ] demon_support — 3 generic faces
+- [ ] demon_healer — 3 generic faces
+- [ ] demon_ranger — 3 generic faces
+
+**Celestial:** 3 × 7 = 21
+- [ ] celestial_warrior — 3 generic faces
+- [ ] celestial_mage — 3 generic faces
+- [ ] celestial_healer — 3 generic faces
+- [ ] celestial_tank — 3 generic faces
+- [ ] celestial_support — 3 generic faces
+- [ ] celestial_ranger — 3 generic faces
+- [ ] celestial_assassin — 3 generic faces
+
+**Total: 42 (faction+class) × 3 = 126 Generic Unit variants**
+
 ---
 
 ## 3. Item Icons (`03_ITEM_ICONS.md`)
@@ -273,23 +336,23 @@ Nazewnictwo: `{faction}_{class}_{emotion}.webp`
 
 ### 6.1. Human (priorytet — robimy jako pierwszą frakcję, faza 1-2)
 
-15 emocji: Neutral, Happy, Angry, Sad, Surprised, Scared, Serious, Laughing, Suspicious, Shocked, Confused, Tired, Scheming, Heroic, Menacing.
+21 General emotions (Neutral through Pain) + Special states (Mind Controlled through Berserk). See 06_EMOTION_PORTRAITS.md for full list.
 
-- [ ] human_warrior — wszystkie 15 emocji
-- [ ] human_mage — wszystkie 15 emocji
-- [ ] human_tank — wszystkie 15 emocji
-- [ ] human_healer — wszystkie 15 emocji
-- [ ] human_ranger — wszystkie 15 emocji
-- [ ] human_assassin — wszystkie 15 emocji
-- [ ] human_support — wszystkie 15 emocji
+- [ ] human_warrior — wszystkie 21 General emotions
+- [ ] human_mage — wszystkie 21 General emotions
+- [ ] human_tank — wszystkie 21 General emotions
+- [ ] human_healer — wszystkie 21 General emotions
+- [ ] human_ranger — wszystkie 21 General emotions
+- [ ] human_assassin — wszystkie 21 General emotions
+- [ ] human_support — wszystkie 21 General emotions
 
 ### 6.2. Pozostałe frakcje (faza 3 — pełny zestaw)
 
-- [ ] elf — wszystkie klasy × 15 emocji
-- [ ] orc — wszystkie klasy × 15 emocji
-- [ ] undead — wszystkie klasy × 15 emocji
-- [ ] demon — wszystkie klasy × 15 emocji
-- [ ] celestial — wszystkie klasy × 15 emocji
+- [ ] elf — wszystkie klasy × 21 General emotions
+- [ ] orc — wszystkie klasy × 21 General emotions
+- [ ] undead — wszystkie klasy × 21 General emotions
+- [ ] demon — wszystkie klasy × 21 General emotions
+- [ ] celestial — wszystkie klasy × 21 General emotions
 
 ---
 
@@ -344,11 +407,12 @@ Generowane przez crop z Unit Portraits (sekcja 2), nie osobny prompt.
 | Unit Portraits BASE | 0 / 42 | 0% |
 | Unit Portraits (rarity, idle) | 0 / 252 | 0% |
 | Unit Portraits (attack+hit) | 0 / 504 | 0% |
+| Generic Unit Variants (3 faces) | 0 / 126 | 0% |
 | Item Icons | 0 / 21 | 0% |
 | Boss Creatures (3 stany) | 0 / 24 | 0% |
 | UI Elements | 0 / 16 | 0% |
-| Emotion Portraits (Human) | 0 / 105 | 0% |
-| Emotion Portraits (pozostałe 5 frakcji) | 0 / 525 | 0% |
+| Emotion Portraits (Human) -- General | 0 / 147 | 0% |
+| Emotion Portraits (pozostałe 5 frakcji) -- General | 0 / 735 | 0% |
 | Environment Effects | 0 / 17 | 0% |
 | Avatary | 0 / 42 | 0% |
 

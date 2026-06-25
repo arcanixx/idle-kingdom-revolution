@@ -1,4 +1,4 @@
-# 08 – Workflow and Tools
+﻿# 08 – Workflow and Tools
 
 > Jak pracujemy – podział zadań, narzędzia, pipeline, współpraca.
 
@@ -47,10 +47,20 @@
 - Image Guidance = referencja (dla jednostek i bossów)
 - Zapisujesz jako PNG do `C:\game\raw_assets\`
 
-**KROK 2: Mówisz mi "mam obrazki"**
-- Komunikat: "wygenerowałem 7 jednostek human i 3 itemy, są w raw_assets"
+**
 
-**KROK 3: JA obrabiam batch**
+
+**KROK 2: REF APPROVAL (Style Anchor)**
+- Before generating rarity variants, the BASE model must be approved.
+- Generate 4-8 BASE variants of the same faction+class.
+- Select the best candidate.
+- Update PROMPT_CONSTRUCTOR.md REFERENCE LOCK to Approved: YES.
+- The approved BASE becomes the **Style Anchor** for all future rarity variants.
+
+**KROK 3: Przekazujesz mi obrazki**
+- Komunikat: "wygenerowalem 7 jednostek human i 3 itemy, sa w raw_assets"
+
+**KROK 4: JA obrabiam batch**
 1. rembg (usunięcie tla – jeśli potrzebne)
 2. Upscale (opcjonalnie)
 3. Squoosh → WebP (quality 80)
@@ -58,12 +68,12 @@
 5. mv do `public/assets/{kategoria}/`
 6. Generuje JSON manifest
 
-**KROK 4: TY sprawdzasz efekt**
+**KROK 5: TY sprawdzasz efekt**
 - Otwierasz .webp
 - Sprawdzasz spójność stylistyczną
 - Mówisz "ok" lub "popraw X"
 
-**KROK 5: JA aktualizuje manifest**
+**KROK 6: JA aktualizuje manifest**
 - `assets.json` z ścieżkami, typami, wymiarami
 - Gotowe do importu w React
 
@@ -75,6 +85,44 @@
 2. Zapisz jako `ref_base.webp`
 3. Przy każdej kolejnej generacji użyj go jako Init Image z **siłą 30-50%**
 4. To zapewni spójność niezależnie od konta czy dnia
+
+---
+
+## Style Anchor Usage
+
+All rarity upgrades should use
+the approved BASE asset as visual reference.
+
+Reference Strength:
+35-45%
+
+Preserve:
+- face identity
+- hairstyle
+- body proportions
+- silhouette
+
+Upgrade:
+- armor
+- heraldry
+- 
+
+## Character Type — Image Guidance Rule
+
+Use Image Guidance ONLY for **HERO CHARACTERS** (playable units).
+
+For **GENERIC UNITS** (enemies, allies, troopers):
+- Do NOT use the hero BASE as reference
+- Use faction templates instead
+- Vary the seed to get different faces
+- The result should look like a member of the faction, NOT a copy of the hero
+
+For **NPC CHARACTERS** (unique story characters):
+- Generate from scratch with unique description
+- Save the approved result as a new Style Anchor
+- Lock face for this character only
+
+See 00_ART_DIRECTION.md → CHARACTER IDENTITY TYPES for full rules.
 
 ---
 
@@ -118,6 +166,25 @@ public/assets/
 - [ ] Lazy loading w kodzie (next/image)
 
 ---
+
+---
+
+## Combat Visual States -- Zasady generowania
+
+Combat visual effects (blood, burn, frozen, poison, shock, death, necromancy) 
+sa realizowane przez **overlaye i VFX**, a nie jako osobne warianty sprite'ow.
+
+### Zasady
+
+1. **Combat visual states NIE sa generowane jako osobne assety.**
+2. Kazdy unit posiada tylko 3 stany bojowe: idle, ttack, hit.
+3. Wszystkie efekty (krwawienie, ogien, lod, trucizna, smierc, nekromancja) to overlay nakladany w kodzie/shadere.
+4. Osobne assety dla Zombie, Frozen, Burned itp. sa **zabronione** -- uzywamy overlay'i.
+5. Szczegolowa dokumentacja: [11_COMBAT_VISUAL_STATES.md](./11_COMBAT_VISUAL_STATES.md)
+
+### Konsekwencje dla pipeline
+- Nie generujesz zadnych dodatkowych sprite'ow dla stanow bojowych.
+- Oszczednosc: ~42 frakcja+klasa x 5 stanow = ~210 assetow mniej do generowania.
 
 ## Tabela wag plików (WebP)
 

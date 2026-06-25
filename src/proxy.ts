@@ -1,9 +1,16 @@
-import { createServerClient, serialize, parse } from "@supabase/ssr"
+import createIntlMiddleware from 'next-intl/middleware';
+import { createServerClient } from "@supabase/ssr"
 import type { NextRequest } from "next/server"
 
+const intlMiddleware = createIntlMiddleware({
+  locales: ['en', 'pl'],
+  defaultLocale: 'en'
+});
+
+export default intlMiddleware;
+
 export function createApiClientFromRequest(request: NextRequest) {
-  const cookies = request.cookies
-  const allCookies = cookies.getAll()
+  const allCookies = request.cookies.getAll()
   return createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL || "",
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "",
@@ -19,3 +26,7 @@ export function createApiClientFromRequest(request: NextRequest) {
     }
   )
 }
+
+export const config = {
+  matcher: ['/((?!api|_next|_vercel|.*\\..*).*)']
+};

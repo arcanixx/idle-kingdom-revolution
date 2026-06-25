@@ -33,14 +33,18 @@
 | 6 | volcano.webp | Demon |
 | 7 | dungeon.webp | Celestial / Neutral |
 
-### Unit Portraits (42 bazowych modeli → z rarity: 252)
+### Unit Portraits (42 bazowych modeli → z rarity: 252 → Generic: 126 → NPC: per story)
 
 **Frakcje (6):** Human, Elf, Orc, Undead, Demon, Celestial
 **Klasy (7):** Warrior, Mage, Tank, Healer, Ranger, Assassin, Support
 **Rarity (6):** Common, Uncommon, Rare, Epic, Legendary, Mythic
 **Stany (3):** idle, attack, hit
+**Character Types (3):** Hero (face locked), Generic Unit (face varies, 3 variants), NPC (unique face)
 
-**Docelowo:** 6 × 7 × 6 × 3 = 756 plików (ale pracujemy etapami)
+**Docelowo:**
+- Hero: 6 × 7 × 6 × 3 = 756 plików
+- Generic Unit: 6 × 7 × 3 (faces) = 126 plików (Common quality, idle state)
+- NPC: per story demand (unique face, any class/faction)
 
 ### Item Icons (~15)
 
@@ -106,8 +110,10 @@
 - 10 × Emotion Portraits (podstawowy zestaw dla Human)
 
 **FAZA 3 (Pełnia):**
-- Wszystkie jednostki (42 bazowe × 6 rarity × 3 stany)
+- Wszystkie jednostki Hero (42 bazowe × 6 rarity × 3 stany)
+- Generic Unit Variants (42 × 3 facial variants = 126, Common idle)
 - Wszyscy bossowie (6)
 - Wszystkie UI (8)
 - Avatary (42)
 - Pełen zestaw Emotion Portraits (dla wszystkich frakcji)
+- NPC portrety (wg potrzeb fabularnych)

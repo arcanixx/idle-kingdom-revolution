@@ -68,15 +68,15 @@ Human Warrior BASE (referencja)
 
 **Modyfikatory według rarity:**
 
-| Rarity | Equipment Upgrade | Aura Effect | Ornaments |
-|--------|-------------------|-------------|-----------|
-| Base | reference character, neutral equipment | none | none |
-| Common | simple steel armor, basic weapon | none | minimal |
-| Uncommon | improved iron armor with gold trim | subtle glow | simple patterns |
-| Rare | enchanted silver armor with blue gems | soft magical glow | runic engravings |
-| Epic | ornate golden armor with rubies | moderate aura with sparks | elaborate filigree |
-| Legendary | celestial armor of light and gold | strong aura with particles | winged helmet, divine symbols |
-| Mythic | mythic divine armor, constellation engravings | living celestial energy, godly aura | ancient cosmic symbols |
+| Rarity | Detail vs Base | Equipment Upgrade | Aura Effect | Heraldry / Ornaments | Cloth Elements | Constraints |
+|--------|---------------|-------------------|-------------|---------------------|----------------|-------------|
+| Base | 0% (baseline) | reference character, neutral equipment | none | none | none | plain equipment, no decorations, minimum polygons |
+| Common | 5-10% more | simple steel armor, basic weapon | none | minor heraldry improvements | none | no capes, no shield redesign, no visual prestige increase |
+| Uncommon | 15-25% more | improved mixed materials (iron/leather/fur) | subtle weapon glow | faction symbol visible on chest/shield | small tabard or shoulder cape | no full cloak, no gemstones |
+| Rare | 30-40% more | enchanted silver/blue steel, glowing runes | soft magical aura | painted faction crest, engraved symbols | half-cloak or long tabard | -- |
+| Epic | 50-65% more | ornate gold filigree armor with rubies | moderate aura with sparks | gold inlay, gemstone-encrusted crest | full cloak with faction-colored trim | -- |
+| Legendary | 75-90% more | celestial armor of light and gold | strong aura with floating particles | divine symbols, halos, light motes | flowing enchanted cloak with particle trail | -- |
+| Mythic | 100%+ (max density) | mythic divine armor, constellation engravings | living celestial energy, galaxy particles | ancient cosmic symbols | ethereal floating cloth | everything in motion |
 
 ---
 
@@ -119,6 +119,40 @@ public/assets/units/
 **Stany:** `idle`, `attack`, `hit`
 
 ---
+---
+
+## CHARACTER PROPORTION SYSTEM
+
+All units use the same proportion baseline defined in [00_ART_DIRECTION.md](./00_ART_DIRECTION.md).
+
+**Human baseline (reference):**
+- Head-to-body ratio: 1:7.5 (heroic proportion)
+- Weapons: 110-130% realistic size
+- Armor: 120% readability scale
+
+**Per-faction offsets:**
+- Elf: +0.1 height, more slender
+- Orc: +0.2 width, broader silhouette
+- Undead: same height, gaunt frame
+- Demon: +0.15 height, wider horns add mass
+- Celestial: +0.05 height, floating elements add presence
+
+These proportions apply to ALL rarity variants of a given faction+class. See 00_ART_DIRECTION.md for full details.
+
+---
+
+## STYLE ANCHOR RULES
+
+Every faction+class combination requires **BASE model approval** before rarity variants can be generated.
+
+1. Generate 4-8 BASE variants for a faction+class.
+2. Select the best candidate and approve as **Style Anchor**.
+3. Update the REFERENCE LOCK in PROMPT_CONSTRUCTOR.md to Approved: YES.
+4. Only then generate rarity variants (Common through Mythic).
+5. All variants must use Image Guidance at **35-45%** with the approved BASE.
+6. If a variant recognisably diverges from the anchor -> reject and regenerate.
+
+This workflow ensures the 42 BASE models remain the single source of truth for all 252+ rarity variants.
 
 ## Uwagi
 

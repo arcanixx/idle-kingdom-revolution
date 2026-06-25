@@ -1,5 +1,10 @@
 ﻿# ASSET_STYLE_BIBLE_MASTER v1.0
 
+> **IMPORTANT:** This document covers the technical implementation details.
+> For the high-level design philosophy (faction language, proportion system), see **00_ART_DIRECTION.md**.
+
+---
+
 Project:
 Idle Kingdom Revolution
 

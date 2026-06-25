@@ -1,6 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  turbopack: {
+    root: process.cwd(),
+  },
   typescript: {
     ignoreBuildErrors: false,
   },
@@ -18,4 +21,3 @@ const nextConfig: NextConfig = {
 };
 
 export default nextConfig;
-

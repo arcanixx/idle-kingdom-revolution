@@ -125,30 +125,87 @@ SHAPE LANGUAGE
 RARITY DEFINITIONS
 
 Base:
-reference character
-neutral stance baseline
-no extra effects
+  reference character
+  neutral stance baseline
+  no extra effects
+  plain equipment, no decorations
+  no heraldry
+  no armor detailing
+  bare minimum polygons for readable silhouette
 
 Common:
-simple equipment
+  5-10% more detail than Base
+  minor heraldry improvements
+  minor armor refinement
+  no additional cloth elements
+  no capes
+  no major shield redesign
+  no visual prestige increase
 
 Uncommon:
-enhanced equipment
+  15-25% more detail than Base
+  clear heraldry: faction symbol visible on chest/shield
+  improved armor: mixed materials (leather/fur/iron)
+  minor cloth: small tabard or shoulder cape
+  subtle glow on weapons
+  no full cloak
+  no gemstone embellishments
 
 Rare:
-enchanted equipment
+  30-40% more detail than Base
+  prominent heraldry: painted faction crest, engraved symbols
+  enchanted equipment: silver/blue steel, glowing runes
+  moderate cloth: half-cloak or long tabard
+  soft magical aura around weapon
+  small gems in armor joints
+  helmet decoration: crest or plume
 
 Epic:
-ornate magical equipment
+  50-65% more detail than Base
+  ornate heraldry: gold inlay, gemstone-encrusted crest
+  ornate magical equipment: gold filigree, rubies
+  full cloak with faction-colored trim
+  moderate aura with magical sparks
+  glowing eyes optional
+  elaborate pauldrons and greaves
 
 Legendary:
-divine equipment
+  75-90% more detail than Base
+  celestial heraldry: divine symbols, halos, light motes
+  divine equipment: armor of light and gold
+  flowing enchanted cloak with particle trail
+  strong aura with floating particles
+  winged helmet or crown of light
+  floating elements (orbiting runes, small wings)
 
 Mythic:
-mythic divine armor
-living celestial energy
-constellation engravings
-ancient cosmic symbols
+  100%+ more detail than Base (maximum visual density)
+  mythic divine armor with constellation engravings
+  living celestial energy coursing through equipment
+  ancient cosmic symbols glowing on armor and weapons
+  godly aura with galaxy-like particle effects
+  ethereal wings or cosmic backpiece
+  everything in motion: floating cloth, energy trails, orbiting elements
+
+---
+
+CHARACTER CONSISTENCY RULES
+
+For rarity progression of the same hero:
+
+Preserve:
+- face identity
+- hairstyle
+- age range
+- body proportions
+- class silhouette
+- faction identity
+
+Upgrade only:
+- armor complexity
+- heraldry richness
+- material quality
+- equipment prestige
 
 ---
 
@@ -221,23 +278,39 @@ Emotion:
 
 **EMOTIONS LIST:**
 
-| Emotion | Description | Pose Hint |
-|---------|-------------|-----------|
-| Neutral | Default, calm expression | Standing straight, hands relaxed |
-| Happy | Smiling, warm expression | Slight head tilt, open gesture |
-| Sad | Downcast eyes, solemn | Looking down, lowered shoulders |
-| Angry | Frowning, intense glare | Lean forward, clenched fist |
-| Surprised | Eyes wide, mouth slightly open | Step back, hands raised |
-| Scared | Fearful expression, defensive | Guarded pose, visible tension |
-| Serious | Focused, determined | Strong stance, hand on weapon |
-| Laughing | Joyful, head back | Open mouth, relaxed posture |
-| Suspicious | Squinted eyes, skeptical | Tilted head, arms crossed |
-| Shocked | Extreme surprise | Recoiling, hands to face |
-| Confused | Tilted head, furrowed brow | One hand raised, questioning |
-| Tired | Exhausted, heavy eyes | Slumped posture, hand on forehead |
-| Scheming | Smirk, sly look | Half-closed eyes, subtle gesture |
-| Heroic | Proud, inspiring | Chest out, weapon raised |
-| Menacing | Threatening, dark | Looming posture, glowing eyes |
+| Emotion | Description | Pose Hint | Type |
+|---------|-------------|-----------|------|
+| Neutral | Default, calm expression | Standing straight, hands relaxed | General |
+| Happy | Smiling, warm expression | Slight head tilt, open gesture | General |
+| Sad | Downcast eyes, solemn | Looking down, lowered shoulders | General |
+| Angry | Frowning, intense glare | Lean forward, clenched fist | General |
+| Surprised | Eyes wide, mouth slightly open | Step back, hands raised | General |
+| Scared | Fearful expression, defensive | Guarded pose, visible tension | General |
+| Serious | Focused, determined | Strong stance, hand on weapon | General |
+| Laughing | Joyful, head back | Open mouth, relaxed posture | General |
+| Suspicious | Squinted eyes, skeptical | Tilted head, arms crossed | General |
+| Shocked | Extreme surprise | Recoiling, hands to face | General |
+| Confused | Tilted head, furrowed brow | One hand raised, questioning | General |
+| Tired | Exhausted, heavy eyes | Slumped posture, hand on forehead | General |
+| Scheming | Smirk, sly look | Half-closed eyes, subtle gesture | General |
+| Heroic | Proud, inspiring | Chest out, weapon raised | General |
+| Menacing | Threatening, dark | Looming posture, glowing eyes | General |
+| Determined | Determined, resolute | Set jaw, focused eyes, ready stance | General |
+| Victorious | Triumphant, post-victory | Raised fist, proud smile, glowing confidence | General |
+| Defeated | Beaten, post-defeat | Head down, slumped shoulders, empty gaze | General |
+| Wounded | Injured, weakened | Clutching wound, strained expression, blood visible | General |
+| Exhausted | At the limit, drained | Hollow eyes, limp posture, barely standing | General |
+| Pain | In pain, taking hit | Grimacing, recoiling from impact, sharp reaction | General |
+| Mind Controlled | Manipulated, not themselves | Blank expression, glowing eyes, magical aura | Special |
+| Sick | Ill, weak | Pale complexion, feverish look, sweating | Special |
+| Poisoned | Poisoned | Green/purple tint, sickly grimace | Special |
+| Frozen | Frozen solid | Ice crystals, blue tint, shivering | Special |
+| Stoned | Petrified | Grey stone texture, rigid pose, cracked skin | Special |
+| Burned | Burnt, scorched | Soot/ash on skin, red burned patches | Special |
+| Charmed | Enchanted, smitten | Dreamy expression, rosy cheeks, dazed smile | Special |
+| Cursed | Dark magic afflicted | Dark purple aura, shadowy veins, sinister glow | Special |
+| Blessed | Holy power | Golden glow, serene expression, warm light | Special |
+| Berserk | Battle fury | Wild eyes, clenched teeth, veins bulging, animalistic rage | Special |
 
 **OUTPUT TEMPLATE:**
 

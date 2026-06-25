@@ -1,4 +1,4 @@
-# Asset Generation – Spis Treści
+﻿# Asset Generation – Spis Treści
 
 > Dokumentacja do generowania assetów dla **Idle Kingdom Revolution**.
 > Styl: Fantasy 3D-rendered 2D, spójny, lekki (WebP), zoptymalizowany pod gry mobilne.
@@ -9,7 +9,8 @@
 
 | Plik | Zawartość | Rozmiar |
 |------|-----------|---------|
-| [ASSET_STYLE_BIBLE.md](./ASSET_STYLE_BIBLE.md) | Zasady stylu, kolory, oświetlenie, motywy frakcji | ~5 KB |
+| [00_ART_DIRECTION.md](./00_ART_DIRECTION.md) | Art direction, proportion system, faction/class design guide, style anchor rules | ~6 KB |
+| [ASSET_STYLE_BIBLE.md](./ASSET_STYLE_BIBLE.md) | Style implementation: camera, lighting, materials, shapes, kolory, oświetlenie, motywy frakcji | ~5 KB |
 | [ASSET_CHECKLIST.md](./ASSET_CHECKLIST.md) | Checklista postępu – co już wygenerowane, co zostało | ~6 KB |
 | [PROMPT_CONSTRUCTOR.md](./PROMPT_CONSTRUCTOR.md) | Szablony promptów dla różnych kategorii | ~3 KB |
 | [01_BATTLE_BACKGROUNDS.md](./01_BATTLE_BACKGROUNDS.md) | Tła walki – 7 krajobrazów, pogoda, efekty | ~4 KB |
@@ -22,6 +23,7 @@
 | [08_WORKFLOW_AND_TOOLS.md](./08_WORKFLOW_AND_TOOLS.md) | Workflow, narzędzia, pipeline, współpraca | ~5 KB |
 | [09_ASSET_LIST_REFERENCE.md](./09_ASSET_LIST_REFERENCE.md) | Pełna lista wszystkich assetów (kategorie, ilości) | ~3 KB |
 | [PROJECT_AI_TOOLKIT.md](./10_PROJECT_AI_TOOLKIT.md) | Narzędzia do projektowania świata i fabuły (master prompt, gotowe przepisy) | ~5 KB |
+| [11_COMBAT_VISUAL_STATES.md](./11_COMBAT_VISUAL_STATES.md) | Combat VFX, overlay system, hit feedback, death/necromancy states | ~4 KB |
 
 ---
 
@@ -62,6 +64,6 @@ Szczegóły: [08_WORKFLOW_AND_TOOLS.md](./08_WORKFLOW_AND_TOOLS.md)
 
 ---
 
-Wersja: 3.0
-Data: 2026-06-24
+Wersja: 3.1
+Data: 2026-06-25
 Autor: Asystent AI (współpraca z Tobą)
