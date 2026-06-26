@@ -855,6 +855,37 @@ Fantasy 3D render portrait of a menacing demon mage, epic quality, threatening g
 **USAGE:** Generate these as 512x512 assets stored in `public/assets/portraits/{faction}/` for use in story scenes, tutorials, dialogue, and event popups.
 
 ---
+## GENEROWANIE SIATEK GRID 2x4 (dla Hero Characters)
+
+### Zasada
+Zamiast generować 7 osobnych obrazków dla każdej Rarity (Common, Uncommon, Rare, Epic, Legendary, Mythic, Reserved), generujemy JEDEN obraz w siatce 2x4. To zapewnia idealną spójność twarzy i sylwetki.
+
+### Szablon promptu dla ChatGPT (DALL-E 3)
+
+Generate a single 2x4 grid of 8 characters of the same Hero.
+
+The grid must show a progression from Common to Mythic rarity.
+
+CRITICAL: Leave a 20-pixel transparent gap between every character.
+
+Do not let auras, weapons, or shields overlap into adjacent cells.
+
+The face and body must be identical across all cells.
+
+Full body, 3/4 view, head to feet.
+
+Background: flat neutral grey (#808080) with checkerboard transparency.
+
+Style: Stylized fantasy 3D render, crisp textures, clean 3D render, similar to ''Raid: Shadow Legends'' or ''AFK Arena''.
+
+CELL DEFINITIONS: (Use the Rarity Delta tables from the section above to describe each cell in order: Common, Uncommon, Rare, Epic, Legendary, Mythic, Reserved, Reserved).
+
+### Post-processing
+After generation, the script will crop individual characters from the grid to extract 7 separate files.
+
+---
+
+---
 
 ## REFERENCE LOCK
 

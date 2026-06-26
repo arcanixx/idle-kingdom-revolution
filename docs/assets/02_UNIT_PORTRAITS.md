@@ -123,6 +123,9 @@ Szczegóły: [13_GENERIC_UNIT_GUIDE.md](./13_GENERIC_UNIT_GUIDE.md)
 
 ## Frakcje – Klasy i Motywy
 
+
+**KEY CHANGE:** We generate 7 rarity variants in a single 2x4 grid instead of individual images. In prompts we always add: Leave a 20-pixel transparent gap between each character. Do not let weapons, auras, or shields overlap into adjacent cells. Post-processing (cropping) is done by Python script (auto-crop contours), which removes background and crops characters with margin.
+
 | Frakcja | Motyw | Klasy (do wyboru) |
 |---------|-------|-------------------|
 | Human | Lion | Warrior, Mage, Tank, Healer, Ranger, Assassin, Support |
