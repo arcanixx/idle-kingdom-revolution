@@ -33,6 +33,11 @@ Human Warrior BASE (referencja)
 ├── Human Warrior Legendary (celestial armor of light, skrzydlaty hełm)
 └── Human Warrior Mythic (zbroja z żywych gwiazd, zmieniające się konstelacje)
 
+### WYMÓG SPÓJNOŚCI KSZTAŁTÓW I HERALDYKI W SIATKACH
+Podczas generowania siatek, aby uniknąć niespójności (jak zmiana kształtu tarczy lub zamiana lwa na głowę lwa), w prompcie obowiązkowo dodajemy:
+- **Ograniczenie kształtu:** "Shield shape is STRICTLY a kite shield in ALL 6 cells. No round shields."
+- **Ograniczenie sylwetki herbu:** "The emblem on the shield must be a full-body standing lion in ALL cells, not just a head. Only its depth (flat vs 3D) and material (gold vs starlight) changes."
+
 ---
 
 ### Hero – definicja i zakres
