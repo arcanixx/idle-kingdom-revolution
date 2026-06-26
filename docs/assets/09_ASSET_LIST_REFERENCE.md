@@ -9,7 +9,7 @@
 | Kategoria | Sztuk | Rozmiar | Faza |
 |-----------|-------|---------|------|
 | Battle Backgrounds | 7 | 1920×1080 | 1 |
-| Unit Portraits (BASE × 6 rarity) | 42 | 512×512 | 1-3 |
+| Unit Portraits (Hero: 1 faction × 7 classes × 6 rarity × 3 states × 2 genders) | 252 | 512×512 | 1-3 |
 | Item Icons | ~15 | 256×256 | 1-2 |
 | Boss Creatures | 6 | 512×512 / 1024×1024 | 1-2 |
 | UI Elements | ~8 | zmienna | 2-3 |
@@ -33,18 +33,23 @@
 | 6 | volcano.webp | Demon |
 | 7 | dungeon.webp | Celestial / Neutral |
 
-### Unit Portraits (42 bazowych modeli → z rarity: 252 → Generic: 126 → NPC: per story)
+### Unit Portraits (Hero: 252 pliki + Generic: 126 + NPC: per story)
 
 **Frakcje (6):** Human, Elf, Orc, Undead, Demon, Celestial
 **Klasy (7):** Warrior, Mage, Tank, Healer, Ranger, Assassin, Support
 **Rarity (6):** Common, Uncommon, Rare, Epic, Legendary, Mythic
 **Stany (3):** idle, attack, hit
-**Character Types (3):** Hero (face locked), Generic Unit (face varies, 3 variants), NPC (unique face)
+**Character Types (3):** Hero (party members, 1 faction active), Generic Unit (3 facial variants per class, Common idle), NPC (unique face)
+**Płeć (2):** Male, Female (per character choice)
 
-**Docelowo:**
-- Hero: 6 × 7 × 6 × 3 = 756 plików
-- Generic Unit: 6 × 7 × 3 (faces) = 126 plików (Common quality, idle state)
+**Docelowo (na 1 aktywną frakcję):**
+- Hero: 7 classes × 6 rarity × 3 states × 2 genders = **252 pliki**
+- Generic Unit: 6 factions × 7 classes × 3 faces = **126 plików** (Common, idle)
 - NPC: per story demand (unique face, any class/faction)
+
+> **Dlaczego 252, a nie 36?** Bo gracz ma drużynę (party) – może mieć do 7 różnych klas w swoim składzie.
+> Każda z nich otrzymuje pełną progresję rarity. Tylko 1 frakcja jest aktywna na playthrough.
+> Generic Units (3 twarze = 3 różne wyglądy twarzy) pokrywają pozostałe 5 frakcji + wrogów.
 
 ### Item Icons (~15)
 
@@ -110,8 +115,8 @@
 - 10 × Emotion Portraits (podstawowy zestaw dla Human)
 
 **FAZA 3 (Pełnia):**
-- Wszystkie jednostki Hero (42 bazowe × 6 rarity × 3 stany)
-- Generic Unit Variants (42 × 3 facial variants = 126, Common idle)
+- Hero (1 faction × 7 classes × 6 rarity × 3 states × 2 genders = 252 pliki)
+- Generic Unit Variants (6 factions × 7 classes × 3 faces = 126)
 - Wszyscy bossowie (6)
 - Wszystkie UI (8)
 - Avatary (42)

@@ -92,6 +92,46 @@ The baseline keeps all classes recognisable as part of the **same world**.
 
 ---
 
+## GENDER REPRESENTATION
+
+### Hero Characters
+- Gracz wybiera płeć na starcie (Male / Female).
+- Generujemy obie wersje dla każdej klasy/frakcji.
+- **To podwaja liczbę Hero assetów** – z 18 do 36 (dla jednej frakcji + klasy), ale to akceptowalne, bo to główna postać.
+
+### Generic Units
+- 65% mężczyźni, 35% kobiety.
+- Generujemy losowo – nie musimy mieć równych proporcji w każdej klasie, ale ogólnie świat ma być zróżnicowany.
+
+### NPC Characters
+- Płeć określona w scenariuszu.
+- Generujemy na życzenie, zgodnie z fabułą.
+
+### Wyjątki
+- **Orc** – kobiety są rzadsze (30% kobiet, 70% mężczyzn) – zgodnie z lore.
+- **Celestial** – płeć jest mniej istotna (istoty boskie) – można generować androgyniczne lub obie.
+
+### Age Diversity
+Wiek postaci powinien być zróżnicowany w zależności od frakcji, klasy i płci:
+
+| Klasa | Typowy wiek | Uwagi |
+|-------|-------------|-------|
+| Warrior | 20–40 | W sile wieku, doświadczony |
+| Mage | 30–60 | Magowie starzeją się wolniej, mądrzejsi z wiekiem |
+| Tank | 25–45 | Szczyt formy fizycznej |
+| Healer | 25–55 | Spokojniejszy, dojrzalszy wygląd |
+| Ranger | 20–40 | Zwinność z wiekiem spada, ale doświadczenie rośnie |
+| Assassin | 20–35 | Młodzi, szybcy, ostrzejsi rysy |
+| Support | 25–50 | Różny wiek, zależnie od roli (bard, strateg, medyk) |
+
+**Różnice międzyfrakcyjne:**
+- **Elf** – wszystkie klasy +20–30 lat (długowieczni, wyglądają młodziej niż są)
+- **Orc** – wszystkie klasy –5–10 lat (krótsza żywotność, szybciej dojrzewają)
+- **Celestial** – wiek nie ma znaczenia (istoty pozaczasowe)
+- **Undead** – wiek śmierci jest zamrożony (postać wygląda jak w chwili śmierci)
+
+---
+
 ## CHARACTER EVOLUTION RULES
 
 Rarity upgrades must preserve:
@@ -105,6 +145,8 @@ Rarity upgrades must preserve:
 Only equipment quality may evolve.
 
 A player should instantly recognize the same character across all rarity tiers.
+
+> **Uwaga:** Stany bojowe (attack, hit) dotyczą TYLKO Hero Characters. Generics mają tylko idle. Wszystkie efekty (blood, burn, frozen itp.) to overlay'e – patrz [11_COMBAT_VISUAL_STATES.md](./11_COMBAT_VISUAL_STATES.md).
 
 ## VISUAL CONSISTENCY PRIORITIES
 

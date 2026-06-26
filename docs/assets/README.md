@@ -13,6 +13,9 @@
 | [ASSET_STYLE_BIBLE.md](./ASSET_STYLE_BIBLE.md) | Style implementation: camera, lighting, materials, shapes, kolory, oświetlenie, motywy frakcji | ~5 KB |
 | [ASSET_CHECKLIST.md](./ASSET_CHECKLIST.md) | Checklista postępu – co już wygenerowane, co zostało | ~6 KB |
 | [PROMPT_CONSTRUCTOR.md](./PROMPT_CONSTRUCTOR.md) | Szablony promptów dla różnych kategorii | ~3 KB |
+| [12_PROMPT_CONSTRUCTOR.md](./12_PROMPT_CONSTRUCTOR.md) | Szablony promptów (numerowany, zgodny z konwencją) | ~3 KB |
+| [13_GENERIC_UNIT_GUIDE.md](./13_GENERIC_UNIT_GUIDE.md) | Generowanie Generic Units (3 twarze, bez Image Guidance) | ~2 KB |
+| [14_PLACEHOLDER_STRATEGY.md](./14_PLACEHOLDER_STRATEGY.md) | Obsługa brakujących assetów w dev/test | ~2 KB |
 | [01_BATTLE_BACKGROUNDS.md](./01_BATTLE_BACKGROUNDS.md) | Tła walki – 7 krajobrazów, pogoda, efekty | ~4 KB |
 | [02_UNIT_PORTRAITS.md](./02_UNIT_PORTRAITS.md) | Jednostki – hierarchia BASE→RARITY, klasy, frakcje | ~6 KB |
 | [03_ITEM_ICONS.md](./03_ITEM_ICONS.md) | Przedmioty – bronie, eliksiry, tarcze, waluta | ~4 KB |
@@ -31,7 +34,7 @@
 
 1. Przeczytaj [ASSET_STYLE_BIBLE.md](./ASSET_STYLE_BIBLE.md) – poznaj zasady stylu.
 2. Zdecyduj, co generujesz – wybierz odpowiedni plik z listy powyżej.
-3. Użyj promptów z wybranego pliku + [PROMPT_CONSTRUCTOR.md](./PROMPT_CONSTRUCTOR.md).
+3. Użyj promptów z wybranego pliku + [12_PROMPT_CONSTRUCTOR.md](./12_PROMPT_CONSTRUCTOR.md) (lub [PROMPT_CONSTRUCTOR.md](./PROMPT_CONSTRUCTOR.md)).
 4. Wygeneruj PNG, zapisz w `raw_assets/`, przekaż do obróbki.
 5. Otrzymasz gotowe WebP w `public/assets/` + `assets.json`.
 
@@ -64,6 +67,12 @@ Szczegóły: [08_WORKFLOW_AND_TOOLS.md](./08_WORKFLOW_AND_TOOLS.md)
 
 ---
 
-Wersja: 3.1
+Wersja: 3.2
 Data: 2026-06-25
 Autor: Asystent AI (współpraca z Tobą)
+
+### Powiązane pliki
+- [PROMPTS.md](../../PROMPTS.md) — Zbiór zatwierdzonych promptów (Style Anchors) — w głównym folderze projektu.
+- [12_PROMPT_CONSTRUCTOR.md](./12_PROMPT_CONSTRUCTOR.md) — Szablony promptów (numerowany, zgodny z konwencją).
+- [13_GENERIC_UNIT_GUIDE.md](./13_GENERIC_UNIT_GUIDE.md) — Generowanie Generic Units.
+- [14_PLACEHOLDER_STRATEGY.md](./14_PLACEHOLDER_STRATEGY.md) — Obsługa brakujących assetów w dev/test.
