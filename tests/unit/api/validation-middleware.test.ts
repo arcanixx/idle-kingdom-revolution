@@ -1,8 +1,11 @@
-import { describe, it, expect, vi } from 'vitest';
-import { z } from 'zod';
+﻿import { describe, it, expect, vi } from "vitest";
+import { z } from "zod";
 
-const mockNextResponse = { json: vi.fn((data, init) => ({ data, status: init?.status || 200, headers: new Map() })) };
-vi.mock('next/server', () => ({ NextResponse: { json: (...args) => mockNextResponse.json(...args) } }));
+vi.mock("next/server", () => ({
+  NextResponse: {
+    json: vi.fn((data: any, init?: { status: number }) => ({ data, status: init?.status || 200 })),
+  },
+}));
 
 import { validateRequest, validateQuery, withErrorHandler, withValidatedRequest } from '../../../src/lib/api/validation-middleware';
 
@@ -55,13 +58,13 @@ describe('Validation Middleware', () => {
   describe('withErrorHandler', () => {
     it('returns handler result on success', async () => {
       const r = await withErrorHandler(() => Promise.resolve({ data: 'ok', status: 200 } as any));
-      expect(r.data).toBe('ok');
+      expect((r as any).data).toBe('ok');
     });
 
     it('catches errors', async () => {
       const r = await withErrorHandler(() => Promise.reject(new Error('boom')));
-      expect(r.data).toEqual({ error: 'boom' });
-      expect(r.status).toBe(500);
+      expect((r as any).data).toEqual({ error: 'boom' });
+      expect((r as any).status).toBe(500);
     });
   });
 
