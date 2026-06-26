@@ -1,23 +1,23 @@
-﻿# Asset Checklist
+# Asset Checklist
 
-> Stan na: 2026-06-24. Folder `public/assets/` jeszcze nie istnieje — wszystko poniżej jest do zrobienia.
+> Stan na: 2026-06-24. Folder `public/assets/` jeszcze nie istnieje  wszystko poni¿ej jest do zrobienia.
 > Odznaczaj `[x]` po wygenerowaniu, obróbce (rembg + WebP) i wrzuceniu do `public/assets/{kategoria}/`.
-> Pełne definicje i prompty: zobacz pliki `01_*` do `07_*` w tym folderze.
+> Pe³ne definicje i prompty: zobacz pliki `01_*` do `07_*` w tym folderze.
 
 ---
 
-## Jak korzystać z tej checklisty
+## Jak korzystaæ z tej checklisty
 
 1. Generujesz asset wg promptu z odpowiedniego pliku (`01_BATTLE_BACKGROUNDS.md` itd.)
-2. Po przejściu pipeline'u (`08_WORKFLOW_AND_TOOLS.md`) i wylądowaniu w `public/assets/{kategoria}/` — zaznacz `[x]` tutaj.
-3. Jeśli dodajesz coś nowego, czego nie ma w tej liście (np. nową frakcję, nowy boss) — dopisz wiersz tutaj ORAZ zaktualizuj odpowiedni plik `0X_*.md`, żeby dokumentacja i checklist się nie rozjeżdżały.
+2. Po przejciu pipeline'u (`08_WORKFLOW_AND_TOOLS.md`) i wyl¹dowaniu w `public/assets/{kategoria}/`  zaznacz `[x]` tutaj.
+3. Jeli dodajesz co nowego, czego nie ma w tej licie (np. now¹ frakcjê, nowy boss)  dopisz wiersz tutaj ORAZ zaktualizuj odpowiedni plik `0X_*.md`, ¿eby dokumentacja i checklist siê nie rozje¿d¿a³y.
 
 ---
 
 ## FAZA 1 (MVP)
 
-- [ ] 7 × Battle Backgrounds (wszystkie, patrz sekcja 1 poniżej)
-- [ ] 7 × Unit Portraits BASE (Common, idle) — jeden per frakcja
+- [ ] 7 × Battle Backgrounds (wszystkie, patrz sekcja 1 poni¿ej)
+- [ ] 7 × Unit Portraits BASE (Common, idle)  jeden per frakcja
 - [ ] 3 × Item Icons: health_potion, gold_coin, mana_crystal
 - [ ] 1 × Boss: Fire Dragon
 - [ ] 3 × Emotion Portraits (Human): Happy, Angry, Scared
@@ -26,7 +26,7 @@
 
 ## 1. Battle Backgrounds (`01_BATTLE_BACKGROUNDS.md`)
 
-Rozmiar: 1920×1080 WebP — folder: `public/assets/backgrounds/`
+Rozmiar: 1920×1080 WebP  folder: `public/assets/backgrounds/`
 
 | # | Plik | Frakcja/Lokacja | Status |
 |---|------|------------------|--------|
@@ -48,12 +48,15 @@ Rozmiar: 1920×1080 WebP — folder: `public/assets/backgrounds/`
 
 ## 2. Unit Portraits (`02_UNIT_PORTRAITS.md`)
 
-Rozmiar: 512×512 WebP — folder: `public/assets/units/{faction}/`
-Full-body, kąt kamery 3/4, NOGI WIDOCZNE w każdym wariancie.
+Rozmiar: 512×512 WebP  folder: `public/assets/units/{faction}/`
+Full-body, k¹t kamery 3/4, NOGI WIDOCZNE w ka¿dym wariancie.
 
 Nazewnictwo: `{faction}_{class}_{rarity}_{state}.webp` | Stany: `idle`, `attack`, `hit`
 
-### 2.1. BASE models (referencja, przed rarity) — 1 per frakcja+klasa = 42 łącznie
+### 2.1. BASE models (referencja, przed rarity)  1 per frakcja+klasa = 42 ³¹cznie
+
+> **Uwaga:** Hero = 1 wybrana frakcja + 1 wybrana klasa. Reszta kombinacji to Generic Units.
+> BASE modele dla wszystkich 42 kombinacji s¹ potrzebne jako Style Anchory dla Generics.
 
 **Human:**
 - [ ] human_warrior_base
@@ -73,7 +76,7 @@ Nazewnictwo: `{faction}_{class}_{rarity}_{state}.webp` | Stany: `idle`, `attack`
 - [ ] elf_support_base
 - [ ] elf_tank_base
 
-**Orc** (klasy unikalne — patrz uwaga w `02_UNIT_PORTRAITS.md`):
+**Orc** (klasy unikalne  patrz uwaga w `02_UNIT_PORTRAITS.md`):
 - [ ] orc_warrior_base
 - [ ] orc_tank_base
 - [ ] orc_berserker_base
@@ -109,130 +112,138 @@ Nazewnictwo: `{faction}_{class}_{rarity}_{state}.webp` | Stany: `idle`, `attack`
 - [ ] celestial_ranger_base
 - [ ] celestial_assassin_base
 
-### 2.2. Rarity variants (idle state) — 6 rarity × 42 base = 252
+### 2.2. Rarity variants (idle state)  6 rarity × 7 Hero classes = 42 (+42 dla drugiej p³ci)
 
-> Odznaczaj per frakcja+klasa, wszystkie 6 rarity naraz, żeby nie rozpisywać 252 osobnych linii.
+> **Hero = 252 pliki na frakcjê:** 7 klas × 6 rarity × 3 stany × 2 p³cie.
+> Gracz ma dru¿ynê (party)  ka¿da postaæ w dru¿ynie to Hero i dostaje rarity.
+> Tylko 1 frakcja jest aktywna na playthrough. Generic Units (sekcja 9) pokrywaj¹ pozosta³e.
+
+
+> Odznaczaj per frakcja+klasa, wszystkie 6 rarity naraz, ¿eby nie rozpisywaæ 252 osobnych linii.
 > Rarity: Common, Uncommon, Rare, Epic, Legendary, Mythic.
+> **Uwaga dotycząca generowania:** Wszystkie 6 rarity + 2 puste sloty (reserved) dla danej klasy generujemy w jednym obrazie (grid 2x4) zamiast osobno. Wycinamy je skryptem Python. Zaznaczamy w checklisty tylko, czy dana frakcja+klasa ma kompletny grid.
+
+> Uwaga dotycz¹ca generowania: Wszystkie 6 rarity + 2 puste sloty (reserved) dla danej klasy generujemy w jednym obrazie (grid 2x4) zamiast osobno. Wycinamy je skryptem Python. Zaznaczamy w checklisty tylko, czy dana frakcja+klasa ma kompletny grid.
 
 **Human:**
-- [ ] human_warrior — all 6 rarity, idle
-- [ ] human_mage — all 6 rarity, idle
-- [ ] human_tank — all 6 rarity, idle
-- [ ] human_healer — all 6 rarity, idle
-- [ ] human_ranger — all 6 rarity, idle
-- [ ] human_assassin — all 6 rarity, idle
-- [ ] human_support — all 6 rarity, idle
+- [ ] human_warrior  all 6 rarity, idle
+- [ ] human_mage  all 6 rarity, idle
+- [ ] human_tank  all 6 rarity, idle
+- [ ] human_healer  all 6 rarity, idle
+- [ ] human_ranger  all 6 rarity, idle
+- [ ] human_assassin  all 6 rarity, idle
+- [ ] human_support  all 6 rarity, idle
 
 **Elf:**
-- [ ] elf_warrior — all 6 rarity, idle
-- [ ] elf_ranger — all 6 rarity, idle
-- [ ] elf_mage — all 6 rarity, idle
-- [ ] elf_healer — all 6 rarity, idle
-- [ ] elf_assassin — all 6 rarity, idle
-- [ ] elf_support — all 6 rarity, idle
-- [ ] elf_tank — all 6 rarity, idle
+- [ ] elf_warrior  all 6 rarity, idle
+- [ ] elf_ranger  all 6 rarity, idle
+- [ ] elf_mage  all 6 rarity, idle
+- [ ] elf_healer  all 6 rarity, idle
+- [ ] elf_assassin  all 6 rarity, idle
+- [ ] elf_support  all 6 rarity, idle
+- [ ] elf_tank  all 6 rarity, idle
 
 **Orc:**
-- [ ] orc_warrior — all 6 rarity, idle
-- [ ] orc_tank — all 6 rarity, idle
-- [ ] orc_berserker — all 6 rarity, idle
-- [ ] orc_shaman — all 6 rarity, idle
-- [ ] orc_hunter — all 6 rarity, idle
-- [ ] orc_support — all 6 rarity, idle
-- [ ] orc_mage — all 6 rarity, idle
+- [ ] orc_warrior  all 6 rarity, idle
+- [ ] orc_tank  all 6 rarity, idle
+- [ ] orc_berserker  all 6 rarity, idle
+- [ ] orc_shaman  all 6 rarity, idle
+- [ ] orc_hunter  all 6 rarity, idle
+- [ ] orc_support  all 6 rarity, idle
+- [ ] orc_mage  all 6 rarity, idle
 
 **Undead:**
-- [ ] undead_warrior — all 6 rarity, idle
-- [ ] undead_mage — all 6 rarity, idle
-- [ ] undead_tank — all 6 rarity, idle
-- [ ] undead_healer — all 6 rarity, idle
-- [ ] undead_assassin — all 6 rarity, idle
-- [ ] undead_support — all 6 rarity, idle
-- [ ] undead_ranger — all 6 rarity, idle
+- [ ] undead_warrior  all 6 rarity, idle
+- [ ] undead_mage  all 6 rarity, idle
+- [ ] undead_tank  all 6 rarity, idle
+- [ ] undead_healer  all 6 rarity, idle
+- [ ] undead_assassin  all 6 rarity, idle
+- [ ] undead_support  all 6 rarity, idle
+- [ ] undead_ranger  all 6 rarity, idle
 
 **Demon:**
-- [ ] demon_warrior — all 6 rarity, idle
-- [ ] demon_mage — all 6 rarity, idle
-- [ ] demon_tank — all 6 rarity, idle
-- [ ] demon_assassin — all 6 rarity, idle
-- [ ] demon_support — all 6 rarity, idle
-- [ ] demon_healer — all 6 rarity, idle
-- [ ] demon_ranger — all 6 rarity, idle
+- [ ] demon_warrior  all 6 rarity, idle
+- [ ] demon_mage  all 6 rarity, idle
+- [ ] demon_tank  all 6 rarity, idle
+- [ ] demon_assassin  all 6 rarity, idle
+- [ ] demon_support  all 6 rarity, idle
+- [ ] demon_healer  all 6 rarity, idle
+- [ ] demon_ranger  all 6 rarity, idle
 
 **Celestial:**
-- [ ] celestial_warrior — all 6 rarity, idle
-- [ ] celestial_mage — all 6 rarity, idle
-- [ ] celestial_healer — all 6 rarity, idle
-- [ ] celestial_tank — all 6 rarity, idle
-- [ ] celestial_support — all 6 rarity, idle
-- [ ] celestial_ranger — all 6 rarity, idle
-- [ ] celestial_assassin — all 6 rarity, idle
+- [ ] celestial_warrior  all 6 rarity, idle
+- [ ] celestial_mage  all 6 rarity, idle
+- [ ] celestial_healer  all 6 rarity, idle
+- [ ] celestial_tank  all 6 rarity, idle
+- [ ] celestial_support  all 6 rarity, idle
+- [ ] celestial_ranger  all 6 rarity, idle
+- [ ] celestial_assassin  all 6 rarity, idle
 
-### 2.3. Attack / Hit states (faza 3 — po idle)
+### 2.3. Attack / Hit states (faza 3  po idle)
 
-- [ ] Wszystkie powyższe × `attack` state (42 base × 6 rarity)
-- [ ] Wszystkie powyższe × `hit` state (42 base × 6 rarity)
+- [ ] Wszystkie powy¿sze × `attack` state (42 base × 6 rarity)
+- [ ] Wszystkie powy¿sze × `hit` state (42 base × 6 rarity)
 
 
-### 2.4. Generic Unit Variants (3 different faces per faction+class)
+### 2.4. Generic Unit Variants (3 facial variants per faction+class)
 
-> **Character Identity Types** (see 00_ART_DIRECTION.md): Generic Units are faction members (enemies, allies, troopers).
-> Each should have a different face — do NOT reuse the HERO face.
-> Generate 3 variants per class using faction templates, NOT the hero BASE as Image Guidance.
+> **Co to znaczy "3 twarze"?** To 3 ró¿ne wygl¹dy twarzy dla tej samej klasy/frakcji  ¿eby wrogowie nie wygl¹dali jak klony.
+> To NIE s¹ stany (idle/hit/attack) ani emocje (portrety). Tylko 3 ró¿ne seedy w prompcie = 3 ró¿ne twarze.
+> Generics s¹ zawsze Common rarity, tylko stan `idle`.
 
 **Human:** 3 variants × 7 classes = 21
-- [ ] human_warrior — 3 generic faces
-- [ ] human_mage — 3 generic faces
-- [ ] human_tank — 3 generic faces
-- [ ] human_healer — 3 generic faces
-- [ ] human_ranger — 3 generic faces
-- [ ] human_assassin — 3 generic faces
-- [ ] human_support — 3 generic faces
+- [ ] human_warrior  3 generic faces
+- [ ] human_mage  3 generic faces
+- [ ] human_tank  3 generic faces
+- [ ] human_healer  3 generic faces
+- [ ] human_ranger  3 generic faces
+- [ ] human_assassin  3 generic faces
+- [ ] human_support  3 generic faces
 
 **Elf:** 3 × 7 = 21
-- [ ] elf_warrior — 3 generic faces
-- [ ] elf_ranger — 3 generic faces
-- [ ] elf_mage — 3 generic faces
-- [ ] elf_healer — 3 generic faces
-- [ ] elf_assassin — 3 generic faces
-- [ ] elf_support — 3 generic faces
-- [ ] elf_tank — 3 generic faces
+- [ ] elf_warrior  3 generic faces
+- [ ] elf_ranger  3 generic faces
+- [ ] elf_mage  3 generic faces
+- [ ] elf_healer  3 generic faces
+- [ ] elf_assassin  3 generic faces
+- [ ] elf_support  3 generic faces
+- [ ] elf_tank  3 generic faces
 
 **Orc:** 3 × 7 = 21
-- [ ] orc_warrior — 3 generic faces
-- [ ] orc_tank — 3 generic faces
-- [ ] orc_berserker — 3 generic faces
-- [ ] orc_shaman — 3 generic faces
-- [ ] orc_hunter — 3 generic faces
-- [ ] orc_support — 3 generic faces
-- [ ] orc_mage — 3 generic faces
+- [ ] orc_warrior  3 generic faces
+- [ ] orc_tank  3 generic faces
+- [ ] orc_berserker  3 generic faces
+- [ ] orc_shaman  3 generic faces
+- [ ] orc_hunter  3 generic faces
+- [ ] orc_support  3 generic faces
+- [ ] orc_mage  3 generic faces
 
 **Undead:** 3 × 7 = 21
-- [ ] undead_warrior — 3 generic faces
-- [ ] undead_mage — 3 generic faces
-- [ ] undead_tank — 3 generic faces
-- [ ] undead_healer — 3 generic faces
-- [ ] undead_assassin — 3 generic faces
-- [ ] undead_support — 3 generic faces
-- [ ] undead_ranger — 3 generic faces
+- [ ] undead_warrior  3 generic faces
+- [ ] undead_mage  3 generic faces
+- [ ] undead_tank  3 generic faces
+- [ ] undead_healer  3 generic faces
+- [ ] undead_assassin  3 generic faces
+- [ ] undead_support  3 generic faces
+- [ ] undead_ranger  3 generic faces
 
 **Demon:** 3 × 7 = 21
-- [ ] demon_warrior — 3 generic faces
-- [ ] demon_mage — 3 generic faces
-- [ ] demon_tank — 3 generic faces
-- [ ] demon_assassin — 3 generic faces
-- [ ] demon_support — 3 generic faces
-- [ ] demon_healer — 3 generic faces
-- [ ] demon_ranger — 3 generic faces
+- [ ] demon_warrior  3 generic faces
+- [ ] demon_mage  3 generic faces
+- [ ] demon_tank  3 generic faces
+- [ ] demon_assassin  3 generic faces
+- [ ] demon_support  3 generic faces
+- [ ] demon_healer  3 generic faces
+- [ ] demon_ranger  3 generic faces
 
 **Celestial:** 3 × 7 = 21
-- [ ] celestial_warrior — 3 generic faces
-- [ ] celestial_mage — 3 generic faces
-- [ ] celestial_healer — 3 generic faces
-- [ ] celestial_tank — 3 generic faces
-- [ ] celestial_support — 3 generic faces
-- [ ] celestial_ranger — 3 generic faces
-- [ ] celestial_assassin — 3 generic faces
+- [ ] celestial_warrior  3 generic faces
+- [ ] celestial_mage  3 generic faces
+- [ ] celestial_healer  3 generic faces
+- [ ] celestial_tank  3 generic faces
+- [ ] celestial_support  3 generic faces
+- [ ] celestial_ranger  3 generic faces
+- [ ] celestial_assassin  3 generic faces
 
 **Total: 42 (faction+class) × 3 = 126 Generic Unit variants**
 
@@ -240,7 +251,7 @@ Nazewnictwo: `{faction}_{class}_{rarity}_{state}.webp` | Stany: `idle`, `attack`
 
 ## 3. Item Icons (`03_ITEM_ICONS.md`)
 
-Rozmiar: 256×256 WebP — folder: `public/assets/items/`
+Rozmiar: 256×256 WebP  folder: `public/assets/items/`
 
 **Bronie:**
 - [ ] iron_sword (Common)
@@ -281,7 +292,7 @@ Rozmiar: 256×256 WebP — folder: `public/assets/items/`
 
 ## 4. Boss Creatures (`04_BOSS_CREATURES.md`)
 
-Rozmiar: 512×512 (1024×1024 dla Epic/Legendary/Mythic) — folder: `public/assets/bosses/`
+Rozmiar: 512×512 (1024×1024 dla Epic/Legendary/Mythic)  folder: `public/assets/bosses/`
 Stany: `idle`, `attack`, `hit`
 
 | # | Boss | Rarity | idle | attack | hit |
@@ -299,7 +310,7 @@ Stany: `idle`, `attack`, `hit`
 
 ## 5. UI Elements (`05_UI_ELEMENTS.md`)
 
-Rozmiar: zmienna — folder: `public/assets/ui/`
+Rozmiar: zmienna  folder: `public/assets/ui/`
 
 **Ramki paneli (6 rarity):**
 - [ ] panel_frame_common
@@ -320,7 +331,7 @@ Rozmiar: zmienna — folder: `public/assets/ui/`
 - [ ] shield_icon
 - [ ] sword_crossed
 
-**Paski postępu:**
+**Paski postêpu:**
 - [ ] hp_bar_fill
 - [ ] mp_bar_fill
 - [ ] exp_bar_fill
@@ -329,36 +340,42 @@ Rozmiar: zmienna — folder: `public/assets/ui/`
 
 ## 6. Emotion Portraits (`06_EMOTION_PORTRAITS.md`)
 
-Rozmiar: 512×512 WebP — folder: `public/assets/portraits/{faction}/`
-**Half-body, BEZ NÓG** — to jest inny typ assetu niż sekcja 2 (Unit Portraits). Nie myl folderów.
+Rozmiar: 512×512 WebP  folder: `public/assets/portraits/{faction}/`
+**Half-body, BEZ NÓG**  to jest inny typ assetu ni¿ sekcja 2 (Unit Portraits). Nie myl folderów.
 
 Nazewnictwo: `{faction}_{class}_{emotion}.webp`
 
-### 6.1. Human (priorytet — robimy jako pierwszą frakcję, faza 1-2)
+**Podzia³ na priorytety:**
 
-21 General emotions (Neutral through Pain) + Special states (Mind Controlled through Berserk). See 06_EMOTION_PORTRAITS.md for full list.
+### 6.0. Zasady
+- **Core** (P0): Neutral, Happy, Angry, Sad, Surprised, Scared, Serious  generuj dla wszystkich klas.
+- **Extended** (P1): Laughing, Suspicious, Shocked, Confused, Tired, Scheming, Heroic, Menacing, Determined, Victorious, Defeated, Wounded, Exhausted, Pain  generuj na ¿yczenie.
+- **Special** (P2): Mind Controlled, Sick, Poisoned, Frozen, Stoned, Burned, Charmed, Cursed, Blessed, Berserk  generuj TYLKO gdy scenariusz wymaga.
 
-- [ ] human_warrior — wszystkie 21 General emotions
-- [ ] human_mage — wszystkie 21 General emotions
-- [ ] human_tank — wszystkie 21 General emotions
-- [ ] human_healer — wszystkie 21 General emotions
-- [ ] human_ranger — wszystkie 21 General emotions
-- [ ] human_assassin — wszystkie 21 General emotions
-- [ ] human_support — wszystkie 21 General emotions
+### 6.1. Human (priorytet  Core)
+- [ ] human_warrior  7 Core emotions
+- [ ] human_mage  7 Core emotions
+- [ ] human_tank  7 Core emotions
+- [ ] human_healer  7 Core emotions
+- [ ] human_ranger  7 Core emotions
+- [ ] human_assassin  7 Core emotions
+- [ ] human_support  7 Core emotions
 
-### 6.2. Pozostałe frakcje (faza 3 — pełny zestaw)
+### 6.2. Pozosta³e frakcje (Core emotions)
+- [ ] elf  wszystkie klasy × 7 Core emotions
+- [ ] orc  wszystkie klasy × 7 Core emotions
+- [ ] undead  wszystkie klasy × 7 Core emotions
+- [ ] demon  wszystkie klasy × 7 Core emotions
+- [ ] celestial  wszystkie klasy × 7 Core emotions
 
-- [ ] elf — wszystkie klasy × 21 General emotions
-- [ ] orc — wszystkie klasy × 21 General emotions
-- [ ] undead — wszystkie klasy × 21 General emotions
-- [ ] demon — wszystkie klasy × 21 General emotions
-- [ ] celestial — wszystkie klasy × 21 General emotions
+### 6.3. Extended i Special (na ¿yczenie)
+- [ ] Lista otwarta  dodawaj w miarê potrzeb fabularnych.
 
 ---
 
 ## 7. Environment Effects (`07_ENVIRONMENT_EFFECTS.md`)
 
-Rozmiar: 256×256 do 512×512 — folder: `public/assets/effects/`
+Rozmiar: 256×256 do 512×512  folder: `public/assets/effects/`
 
 **Pogoda (`effects/weather/`):**
 - [ ] rain_overlay
@@ -387,32 +404,45 @@ Rozmiar: 256×256 do 512×512 — folder: `public/assets/effects/`
 
 ## 8. Avatary (crop z portretów, faza 3)
 
-Rozmiar: 128×128 WebP — folder: `public/assets/avatars/{faction}/`
+Rozmiar: 128×128 WebP  folder: `public/assets/avatars/{faction}/`
 Generowane przez crop z Unit Portraits (sekcja 2), nie osobny prompt.
 
-- [ ] human — 7 klas (crop z BASE lub Common idle)
-- [ ] elf — 7 klas
-- [ ] orc — 7 klas
-- [ ] undead — 7 klas
-- [ ] demon — 7 klas
-- [ ] celestial — 7 klas
+- [ ] human  7 klas (crop z BASE lub Common idle)
+- [ ] elf  7 klas
+- [ ] orc  7 klas
+- [ ] undead  7 klas
+- [ ] demon  7 klas
+- [ ] celestial  7 klas
 
+## 9. Generic Units (faza 2)
+
+Rozmiar: 512×512 WebP  folder: `public/assets/units/{faction}/generic/`
+**Tylko stan `idle`, tylko Common rarity.**
+
+- [ ] human  7 klas × 3 warianty = 21
+- [ ] elf  7 klas × 3 warianty = 21
+- [ ] orc  7 klas × 3 warianty = 21
+- [ ] undead  7 klas × 3 warianty = 21
+- [ ] demon  7 klas × 3 warianty = 21
+- [ ] celestial  7 klas × 3 warianty = 21
+
+**£¹cznie: 126 plików.
 ---
 
-## Podsumowanie postępu
+## Podsumowanie postêpu
 
 | Kategoria | Zrobione / Wszystkie | % |
 |-----------|----------------------|---|
 | Battle Backgrounds | 0 / 7 | 0% |
-| Unit Portraits BASE | 0 / 42 | 0% |
-| Unit Portraits (rarity, idle) | 0 / 252 | 0% |
-| Unit Portraits (attack+hit) | 0 / 504 | 0% |
+| Hero BASE | 0 / 7 | 0% |
+| Hero (rarity, idle, 2 genders) | 0 / 84 | 0% |
+| Hero (attack+hit, 2 genders) | 0 / 168 | 0% |
 | Generic Unit Variants (3 faces) | 0 / 126 | 0% |
 | Item Icons | 0 / 21 | 0% |
 | Boss Creatures (3 stany) | 0 / 24 | 0% |
 | UI Elements | 0 / 16 | 0% |
 | Emotion Portraits (Human) -- General | 0 / 147 | 0% |
-| Emotion Portraits (pozostałe 5 frakcji) -- General | 0 / 735 | 0% |
+| Emotion Portraits (pozosta³e 5 frakcji) -- General | 0 / 735 | 0% |
 | Environment Effects | 0 / 17 | 0% |
 | Avatary | 0 / 42 | 0% |
 
@@ -422,7 +452,7 @@ Generowane przez crop z Unit Portraits (sekcja 2), nie osobny prompt.
 
 Before any rarity variants are generated, each BASE model must be approved as a style anchor.
 
-**42 BASE models total — one per faction+class combination.**
+**42 BASE models total  one per faction+class combination.**
 
 ### Human (7)
 - [ ] REF_001 human_warrior_base (Style Anchor - PENDING)
@@ -478,4 +508,4 @@ Before any rarity variants are generated, each BASE model must be approved as a 
 - [ ] REF_041 celestial_ranger_base
 - [ ] REF_042 celestial_assassin_base
 
-> Zaktualizuj tę tabelę ręcznie po większych partiach (nie musi być 1:1 z każdą sesją).
+> Zaktualizuj tê tabelê rêcznie po wiêkszych partiach (nie musi byæ 1:1 z ka¿d¹ sesj¹).
