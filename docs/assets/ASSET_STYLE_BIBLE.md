@@ -112,13 +112,17 @@ grunge textures
 
 Character occupies:
 
-70-80% of canvas
+70-75% of canvas
 
 Always centered.
 
 Never cropped.
 
-5-10% transparent padding.
+15-20% transparent padding.
+
+**KOMPOZYCJA W SIATKACH (GRID):**
+Dla generowania siatek wielopostaciowych, postać w każdej komórce musi zajmować **70-75% wysokości komórki**. 
+Pozwala to na zachowanie 25% marginesu na górze na skrzydła, aury i atrybuty wizualne, zapobiegając ich ucinaniu (co jest powszechnym błędem AI przy 85-90% wypełnienia).
 
 ---
 
