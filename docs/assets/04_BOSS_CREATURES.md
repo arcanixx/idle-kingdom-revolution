@@ -68,6 +68,32 @@ Add to the end of every boss prompt:
 
 3D render of a fantasy ice lich, ice theme, epic boss, skeletal figure in frozen royal robes, ice crown, staff of frost, blue glowing eyes, frozen aura, icicles swirling, transparent background, game boss asset, isolated subject, epic scale --ar 1:1 --style raw --v 6
 
+
+
+## Boss Rarity Progression
+
+Bossowie mają rarity (Common → Mythic), które wpływają na skalę, detale i aurę.
+
+| Rarity | Skala | Detale | Aura |
+|--------|-------|--------|------|
+| Common | 80% kadru | Podstawowe detale | Brak |
+| Uncommon | 85% kadru | Więcej detali | Subtelna |
+| Rare | 85% kadru | Dodatkowe elementy | Słaba |
+| Epic | 90% kadru | Bogate detale, świecące oczy | Wyraźna + iskry |
+| Legendary | 95% kadru | Bardzo bogate detale, korona | Silna + cząsteczki |
+| Mythic | 95% kadru | Kosmiczne detale | Galaktyczna |
+
+### Przykład – Smok (Fire Dragon)
+
+| Rarity | Delta |
+|--------|-------|
+| Common | podstawowe łuski, małe rogi, brak aury |
+| Uncommon | więcej łusek, większe rogi, subtelny dym |
+| Rare | ogniste żyły w łuskach, kolce, słaby ogień |
+| Epic | kryształowe łuski, płonące oczy, płomienie + iskry |
+| Legendary | skrzydła z lawą, korona z ognia, silny ogień + cząsteczki |
+| Mythic | kosmiczne łuski, galaktyczne oczy, galaktyczne płomienie |
+
 ---
 
 ## Struktura plików
