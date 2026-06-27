@@ -1,0 +1,144 @@
+﻿{
+  \"document_title\": \"TODO - Tasks to Address\",
+  \"version\": \"1.1.0\",
+  \"date\": \"2026-06-27\",
+  \"notes\": \"After analysis: SEC-002, SEC-003, ERR-001, ERR-002 are DONE. SEC-001 (rate limiting) and PERF-001 (pagination) implemented on 2026-06-27. PERF-002 (caching) and PERF-003 (query opt.) deferred to Phase 4.\",
+  \"categories\": {
+    \"security\": {
+      \"priority\": \"HIGH\",
+      \"tasks\": [
+        {
+          \"id\": \"SEC-001\",
+          \"title\": \"Implement rate limiting\",
+          \"description\": \"Add rate limiting to API endpoints to prevent abuse. Implemented: src/lib/rate-limit.ts with in-memory store, 100 req/min default.\",
+          \"estimated_effort\": \"1 day\",
+          \"status\": \"completed\",
+          \"completed_date\": \"2026-06-27\",
+          \"phase\": \"Phase 1/2\"
+        },
+        {
+          \"id\": \"SEC-002\",
+          \"title\": \"Add input validation middleware\",
+          \"description\": \"Create comprehensive input validation for all API endpoints. Implemented: src/lib/validation/schemas.ts + src/lib/api/validation-middleware.ts with Zod.\",
+          \"estimated_effort\": \"2 days\",
+          \"status\": \"completed\",
+          \"completed_date\": \"2026-06-27\"
+        },
+        {
+          \"id\": \"SEC-003\",
+          \"title\": \"Implement security headers\",
+          \"description\": \"Add proper security headers (CSP, XSS protection, etc.). Implemented in next.config.ts with HSTS, CSP, X-Frame-Options, Permissions-Policy.\",
+          \"estimated_effort\": \"0.5 days\",
+          \"status\": \"completed\",
+          \"completed_date\": \"2026-06-27\"
+        }
+      ]
+    },
+    \"performance\": {
+      \"priority\": \"MEDIUM\",
+      \"tasks\": [
+        {
+          \"id\": \"PERF-001\",
+          \"title\": \"Implement pagination for large datasets\",
+          \"description\": \"Add pagination to leaderboard, inventory, quests, achievements, shops, mail, units endpoints.\",
+          \"estimated_effort\": \"1 day\",
+          \"status\": \"completed\",
+          \"completed_date\": \"2026-06-27\",
+          \"phase\": \"Phase 1/2\",
+          \"endpoints\": [
+            \"GET /api/leaderboard - already had pagination\",
+            \"GET /api/game/quests - added\",
+            \"GET /api/game/achievements - added\",
+            \"GET /api/game/shops - added\",
+            \"GET /api/player/inventory - added\",
+            \"GET /api/player/mail - added\",
+            \"GET /api/player/units - added\",
+            \"GET /api/player/achievements - added\",
+            \"GET /api/player/quests - added\"
+          ]
+        },
+        {
+          \"id\": \"PERF-002\",
+          \"title\": \"Add caching layer\",
+          \"description\": \"Implement Redis caching for frequently accessed data. Deferred to Phase 4 (Performance tuning).\",
+          \"estimated_effort\": \"2 days\",
+          \"status\": \"deferred\",
+          \"phase\": \"Phase 4\"
+        },
+        {
+          \"id\": \"PERF-003\",
+          \"title\": \"Optimize database queries\",
+          \"description\": \"Review and optimize slow database queries. Deferred to Phase 4 (Performance tuning).\",
+          \"estimated_effort\": \"1 day\",
+          \"status\": \"deferred\",
+          \"phase\": \"Phase 4\"
+        }
+      ]
+    },
+    \"error_handling\": {
+      \"priority\": \"HIGH\",
+      \"tasks\": [
+        {
+          \"id\": \"ERR-001\",
+          \"title\": \"Implement comprehensive error logging\",
+          \"description\": \"Add structured logging for all errors with proper context. Implemented: src/lib/logger.ts with 4 levels (DEBUG/INFO/WARN/ERROR).\",
+          \"estimated_effort\": \"1 day\",
+          \"status\": \"completed\",
+          \"completed_date\": \"2026-06-27\"
+        },
+        {
+          \"id\": \"ERR-002\",
+          \"title\": \"Add proper HTTP status codes\",
+          \"description\": \"Ensure all endpoints return appropriate HTTP status codes (400, 401, 404, 500). Implemented in validation-middleware.ts and all API routes.\",
+          \"estimated_effort\": \"0.5 days\",
+          \"status\": \"completed\",
+          \"completed_date\": \"2026-06-27\"
+        },
+        {
+          \"id\": \"ERR-003\",
+          \"title\": \"Create user-friendly error messages\",
+          \"description\": \"Implement internationalized error messages for better UX. Partially done - locale files exist (en.json, pl.json) but not yet connected to API validation responses.\",
+          \"estimated_effort\": \"1 day\",
+          \"status\": \"pending\",
+          \"phase\": \"Phase 2\"
+        }
+      ]
+    }
+  },
+  \"missing_from_todo\": {
+    \"testing\": {
+      \"priority\": \"HIGH\",
+      \"tasks\": [
+        {
+          \"id\": \"TST-001\",
+          \"title\": \"Unit tests for battle engine\",
+          \"description\": \"Test battle calculations, economy formulas. Defined in docs/plan/07_TESTING_STRATEGY.json.\",
+          \"estimated_effort\": \"2 days\",
+          \"status\": \"completed\",
+          \"phase\": \"Phase 1\"
+        },
+        {
+          \"id\": \"TST-002\",
+          \"title\": \"E2E tests for auth flow\",
+          \"description\": \"Register -> Login -> Profile. Defined in docs/plan/07_TESTING_STRATEGY.json.\",
+          \"estimated_effort\": \"1 day\",
+          \"status\": \"pending\",
+          \"phase\": \"Phase 2\"
+        }
+      ]
+    },
+    \"architecture\": {
+      \"priority\": \"MEDIUM\",
+      \"tasks\": [
+        {
+          \"id\": \"ARCH-001\",
+          \"title\": \"Convert to Server Components\",
+          \"description\": \"Move static pages to Server Components where possible. Defined in docs/plan/01_ARCHITECTURE.json.\",
+          \"estimated_effort\": \"1 day\",
+          \"status\": \"pending\",
+          \"phase\": \"Phase 4\"
+        }
+      ]
+    }
+  }
+}

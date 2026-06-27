@@ -1,7 +1,16 @@
-﻿# ART DIRECTION -- v1.0
+﻿# ART DIRECTION -- v2.0
 
 > This document defines **why** each asset looks the way it does.
 > Use it alongside `01_STYLE_BIBLE.md` (the "how") and `01_PRODUCTION_SYSTEM/02_PROMPT_MODULE_SYSTEM.md` (the "what").
+>
+> **v2.0 change (2026-06-27):** introduced the **Race / Faction / Class**
+> three-axis model. What this document previously called "Faction" (Human,
+> Elf, Orc, Undead, Demon, Celestial) is now called **Race** — it determines
+> body, proportions, age, and biology. **Faction** is a new, separate axis
+> (e.g. "Lion Kingdom") tied to one Race, determining color palette,
+> heraldry, and decoration style. See RACE, FACTION, AND CLASS below for the
+> full explanation. Old terminology is preserved in `_ARCHIVE/` history; this
+> file is the live version going forward.
 
 ---
 
@@ -38,9 +47,100 @@ Asset Set > Individual Asset
 
 ---
 
+## RACE, FACTION, AND CLASS
+
+Idle Kingdom Revolution Heroes are defined along **three independent axes**.
+Every Hero is exactly one Race + one Faction + one Class. Getting this
+distinction right matters for both lore and asset budget — see WHY THIS
+SPLIT MATTERS below.
+
+### The three axes
+
+| Axis | What it is | What it controls visually | Example |
+|------|-----------|---------------------------|---------|
+| **Race** | The biological/species category | Body proportions, height, build, typical age range, facial structure, skin/material baseline | Human, Elf, Orc, Undead, Demon, Celestial |
+| **Faction** | The political/organizational allegiance | Color palette, heraldic symbol, decoration style, armor/robe trim language | Lion Kingdom, Fire Cult, Sea Elves, Iron Legion |
+| **Class** | The combat role | Weapon, offhand/focus, armor weight, signature silhouette | Warrior, Mage, Tank, Healer, Ranger, Assassin, Support |
+
+### How they combine
+
+A Hero is fully specified only when all three are named:
+
+```text
+Race:    Human
+Faction: Lion Kingdom
+Class:   Mage
+```
+
+This is different from saying just "Human Mage" — the Faction is what tells
+you it's blue/gold robes with a lion emblem, rather than some other Human
+faction's colors and symbol.
+
+### Your example: Human Fire Mage vs Orc Fire Mage
+
+If "Fire Cult" is a Faction available to multiple Races:
+
+| | Race | Faction | Class | What stays the same | What differs |
+|---|------|---------|-------|---------------------|---------------|
+| A | Human | Fire Cult | Mage | Fire Cult color palette, fire-themed emblem, robe decoration style | Human body proportions, typical Human height/build/age range |
+| B | Orc | Fire Cult | Mage | Fire Cult color palette, fire-themed emblem, robe decoration style | Orc body proportions (wider, shorter legs per RACE PROPORTION SYSTEM below), Orc typical age range |
+
+Both characters read as "Fire Cult" at a glance (same colors, same emblem
+language) while still reading as their own Race (different silhouette,
+build, height).
+
+### Faction scope — Hero Factions vs Enemy/Lore Factions
+
+Per project decision (2026-06-27), **a Faction belongs to one Race, not
+several** for Hero generation purposes — this keeps the asset matrix from
+exploding (see WHY THIS SPLIT MATTERS). The "Fire Cult"-style multi-race
+example above describes how the *system* is capable of handling a Faction
+appearing across Races (useful for enemies/lore), not a requirement that
+every Hero Faction must support every Race.
+
+In practice, two different scales of Faction exist:
+
+- **Hero Factions** (e.g. Lion Kingdom) — one Faction per Race, full asset
+  treatment: all 7 Classes × 6 rarities × 3 states × 2 genders. This is the
+  expensive, full-production case and is what `02_POC/` and
+  `01_PRODUCTION_SYSTEM/` are built around today.
+- **Enemy / Lore Factions** (e.g. Fire Cult, Sea Elves) — generated with the
+  same prompt system, but at much lower volume (closer to Generic Unit
+  treatment — a handful of variants, not the full rarity/gender/state
+  matrix). These may later turn out to be best handled as visual *overlays*
+  on top of an existing Race+Class base rather than fully separate asset
+  sets — this is an open implementation question, not yet decided. Do not
+  assume Enemy Factions need the same asset count as Hero Factions.
+
+### Why this split matters
+
+Before this split, the term "Faction" was used for what is actually Race
+(Human, Elf, Orc...), and there was no separate concept for political/
+organizational identity (Lion Kingdom). This caused two problems:
+
+1. **Conceptual confusion** — "Human" is not a faction in the way "Lion
+   Kingdom" is; one is a species, the other is an allegiance. Lore that
+   wants two different Human kingdoms with different colors/heraldry had no
+   home in the old model.
+2. **No path to multi-race enemy factions** — a cult or alliance that
+   recruits across Races (the Fire Cult example) couldn't be expressed.
+
+### How this affects existing documentation
+
+Everywhere this document (and `01_PRODUCTION_SYSTEM/`) previously said
+"Faction" while listing Human/Elf/Orc/Undead/Demon/Celestial, that is now
+**Race**. The tables below (RACE PROPORTION SYSTEM, RACE VISUAL LANGUAGE) are
+the renamed versions of the old "Faction Proportion Notes" / "Faction Visual
+Language" tables — same data, corrected label. A new, separate FACTION DESIGN
+GUIDE section defines the Faction axis itself (using Lion Kingdom as the
+worked example, since it's the only Faction currently in production use via
+`02_POC/HUMAN_WARRIOR_V3.md` and `02_POC/HUMAN_MAGE_V1.md`).
+
+---
+
 ## CHARACTER PROPORTION SYSTEM
 
-All units share a common proportion baseline. This prevents style drift between classes and factions.
+All units share a common proportion baseline. This prevents style drift between classes and races.
 
 ### Human Baseline
 
@@ -48,7 +148,7 @@ All units share a common proportion baseline. This prevents style drift between 
 |----------|-------|-------|
 | Apparent age | 25-40 | Mature, not elderly |
 | Build | Athletic | Heroic, not bodybuilder |
-| Height | 1.0 (reference scale) | All other factions offset from this |
+| Height | 1.0 (reference scale) | All other races offset from this |
 | Head-to-body ratio | 1:7.5 | Heroic proportion (real human ~1:7) |
 | Hands | Slightly enlarged | Improves readability of gestures |
 | Weapons | 110-130% of realistic size | Readability at small scale |
@@ -79,9 +179,12 @@ Without a baseline:
 
 The baseline keeps all classes recognisable as part of the **same world**.
 
-### Faction Proportion Notes
+### Race Proportion Notes
 
-| Faction | Height Offset | Build Notes |
+> Renamed from "Faction Proportion Notes" (v2.0) — this table describes
+> **Race**, not Faction. See RACE, FACTION, AND CLASS above.
+
+| Race | Height Offset | Build Notes |
 |---------|---------------|-------------|
 | Human | 1.0 (baseline) | Athletic, balanced |
 | Elf | +0.1 | Taller, more slender, longer limbs |
@@ -96,8 +199,8 @@ The baseline keeps all classes recognisable as part of the **same world**.
 
 ### Hero Characters
 - Gracz wybiera płeć na starcie (Male / Female).
-- Generujemy obie wersje dla każdej klasy/frakcji.
-- **To podwaja liczbę Hero assetów** – z 18 do 36 (dla jednej frakcji + klasy), ale to akceptowalne, bo to główna postać.
+- Generujemy obie wersje dla każdej klasy/rasy/frakcji.
+- **To podwaja liczbę Hero assetów** – z 18 do 36 (dla jednej rasy+frakcji + klasy), ale to akceptowalne, bo to główna postać.
 
 ### Generic Units
 - 65% mężczyźni, 35% kobiety.
@@ -111,8 +214,13 @@ The baseline keeps all classes recognisable as part of the **same world**.
 - **Orc** – kobiety są rzadsze (30% kobiet, 70% mężczyzn) – zgodnie z lore.
 - **Celestial** – płeć jest mniej istotna (istoty boskie) – można generować androgyniczne lub obie.
 
+> **Uwaga (v2.0):** powyższe wyjątki są opisane na poziomie **Race**. Niektóre
+> Faction mogą zawężać to jeszcze bardziej w fabule (np. dana Faction
+> przyjmuje tylko jedną płeć) — to ustala się przy projektowaniu konkretnej
+> Faction (patrz FACTION DESIGN GUIDE), nie zmienia reguł Race powyżej.
+
 ### Age Diversity
-Wiek postaci powinien być zróżnicowany w zależności od frakcji, klasy i płci:
+Wiek postaci powinien być zróżnicowany w zależności od rasy, klasy i płci:
 
 | Klasa | Typowy wiek | Uwagi |
 |-------|-------------|-------|
@@ -124,7 +232,7 @@ Wiek postaci powinien być zróżnicowany w zależności od frakcji, klasy i pł
 | Assassin | 20–35 | Młodzi, szybcy, ostrzejsi rysy |
 | Support | 25–50 | Różny wiek, zależnie od roli (bard, strateg, medyk) |
 
-**Różnice międzyfrakcyjne:**
+**Różnice międzyrasowe** (renamed from "Różnice międzyfrakcyjne" — v2.0, this is a Race-level table):
 - **Elf** – wszystkie klasy +20–30 lat (długowieczni, wyglądają młodziej niż są)
 - **Orc** – wszystkie klasy –5–10 lat (krótsza żywotność, szybciej dojrzewają)
 - **Celestial** – wiek nie ma znaczenia (istoty pozaczasowe)
@@ -138,6 +246,7 @@ Rarity upgrades must preserve:
 - hairstyle
 - body proportions
 - class silhouette
+- race identity
 - faction identity
 
 Only equipment quality may evolve.
@@ -151,6 +260,7 @@ A player should instantly recognize the same character across all rarity tiers.
 ### Tier 1 (Critical)
 Must remain consistent:
 
+- Race Identity
 - Faction Identity
 - Class Identity
 - Shape Language
@@ -173,7 +283,16 @@ May vary without affecting character recognition:
 
 ---
 
-## FACTION VISUAL LANGUAGE
+## RACE VISUAL LANGUAGE
+
+> Renamed from "Faction Visual Language" (v2.0) — this section describes
+> **Race**-level defaults (motif, palette, shape language, themes). A
+> specific **Faction** within a Race (e.g. Lion Kingdom within Human) may
+> use this Race's motif as its starting point, or define its own — see
+> FACTION DESIGN GUIDE below. Until a Race has more than one documented
+> Faction, treat the Race's default motif/colors/heraldic symbol below as
+> that Race's only (default) Faction too — this is exactly what "Lion
+> Kingdom" currently is for Human (see FACTION DESIGN GUIDE).
 
 ### Human
 | Aspect | Definition |
@@ -234,6 +353,52 @@ May vary without affecting character recognition:
 | Materials | Light metal, celestial crystal, luminous cloth |
 | Heraldic symbol | Eight-pointed star with eye |
 | Themes | Divinity, Hope, Order |
+
+---
+
+## FACTION DESIGN GUIDE
+
+This section defines the **Faction** axis itself — separate from Race (above)
+and Class (below). A Faction is a political/organizational allegiance within
+one Race. It is what `02_POC/HUMAN_WARRIOR_V3.md` and `02_POC/HUMAN_MAGE_V1.md`
+call "Lion Kingdom".
+
+### Worked example: Lion Kingdom (Human Faction)
+
+| Aspect | Definition |
+|--------|-----------|
+| Race | Human |
+| Name | Lion Kingdom |
+| Primary colors | Royal Blue, Gold, polished Steel |
+| Heraldic symbol | Standing heraldic lion (full-body, not head-only) |
+| Decoration language | Kite shields, tabards, gold trim that thickens with rarity |
+| Themes | Kingdom, Order, Discipline, Honor |
+
+Note this currently matches the Human Race defaults in RACE VISUAL LANGUAGE
+above exactly — that's expected for a Race's first/default Faction. A
+second Human Faction (e.g. a rival human kingdom) would define its own
+colors/symbol/themes here while keeping Human Race proportions identical.
+
+### Faction Design Checklist
+
+When defining a new Faction, specify:
+
+1. **Race** -- which single Race this Faction belongs to (for Hero Factions)
+2. **Name** -- Faction label (e.g. "Lion Kingdom", "Fire Cult")
+3. **Primary colors** -- 2-3 dominant colours
+4. **Secondary colors** -- 1-2 accent colours
+5. **Heraldic symbol** -- the emblem locked by Heraldry Lock (see
+   `00_FOUNDATION/02_HERALDRY_SYSTEM.md`)
+6. **Decoration language** -- how rarity tiers visually escalate (trim,
+   gems, cloak length, etc. — see RARITY CONTRACT in `01_PRODUCTION_SYSTEM/`)
+7. **Themes** -- 2-4 thematic keywords
+8. **Scale** -- Hero Faction (full asset matrix) or Enemy/Lore Faction
+   (reduced asset matrix) — see FACTION SCOPE above
+
+> A Faction does NOT redefine Race proportions, age range, or body type —
+> those stay governed entirely by Race (see RACE PROPORTION SYSTEM and Age
+> Diversity above). A Faction only changes surface-level identity: color,
+> symbol, and decoration.
 
 ---
 
@@ -333,29 +498,53 @@ Every class should be recognizable by silhouette alone — even at 64x64 px, no 
 
 ---
 
-## NEW FACTION CREATION RULES
+## NEW RACE CREATION RULES
 
-If a new faction is ever added (Dwarf, Beastmen, Dragonkin, Vampire, etc.), all of the following must be defined before any asset is generated.
+> Renamed from "New Faction Creation Rules" (v2.0) — this checklist defines
+> what a brand-new Race needs (Dwarf, Beastmen, Dragonkin, Vampire, etc).
+> See NEW FACTION CREATION RULES below for the (shorter) checklist for adding
+> a new Faction within an existing Race.
+
+If a new race is ever added, all of the following must be defined before any asset is generated.
 
 ### Required Checklist
 
-1. **Name** -- Faction label
-2. **Symbol / Motif** -- Core iconographic motif (e.g. Lion, Skull, Star)
-3. **Primary colors** -- 2-3 dominant colours
+1. **Name** -- Race label
+2. **Default Faction symbol / motif** -- Core iconographic motif for the
+   Race's first/default Faction (e.g. Lion, Skull, Star)
+3. **Primary colors** -- 2-3 dominant colours (for the default Faction)
 4. **Secondary colors** -- 1-2 accent colours
 5. **Shape language** -- Geometric identity (rectangles, curves, triangles)
 6. **Core materials** -- Signature materials (steel, bone, crystal)
 7. **Themes** -- 2-4 thematic keywords (Order, Chaos, Nature)
-8. **Architecture style** -- How their buildings look
-9. **Weapon style** -- Weapon design language
-10. **Armor style** -- Armor design language
-11. **Magic style** -- Spell effects visual identity
-12. **Background biome** -- Associated environment
-13. **Boss identity** -- Unique boss design direction
-14. **UI accent color** -- UI colour for faction-themed panels
-15. **Emotion portrait style** -- How their emotion portraits differ
+8. **Body proportions** -- height offset and build notes (see RACE PROPORTION SYSTEM)
+9. **Typical age range** -- per class, and any Race-wide age modifier (see Age Diversity)
+10. **Gender distribution norms** -- any Race-level exceptions (see GENDER REPRESENTATION)
+11. **Architecture style** -- How their buildings look
+12. **Weapon style** -- Weapon design language
+13. **Armor style** -- Armor design language
+14. **Magic style** -- Spell effects visual identity
+15. **Background biome** -- Associated environment
+16. **Boss identity** -- Unique boss design direction
+17. **UI accent color** -- UI colour for Race-themed panels
+18. **Emotion portrait style** -- How their emotion portraits differ
 
-> Without this checklist, a new faction **cannot be approved** for asset generation.
+> Without this checklist, a new Race **cannot be approved** for asset generation.
+
+---
+
+## NEW FACTION CREATION RULES
+
+> New, narrower checklist (v2.0) for adding a Faction within an *existing*
+> Race — e.g. a second Human kingdom, or "Fire Cult" as an Orc/Human Faction.
+> This is shorter than NEW RACE CREATION RULES above because Faction does not
+> touch body proportions, age, or gender norms — those are inherited from
+> the Race unchanged. See the Faction Design Checklist under FACTION DESIGN
+> GUIDE above for the full list.
+
+Quick summary — a new Faction needs: Race, Name, primary/secondary colors,
+heraldic symbol, decoration language, themes, and scale (Hero vs Enemy/Lore).
+See FACTION DESIGN GUIDE above for the complete checklist and worked example.
 
 ---
 
@@ -380,7 +569,7 @@ If a new class is ever added, all of the following must be defined:
 
 ### The Anchor Principle
 
-Every faction+class combination starts with a single **BASE model** that becomes the **Style Anchor** for all future variants.
+Every race+faction+class combination starts with a single **BASE model** that becomes the **Style Anchor** for all future variants.
 
 ### Rules
 
@@ -424,7 +613,7 @@ Named playable character that the player controls.
 | Face | Same face, same hairstyle, same age range — always |
 | Silhouette | Same class silhouette, same body proportions |
 | Purpose | Player recognizes THEIR character instantly |
-| Example | Human Warrior Base → Human Warrior Rare → Human Warrior Epic = the same hero |
+| Example | Human (Lion Kingdom) Warrior Base → Rare → Epic = the same hero |
 
 **Prompt rule:** Always use Image Guidance from the approved BASE of this specific hero.
 
@@ -432,17 +621,17 @@ Named playable character that the player controls.
 
 ### GENERIC UNIT
 
-Faction member used as enemy, ally, or background trooper.
+Race+Faction member used as enemy, ally, or background trooper.
 
 | Property | Rule |
 |----------|------|
 | Identity | May vary — different faces, hair, ages, builds |
 | Face | **Not** locked — can be regenerated per instance |
-| Must preserve | Faction identity, class identity, color palette, heraldry, shape language |
-| Purpose | Populate the world with believable faction members |
-| Example | Human Kingdom Warrior A, Human Kingdom Warrior B, Human Kingdom Warrior C — each a different face, but all wear blue/gold with lion crest |
+| Must preserve | Race identity, Faction identity, class identity, color palette, heraldry, shape language |
+| Purpose | Populate the world with believable Race+Faction members |
+| Example | Lion Kingdom Warrior A, Lion Kingdom Warrior B, Lion Kingdom Warrior C — each a different face, but all wear blue/gold with lion crest, all Human build |
 
-**Prompt rule:** Use faction templates, NOT a specific hero BASE. Vary seed or omit Image Guidance for the face.
+**Prompt rule:** Use Race+Faction templates, NOT a specific hero BASE. Vary seed or omit Image Guidance for the face.
 
 ---
 
@@ -454,7 +643,7 @@ Unique story character that is not playable.
 |----------|------|
 | Identity | Unique — own face, own hairstyle, own design |
 | Face | Locked for THIS character only (not shared with hero or other NPCs) |
-| Faction | May belong to any faction, or be factionless |
+| Race / Faction | May belong to any Race/Faction, or be factionless |
 | Purpose | Memorable story encounter |
 | Examples | Captain Roland (Human, not our Warrior), Blacksmith Bronson, Queen Elyndra |
 
@@ -469,8 +658,8 @@ Is it the player’s character?
   → HERO — lock face identity across all rarities
 No — is it a named story character?
   → NPC — generate unique face, lock for this character only
-No — is it a faction member (enemy/ally/trooper)?
-  → GENERIC UNIT — face can vary, keep faction identity
+No — is it a race+faction member (enemy/ally/trooper)?
+  → GENERIC UNIT — face can vary, keep race+faction identity
 ```
 
 ---
@@ -480,7 +669,7 @@ No — is it a faction member (enemy/ally/trooper)?
 Before this distinction, every “Human Warrior” had the same face — which made the world feel small. Now:
 
 - Your **Hero** feels like YOUR character
-- **Generic units** make armies look populated (different faces, same faction)
+- **Generic units** make armies look populated (different faces, same race+faction)
 - **NPCs** feel like real people, not clones
 
 This is the difference between a project that generates images and a project that builds a scalable universe.

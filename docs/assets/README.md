@@ -1,4 +1,4 @@
-# Asset Generation — Spis Treści
+﻿# Asset Generation — Spis Treści
 
 > Dokumentacja do generowania assetów dla **Idle Kingdom Revolution**.
 > Styl: Fantasy 3D-rendered 2D, spójny, lekki (WebP), zoptymalizowany pod gry mobilne.
@@ -39,7 +39,8 @@ docs/assets/
 │   ├── 00_SPRITE_ATLAS_CONTRACT.md    Format wyjściowy: 2048×1365, 2×3 sloty, chroma green
 │   ├── 01_REFERENCE_FRAME_SYSTEM.md   Niewidzialna ramka spójności — każdy slot identyczny
 │   ├── 02_PROMPT_MODULE_SYSTEM.md     Kolejność modułów promptu + Body Scale Lock, Effect Boundary, Gender/Body Lock
-│   └── 03_HERO_RARITY_ATLAS_FACTORY.md  Skeleton + tabela wymaganych inputów dla nowej klasy
+│   ├── 03_HERO_RARITY_ATLAS_FACTORY.md  Skeleton + tabela wymaganych inputów dla nowej klasy
+│   └── 04_KNOWN_IMPROVEMENTS_BACKLOG.md  Pomysły na v2 frameworku (z zewnętrznego review) — NIE zastosowane jeszcze
 │
 ├── 02_POC/                            KONKRETNE PROMPTY — gotowe do wklejenia
 │   ├── _TEMPLATE.md                   Pusty szablon — kopiuj dla każdej nowej klasy/frakcji
@@ -136,6 +137,54 @@ Body Scale Lock przy niektórych modelach/narzędziach). To do analizy
 osobno — nie jest to powód do zmiany struktury dokumentacji, tylko temat do
 dalszych testów per-narzędzie (Leonardo / ChatGPT image / Midjourney itd.).
 Zanotuj wyniki takich testów w `REVIEW NOTES` odpowiedniego pliku w `02_POC/`.
+
+---
+
+## Otwarte tematy w toku (zaktualizowano 2026-06-27)
+
+### Zrobione w tej turze
+
+1. **Race vs Faction — zaimplementowane.** Trzy niezależne osie: **Race**
+   (Human/Elf/Orc/Undead/Demon/Celestial — ciało, proporcje, wiek) +
+   **Faction** (np. "Lion Kingdom", "Fire Cult" — kolorystyka, heraldyka,
+   zdobienia, przypisana do jednej rasy) + **Class** (rola bojowa). Pełny
+   opis w `00_FOUNDATION/00_ART_DIRECTION.md` → RACE, FACTION, AND CLASS
+   (nowa sekcja) oraz `01_PRODUCTION_SYSTEM/02_PROMPT_MODULE_SYSTEM.md` →
+   RACE AND FACTION MODULE (v1.2). Zaktualizowane pliki: `00_ART_DIRECTION.md`
+   (v2.0 — przemianowane tabele Faction→Race, nowa sekcja FACTION DESIGN
+   GUIDE, rozdzielone NEW RACE / NEW FACTION CREATION RULES),
+   `03_HERO_RARITY_ATLAS_FACTORY.md` (INPUT TABLE i PROMPT SKELETON
+   rozdzielone na `race:`/`faction:`), `02_POC/_TEMPLATE.md` (to samo).
+   `HUMAN_WARRIOR_V3.md` i `HUMAN_MAGE_V1.md` (działające, zaakceptowane
+   PoC) **nie zostały przepisane** — dostały tylko notatkę wyjaśniającą,
+   że ich `faction: Human / Lion Kingdom` czytamy teraz jako
+   Race: Human, Faction: Lion Kingdom.
+   - **Hero Factions vs Enemy/Lore Factions:** rozróżnienie skali — główne
+     Hero Faction dostają pełną matrycę assetów (7 klas × 6 rarity × 3
+     stany × 2 płcie), frakcje przeciwników/lore (np. Fire Cult) dostaną
+     mniej (możliwe, że overlay, nie pełny asset — do rozstrzygnięcia przy
+     implementacji) — żeby nie eksplodował rozmiar `public/assets/`.
+2. **Kierunek postaci (facing direction) — śledzone systemowo.** Nowy Gate 6
+   w `03_PIPELINE/00_QA_ACCEPTANCE_GATES.md` sprawdza kierunek i wyrównanie
+   rzędów przy każdym atlasie. Negative prompt w `02_POC/_TEMPLATE.md`
+   wzmocniony o `facing right` / `mirrored pose`.
+3. **Drift wysokości rząd 1 vs rząd 2 — śledzone w tym samym Gate 6.**
+4. **Backlog usprawnień promptu** w
+   `01_PRODUCTION_SYSTEM/04_KNOWN_IMPROVEMENTS_BACKLOG.md` — czeka na v2
+   frameworku, nie blokuje obecnej pracy.
+
+### Nadal otwarte / do decyzji w przyszłości
+
+- **Implementacja Enemy/Lore Factions** (np. Fire Cult) — czy to pełne
+  assety, overlaye, czy hybryda — do rozstrzygnięcia gdy fabuła tego
+  zacznie wymagać.
+- **Finalne potwierdzenie Human Mage POC** w docelowym pipeline/narzędziu
+  (oznaczone jako outstanding w `02_POC/HUMAN_MAGE_V1.md` → REVIEW NOTES).
+- **Nazewnictwo plików** w `03_PIPELINE/01_ATLAS_TO_ASSET_PIPELINE.md` wciąż
+  używa starego wzorca `{faction}_{class}_{gender}_{rarity}_{state}.webp` —
+  do zaktualizowania na `{race}_{faction}_{class}_{gender}_{rarity}_{state}.webp`
+  gdy faktycznie zacznie się produkcja z wieloma rasami (nie krytyczne,
+  dopóki produkujemy tylko Human).
 
 ---
 

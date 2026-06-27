@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+﻿import { NextRequest, NextResponse } from "next/server";
 import { createApiClient, jsonResponse, errorResponse } from "@/lib/supabase/api-helper";
 import { withErrorHandler, withValidatedRequest } from "@/lib/api/validation-middleware";
 import { ProfileUpdateSchema } from "@/lib/validation/schemas";
@@ -24,3 +24,4 @@ export async function PATCH(request: NextRequest) {
     return jsonResponse(player);
   });
 };
+

@@ -1,4 +1,4 @@
-﻿# PROMPT_MODULE_SYSTEM v1.1
+﻿# PROMPT_MODULE_SYSTEM v1.2
 
 Project:
 Idle Kingdom Revolution
@@ -36,6 +36,7 @@ RENDER_CONTRACT_CHARACTERS
 PRODUCTION_SPRITE_ATLAS_CONTRACT
 REFERENCE_FRAME_SYSTEM
 ASSET_TYPE_TEMPLATE
+RACE_MODULE
 FACTION_MODULE
 CLASS_MODULE
 GENDER_AND_BODY_TYPE_MODULE
@@ -53,6 +54,16 @@ Order matters. Global and immutable rules must appear before per-rarity descript
 > **v1.1 change log:** Added `GENDER_AND_BODY_TYPE_MODULE`, `EQUIPMENT_SILHOUETTE_LOCK`,
 > and `EFFECT_BOUNDARY` to the module order. These were implicit or missing in
 > v1.0 and are now explicit modules — see sections below.
+>
+> **v1.2 change log (2026-06-27):** Split `FACTION_MODULE` into
+> `RACE_MODULE` + `FACTION_MODULE`. What was previously called "faction"
+> (Human, Elf, Orc, Undead, Demon, Celestial) is now **Race** — it
+> determines body, proportions, and age. **Faction** (e.g. "Lion Kingdom")
+> is a separate, new axis determining color/heraldry/decoration, tied to one
+> Race. See `00_FOUNDATION/00_ART_DIRECTION.md` → RACE, FACTION, AND CLASS
+> for the full explanation and worked examples (including a multi-race
+> Faction example: Human Fire Cult Mage vs Orc Fire Cult Mage). See
+> RACE AND FACTION MODULE below for the prompt-writing rule.
 
 ---
 
@@ -66,7 +77,7 @@ Recommended language:
 IMMUTABLE DESIGN RULES (NEVER CHANGE)
 The following elements never change across rarity:
 1. character face
-2. body proportions
+2. body proportions (race)
 3. pose
 4. camera
 5. main silhouette
@@ -163,6 +174,79 @@ Body scale remains fixed.
 
 ---
 
+## RACE AND FACTION MODULE
+
+> Added in v1.2. Previously, a single `faction:` field carried both species
+> (Human, Elf, Orc...) and political allegiance (Lion Kingdom) at once —
+> e.g. `faction: Human / Lion Kingdom` in early PoCs. This module makes Race
+> and Faction two explicit, separate required inputs. See
+> `00_FOUNDATION/00_ART_DIRECTION.md` → RACE, FACTION, AND CLASS for full
+> background.
+
+Every Hero rarity atlas prompt must explicitly declare both:
+
+```text
+race:
+faction:
+```
+
+### Why this is required
+
+Race and Faction change different things and must not be collapsed into one
+field:
+
+- **Race** controls body proportions, height offset, typical age range, and
+  build (see `00_FOUNDATION/00_ART_DIRECTION.md` → Race Proportion Notes,
+  Age Diversity). Race is never redesigned by rarity or by Faction.
+- **Faction** controls color palette, heraldic symbol, and decoration
+  language (see `00_FOUNDATION/00_ART_DIRECTION.md` → FACTION DESIGN GUIDE).
+  A Faction belongs to one Race for Hero generation purposes, but the same
+  Faction *name* and visual language could in principle apply across
+  multiple Races for enemy/lore factions (e.g. a "Fire Cult" could have both
+  Human and Orc members — same colors/symbol, different Race body).
+
+Collapsing both into one "faction" field made it impossible to express two
+Factions within the same Race (e.g. two rival Human kingdoms), and gave no
+clean way to generate a multi-race enemy Faction.
+
+### Rule
+
+```text
+RACE AND FACTION LOCK
+Race defines body proportions, height, build, and apparent age range.
+Faction defines color palette, heraldic symbol, and decoration language.
+Race is never changed by Faction.
+Faction is never changed by rarity.
+Both Race and Faction stay identical across all six rarity slots.
+```
+
+### Per-race defaults (reference only)
+
+See `00_FOUNDATION/00_ART_DIRECTION.md` → Race Proportion Notes for the full
+table. Summary:
+
+| Race | Height offset | Build notes |
+|------|---------------|-------------|
+| Human | 1.0 (baseline) | Athletic, balanced |
+| Elf | +0.1 | Taller, slender, longer limbs |
+| Orc | +0.2 | Wider, broader shoulders, shorter legs |
+| Undead | 0.0 | Gaunt, narrower, hollow posture |
+| Demon | +0.15 | Taller, muscular, wider horns |
+| Celestial | +0.05 | Same height, more graceful |
+
+### Faction scale note
+
+Hero Factions (full asset matrix: 7 classes × 6 rarities × 3 states × 2
+genders) and Enemy/Lore Factions (reduced asset matrix) are produced
+differently — see `00_FOUNDATION/00_ART_DIRECTION.md` → FACTION DESIGN GUIDE
+→ Faction scope. Do not default a new enemy Faction into the full Hero
+production matrix without confirming the scale first — file size adds up
+fast (a single Hero family already runs into the hundreds of KB per rarity
+atlas; thousands of enemy-faction sprites at full Hero treatment would not
+be sustainable).
+
+---
+
 ## GENDER AND BODY TYPE MODULE
 
 > Added in v1.1. Earlier production prompts (including the original Human
@@ -200,7 +284,7 @@ Only equipment, materials, and magical effects evolve.
 ### Per-class defaults (reference only — override per Hero as needed)
 
 These defaults follow `00_FOUNDATION/00_ART_DIRECTION.md` (Age Diversity,
-Faction Proportion Notes). They are starting points, not hard limits — every
+Race Proportion Notes). They are starting points, not hard limits — every
 class is available in both genders.
 
 | Class | Typical body build | Typical age range |
@@ -213,24 +297,35 @@ class is available in both genders.
 | Assassin | Slim, compact build | 20–35 |
 | Support | Average build, ornamental equipment focus | 25–50 |
 
+> These are **Class** defaults layered on top of **Race** defaults (see
+> RACE AND FACTION MODULE above). A Race's height/build offset still
+> applies on top of the class build — e.g. an Orc Mage is still visibly
+> wider/shorter-legged than a Human Mage, even though both follow the same
+> "slender to average, less muscular than Warrior" class guidance relative
+> to their own Race baseline.
+
 ### Two-gender production rule
 
 Per `09_ASSET_LIST_REFERENCE.md` / `05_REFERENCE/00_ASSET_LIST_REFERENCE.md`,
 Hero assets are produced for **both genders** (Male and Female) for every
-faction+class combination in active rotation. This means:
+race+faction+class combination in active rotation. This means:
 
-- Every Hero rarity atlas factory run produces TWO atlases per faction+class:
-  one Male, one Female.
+- Every Hero rarity atlas factory run produces TWO atlases per
+  race+faction+class: one Male, one Female.
 - Both atlases must independently satisfy BODY SCALE LOCK (each gender has
   its own master Common-rarity scale reference — a Female Common atlas is the
   scale reference for Female Uncommon→Mythic, not the Male one).
 - Face, hairstyle, and build differ between the Male and Female atlas of the
   same Hero, but each atlas internally locks its own face/build across all
   six rarity slots (standard HERO IDENTITY rule, applied per-gender).
-- Naming follows `{faction}_{class}_{gender}_{rarity}_{state}.webp` (already
-  defined in `03_PIPELINE/01_ATLAS_TO_ASSET_PIPELINE.md`) — gender is already
-  a first-class part of the filename; this module ensures it is also a
-  first-class part of the *prompt*, not just the *output filename*.
+- Naming follows `{race}_{faction}_{class}_{gender}_{rarity}_{state}.webp`
+  (updated in v1.2 from `{faction}_{class}_{gender}_{rarity}_{state}.webp` to
+  add the Race segment — see
+  `03_PIPELINE/01_ATLAS_TO_ASSET_PIPELINE.md` for the full naming spec,
+  which should be updated to match when Race/Faction production actually
+  starts) — gender is already a first-class part of the filename; this
+  module ensures it is also a first-class part of the *prompt*, not just the
+  *output filename*.
 
 ---
 

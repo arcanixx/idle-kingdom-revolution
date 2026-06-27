@@ -1,4 +1,4 @@
-{
+ï»¿{
   "document_title": "08 - Roadmap & Monetization",
   "version": "0.1.0",
   "date": "2026-06-23",
@@ -127,39 +127,39 @@
   },
   "new_milestones": {
     "phase_2_5_castle": {
-      "description": "Podstawowy system zamku (3 budynki, zbieranie surowców).",
-      "timeline": "Tydzieñ 4-5",
+      "description": "Podstawowy system zamku (3 budynki, zbieranie surowcï¿½w).",
+      "timeline": "Tydzieï¿½ 4-5",
       "effort": "5 dni"
     },
     "phase_3_events": {
-      "description": "System eventów fabularnych (4 scenariusze).",
-      "timeline": "Tydzieñ 6",
+      "description": "System eventï¿½w fabularnych (4 scenariusze).",
+      "timeline": "Tydzieï¿½ 6",
       "effort": "3 dni"
     },
     "phase_3_equipment": {
-      "description": "System run i skinów.",
-      "timeline": "Tydzieñ 6-7",
+      "description": "System run i skinï¿½w.",
+      "timeline": "Tydzieï¿½ 6-7",
       "effort": "4 dni"
     },
     "phase_3_marketplace": {
-      "description": "Handel miêdzy graczami.",
-      "timeline": "Tydzieñ 7",
+      "description": "Handel miï¿½dzy graczami.",
+      "timeline": "Tydzieï¿½ 7",
       "effort": "3 dni"
     },
     "phase_4_advanced_combat": {
       "description": "Formacje 3x3, tryb treningu, NG+.",
-      "timeline": "Tydzieñ 8",
+      "timeline": "Tydzieï¿½ 8",
       "effort": "5 dni"
     },
     "phase_4_full_castle": {
-      "description": "Pe³ny system zamku (6 budynków, level 20).",
-      "timeline": "Tydzieñ 8-9",
+      "description": "Peï¿½ny system zamku (6 budynkï¿½w, level 20).",
+      "timeline": "Tydzieï¿½ 8-9",
       "effort": "4 dni"
     }
   },
   "monetisation_additions": {
-    "rental_units": "Wypo¿yczenie potê¿nych jednostek za gemy.",
-    "skins_shop": "Sklep z skinami (avary, ramki, skrzyd³a, zwierzaki).",
+    "rental_units": "Wypoï¿½yczenie potï¿½nych jednostek za gemy.",
+    "skins_shop": "Sklep z skinami (avary, ramki, skrzydï¿½a, zwierzaki).",
     "speedups": "Kamienie przyspieszenia budowy zamku."
   }
 }

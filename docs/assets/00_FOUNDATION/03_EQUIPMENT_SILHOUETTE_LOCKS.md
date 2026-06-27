@@ -1,4 +1,4 @@
-# EQUIPMENT SILHOUETTE LOCKS
+﻿# EQUIPMENT SILHOUETTE LOCKS
 
 Project:
 Idle Kingdom Revolution

@@ -1,4 +1,4 @@
-# 03 – Item Icons
+﻿# 03 – Item Icons
 
 > Przedmioty, bronie, eliksyry, tarcze, waluta.
 > Rozmiar: 256×256 WebP (z alpha channel)

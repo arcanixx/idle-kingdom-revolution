@@ -1,4 +1,4 @@
-# Asset Checklist
+ï»¿# Asset Checklist
 
 > Stan na: 2026-06-24. Folder `public/assets/` jeszcze nie istnieje Â— wszystko poniÂ¿ej jest do zrobienia.
 > Odznaczaj `[x]` po wygenerowaniu, obrÃ³bce (rembg + WebP) i wrzuceniu do `public/assets/{kategoria}/`.
@@ -117,8 +117,8 @@ Nazewnictwo: `{faction}_{class}_{rarity}_{state}.webp` | Stany: `idle`, `attack`
 > Tylko 1 frakcja jest aktywna na playthrough. Generic Units (sekcja 9) pokrywajÂ¹ pozostaÂ³e.
 
 
-> Odznaczaj per frakcja+klasa, wszystkie 6 rarity naraz, ¿eby nie rozpisywaæ 252 osobnych linii.
-> Uwaga dotycz¹ca generowania: Wszystkie 6 rarity dla danej klasy generujemy w jednym obrazie produkcyjnym 2x3. Kolejnoœæ slotów: Common, Uncommon, Rare, Epic, Legendary, Mythic. Wycinamy je skryptem po zaakceptowaniu QA.
+> Odznaczaj per frakcja+klasa, wszystkie 6 rarity naraz, ï¿½eby nie rozpisywaï¿½ 252 osobnych linii.
+> Uwaga dotyczï¿½ca generowania: Wszystkie 6 rarity dla danej klasy generujemy w jednym obrazie produkcyjnym 2x3. Kolejnoï¿½ï¿½ slotï¿½w: Common, Uncommon, Rare, Epic, Legendary, Mythic. Wycinamy je skryptem po zaakceptowaniu QA.
 > Rarity: Common, Uncommon, Rare, Epic, Legendary, Mythic.
 **Human:**
 - [ ] human_warrior Â— all 6 rarity, idle

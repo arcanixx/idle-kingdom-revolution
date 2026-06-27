@@ -1,4 +1,4 @@
-# 06 - Emotion Portraits
+﻿# 06 - Emotion Portraits
 
 
 
@@ -10,7 +10,7 @@
 
 >
 
-> **Rozróżnienie od 02_UNIT_PORTRAITS.md:** Ten plik dotyczy WYŁCZNIE portretów dialogowych/fabularnych (sceny story, tutoriale, dialogi) i ZAWSZE jest half-body (bez nóg). Jednostki na mapie/w statystykach (02_UNIT_PORTRAITS.md) są ZAWSZE full-body (z nogami). Nie myl tych dwóch typów assetu przy generowaniu - to dwa osobne foldery (public/assets/units/ vs public/assets/portraits/).
+> **Rozróżnienie od `01_UNIT_PORTRAITS.md`:** Ten plik dotyczy WYŁĄCZNIE portretów dialogowych/fabularnych (sceny story, tutoriale, dialogi) i ZAWSZE jest half-body (bez nóg). Jednostki na mapie/w statystykach (`01_UNIT_PORTRAITS.md`) są ZAWSZE full-body (z nogami). Nie myl tych dwóch typów assetu przy generowaniu - to dwa osobne foldery (public/assets/units/ vs public/assets/portraits/).
 
 
 

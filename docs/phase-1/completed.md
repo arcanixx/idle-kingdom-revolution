@@ -1,4 +1,4 @@
-# Phase 1: Core Game Loop — Current State
+﻿# Phase 1: Core Game Loop — Current State
 
 > Documented '2026-06-24' after initial Phase 1 implementation pass.
 > Updated '2026-06-24' (same day, later pass) after a documentation/code audit — see "2026-06-24 Audit Update" section near the bottom for what changed and why several items below were corrected.

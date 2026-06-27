@@ -1,4 +1,4 @@
-import { NextRequest } from "next/server";
+﻿import { NextRequest } from "next/server";
 import { createApiClient, jsonResponse, errorResponse } from "@/lib/supabase/api-helper";
 import { withErrorHandler, withValidatedRequest } from "@/lib/api/validation-middleware";
 import { LearnPerkSchema } from "@/lib/validation/schemas";

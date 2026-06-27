@@ -1,11 +1,8 @@
-import { NextRequest, NextResponse } from "next/server";
+﻿import { NextRequest, NextResponse } from "next/server";
 import { ZodSchema, ZodError } from "zod";
 import type { ValidationErrorResponse } from "@/lib/validation/schemas";
+import { logger } from "@/lib/logger";
 
-/**
- * Validates request body against a Zod schema.
- * Safely handles GET requests (no body).
- */
 export async function validateRequest<T>(
   request: NextRequest,
   schema: ZodSchema<T>
@@ -27,6 +24,7 @@ export async function validateRequest<T>(
         field: err.path.join(".") || "unknown",
         message: err.message,
       }));
+      logger.warn("Validation failed", "lib/api/validation-middleware.ts", "validateRequest", { details, method: request.method, url: request.url });
       return {
         success: false,
         response: NextResponse.json(
@@ -35,6 +33,7 @@ export async function validateRequest<T>(
         ),
       };
     }
+    logger.warn("Invalid request body (JSON parse error)", "lib/api/validation-middleware.ts", "validateRequest", { method: request.method, url: request.url });
     return {
       success: false,
       response: NextResponse.json(
@@ -61,6 +60,7 @@ export function validateQuery<T>(
         field: err.path.join(".") || "unknown",
         message: err.message,
       }));
+      logger.warn("Query validation failed", "lib/api/validation-middleware.ts", "validateQuery", { details, url: request.url });
       return {
         success: false,
         response: NextResponse.json(
@@ -80,12 +80,13 @@ export function validateQuery<T>(
 }
 
 export async function withErrorHandler<T>(
-  handler: () => Promise<NextResponse<T>>
+  handler: () => Promise<NextResponse<T>>,
+  route: string = "unknown"
 ): Promise<NextResponse<T | { error: string }>> {
   try {
     return await handler();
   } catch (error) {
-    console.error("[API Error]", error);
+    logger.error("API Error", "lib/api/validation-middleware.ts", `withErrorHandler:${route}`, error);
     return NextResponse.json(
       { error: error instanceof Error ? error.message : "Internal server error" },
       { status: 500 }
@@ -96,11 +97,12 @@ export async function withErrorHandler<T>(
 export async function withValidatedRequest<T, R>(
   request: NextRequest,
   schema: ZodSchema<T>,
-  handler: (data: T) => Promise<NextResponse<R>>
+  handler: (data: T) => Promise<NextResponse<R>>,
+  route: string = "unknown"
 ): Promise<NextResponse<R | ValidationErrorResponse | { error: string }>> {
   const validation = await validateRequest(request, schema);
   if (!validation.success) {
     return validation.response as NextResponse<ValidationErrorResponse>;
   }
-  return withErrorHandler(() => handler(validation.data));
+  return withErrorHandler(() => handler(validation.data), route);
 }

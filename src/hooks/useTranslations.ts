@@ -1,8 +1,0 @@
-'use client';
-
-import { useTranslations } from 'next-intl';
-
-export function useTranslations(namespace: string = 'common') {
-  const t = useTranslations(namespace);
-  return t;
-}

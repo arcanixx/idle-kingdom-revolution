@@ -1,4 +1,4 @@
-{
+ï»¿{
   "document_title": "06 - Feature Specification",
   "version": "0.1.0",
   "date": "2026-06-23",
@@ -333,8 +333,8 @@
     "castle": {
       "description": "System rozwoju zamku z budynkami i pasywnymi bonusami.",
       "features": [
-        "Budowa i ulepszanie 6 typów budynków",
-        "Zbieranie surowców (kamieñ, drewno, z³oto)",
+        "Budowa i ulepszanie 6 typï¿½w budynkï¿½w",
+        "Zbieranie surowcï¿½w (kamieï¿½, drewno, zï¿½oto)",
         "Pasywne bonusy dla jednostek"
       ]
     },
@@ -342,32 +342,32 @@
       "description": "Zaawansowany system walki z formacjami i treningiem.",
       "features": [
         "Siatka 3x3 (upgrade do 4x4)",
-        "Tryb treningu bez wp³ywu na zasoby",
-        "Wypo¿yczalnia jednostek"
+        "Tryb treningu bez wpï¿½ywu na zasoby",
+        "Wypoï¿½yczalnia jednostek"
       ]
     },
     "events": {
       "description": "Losowe eventy fabularne z wyborem.",
       "features": [
         "Eventy czasowe (co 30 min)",
-        "Wybór z konsekwencjami",
-        "Ró¿ne scenariusze (kupiec, uchodŸcy, smok, plaga)"
+        "Wybï¿½r z konsekwencjami",
+        "Rï¿½ne scenariusze (kupiec, uchodï¿½cy, smok, plaga)"
       ]
     },
     "equipment": {
-      "description": "Rozbudowany system ekwipunku i kosmetyków.",
+      "description": "Rozbudowany system ekwipunku i kosmetykï¿½w.",
       "features": [
         "Runy (slot od poziomu 30)",
-        "Skiny (avary, ramki, skrzyd³a, zwierzaki)",
-        "System ulepszeñ"
+        "Skiny (avary, ramki, skrzydï¿½a, zwierzaki)",
+        "System ulepszeï¿½"
       ]
     },
     "marketplace": {
-      "description": "Handel miêdzy graczami.",
+      "description": "Handel miï¿½dzy graczami.",
       "features": [
-        "Wystawianie przedmiotów na sprzeda¿",
+        "Wystawianie przedmiotï¿½w na sprzedaï¿½",
         "System raportowania",
-        "Kupno/sprzeda¿ za z³oto"
+        "Kupno/sprzedaï¿½ za zï¿½oto"
       ]
     }
   }

@@ -1,4 +1,4 @@
-# 01 – Battle Backgrounds
+﻿# 01 – Battle Backgrounds
 
 > Tła walki – 7 krajobrazów, każdy przypisany do innej frakcji lub lokacji.
 > Rozmiar: 1920×1080 WebP

@@ -32,7 +32,7 @@ Generate the atlas using the approved production prompt.
 
 For the first production family, use:
 
-- `17_HUMAN_WARRIOR_POC_V3.md`
+- `02_POC/HUMAN_WARRIOR_V3.md`
 
 Generation target:
 
@@ -62,7 +62,7 @@ raw_assets/atlases/human/warrior/male/human_warrior_male_rarity_idle_atlas_v001.
 
 ## STEP 2: VISUAL QA
 
-Use `18_POC_ACCEPTANCE_AND_VISUAL_QA.md` before any slicing.
+Use `03_PIPELINE/00_QA_ACCEPTANCE_GATES.md` before any slicing.
 
 Do not slice failed atlases.
 

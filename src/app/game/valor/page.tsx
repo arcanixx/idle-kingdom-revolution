@@ -2,6 +2,8 @@
 import { useState, useEffect } from "react";
 import { Skeleton } from "@/components/skeleton";
 import { useUser } from "@/hooks/use-user";import { TREES } from "@/lib/game/valor-trees";import type { TreeDefinition, PerkDefinition } from "@/lib/game/valor-trees";import type { LearnedPerk } from "@/types/game";
+import { logger } from "@/lib/logger";
+
 export default function ValorPage() {
   const { user, loading } = useUser();
   const [valorLoading, setValorLoading] = useState(true);
@@ -20,7 +22,9 @@ export default function ValorPage() {
         .then(d => {
           setValor(d.valor);
           setLearned(new Set(d.learned.map((l: LearnedPerk) => learnedKey(l.tree_name, l.perk_name))));
-        });
+          setValorLoading(false);
+        })
+        .catch((err) => { logger.warn("Failed to fetch valor data", "app/game/valor/page.tsx", "useEffect", err); setValorLoading(false); });
     }
   }, [loading, user]);
 
@@ -37,6 +41,7 @@ export default function ValorPage() {
       setValor(d.valor);
       setLearned(new Set(learned).add(learnedKey(treeName, perkName)));
     } catch (e: any) {
+      logger.error("Failed to learn perk", "app/game/valor/page.tsx", "learnPerk", e, { treeName, perkName, cost });
       setError(e.message);
     }
     setBusy(false);
@@ -105,3 +110,4 @@ export default function ValorPage() {
     </div>
   );
 }
+

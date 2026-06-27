@@ -1,4 +1,4 @@
-# PROMPTS.md – Zbiór zatwierdzonych promptów
+﻿# PROMPTS.md – Zbiór zatwierdzonych promptów
 
 > **UWAGA:** Ten plik zawiera **tylko zatwierdzone prompty** (Style Anchors).
 > Prompty tymczasowe/testowe NIE są tutaj zapisywane – trzymamy je osobno.

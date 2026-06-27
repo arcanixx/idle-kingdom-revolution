@@ -1,4 +1,4 @@
-# 14 – Placeholder Strategy
+﻿# 14 – Placeholder Strategy
 
 > Jak obsługujemy brakujące assety w trakcie developmentu.
 

@@ -1,4 +1,4 @@
-# HUMAN_MAGE_V1
+﻿# HUMAN_MAGE_V1
 
 Project:
 Idle Kingdom Revolution
@@ -614,25 +614,59 @@ generated — do not overwrite the Female review notes.
 
 ## REVIEW NOTES
 
-> Fill in after the Female atlas above has actually been generated and
-> inspected. Structure copied from `HUMAN_WARRIOR_V3.md` → REVIEW NOTES.
+> Filled in after the Female atlas was generated and inspected (see
+> `docs/HUMAN_MAGE_v1.png` for the reviewed output).
 
-Expected review criteria:
+**Result: PASS.** The framework generalized from Warrior to Mage without
+needing any undocumented fixes.
 
-- whether all six Sprite Slots are slice-safe
-- whether the same hero model (face, **gender, body type, age**) is preserved
-  across all six slots — this is the main thing Warrior's PoC did NOT
-  explicitly test
-- whether the second row keeps the same scale and baseline as the first row
-- whether the lion emblem remains a full standing lion, identically posed,
-  through Legendary and Mythic
-- whether the staff's length/shape genuinely stays constant — this is the
-  other main new thing being tested here (Warrior's sword/shield combo did
-  not previously prove a single-handed-weapon-no-offhand silhouette lock)
-- whether effects enrich the asset without resizing the character
-- **framework-gap log:** record here whether anything outside the INPUT
-  TABLE values needed changing to make Mage work after Warrior. As of
-  writing this PoC (before generation), the known new module additions are:
-  `GENDER AND BODY TYPE LOCK` and `EFFECT BOUNDARY` — both already folded
-  into `01_PRODUCTION_SYSTEM/02_PROMPT_MODULE_SYSTEM.md` v1.1, so this PoC is
-  also the first real-world test of that module update.
+- **Sprite Slot safety:** all six slots are slice-safe. Staff, robes, and
+  wings (Legendary/Mythic) stay inside their slots.
+- **Hero model consistency (face, gender, body type, age):** held across all
+  six slots. The Female, slender, scholarly-mage build is clearly distinct
+  from Warrior's male athletic build — confirms `GENDER AND BODY TYPE LOCK`
+  works both *within* one atlas and *across* different class atlases.
+- **Row 2 vs Row 1 baseline:** same minor vertical drift observed as in the
+  Warrior atlas (see `HUMAN_WARRIOR_V3.md` review) — row 2 sits very slightly
+  higher/smaller than row 1. Not class-specific; this is a generator-level
+  limitation, not a documentation gap. See new Gate 6 in
+  `03_PIPELINE/00_QA_ACCEPTANCE_GATES.md`.
+- **Heraldic lion:** stayed a full standing lion, identically posed, through
+  Legendary and Mythic. Heraldry Lock held.
+- **STAFF SILHOUETTE LOCK:** held. Staff length, shaft thickness, and head
+  shape stayed visually constant across all six rarities — only material,
+  crystal, and glow evolved. This is the first real confirmation that a
+  single-handed-weapon-no-offhand silhouette lock works, which Warrior's
+  sword+shield combo had not previously tested on its own.
+- **Effects vs body scale:** effects (aura, wings, particles) enriched the
+  asset without visibly resizing the character model. `EFFECT BOUNDARY`
+  held.
+- **Facing direction — KNOWN ISSUE:** prompt specifies `Facing LEFT`
+  (identical wording to Warrior's prompt), but the generated atlas came out
+  facing RIGHT. This is a generator-level inconsistency, not a prompt or
+  documentation defect — the instruction is correct and present. Tracked as
+  a new QA gate (Gate 6, facing direction) so any future atlas is checked
+  and rejected/regenerated *before* production use, rather than needing
+  hundreds of files manually mirrored later.
+- **Framework-gap log:** **No framework changes needed — confirms framework
+  generalizes.** The two module additions anticipated before generation
+  (`GENDER AND BODY TYPE LOCK`, `EFFECT BOUNDARY`) were sufficient on their
+  own; nothing outside the INPUT TABLE values had to change to make Mage
+  work after Warrior.
+
+**Outstanding before final production sign-off (per project owner):** this
+atlas was not yet generated in the final target pipeline/tool — a final
+confirmation will follow once that is done. Functionally, the
+framework/process itself is considered validated.
+
+**Open conceptual item — RESOLVED (2026-06-27):** the project moved to a
+three-axis model — **Race** (Human/Elf/Orc/Undead/Demon/Celestial) +
+**Faction** (e.g. "Lion Kingdom", tied to a Race) + **Class**
+(Warrior/Mage/...). See `00_FOUNDATION/00_ART_DIRECTION.md` → RACE,
+FACTION, AND CLASS for the full model, and
+`01_PRODUCTION_SYSTEM/02_PROMPT_MODULE_SYSTEM.md` → RACE AND FACTION MODULE
+for the prompt-writing rule. This file's `faction: Human / Lion Kingdom`
+field (above, in the INPUT TABLE) predates that split and is left as-is
+since the FINAL PROMPT is accepted and working — read it as **Race: Human,
+Faction: Lion Kingdom**. Any new PoC copied from `02_POC/_TEMPLATE.md` uses
+the split `race:` / `faction:` fields from the start.

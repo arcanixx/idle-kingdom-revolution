@@ -1,8 +1,10 @@
-import { NextRequest } from "next/server";
+﻿import { NextRequest } from "next/server";
 import { createApiClient, jsonResponse, errorResponse } from "@/lib/supabase/api-helper";
+import { withErrorHandler } from "@/lib/api/validation-middleware";
+import { logger } from "@/lib/logger";
 
-export async function GET(request: NextRequest) {
-  try {
+export const GET = async (request: NextRequest) =>
+  withErrorHandler(async () => {
     const supabase = await createApiClient();
     const { data: { user }, error: authError } = await supabase.auth.getUser();
     if (authError || !user) return errorResponse("Unauthorized", 401);
@@ -15,14 +17,12 @@ export async function GET(request: NextRequest) {
       const row = pu.formation_row === 0 ? "front" : "back";
       formation[row][pu.formation_col] = { unit_id: pu.unit_id, row: pu.formation_row, col: pu.formation_col } as any;
     });
+    logger.info("Formation fetched", "api/player/formation/route.ts", "GET", { userId: user.id });
     return jsonResponse(formation);
-  } catch (e) {
-    return errorResponse(e instanceof Error ? e.message : "Unknown error", 500);
-  }
-}
+  }, "player/formation/GET");
 
-export async function PUT(request: NextRequest) {
-  try {
+export const PUT = async (request: NextRequest) =>
+  withErrorHandler(async () => {
     const supabase = await createApiClient();
     const { data: { user }, error: authError } = await supabase.auth.getUser();
     if (authError || !user) return errorResponse("Unauthorized", 401);
@@ -36,8 +36,7 @@ export async function PUT(request: NextRequest) {
         await supabase.from("player_units").update({ formation_row: f.row, formation_col: f.col }).eq("player_id", player.id).eq("unit_id", f.unit_id);
       }
     }
+    logger.info("Formation updated", "api/player/formation/route.ts", "PUT", { userId: user.id, count: formations.length });
     return jsonResponse({ success: true });
-  } catch (e) {
-    return errorResponse(e instanceof Error ? e.message : "Unknown error", 500);
-  }
-}
+  }, "player/formation/PUT");
+

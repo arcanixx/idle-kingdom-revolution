@@ -18,23 +18,30 @@ Build every Hero rarity atlas prompt from stable modules:
 1. Production Sprite Atlas Contract
 2. Reference Frame System
 3. Hero Identity Lock
-4. Faction Module
-5. Class Module
-6. Symbol / Heraldry Lock
-7. Weapon Lock
-8. Rarity Evolution Table
-9. Effects Contract
-10. QA Checklist
-11. Negative Prompt
+4. Race Module
+5. Faction Module
+6. Class Module
+7. Symbol / Heraldry Lock
+8. Weapon Lock
+9. Rarity Evolution Table
+10. Effects Contract
+11. QA Checklist
+12. Negative Prompt
 ```
 
 ---
 
 ## REQUIRED INPUTS
 
+> **v2.0 (2026-06-27):** `faction:` split into `race:` + `faction:`. See
+> `00_FOUNDATION/00_ART_DIRECTION.md` → RACE, FACTION, AND CLASS for the
+> full explanation. Race = Human/Elf/Orc/Undead/Demon/Celestial (body,
+> proportions, age). Faction = e.g. Lion Kingdom (colors, heraldry).
+
 Every new Hero prompt needs these values:
 
 ```text
+race:
 faction:
 class:
 gender:
@@ -51,7 +58,8 @@ forbidden_shapes:
 Example:
 
 ```text
-faction: Human / Lion Kingdom
+race: Human
+faction: Lion Kingdom
 class: Warrior
 gender: male
 state: idle
@@ -63,6 +71,29 @@ base_colors: blue, gold, polished steel
 rarity_theme: royal -> celestial -> cosmic
 forbidden_shapes: round shield, tower shield, lion head only, halo
 ```
+
+Another Race, same Faction (illustrates Faction-within-Race from the
+worked example in `00_FOUNDATION/00_ART_DIRECTION.md`):
+
+```text
+race: Orc
+faction: Fire Cult
+class: Mage
+gender: male
+state: idle
+primary_symbol: flame-wreathed skull
+secondary_symbol: none
+main_weapon: gnarled fire-blackened staff
+offhand_or_focus: none
+base_colors: charcoal black, ember orange, dark red
+rarity_theme: cultist -> infernal -> apocalyptic
+forbidden_shapes: shield, halo, blue/cool color palette (reserved for other factions)
+```
+
+Note body proportions still follow the **Race** (Orc: wider, shorter legs,
+younger apparent age per `00_FOUNDATION/00_ART_DIRECTION.md` → Race
+Proportion Notes), while colors/symbol follow the **Faction** (Fire Cult),
+not the Race's own default Faction language.
 
 ---
 
@@ -125,6 +156,12 @@ Facing LEFT.
 No attack pose.
 No running.
 No animation.
+
+RACE
+Race: {race}
+Race body proportions, height, and apparent age follow this Race's defaults
+(see 00_FOUNDATION/00_ART_DIRECTION.md -> Race Proportion Notes and Age
+Diversity). Race is never redesigned by Faction or rarity.
 
 FACTION
 Faction: {faction}
@@ -191,20 +228,28 @@ photorealistic, anime, manga, painting, concept art, watercolor, pixel art, text
 
 ## FIRST PRODUCTION ORDER
 
+> Updated terminology (v2.0): "Human Warrior" below implicitly means
+> Race=Human, Faction=Lion Kingdom (the only Human Faction in production use
+> so far). When a second Human Faction or a second Race exists, name both
+> explicitly (e.g. "Human / Lion Kingdom Warrior" vs "Orc / Fire Cult Mage").
+
 Recommended first batch after Human Warrior PoC:
 
-1. Human Warrior male idle rarity atlas
-2. Human Warrior female idle rarity atlas
-3. Human Mage male idle rarity atlas
-4. Human Mage female idle rarity atlas
-5. Human Tank male idle rarity atlas
-6. Human Tank female idle rarity atlas
+1. Human (Lion Kingdom) Warrior male idle rarity atlas
+2. Human (Lion Kingdom) Warrior female idle rarity atlas
+3. Human (Lion Kingdom) Mage male idle rarity atlas
+4. Human (Lion Kingdom) Mage female idle rarity atlas
+5. Human (Lion Kingdom) Tank male idle rarity atlas
+6. Human (Lion Kingdom) Tank female idle rarity atlas
 
 Reason:
 
-- Human faction visual language is now proven.
-- Blue/gold/st Steel pipeline is established.
+- Human Race + Lion Kingdom Faction visual language is now proven.
+- Blue/gold/steel pipeline is established.
 - It gives enough variety to validate weapons, robes, armor mass, shields, and spell effects.
+- Stay within one Race+Faction for this first batch — introduce a second
+  Race or Faction only after this batch is validated, to isolate whether any
+  future issue comes from a new class, a new race, or a new faction.
 
 ---
 

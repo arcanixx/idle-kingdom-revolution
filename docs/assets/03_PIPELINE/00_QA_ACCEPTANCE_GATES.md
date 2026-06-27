@@ -59,6 +59,12 @@ Known issues to reject in final production:
 - chest emblem disappearing in Legendary or Mythic
 - uneven green background
 - uneven atlas separators
+- **facing direction not matching the prompt's POSE instruction** (confirmed
+  to happen even when the wording is identical to a previously-successful
+  atlas — see Gate 6)
+- **row 2 baseline sitting slightly higher/smaller than row 1**, the inverse
+  of "row 2 appearing taller" above — both directions of drift are possible
+  and both are checked under Gate 6
 
 ---
 
@@ -117,6 +123,34 @@ A generated atlas is accepted only when it passes all gates below.
 - [ ] emblem remains visible in Legendary
 - [ ] emblem remains visible in Mythic
 - [ ] shield remains a kite shield
+
+### Gate 6: Facing Direction and Row Alignment
+
+> Added after the Human Mage PoC run (`02_POC/HUMAN_MAGE_V1.md`) showed that
+> the exact same `Facing LEFT` instruction that worked for Human Warrior was
+> not honored when generating Human Mage — the model produced a Mage facing
+> RIGHT instead. The instruction text was correct in both prompts; the
+> generator simply did not apply it consistently. This gate exists so the
+> mismatch is caught before slicing, not after hundreds of files have been
+> produced and would need manual mirroring.
+
+- [ ] all six heroes face the same direction as specified in the prompt's
+      `POSE` section (LEFT by convention — see
+      `01_PRODUCTION_SYSTEM/03_HERO_RARITY_ATLAS_FACTORY.md` POSE block)
+- [ ] that facing direction matches every other accepted atlas in the same
+      Hero family (faction+class+gender) — do not mix LEFT-facing and
+      RIGHT-facing atlases within one production set
+- [ ] feet baseline in row 2 (Epic/Legendary/Mythic) sits at the same height
+      as row 1 (Common/Uncommon/Rare) — a small drift is allowed under the
+      Gate 3 "tiny non-critical differences" PASS allowance, but a visible
+      drift (character appears to float or sink relative to the other row)
+      is a FIX/REGENERATE
+
+**If facing direction is wrong:** prefer regenerating over manually
+mirroring the atlas. A horizontally-flipped atlas also flips any
+asymmetric details (hair part, scars, heraldry readability, weapon hand),
+so mirroring is not a safe shortcut — treat it the same as any other
+FIX/REGENERATE case.
 
 ---
 

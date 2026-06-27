@@ -1,79 +1,73 @@
-{
+﻿{
   "document_title": "21 - Implementation Checklist",
-  "version": "0.1.0",
-  "date": "2026-06-25",
-  "purpose": "Phase-by-phase checklist with tasks, deliverables, and quality gates. Each phase must be 100% complete before starting next phase.",
+  "version": "2.0.0",
+  "date": "2026-06-27",
   "phase_0_foundation": {
     "name": "Phase 0: Foundation",
-    "duration": "1-2 weeks",
-    "prerequisites": [
-      "All planning docs approved",
-      "Supabase project created",
-      "GitHub repo initialized"
-    ],
+    "duration": "1 week",
     "tasks": [
       {
         "id": "P0-01",
-        "task": "Initialize Next.js 15 project with TypeScript, Tailwind, App Router",
+        "task": "Setup Next.js with TypeScript",
         "owner": "AI",
         "status": "completed",
-        "deliverable": "Project builds without errors"
+        "deliverable": "App runs, basic page loads"
       },
       {
         "id": "P0-02",
-        "task": "Configure ESLint + Prettier + TypeScript strict mode",
-        "owner": "AI",
+        "task": "Configure Supabase (project, auth, database)",
+        "owner": "Maciek",
         "status": "completed",
-        "deliverable": "No lint errors, consistent formatting"
+        "deliverable": "Supabase connected, auth works"
       },
       {
         "id": "P0-03",
-        "task": "Setup GitHub Actions CI/CD (lint, typecheck, build)",
+        "task": "Create project structure (src/, components/, lib/, types/)",
         "owner": "AI",
-        "status": "pending",
-        "deliverable": "Green CI on push"
+        "status": "completed",
+        "deliverable": "Clean structure, proper esModuleInterop"
       },
       {
         "id": "P0-04",
-        "task": "Create Supabase project and configure auth",
-        "owner": "Maciek",
+        "task": "Setup Tailwind CSS and shadcn/ui",
+        "owner": "AI",
         "status": "completed",
-        "deliverable": "Supabase dashboard accessible"
+        "deliverable": "Components render correctly"
       },
       {
         "id": "P0-05",
-        "task": "Write database schema (all tables from ARCHITECTURE)",
+        "task": "Add basic types for game entities",
         "owner": "AI",
         "status": "completed",
-        "deliverable": "Schema applied to Supabase, no errors"
+        "deliverable": "Types defined and used"
       },
       {
         "id": "P0-06",
-        "task": "Setup Supabase client (browser + server)",
+        "task": "Setup Zustand stores",
         "owner": "AI",
         "status": "completed",
-        "deliverable": "Client connects, auth works"
+        "deliverable": "Stores created and functional"
       },
       {
         "id": "P0-07",
-        "task": "Configure Row Level Security policies",
+        "task": "Configure ESLint and Prettier",
         "owner": "AI",
-        "status": "in_progress",
-        "deliverable": "RLS tested, no unauthorized access"
+        "status": "completed",
+        "deliverable": "Lint passes, format consistent"
       },
       {
         "id": "P0-08",
-        "task": "Create basic landing page",
+        "task": "Setup CI/CD pipeline (GitHub Actions)",
         "owner": "AI",
         "status": "completed",
-        "deliverable": "Page renders, responsive"
+        "deliverable": "CI runs on push, tests pass"
       },
       {
         "id": "P0-09",
-        "task": "Configure PWA (manifest, service worker, icons)",
+        "task": "Create placeholder pages (home, login, register, dashboard)",
         "owner": "AI",
-        "status": "pending",
-        "deliverable": "PWA installable on mobile"
+        "status": "completed",
+        "deliverable": "Pages render, navigation works"
       },
       {
         "id": "P0-10",
@@ -93,7 +87,7 @@
         "id": "P0-12",
         "task": "Update documentation with actual setup steps",
         "owner": "AI",
-        "status": "in_progress",
+        "status": "completed",
         "deliverable": "README.md accurate"
       }
     ],
@@ -218,6 +212,27 @@
         "owner": "AI",
         "status": "pending",
         "deliverable": "Lighthouse report"
+      },
+      {
+        "id": "P1-006",
+        "task": "Stworzyc centralny logger (src/lib/logger.ts) z poziomami DEBUG/INFO/WARN/ERROR, konfiguracja przez NEXT_PUBLIC_LOG_LEVEL, placeholder email na /api/logs dla bledow ERROR",
+        "owner": "AI",
+        "status": "completed",
+        "deliverable": "src/lib/logger.ts + src/app/api/logs/route.ts, dokumentacja zaktualizowana"
+      },
+      {
+        "id": "P1-17",
+        "task": "Implement security (rate limiting, security headers, input validation)",
+        "owner": "AI",
+        "status": "completed",
+        "deliverable": "src/lib/rate-limit.ts, security headers in next.config.ts, validation middleware"
+      },
+      {
+        "id": "P1-18",
+        "task": "Add pagination to all list API endpoints (limit/offset pattern)",
+        "owner": "AI",
+        "status": "completed",
+        "deliverable": "Pagination on leaderboard, quests, achievements, shops, inventory, mail, units"
       }
     ],
     "quality_gate": "Player can register, battle, level up, save progress, admin works, tests pass, Lighthouse >80"
@@ -533,8 +548,8 @@
     "quality_gate": "Retained player base, positive feedback, revenue growth"
   },
   "castle_system": [
-    "Utw�rz tabel� castle_state",
-    "Utw�rz tabel� castle_buildings",
+    "Utworz tabele castle_state",
+    "Utworz tabele castle_buildings",
     "API GET /api/castle/state",
     "API POST /api/castle/upgrade",
     "Frontend panel zamku",
@@ -542,8 +557,8 @@
     "Testy jednostkowe systemu zamku"
   ],
   "marketplace": [
-    "Utw�rz tabel� marketplace_listings",
-    "Utw�rz tabel� marketplace_transactions",
+    "Utworz tabele marketplace_listings",
+    "Utworz tabele marketplace_transactions",
     "API GET /api/marketplace/listings",
     "API POST /api/marketplace/buy",
     "API POST /api/marketplace/sell",
@@ -552,25 +567,26 @@
     "Testy marketplace"
   ],
   "events": [
-    "Utw�rz tabel� event_log",
+    "Utworz tabele event_log",
     "API GET /api/events/active",
     "API POST /api/events/choose",
     "API POST /api/events/claim",
     "Frontend modal eventu",
-    "4 scenariusze event�w",
-    "Testy event�w"
+    "4 scenariusze eventow",
+    "Testy eventow"
   ],
   "advanced_combat": [
     "System formacji 3x3",
     "Tryb treningu",
-    "Wypo�yczalnia jednostek",
+    "Wypozyczalnia jednostek",
     "System NG+",
     "Testy formacji i treningu"
   ],
   "equipment_and_cosmetics": [
     "System run (slot od 30 poziomu)",
     "Sklep z skinami",
-    "System ulepsze� ekwipunku",
+    "System ulepszen ekwipunku",
     "Testy ekwipunku"
   ]
 }
+

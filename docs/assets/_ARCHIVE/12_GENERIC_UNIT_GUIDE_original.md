@@ -1,4 +1,4 @@
-# 13 – Generic Unit Guide
+﻿# 13 – Generic Unit Guide
 
 > **WAŻNE: "3 warianty twarzy" = 3 różne wyglądy twarzy** (facial variants), a NIE stany (idle/attack/hit) ani emocje.
 > Generujesz 3 razy ten sam prompt z innym seedem. To daje 3 różne twarze, ale identyczny strój, broń i motyw frakcji.

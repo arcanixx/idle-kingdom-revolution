@@ -1,4 +1,4 @@
-# 07 – Environment Effects
+﻿# 07 – Environment Effects
 
 > Pogoda, efekty specjalne, eventy na mapie, elementy planszy.
 > Rozmiar: różny (zwykle 256×256 do 512×512)

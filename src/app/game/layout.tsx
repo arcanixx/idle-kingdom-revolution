@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ThemeToggle } from "@/components/theme-toggle";
@@ -41,4 +41,5 @@ export default function GameLayout({ children }: { children: React.ReactNode }) 
     </div>
   );
 }
+
 

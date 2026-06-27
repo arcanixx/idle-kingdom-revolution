@@ -1,4 +1,4 @@
-# HERALDRY SYSTEM
+﻿# HERALDRY SYSTEM
 
 Project:
 Idle Kingdom Revolution

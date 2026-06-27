@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { Skeleton } from "@/components/skeleton";
 import { useUser } from "@/hooks/use-user";import type { MiningStatus } from "@/types/game";
-
+import { logger } from "@/lib/logger";
 
 export default function MiningPage() {
   const { user } = useUser();
@@ -24,14 +24,20 @@ export default function MiningPage() {
       const d = await r.json();
       setStatus(d);
       if (d?.remainingSeconds) setTimer(d.remainingSeconds);
-    } catch (e) { console.error(e); }
+    } catch (err) {
+      logger.error("Failed to fetch mining status", "app/game/mining/page.tsx", "fetchStatus", err);
+    }
     setLoading(false);
   }
 
   async function startExpedition() {
     setBusy(true);
-    await fetch("/api/mining/expedition", { method: "POST" });
-    await fetchStatus();
+    try {
+      await fetch("/api/mining/expedition", { method: "POST", headers: { "Content-Type": "application/json" }, body: "{}" });
+      await fetchStatus();
+    } catch (err) {
+      logger.error("Failed to start mining expedition", "app/game/mining/page.tsx", "startExpedition", err);
+    }
     setBusy(false);
   }
 
@@ -39,7 +45,7 @@ export default function MiningPage() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold">â›Ź Deep Mine</h1>
+      <h1 className="text-2xl font-bold">Deep Mine</h1>
       {loading ? (
         <div>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -91,3 +97,5 @@ export default function MiningPage() {
     </div>
   );
 }
+
+

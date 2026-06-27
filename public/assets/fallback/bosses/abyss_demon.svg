@@ -1,0 +1,19 @@
+<svg viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="abyss-demon-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#7C2D12;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#DC2626;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#991B1B;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <ellipse cx="64" cy="90" rx="60" ry="45" fill="url(#abyss-demon-grad)" stroke="#1E293B" stroke-width="4"/>
+  <circle cx="35" cy="45" r="18" fill="black" stroke="#DC2626" stroke-width="3"/>
+  <circle cx="93" cy="45" r="18" fill="black" stroke="#DC2626" stroke-width="3"/>
+  <ellipse cx="64" cy="75" rx="15" ry="12" fill="black"/>
+  <path d="M25 25 L40 45 L45 35 L30 15 Z" fill="black" stroke="#DC2626" stroke-width="3"/>
+  <path d="M103 25 L88 45 L83 35 L98 15 Z" fill="black" stroke="#DC2626" stroke-width="3"/>
+  <path d="M15 75 L35 65 L40 80 L20 90 Z" fill="black" stroke="#DC2626" stroke-width="3"/>
+  <path d="M113 75 L93 65 L88 80 L108 90 Z" fill="black" stroke="#DC2626" stroke-width="3"/>
+  <circle cx="64" cy="105" r="10" fill="black"/>
+  <path d="M54 105 L74 105 M64 95 L64 115" stroke="#DC2626" stroke-width="3"/>
+</svg>

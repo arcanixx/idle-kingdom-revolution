@@ -4,35 +4,38 @@ Project:
 Idle Kingdom Revolution
 
 Status:
-Template. Copy this file, rename to `{FACTION}_{CLASS}_V1.md`, fill in every
-`{placeholder}`, then run it as a PoC the same way `HUMAN_WARRIOR_V3.md` was
-run. Do not delete bracketed sections — they exist so nothing required gets
-skipped.
+Template. Copy this file, rename to `{RACE}_{FACTION}_{CLASS}_V1.md` (or
+`{RACE}_{CLASS}_V1.md` if the Race only has one Faction so far — see
+`00_FOUNDATION/00_ART_DIRECTION.md` → RACE, FACTION, AND CLASS), fill in
+every `{placeholder}`, then run it as a PoC the same way `HUMAN_WARRIOR_V3.md`
+was run. Do not delete bracketed sections — they exist so nothing required
+gets skipped.
 
 Purpose:
 Reusable skeleton for producing a new Hero rarity atlas PoC. Built from the
-modules defined in `01_PRODUCTION_SYSTEM/`. Read those four files before
+modules defined in `01_PRODUCTION_SYSTEM/`. Read those five files before
 filling this in if you haven't already:
 
 - `01_PRODUCTION_SYSTEM/00_SPRITE_ATLAS_CONTRACT.md`
 - `01_PRODUCTION_SYSTEM/01_REFERENCE_FRAME_SYSTEM.md`
 - `01_PRODUCTION_SYSTEM/02_PROMPT_MODULE_SYSTEM.md`
 - `01_PRODUCTION_SYSTEM/03_HERO_RARITY_ATLAS_FACTORY.md`
+- `00_FOUNDATION/00_ART_DIRECTION.md` (especially RACE, FACTION, AND CLASS)
 
 ---
 
 ## HOW TO USE THIS TEMPLATE
 
-1. Copy this file as `02_POC/{FACTION}_{CLASS}_V1.md`.
+1. Copy this file as `02_POC/{RACE}_{FACTION}_{CLASS}_V1.md`.
 2. Fill in the INPUT TABLE below first — it forces every required decision
-   (faction, class, gender, body type, age, weapon, silhouette locks) before
-   you touch the prompt itself.
+   (race, faction, class, gender, body type, age, weapon, silhouette locks)
+   before you touch the prompt itself.
 3. Build the FINAL PROMPT section using the filled INPUT TABLE. Keep every
    module from `02_PROMPT_MODULE_SYSTEM.md` in the prescribed order.
 4. Run it. Record results in a REVIEW NOTES section at the bottom (copy the
    style from `HUMAN_WARRIOR_V3.md`).
 5. If accepted, update `05_REFERENCE/01_ASSET_CHECKLIST.md` and the
-   REFERENCE LOCK table for the relevant faction+class+gender.
+   REFERENCE LOCK table for the relevant race+faction+class+gender.
 
 **Golden rule when testing a new class against an already-accepted PoC
 (e.g. Warrior → Mage):** change ONLY what the new class requires (weapon,
@@ -42,21 +45,30 @@ negative prompt — stays identical. If something unrelated also had to change
 to make the new class work, that is a signal the framework has a gap, not
 that the class is special. Log it in REVIEW NOTES either way.
 
+**Same golden rule applies to a new Race on an already-accepted Faction+Class**
+(e.g. Human Fire Cult Mage → Orc Fire Cult Mage): change ONLY what the Race
+requires (body proportions, height offset, build, age range — see
+`00_FOUNDATION/00_ART_DIRECTION.md` → Race Proportion Notes). Faction colors,
+heraldic symbol, and decoration language stay identical; only the body
+wearing them changes.
+
 ---
 
 ## INPUT TABLE (fill this in completely before writing the prompt)
 
 ```text
-faction:
+race:                       # Human | Elf | Orc | Undead | Demon | Celestial — controls body/proportions/age, see 00_FOUNDATION/00_ART_DIRECTION.md Race Proportion Notes
+faction:                    # e.g. "Lion Kingdom" — controls colors/heraldry/decoration, see 00_FOUNDATION/00_ART_DIRECTION.md FACTION DESIGN GUIDE
+faction_scale:              # "Hero" (full asset matrix) | "Enemy/Lore" (reduced matrix) — see FACTION DESIGN GUIDE -> Faction scope
 class:
 gender:                    # Male | Female — generate ONE atlas per gender, see GENDER AND BODY TYPE MODULE
-body_type:                 # e.g. athletic, slender, heavy-set — see 00_FOUNDATION/00_ART_DIRECTION.md class table
-apparent_age_range:        # e.g. 30-60 for Mage — see 00_FOUNDATION/00_ART_DIRECTION.md Age Diversity table
+body_type:                 # e.g. athletic, slender, heavy-set — start from 00_FOUNDATION/00_ART_DIRECTION.md Race Proportion Notes for this race, then apply the class table in 02_PROMPT_MODULE_SYSTEM.md on top
+apparent_age_range:        # e.g. 30-60 for Mage — see 00_FOUNDATION/00_ART_DIRECTION.md Age Diversity table, adjusted for this race's age modifier
 primary_symbol:            # faction heraldic emblem, e.g. "standing heraldic lion"
 secondary_symbol:          # optional accent symbol, e.g. crown / sword
 main_weapon:                # e.g. staff, longsword, bow
 offhand_or_focus:          # e.g. spellbook, kite shield, quiver
-base_colors:                # 2-3 dominant colors
+base_colors:                # 2-3 dominant colors (this is the FACTION's colors, not necessarily the race's default)
 rarity_theme:                # e.g. "royal -> celestial -> cosmic"
 forbidden_shapes:           # shapes that must NEVER appear (e.g. round shield, halo)
 weapon_silhouette_lock:    # one-line description of what must never change about main_weapon's shape
@@ -209,6 +221,14 @@ Do NOT reinterpret the character.
 Do NOT rescale the character.
 
 Only equipment and magical effects evolve.
+
+------------------------------------------------------------
+
+RACE
+Race: {race}
+
+Race body proportions, height offset, build, and apparent age range follow
+this race's defaults and are never redesigned by Faction or rarity.
 
 ------------------------------------------------------------
 
@@ -436,6 +456,7 @@ Before finishing verify:
 - identical Reference Frame
 - identical hero size
 - identical face
+- identical race / body proportions
 - identical gender presentation
 - identical body type and build
 - identical apparent age
@@ -451,6 +472,9 @@ Before finishing verify:
 - {offhand_or_focus} visible (if applicable)
 - no overlapping sprite slots
 - no cropped effects
+- all six heroes face the same direction (see Gate 6 in
+  03_PIPELINE/00_QA_ACCEPTANCE_GATES.md — facing direction is not always
+  honored consistently by the generator, check explicitly)
 
 ------------------------------------------------------------
 
@@ -512,9 +536,15 @@ different body type
 
 different age
 
+different race proportions
+
 different armor silhouette
 
 different pose
+
+facing right
+
+mirrored pose
 
 environment
 
@@ -532,11 +562,19 @@ Copy the structure from `HUMAN_WARRIOR_V3.md` → REVIEW NOTES. At minimum,
 record:
 
 - whether all six Sprite Slots were slice-safe
-- whether the same hero model (face, gender, body type, age) was preserved
+- whether the same hero model (face, gender, body type, age, race
+  proportions) was preserved
 - whether the second row kept the same scale and baseline as the first row
+- whether all six heroes faced the same direction as specified in POSE
+  (see Gate 6 in `03_PIPELINE/00_QA_ACCEPTANCE_GATES.md`)
 - whether {primary_symbol} remained recognizable and identically posed
 - whether the {weapon_silhouette_lock} held across all six rarities
 - whether effects enriched the asset without resizing the character
+- if this PoC introduces a new Race on an existing Faction+Class (or vice
+  versa), whether the Race-level body differences (height, build, age) came
+  through correctly while Faction colors/heraldry stayed identical to the
+  reference Faction
 - **framework-gap log:** anything that had to be changed outside the
-  INPUT TABLE values to make this class work. If nothing did, write
-  "No framework changes needed — confirms framework generalizes."
+  INPUT TABLE values to make this class/race/faction combination work. If
+  nothing did, write "No framework changes needed — confirms framework
+  generalizes."

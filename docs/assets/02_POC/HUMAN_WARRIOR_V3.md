@@ -9,6 +9,16 @@ Accepted Proof of Concept candidate for the production sprite atlas prompt syste
 Purpose:
 Reusable test prompt for validating rarity progression, Reference Frame consistency, Sprite Slot alignment, heraldry preservation, and slice-safe output.
 
+> **Race/Faction terminology note (added 2026-06-27, v2.0 of the framework):**
+> this PoC predates the Race/Faction split. Wherever the FINAL PROMPT below
+> says `Faction: Lion Kingdom`, read it as **Race: Human, Faction: Lion
+> Kingdom** under the current model (see
+> `00_FOUNDATION/00_ART_DIRECTION.md` → RACE, FACTION, AND CLASS). The
+> FINAL PROMPT text itself is intentionally left unchanged since it is
+> accepted and working — do not edit it to retrofit the new terminology.
+> Any *new* PoC copied from `02_POC/_TEMPLATE.md` should use the split
+> `race:` / `faction:` fields from the start.
+
 ---
 
 ## FINAL PROMPT
@@ -529,3 +539,22 @@ The expected review criteria are not only visual appeal, but also:
 - whether the lion emblem remains a full standing heraldic lion
 - whether the chest emblem remains visible in Legendary and Mythic
 - whether effects enrich the asset without resizing the character
+
+### Actual review (2026-06-27, see `docs/HUMAN_WARRIOR_v3.png`)
+
+**Result: PASS**, with two known generator-level issues to track via QA
+(not documentation defects — the prompt already says the right thing in
+both cases):
+
+- **Row 2 baseline drift:** row 2 (Epic/Legendary/Mythic) sits very slightly
+  higher/smaller in its slot than row 1 (Common/Uncommon/Rare). Minor, does
+  not affect usability per project owner. Falls under the existing PASS
+  allowance ("tiny non-critical particle/material differences") in this
+  document's PASS/FIX/REJECT section, but is now also tracked as Gate 6
+  (facing + alignment spot-check) below so it's checked consistently on
+  every future atlas, not just remembered ad hoc.
+- **Facing direction:** confirmed working correctly in this Warrior atlas
+  (`Facing LEFT` honored). When the same instruction was reused verbatim for
+  `02_POC/HUMAN_MAGE_V1.md`, the model generated the Mage facing RIGHT
+  instead — i.e. the same prompt wording does not guarantee the same facing
+  result across different generations/classes. See Gate 6 below.

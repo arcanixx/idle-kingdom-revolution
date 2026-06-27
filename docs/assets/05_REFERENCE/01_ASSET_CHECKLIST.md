@@ -1,4 +1,4 @@
-# Asset Checklist
+﻿# Asset Checklist
 
 > Stan na: 2026-06-24. Folder `public/assets/` jeszcze nie istnieje – wszystko poniżej jest do zrobienia.
 > Odznaczaj `[x]` po wygenerowaniu, obróbce (rembg + WebP) i wrzuceniu do `public/assets/{kategoria}/`.

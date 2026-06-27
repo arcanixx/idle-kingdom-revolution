@@ -54,7 +54,7 @@
 - Before generating rarity variants, the BASE model must be approved.
 - Generate 4-8 BASE variants of the same faction+class.
 - Select the best candidate.
-- Update PROMPT_CONSTRUCTOR.md REFERENCE LOCK to Approved: YES.
+- Update `05_REFERENCE/01_ASSET_CHECKLIST.md` REFERENCE LOCK to Approved: YES.
 - The approved BASE becomes the **Style Anchor** for all future rarity variants.
 
 **KROK 3: Przekazujesz mi obrazki**
@@ -122,7 +122,7 @@ For **NPC CHARACTERS** (unique story characters):
 - Save the approved result as a new Style Anchor
 - Lock face for this character only
 
-See 00_ART_DIRECTION.md → CHARACTER IDENTITY TYPES for full rules.
+See `00_FOUNDATION/00_ART_DIRECTION.md` → CHARACTER IDENTITY TYPES for full rules.
 
 ---
 
@@ -180,7 +180,7 @@ sa realizowane przez **overlaye i VFX**, a nie jako osobne warianty sprite'ow.
 2. Kazdy unit posiada tylko 3 stany bojowe: idle, ttack, hit.
 3. Wszystkie efekty (krwawienie, ogien, lod, trucizna, smierc, nekromancja) to overlay nakladany w kodzie/shadere.
 4. Osobne assety dla Zombie, Frozen, Burned itp. sa **zabronione** -- uzywamy overlay'i.
-5. Szczegolowa dokumentacja: [11_COMBAT_VISUAL_STATES.md](./11_COMBAT_VISUAL_STATES.md)
+5. Szczegolowa dokumentacja: `05_REFERENCE/02_COMBAT_VISUAL_STATES.md`
 
 ### Konsekwencje dla pipeline
 - Nie generujesz zadnych dodatkowych sprite'ow dla stanow bojowych.
@@ -189,7 +189,7 @@ sa realizowane przez **overlaye i VFX**, a nie jako osobne warianty sprite'ow.
 ## Placeholder Strategy (dev/test)
 
 > Zgodnie z zaleceniem – nie używamy customowych SVG jako placeholderów.
-> Szczegóły: [13_PLACEHOLDER_STRATEGY.md](./13_PLACEHOLDER_STRATEGY.md)
+> Szczegóły: `04_CATEGORIES/08_PLACEHOLDER_STRATEGY.md`
 
 ### Zasady
 
@@ -209,7 +209,7 @@ sa realizowane przez **overlaye i VFX**, a nie jako osobne warianty sprite'ow.
 - Placeholdery tekstowe są od razu rozpoznawalne jako "do zastąpienia".
 - SVG wygląda "gotowo" – ktoś może pomyśleć, że nie trzeba nic zmieniać.
 
-Źródło: [13_PLACEHOLDER_STRATEGY.md](./13_PLACEHOLDER_STRATEGY.md)
+Źródło: `04_CATEGORIES/08_PLACEHOLDER_STRATEGY.md`
 
 ---
 
@@ -234,12 +234,12 @@ Po zaakceptowaniu Human Warrior PoC v3, Hero rarity assets generujemy jako kompl
 
 Dokumenty bazowe:
 
-- [14_PRODUCTION_SPRITE_ATLAS_CONTRACT.md](./14_PRODUCTION_SPRITE_ATLAS_CONTRACT.md)
-- [15_GLOBAL_REFERENCE_FRAME_SYSTEM.md](./15_GLOBAL_REFERENCE_FRAME_SYSTEM.md)
-- [18_POC_ACCEPTANCE_AND_VISUAL_QA.md](./18_POC_ACCEPTANCE_AND_VISUAL_QA.md)
-- [19_ATLAS_TO_GAME_ASSET_PIPELINE.md](./19_ATLAS_TO_GAME_ASSET_PIPELINE.md)
-- [20_SPRITE_SLICING_SPEC.md](./20_SPRITE_SLICING_SPEC.md)
-- [21_HERO_RARITY_ATLAS_FACTORY.md](./21_HERO_RARITY_ATLAS_FACTORY.md)
+- `01_PRODUCTION_SYSTEM/00_SPRITE_ATLAS_CONTRACT.md`
+- `01_PRODUCTION_SYSTEM/01_REFERENCE_FRAME_SYSTEM.md`
+- `03_PIPELINE/00_QA_ACCEPTANCE_GATES.md`
+- `03_PIPELINE/01_ATLAS_TO_ASSET_PIPELINE.md`
+- `03_PIPELINE/02_SPRITE_SLICING_SPEC.md`
+- `01_PRODUCTION_SYSTEM/03_HERO_RARITY_ATLAS_FACTORY.md`
 
 Nowy skrócony przepływ:
 

@@ -1,4 +1,4 @@
-# PROJECT_AI_TOOLKIT.md – Narzędzia do projektowania świata i fabuły
+﻿# PROJECT_AI_TOOLKIT.md – Narzędzia do projektowania świata i fabuły
 
 > **Cel:** Zestaw gotowych "przepisów" (promptów i konfiguracji) dla pluginów AI na Perchance, które pomagają szybko i spójnie tworzyć zawartość do gry *Idle Kingdom Revolution*.
 >

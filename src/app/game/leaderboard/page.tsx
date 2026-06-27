@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { useUser } from "@/hooks/use-user";import type { LeaderboardEntry } from "@/types/game";
 import { Skeleton } from "@/components/skeleton";
-
+import { logger } from "@/lib/logger";
 
 export default function LeaderboardPage() {
   const { user } = useUser();
@@ -14,7 +14,7 @@ export default function LeaderboardPage() {
     fetch("/api/leaderboard?limit=50")
       .then(r => r.json())
       .then(d => { setEntries(d.leaderboard); setTotal(d.total); })
-      .catch(console.error)
+      .catch((err) => logger.warn("Failed to fetch leaderboard", "app/game/leaderboard/page.tsx", "useEffect", err))
       .finally(() => setLoading(false));
   }, []);
 

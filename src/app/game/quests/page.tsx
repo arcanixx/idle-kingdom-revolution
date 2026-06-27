@@ -2,8 +2,9 @@
 import { useState, useEffect } from "react";
 import { Skeleton } from "@/components/skeleton";
 import { useUser } from "@/hooks/use-user";import type { Quest, PlayerQuest } from "@/types/game";
+import { logger } from "@/lib/logger";
 
-
+export default function QuestsPage() {
   const { user, loading } = useUser();
   const [quests, setQuests] = useState<Quest[]>([]);
   const [questsLoading, setQuestsLoading] = useState(true);
@@ -19,6 +20,7 @@ import { useUser } from "@/hooks/use-user";import type { Quest, PlayerQuest } fr
           setQuests(d.quests);
           setMyQuests(new Map(d.myQuests.map((p: PlayerQuest) => [p.quest_id, p])));
         })
+        .catch((err) => logger.warn("Failed to fetch quests", "app/game/quests/page.tsx", "useEffect", err))
         .finally(() => setQuestsLoading(false));
     }
   }, [loading, user]);
@@ -35,7 +37,9 @@ import { useUser } from "@/hooks/use-user";import type { Quest, PlayerQuest } fr
       if (r.ok) {
         setMyQuests(new Map(myQuests).set(questId, { quest_id: questId, status: "claimed" }));
       }
-    } catch (e) {}
+    } catch (err) {
+      logger.error("Failed to claim quest", "app/game/quests/page.tsx", "claimQuest", err, { questId });
+    }
     setBusy(false);
   }
 
@@ -88,5 +92,4 @@ import { useUser } from "@/hooks/use-user";import type { Quest, PlayerQuest } fr
     </div>
   );
 }
-
 

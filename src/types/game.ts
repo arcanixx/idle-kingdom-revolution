@@ -21,7 +21,7 @@ export type BattleResult = "victory" | "defeat" | "retreat";
 export type Difficulty = "easy" | "normal" | "hard" | "brutal";
 
 export interface BattleField {
-  id: number; name: string; description: string; difficulty: number;
+  id: string; name: string; description: string; difficulty: number;
   wave_count: number; boss_wave: number; recommended_power: number;
   rewards: Record<string, number>; is_locked: boolean;
 }
@@ -78,3 +78,4 @@ export interface PlayerQuest {
 export interface LearnedPerk {
   tree_name: string; perk_name: string;
 }
+

@@ -1,4 +1,4 @@
-# 09 – Asset List Reference
+﻿# 09 – Asset List Reference
 
 > Pełna lista wszystkich assetów z podziałem na kategorie, ilości i fazy.
 

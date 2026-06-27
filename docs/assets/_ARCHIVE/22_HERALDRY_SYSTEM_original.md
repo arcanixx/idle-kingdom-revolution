@@ -1,4 +1,4 @@
-> **ARCHIVED 2026-06-27.** This file's content was split into two focused
+﻿> **ARCHIVED 2026-06-27.** This file's content was split into two focused
 > documents as part of the docs/assets/ restructure:
 >
 > - Faction heraldry (emblems, symbols) → `00_FOUNDATION/02_HERALDRY_SYSTEM.md`
