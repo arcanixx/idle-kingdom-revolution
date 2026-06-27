@@ -21,7 +21,8 @@ export default function LeaderboardPage() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Leaderboard</h1>
+              <nav className="text-sm text-muted-foreground mb-2 flex items-center gap-1"><a href="/dashboard" className="hover:text-foreground">Home</a><span>/</span><span className="text-foreground">Leaderboard</span></nav>
+<h1 className="text-2xl font-bold">Leaderboard</h1>
         <p className="text-sm text-muted-foreground">{total} players</p>
       </div>
       {loading ? (

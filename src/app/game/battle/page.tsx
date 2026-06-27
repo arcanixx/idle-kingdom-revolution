@@ -5,6 +5,7 @@ import type { BattleField } from "@/types/game";
 import { Skeleton } from "@/components/skeleton";
 import { UnitAvatar } from "@/components/UnitAvatar";
 import { logger } from "@/lib/logger";
+import { useToast } from "@/components/Toast";
 
 interface BattleResult {
   status: "active"|"victory"|"defeat";
@@ -32,6 +33,7 @@ export default function BattlePage() {
 
   const [result, setResult] = useState<BattleResult | null>(null);
   const [busy, setBusy] = useState(false);
+  const { toast } = useToast();
 
   async function doBattle() {
     setBusy(true); setResult(null);
@@ -44,6 +46,7 @@ export default function BattlePage() {
       const d = await r.json();
       if (!r.ok) throw new Error(d.error || "Battle failed");
       setResult(d);
+      toast(d.status === "victory" ? "Victory! " + d.goldGained + "g gained" : "Defeat - " + d.goldGained + "g gained", d.status === "victory" ? "success" : "error");
     } catch (e: any) {
       logger.error("Battle failed", "app/game/battle/page.tsx", "doBattle", e, { fieldId });
       setResult({ status: "defeat", currentWave: 0, totalWaves: 0, turn: 0, log: [e.message || "Error"], xpGained: 0, goldGained: 0, unitsSurvived: [] });

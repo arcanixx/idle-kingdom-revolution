@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { useUser } from "@/hooks/use-user";
 import { Skeleton } from "@/components/skeleton";
 import { logger } from "@/lib/logger";
+import { useToast } from "@/components/Toast";
 
 interface ShopItem {
   id: string; name: string; item_id: string; price_gold: number; price_gems: number;
@@ -14,6 +15,7 @@ export default function ShopPage() {
   const [items, setItems] = useState<ShopItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [buying, setBuying] = useState<string | null>(null);
+  const { toast } = useToast();
 
   useEffect(() => {
     if (!user) return;
@@ -34,7 +36,8 @@ export default function ShopPage() {
       });
       if (r.ok) {
         setItems(prev => prev.map(i => i.id === item.id ? { ...i, stock: i.stock - 1 } : i));
-      }
+        toast("Purchased " + item.name + "!", "success");
+      } else { const ed = await r.json().catch(() => ({})); toast(ed?.error || "Purchase failed", "error"); }
     } catch (err) {
       logger.error("Buy failed", "app/game/shop/page.tsx", "buy", err);
     }
@@ -50,7 +53,11 @@ export default function ShopPage() {
           {Array.from({length: 8}).map((_, i) => <Skeleton key={i} className="h-32 rounded-xl" />)}
         </div>
       ) : items.length === 0 ? (
-        <p className="text-muted-foreground text-center py-12">Shop is empty. Check back later!</p>
+        <div className="text-center py-16 space-y-3">
+          <div className="text-5xl opacity-30">🛒</div>
+          <p className="text-muted-foreground">Shop is empty</p>
+          <p className="text-sm text-muted-foreground/60">Check back later for new inventory.</p>
+        </div>
       ) : (
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {items.map(item => (

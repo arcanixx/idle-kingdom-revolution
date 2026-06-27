@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { Skeleton } from "@/components/skeleton";
 import { useUser } from "@/hooks/use-user";import type { Quest, PlayerQuest } from "@/types/game";
+import { useToast } from "@/components/Toast";
 import { logger } from "@/lib/logger";
 
 export default function QuestsPage() {
@@ -9,6 +10,7 @@ export default function QuestsPage() {
   const [quests, setQuests] = useState<Quest[]>([]);
   const [questsLoading, setQuestsLoading] = useState(true);
   const [myQuests, setMyQuests] = useState<Map<number, PlayerQuest>>(new Map());
+  const { toast } = useToast();
   const [busy, setBusy] = useState(false);
 
   useEffect(() => {
@@ -36,6 +38,10 @@ export default function QuestsPage() {
       const d = await r.json();
       if (r.ok) {
         setMyQuests(new Map(myQuests).set(questId, { quest_id: questId, status: "claimed" }));
+        toast("Quest claimed!", "success");
+      } else {
+        const ed = await r.json().catch(() => ({}));
+        toast(ed?.error || "Failed to claim quest", "error");
       }
     } catch (err) {
       logger.error("Failed to claim quest", "app/game/quests/page.tsx", "claimQuest", err, { questId });

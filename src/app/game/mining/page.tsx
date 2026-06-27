@@ -3,9 +3,11 @@ import { useState, useEffect } from "react";
 import { Skeleton } from "@/components/skeleton";
 import { useUser } from "@/hooks/use-user";import type { MiningStatus } from "@/types/game";
 import { logger } from "@/lib/logger";
+import { useToast } from "@/components/Toast";
 
 export default function MiningPage() {
   const { user } = useUser();
+  const { toast } = useToast();
   const [loading, setLoading] = useState(true);
   const [status, setStatus] = useState<MiningStatus | null>(null);
   const [busy, setBusy] = useState(false);
@@ -33,8 +35,8 @@ export default function MiningPage() {
   async function startExpedition() {
     setBusy(true);
     try {
-      await fetch("/api/mining/expedition", { method: "POST", headers: { "Content-Type": "application/json" }, body: "{}" });
-      await fetchStatus();
+      const er = await fetch("/api/mining/expedition", { method: "POST", headers: { "Content-Type": "application/json" }, body: "{}" });
+      if (er.ok) { toast("Expedition started!", "success"); await fetchStatus(); } else { const ed = await er.json().catch(() => ({})); toast(ed?.error || "Failed to start expedition", "error"); }
     } catch (err) {
       logger.error("Failed to start mining expedition", "app/game/mining/page.tsx", "startExpedition", err);
     }
@@ -45,7 +47,8 @@ export default function MiningPage() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold">Deep Mine</h1>
+            <nav className="text-sm text-muted-foreground mb-2 flex items-center gap-1"><a href="/dashboard" className="hover:text-foreground">Home</a><span>/</span><span className="text-foreground">Mining</span></nav>
+<h1 className="text-2xl font-bold">Deep Mine</h1>
       {loading ? (
         <div>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">

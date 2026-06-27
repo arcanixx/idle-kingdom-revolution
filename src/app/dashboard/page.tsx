@@ -4,6 +4,7 @@ import { useUser } from "@/hooks/use-user";
 import { createClient } from "@/lib/supabase/client";
 import { useState, useEffect } from "react";
 import { calculateLevel } from "@/lib/game/leveling";
+import { useToast } from "@/components/Toast";
 import { logger } from "@/lib/logger";
 
 interface PlayerData {
@@ -22,6 +23,7 @@ export default function DashboardPage() {
   const { user, loading } = useUser();
   const [player, setPlayer] = useState<PlayerData | null>(null);
   const [offlineEarnings, setOfflineEarnings] = useState<OfflineEarnings | null>(null);
+  const { toast } = useToast();
   const [claiming, setClaiming] = useState(false);
 
   const supabase = createClient();
@@ -48,6 +50,7 @@ export default function DashboardPage() {
       if (r.ok) {
         setOfflineEarnings(null);
         setPlayer(d.player);
+        toast("Earnings claimed!", "success");
       }
     } catch (err) {
       logger.error("Failed to claim offline earnings", "app/dashboard/page.tsx", "claimEarnings", err);

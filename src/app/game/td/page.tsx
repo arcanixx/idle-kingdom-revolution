@@ -15,7 +15,8 @@ export default function TowerDefensePage() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold">Tower Defense</h1>
+            <nav className="text-sm text-muted-foreground mb-2 flex items-center gap-1"><a href="/dashboard" className="hover:text-foreground">Home</a><span>/</span><span className="text-foreground">Td</span></nav>
+<h1 className="text-2xl font-bold">Tower Defense</h1>
       {loading ? (
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">{[1,2,3,4].map(i => <Skeleton key={i} className="h-24" />)}</div>
       ) : td ? (

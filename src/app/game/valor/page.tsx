@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { Skeleton } from "@/components/skeleton";
 import { useUser } from "@/hooks/use-user";import { TREES } from "@/lib/game/valor-trees";import type { TreeDefinition, PerkDefinition } from "@/lib/game/valor-trees";import type { LearnedPerk } from "@/types/game";
+import { useToast } from "@/components/Toast";
 import { logger } from "@/lib/logger";
 
 export default function ValorPage() {
@@ -9,6 +10,7 @@ export default function ValorPage() {
   const [valorLoading, setValorLoading] = useState(true);
   const [valor, setValor] = useState(0);
   const [learned, setLearned] = useState<Set<string>>(new Set());
+  const { toast } = useToast();
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [activeTree, setActiveTree] = useState("combat_mastery");
@@ -40,9 +42,11 @@ export default function ValorPage() {
       if (!r.ok) throw new Error(d.error || "Failed");
       setValor(d.valor);
       setLearned(new Set(learned).add(learnedKey(treeName, perkName)));
+      toast(perkName + " learned!", "success");
     } catch (e: any) {
       logger.error("Failed to learn perk", "app/game/valor/page.tsx", "learnPerk", e, { treeName, perkName, cost });
       setError(e.message);
+      toast(e.message, "error");
     }
     setBusy(false);
   }
@@ -67,7 +71,8 @@ export default function ValorPage() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Valor Skill Trees</h1>
+              <nav className="text-sm text-muted-foreground mb-2 flex items-center gap-1"><a href="/dashboard" className="hover:text-foreground">Home</a><span>/</span><span className="text-foreground">Valor</span></nav>
+<h1 className="text-2xl font-bold">Valor Skill Trees</h1>
         <p className="text-lg font-semibold text-red-600">{valor} Valor</p>
       </div>
       {error && <div className="rounded-lg border bg-red-50/50 p-3 text-red-600 text-sm">{error}</div>}

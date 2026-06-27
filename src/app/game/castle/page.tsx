@@ -17,7 +17,8 @@ export default function CastlePage() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold">Castle</h1>
+            <nav className="text-sm text-muted-foreground mb-2 flex items-center gap-1"><a href="/dashboard" className="hover:text-foreground">Home</a><span>/</span><span className="text-foreground">Castle</span></nav>
+<h1 className="text-2xl font-bold">Castle</h1>
       {loading ? (
         <div className="space-y-4">{[1,2,3].map(i => <Skeleton key={i} className="h-24" />)}</div>
       ) : castle ? (

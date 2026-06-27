@@ -16,7 +16,7 @@ export const POST = async (request: NextRequest) =>
       const { data: player } = await supabase.from("players").select("id, gold, gems").eq("user_id", user.id).maybeSingle();
       if (!player) return errorResponse("Player not found", 404);
 
-      const { data: shopItem, error: siErr } = await supabase.from("shop_items").select("*, game_items(name, item_type)").eq("item_id", itemId).single();
+      const { data: shopItem, error: siErr } = await supabase.from("shop_items").select("*, game_items(name, item_type)").eq("item_id", itemId).maybeSingle();
       if (siErr || !shopItem) return errorResponse("Item not found in shop", 404);
 
       const costGold = (shopItem.price_gold || 0) * quantity;
