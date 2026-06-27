@@ -1,4 +1,4 @@
-{
+﻿{
   "document_title": "01b - Architecture Supplement: Detailed Decisions",
   "version": "0.1.0",
   "date": "2026-06-23",
@@ -86,9 +86,9 @@
     },
     "docs_structure": {
       "docs/plan/": "Planning documents (JSON, this phase)",
-      "docs/design/": "UI/UX designs, mockups",
+      "docs/assets/00_FOUNDATION/": "Art direction, style bible, heraldry (replaces old docs/design/)",
       "docs/api/": "API documentation",
-      "docs/assets/": "Asset guidelines, AI prompts"
+      "docs/assets/": "Asset production system, PoC prompts, pipeline, categories, reference (living documentation)"
     }
   }
 }

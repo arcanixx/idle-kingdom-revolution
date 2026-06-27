@@ -1,4 +1,4 @@
-{
+ï»¿{
   "document_title": "24 - PvP, Rankings, Achievements & Valor System",
   "version": "0.1.0",
   "date": "2026-06-23",
@@ -497,33 +497,33 @@
     }
   },
   "event_rankings": {
-    "description": "Gracze zdobywaj¹ punkty za udzia³ w eventach.",
+    "description": "Gracze zdobywajï¿½ punkty za udziaï¿½ w eventach.",
     "points": {
-      "udzia³": 10,
-      "wybór_w³aœciwej_opcji": 25,
-      "ukoñczenie_eventu": 50
+      "udziaï¿½": 10,
+      "wybï¿½r_wï¿½aï¿½ciwej_opcji": 25,
+      "ukoï¿½czenie_eventu": 50
     },
-    "reset": "Comiesiêczny reset"
+    "reset": "Comiesiï¿½czny reset"
   },
   "castle_achievements": [
     "Zbuduj wszystkie budynki (poziom 5)",
-    "Osi¹gnij poziom zamku 20",
-    "Zbierz 10000 z³ota z zamku",
+    "Osiï¿½gnij poziom zamku 20",
+    "Zbierz 10000 zï¿½ota z zamku",
     "Ulepsz Koszary do poziomu 15",
-    "Odblokuj siatkê 4x4"
+    "Odblokuj siatkï¿½ 4x4"
   ],
   "rental_achievements": [
-    "Wypo¿ycz 10 jednostek",
-    "Wygraj 50 walk z wypo¿yczonymi jednostkami",
-    "Wypo¿ycz jednostkê na 5 walk"
+    "Wypoï¿½ycz 10 jednostek",
+    "Wygraj 50 walk z wypoï¿½yczonymi jednostkami",
+    "Wypoï¿½ycz jednostkï¿½ na 5 walk"
   ],
   "ng_plus_achievements": [
-    "Ukoñcz tryb NG+",
-    "Pokonaj 100 wrogów w NG+",
-    "Zdob¹dŸ 5 skinów NG+"
+    "Ukoï¿½cz tryb NG+",
+    "Pokonaj 100 wrogï¿½w w NG+",
+    "Zdobï¿½dï¿½ 5 skinï¿½w NG+"
   ],
   "difficulty_rankings": {
-    "Easy": "x1.0 mno¿nik punktów",
+    "Easy": "x1.0 mnoï¿½nik punktï¿½w",
     "Normal": "x1.5",
     "Hard": "x2.0",
     "Hell": "x3.0"

@@ -1,4 +1,5 @@
-import type { Unit, UnitClass, BattleField } from "@/types/game";
+﻿import type { Unit, UnitClass, BattleField } from "@/types/game";
+import { SeededRNG } from "@/lib/game/rng";
 
 export interface CombatUnit {
   id: string;
@@ -19,7 +20,7 @@ export interface CombatUnit {
 }
 
 export interface BattleState {
-  fieldId: number;
+  fieldId: string;
   currentWave: number;
   totalWaves: number;
   turn: number;
@@ -28,8 +29,8 @@ export interface BattleState {
   log: string[];
   status: "active"|"victory"|"defeat";
   rewards: { gold: number; xp: number; };
+  rng: SeededRNG;
 }
-
 
 function createEnemyTemplate(wave: number, index: number): { name: string; class: UnitClass; hp: number; attack: number; defense: number; speed: number; } {
   const scaler = 1 + wave * 0.15;
@@ -44,7 +45,8 @@ function createEnemyTemplate(wave: number, index: number): { name: string; class
   return { ...templates[index % templates.length], hp: Math.floor(templates[index % templates.length].hp * scaler), attack: Math.floor(templates[index % templates.length].attack * scaler), defense: Math.floor(templates[index % templates.length].defense * scaler) };
 }
 
-export function startBattle(field: BattleField, playerUnits: Unit[], formation: Record<"front"|"back", (any | null)[]>): BattleState {
+export function startBattle(field: BattleField, playerUnits: Unit[], formation: Record<"front"|"back", (any | null)[]>, seed?: string): BattleState {
+  const rng = new SeededRNG(seed || (Date.now().toString() + Math.random().toString()));
   const combatUnits: CombatUnit[] = [];
   let idx = 0;
   for (const row of ["front","back"] as const) {
@@ -83,6 +85,7 @@ export function startBattle(field: BattleField, playerUnits: Unit[], formation: 
     log: ["Battle begins!"],
     status: "active",
     rewards: { gold: field.rewards?.gold || 50, xp: field.rewards?.xp || 30 },
+    rng,
   };
   spawnWave(state, 1);
   return state;
@@ -123,11 +126,11 @@ export function processTick(state: BattleState): void {
   state.turn++;
   const allUnits = [...state.playerUnits.filter(u => u.isAlive), ...state.enemyUnits.filter(u => u.isAlive)];
   for (const unit of allUnits) {
-    if (Math.random() * 100 > unit.speed * 0.3 + 10) continue;
+    if (state.rng.next() * 100 > unit.speed * 0.3 + 10) continue;
     const targets = unit.isEnemy ? state.playerUnits.filter(u => u.isAlive) : state.enemyUnits.filter(u => u.isAlive);
     if (targets.length === 0) continue;
-    const target = targets[Math.floor(Math.random() * targets.length)];
-    const damage = Math.max(1, Math.floor(Math.random() * (unit.attack * 0.8)) + Math.floor(unit.attack * 0.2) - Math.floor(target.defense * 0.5));
+    const target = targets[Math.floor(state.rng.next() * targets.length)];
+    const damage = Math.max(1, Math.floor(state.rng.next() * (unit.attack * 0.8)) + Math.floor(unit.attack * 0.2) - Math.floor(target.defense * 0.5));
     target.hp -= damage;
     if (!target.isAlive && target.hp <= 0) {
       target.isAlive = false;

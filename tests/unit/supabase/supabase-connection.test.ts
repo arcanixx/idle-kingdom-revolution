@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest';
+﻿import { describe, it, expect } from 'vitest';
 import { createClient } from '@supabase/supabase-js';
 describe('Supabase Connection', () => {
   it('SUPABASE_URL set', () => expect(process.env.NEXT_PUBLIC_SUPABASE_URL).toBeTruthy());

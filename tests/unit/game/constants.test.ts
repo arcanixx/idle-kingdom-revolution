@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest';
+﻿import { describe, it, expect } from 'vitest';
 import { BATTLE_CONFIG, BATTLE_MESSAGES } from '../../../src/lib/game/constants';
 describe('Game Constants', () => {
   it('BATTLE_CONFIG has wave scaling', () => {

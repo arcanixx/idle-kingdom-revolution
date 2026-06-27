@@ -1,8 +1,11 @@
-"use client";
+﻿"use client";
 import { useState, useEffect } from "react";
 import { Skeleton } from "@/components/skeleton";
 import { useGameStore } from "@/stores/game-store";
 import { useUser } from "@/hooks/use-user";
+import { UnitAvatar } from "@/components/UnitAvatar";
+import { logger } from "@/lib/logger";
+import { useToast } from "@/components/Toast";
 
 interface ArmyUnit {
   id: string; unit_id: string; name: string; class: string;
@@ -36,6 +39,7 @@ const [formation, setFormation] = useState<FormationState>({ front: [null, null,
 const [selectedId, setSelectedId] = useState<string | null>(null);
 const [loading, setLoading] = useState(true);
 const [saving, setSaving] = useState(false);
+  const { toast } = useToast();
 
   useEffect(() => { setUnits(storeUnits); setLoading(!storeLoaded); }, [storeUnits, storeLoaded]);
 
@@ -50,7 +54,12 @@ const [saving, setSaving] = useState(false);
         if (cell) f.push({ unit_id: cell.unit_id, row: rowKey === "front" ? 0 : 1, col });
       }
     }
-    await fetch("/api/player/formation", { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ formations: f }) });
+    try {
+      const r = await fetch("/api/player/formation", { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ formations: f }) });
+      if (!r.ok) { logger.warn("Save formation returned error", "app/game/army/page.tsx", "saveFormation", { status: r.status }); toast("Failed to save formation", "error"); } else { toast("Formation saved!", "success"); try { await useGameStore.getState().fetchUnits(); await useGameStore.getState().fetchFormation(); } catch {} }
+    } catch (err) {
+      logger.error("Failed to save formation", "app/game/army/page.tsx", "saveFormation", err);
+    }
     setSaving(false);
   }
 
@@ -71,7 +80,8 @@ const [saving, setSaving] = useState(false);
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold">🛡 Army</h1>
+                <nav className="text-sm text-muted-foreground mb-2 flex items-center gap-1"><a href="/dashboard" className="hover:text-foreground">Home</a><span>/</span><span className="text-foreground">Army</span></nav>
+<h1 className="text-2xl font-bold">Army</h1>
           <p className="text-sm text-muted-foreground">Power: {totalPower.toLocaleString()} | Units: {units.length}</p>
         </div>
         <button onClick={saveFormation} disabled={saving} className="px-4 py-2 bg-primary text-primary-foreground rounded-lg text-sm font-medium hover:opacity-90 disabled:opacity-50">
@@ -90,6 +100,7 @@ const [saving, setSaving] = useState(false);
                   <div key={col} onClick={() => cell ? remove(cell.row, col) : null} className={"aspect-square rounded-lg border-2 flex flex-col items-center justify-center text-center p-1 cursor-pointer transition-colors "+ (cell ? (CLASS_COLORS[units.find(u => u.id === cell.unit_id)?.class || ""] || "border-gray-400 bg-card") : "border-dashed border-muted-foreground/30 hover:border-muted-foreground/60")}>
                     {cell ? (
                       <>
+                        <UnitAvatar faction={units.find(u => u.id === cell.unit_id)?.faction} unitClass={units.find(u => u.id === cell.unit_id)?.class} name={units.find(u => u.id === cell.unit_id)?.name} size="sm" />
                         <span className="text-xs font-bold leading-tight">{units.find(u => u.id === cell.unit_id)?.name || cell.unit_id}</span>
                         <span className="text-[10px] text-muted-foreground">Lv.{units.find(u => u.id === cell.unit_id)?.level || 1}</span>
                       </>
@@ -112,12 +123,13 @@ const [saving, setSaving] = useState(false);
             ) : (
               units.map((u) => (
                 <div key={u.id} onClick={() => { setSelectedId(u.id); if (!isDeployed(u.id)) place(u.id); }} className={"p-3 rounded-lg border cursor-pointer transition-colors "+ (isDeployed(u.id) ? "opacity-50 border-dashed" : (selectedId === u.id ? "border-primary bg-primary/5" : "hover:bg-muted"))}>
-                  <div className="flex justify-between items-center">
-                    <div>
-                      <p className="font-medium text-sm">{u.name}</p>
-                      <p className="text-xs text-muted-foreground">{u.class} · {u.faction} · Lv.{u.level}</p>
+                  <div className="flex items-center gap-3">
+                    <UnitAvatar faction={u.faction} unitClass={u.class} name={u.name} size="sm" />
+                    <div className="flex-1 min-w-0">
+                      <p className="font-medium text-sm truncate">{u.name}</p>
+                      <p className="text-xs text-muted-foreground truncate">{u.class} | {u.faction} | Lv.{u.level}</p>
                     </div>
-                    <div className="text-right">
+                    <div className="text-right shrink-0">
                       <p className="text-sm font-mono">{u.power_rating}</p>
                       {isDeployed(u.id) && <span className="text-[10px] text-green-600">Deployed</span>}
                     </div>
@@ -131,3 +143,4 @@ const [saving, setSaving] = useState(false);
     </div>
   );
 }
+

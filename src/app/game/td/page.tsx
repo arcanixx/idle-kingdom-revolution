@@ -1,7 +1,8 @@
-"use client";
+﻿"use client";
 import { useState, useEffect } from "react";
 import { Skeleton } from "@/components/skeleton";
 import { useUser } from "@/hooks/use-user";
+import { logger } from "@/lib/logger";
 
 export default function TowerDefensePage() {
   const { user } = useUser();
@@ -9,12 +10,13 @@ export default function TowerDefensePage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("/api/td/status").then(r=>r.json()).then(d => { setTd(d); setLoading(false); }).catch(() => setLoading(false));
+    fetch("/api/td/status").then(r=>r.json()).then(d => { setTd(d); setLoading(false); }).catch((err) => { logger.warn("Failed to fetch TD status", "app/game/td/page.tsx", "useEffect", err); setLoading(false); });
   }, []);
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold">🛡 Tower Defense</h1>
+            <nav className="text-sm text-muted-foreground mb-2 flex items-center gap-1"><a href="/dashboard" className="hover:text-foreground">Home</a><span>/</span><span className="text-foreground">Td</span></nav>
+<h1 className="text-2xl font-bold">Tower Defense</h1>
       {loading ? (
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">{[1,2,3,4].map(i => <Skeleton key={i} className="h-24" />)}</div>
       ) : td ? (

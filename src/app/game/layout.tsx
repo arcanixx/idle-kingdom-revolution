@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ThemeToggle } from "@/components/theme-toggle";
@@ -13,6 +13,10 @@ export default function GameLayout({ children }: { children: React.ReactNode }) 
     { href: "/game/mining", label: "Mine", icon: "\u26CF" },
     { href: "/game/td", label: "TD", icon: "\uD83C\uDFEF" },
     { href: "/game/castle", label: "Castle", icon: "\uD83C\uDFF0" },
+    { href: "/game/inventory", label: "Items", icon: "\uD83C\uDF92" },
+    { href: "/game/shop", label: "Shop", icon: "\uD83D\uDED2" },
+    { href: "/game/valor", label: "Valor", icon: "\uD83C\uDFC5" },
+    { href: "/game/leaderboard", label: "Rank", icon: "\uD83C\uDFC6" },
   ];
   return (
     <div className="min-h-screen flex flex-col">
@@ -41,4 +45,5 @@ export default function GameLayout({ children }: { children: React.ReactNode }) 
     </div>
   );
 }
+
 
