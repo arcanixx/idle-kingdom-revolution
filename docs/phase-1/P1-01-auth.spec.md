@@ -1,4 +1,4 @@
-# P1-01: Auth System
+﻿# P1-01: Auth System
 
 ## Description
 Full authentication flow: register, login, logout. Guest mode placeholder.

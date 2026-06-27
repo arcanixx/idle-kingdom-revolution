@@ -1,14 +1,8 @@
-"use client";
+﻿"use client";
 import { useState, useEffect } from "react";
-import { useUser } from "@/hooks/use-user";
+import { useUser } from "@/hooks/use-user";import type { LeaderboardEntry } from "@/types/game";
 import { Skeleton } from "@/components/skeleton";
-
-interface LeaderboardEntry {
-  id: string;
-  display_name: string;
-  level: number;
-  pvp_rating: number;
-}
+import { logger } from "@/lib/logger";
 
 export default function LeaderboardPage() {
   const { user } = useUser();
@@ -20,14 +14,15 @@ export default function LeaderboardPage() {
     fetch("/api/leaderboard?limit=50")
       .then(r => r.json())
       .then(d => { setEntries(d.leaderboard); setTotal(d.total); })
-      .catch(console.error)
+      .catch((err) => logger.warn("Failed to fetch leaderboard", "app/game/leaderboard/page.tsx", "useEffect", err))
       .finally(() => setLoading(false));
   }, []);
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Leaderboard</h1>
+              <nav className="text-sm text-muted-foreground mb-2 flex items-center gap-1"><a href="/dashboard" className="hover:text-foreground">Home</a><span>/</span><span className="text-foreground">Leaderboard</span></nav>
+<h1 className="text-2xl font-bold">Leaderboard</h1>
         <p className="text-sm text-muted-foreground">{total} players</p>
       </div>
       {loading ? (

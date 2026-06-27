@@ -4,7 +4,7 @@ import type { BattleField, Unit } from '../../../src/types/game';
 
 describe('Battle Engine', () => {
   const baseField: BattleField = {
-    id: 1, name: 'Test', description: 'Test field', difficulty: 1,
+    id: "test_field", name: 'Test', description: 'Test field', difficulty: 1,
     wave_count: 3, boss_wave: 5, recommended_power: 100,
     rewards: { gold: 10, xp: 5 }, is_locked: false
   };
@@ -34,7 +34,7 @@ describe('Battle Engine', () => {
     });
 
     it('sets default rewards when not provided', () => {
-      const fieldNoRewards = { ...baseField, id: 2, rewards: null as any };
+      const fieldNoRewards = { ...baseField, id: "2", rewards: null as any };
       const state = startBattle(fieldNoRewards, baseUnits, { front: [{ unit_id: 'a', row: 0, col: 0 }], back: [null, null, null] });
       expect(state.rewards.gold).toBe(50);
       expect(state.rewards.xp).toBe(30);
@@ -106,3 +106,5 @@ describe('Battle Engine', () => {
     });
   });
 });
+
+

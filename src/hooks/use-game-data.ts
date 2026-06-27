@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+﻿import { useEffect } from "react";
 import { useGameStore } from "@/stores/game-store";
 
 export function useGameData() {

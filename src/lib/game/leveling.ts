@@ -1,4 +1,4 @@
-import type { PlayerProfile } from "@/types/game";
+﻿import type { PlayerProfile } from "@/types/game";
 
 export function xpForLevel(level: number): number {
   return Math.floor(100 * Math.pow(level, 1.5));

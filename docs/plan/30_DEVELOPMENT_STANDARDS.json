@@ -1,48 +1,63 @@
-{
+﻿{
   "document_title": "30 - Development Standards & Error Handling",
-  "version": "1.0.0",
-  "date": "2026-06-24",
-  "purpose": "Definiuje standardy kodowania, strukturę plików, system logowania błędów oraz wymagania dotyczące komentarzy i nagłówków.",
+  "version": "2.0.0",
+  "date": "2026-06-27",
+  "purpose": "Definiuje standardy kodowania, struktur�t plikƈw, system logowania b�'�tdƈw oraz wymagania dotycz�ce komentarzy i nag�'�wkƈw.",
   "coding_standards": {
     "file_structure": {
-      "header_template": "PLIK: ścieżka/do/pliku.ts\n@purpose: Krótki, jednowierszowy opis celu pliku.\n@version: 1.0.0\n@path: {string} Relatywna ścieżka od głównego katalogu projektu.\n@depends_on: [biblioteka/narzędzie, inny/plik/funkcjonalny]\n@exports: [NazwaEksportowanejFunkcji1, NazwaEksportowanegoKomponentu2]\n@author: Twoje Imię / Zespół\n@created: 2026-06-24"
+      "header_template": "PLIK: �>cie��ka/do/pliku.ts\n@purpose: Krƈtki, jednowierszowy opis celu pliku.\n@version: 1.0.0\n@path: {string} Relatywna �>cie��ka od g�'�wnego katalogu projektu.\n@depends_on: [biblioteka/narz�tdzie, inny/plik/funkcjonalny]\n@exports: [NazwaEksportowanejFunkcji1, NazwaEksportowanegoKomponentu2]\n@author: Twoje Imi�t / Zespƈ�'\n@created: 2026-06-24"
     },
     "comments": {
-      "functions": "Każda publiczna funkcja/metoda musi mieć komentarz JSDoc.",
-      "inline": "Używaj do wyjaśnienia DLACZEGO, a nie CO robi kod.",
+      "functions": "Ka��da publiczna funkcja/metoda musi mie�� komentarz JSDoc.",
+      "inline": "U��ywaj do wyja�>nienia DLACZEGO, a nie CO robi kod.",
       "todo_format": "// TODO(@author): opis - ticket #123",
       "fixme_format": "// FIXME(@author): opis - ticket #123"
     }
   },
+  "logging_mandatory_rules": {
+    "every_file": "KA��DY plik w src/ MUSI importowa�' i u��ywa�' loggera z @/lib/logger. Nie u��ywaj console.log/warn/error bezpo�>rednio - zawsze przez logger.",
+    "error_handling": "Ka��dy try/catch MUSI zawiera�' logger.error(...) w bloku catch. Dotyczy te�� async/await i .catch().",
+    "entry_exit_logging": "Funkcje publiczne (API, komponenty, serwisy) powinny logowa�' INFO na wej�>ciu i WARN/ERROR na wyj�>ciu w przypadku b�'�tdƈw.",
+    "no_console": "console.log/warn/error jest zabronione. U��ywaj logger.debug/info/warn/error.",
+    "file_param": "Ka��de wywo�'anie loggera MUSI zawiera�' parametr file (\u0107cie��ka wzgl�tna od src/, np. 'lib/game/battle-engine.ts').",
+    "ai_rule_reference": "Zasada wymuszana rƈwnie�� w docs/plan/03_AI_RULES.json -> zawsze u��ywaj loggera z file + functionName."
+  },
   "error_handling": {
     "central_logger": {
       "path": "src/lib/logger.ts",
-      "levels": [
-        "INFO",
-        "WARN",
-        "ERROR",
-        "DEBUG"
-      ],
+      "status": "IMPLEMENTED - 2026-06-27",
+      "levels": ["DEBUG", "INFO", "WARN", "ERROR"],
+      "config": "NEXT_PUBLIC_LOG_LEVEL w .env (DEBUG/INFO/WARN/ERROR). Domy�>lnie INFO. DEBUG w�'��cza debug(), wy�'��cza email transport.",
       "log_entry": {
         "timestamp": "ISO string",
         "level": "LogLevel",
         "message": "string",
-        "file": "string (ścieżka pliku)",
+        "file": "string (�>cie��ka pliku od src/)",
         "functionName": "string (opcjonalnie)",
         "stack": "string (tylko dla ERROR)",
         "metadata": "Record<string, any> (opcjonalnie)"
       },
-      "logger_implementation": "class Logger z metodami error, warn, info, debug. Wysyłka na endpoint /api/logs lub do Sentry."
+      "logger_implementation": "class Logger z metodami error, warn, info, debug. Wysy�'ka na endpoint /api/logs dla ERROR (placeholder email). Console output dla wszystkich leveli.",
+      "email_reporting": {
+        "endpoint": "POST /api/logs",
+        "status": "placeholder - loguje do konsoli serwerowej z [EMAIL-PLACEHOLDER] prefixem",
+        "planned": "Pod�'��czy�' Resend / SendGrid po skonfigurowaniu domeny. Wysy�'a�' b�'�tdy ERROR do autora aplikacji.",
+        "trigger": "Ka��dy logger.error() wysy�'a wpis do /api/logs (oprƈcz trybu DEBUG, gdzie logujemy tylko localnie)"
+      }
     },
     "bug_reporting": {
-      "frontend": "Formularz zgłaszania błędów z opisem i opcjonalnym zrzutem ekranu.",
+      "frontend": "Formularz zg�'aszania b�'�tdƈw z opisem i opcjonalnym zrzutem ekranu.",
       "endpoint": "POST /api/support/report-bug",
       "database_table": "bug_reports"
     },
-    "try_catch_required": true
+    "try_catch_required": true,
+    "logging_example": {
+      "component": "src/components/battle/BattleArena.tsx",
+      "usage": "import { logger } from '@/lib/logger';\n\ntry {\n  logger.info('Battle starting', 'components/battle/BattleArena.tsx', 'handleBattleStart', { fieldId });\n  ...\n} catch (error) {\n  logger.error('Battle failed', 'components/battle/BattleArena.tsx', 'handleBattleStart', error, { fieldId });\n}"
+    }
   },
   "code_example": {
     "component": "src/components/battle/BattleArena.tsx",
-    "usage": "import { logger } from '@/lib/logger'; try { ... } catch (error) { logger.error('message', __filename, 'functionName', error, { metadata }); }"
+    "usage": "import { logger } from '@/lib/logger'; try { ... } catch (error) { logger.error('message', 'components/battle/BattleArena.tsx', 'functionName', error, { metadata }); }"
   }
 }

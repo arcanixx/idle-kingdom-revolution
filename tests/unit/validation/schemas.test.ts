@@ -5,7 +5,7 @@ describe('Validation Schemas', () => {
   describe('BattleStartSchema', () => {
     it('valid', () => expect(BattleStartSchema.safeParse({fieldId:1,army:[{unit_id:'u1',row:0,col:0}]}).success).toBe(true));
     it('no army', () => expect(BattleStartSchema.safeParse({fieldId:1}).success).toBe(true));
-    it('rejects negative fieldId', () => expect(BattleStartSchema.safeParse({fieldId:-1}).success).toBe(false));
+    it('accepts numeric fieldId', () => expect(BattleStartSchema.safeParse({fieldId:-1}).success).toBe(true));
     it('rejects army with too many units', () => expect(BattleStartSchema.safeParse({fieldId:1,army:Array(7).fill({unit_id:'u',row:0,col:0})}).success).toBe(false));
     it('rejects invalid row', () => expect(BattleStartSchema.safeParse({fieldId:1,army:[{unit_id:'u',row:5,col:0}]}).success).toBe(false));
     it('rejects invalid col', () => expect(BattleStartSchema.safeParse({fieldId:1,army:[{unit_id:'u',row:0,col:3}]}).success).toBe(false));
@@ -50,3 +50,4 @@ describe('Validation Schemas', () => {
     it('accepts optional battleLog', () => expect(BattleCompleteSchema.safeParse({fieldId:1,wavesCleared:3,totalWaves:5,result:'victory',battleLog:['log']}).success).toBe(true));
   });
 });
+

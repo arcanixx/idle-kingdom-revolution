@@ -1,98 +1,47 @@
-"{"  
-"  \"common\": {"  
-"    \"loading\": \"ùadowanie...\","  
-"    \"error\": \"Bà•d\","  
-"    \"success\": \"Sukces\","  
-"    \"cancel\": \"Anuluj\","  
-"    \"confirm\": \"Potwierd´\","  
-"    \"save\": \"Zapisz\","  
-"    \"delete\": \"Usu‰\","  
-"    \"edit\": \"Edytuj\","  
-"    \"close\": \"Zamknij\","  
-"    \"back\": \"Wstecz\","  
-"    \"next\": \"Dalej\","  
-"    \"previous\": \"Wstecz\","  
-"    \"search\": \"Szukaj\","  
-"    \"filter\": \"Filtruj\","  
-"    \"sort\": \"Sortuj\","  
-"    \"all\": \"Wszystko\","  
-"    \"none\": \"Brak\","  
-"    \"yes\": \"Tak\","  
-"    \"no\": \"Nie\""  
-"  },"  
-"  \"auth\": {"  
-"    \"login\": \"Zaloguj si©\","  
-"    \"register\": \"Utw¢rz konto\","  
-"    \"logout\": \"Wyloguj si©\","  
-"    \"guest\": \"Kontynuuj jako GoòÜ\","  
-"    \"email\": \"Email\","  
-"    \"password\": \"Hasào\","  
-"    \"displayName\": \"Nazwa Wyòwietlana\","  
-"    \"forgotPassword\": \"Zapomniaàeò hasàa?\","  
-"    \"checkEmail\": \"Sprawd´ email!\","  
-"    \"resetLink\": \"Sprawd´ email w poszukiwaniu linku resetuj•cego.\""  
-"  },"  
-"  \"game\": {"  
-"    \"title\": \"Idle Kingdom Revolution\","  
-"    \"dashboard\": \"Panel\","  
-"    \"battle\": \"Bitwa\","  
-"    \"units\": \"Jednostki\","  
-"    \"economy\": \"Gospodarka\","  
-"    \"valor\": \"WartoòÜ\","  
-"    \"settings\": \"Ustawienia\","  
-"    \"profile\": \"Profil\","  
-"    \"achievements\": \"Osi•gni©cia\","  
-"    \"leaderboard\": \"Ranking\""  
-"  },"  
-"  \"battle\": {"  
-"    \"firstBlood\": \"Pierwsza Krew\","  
-"    \"peasant\": \"Chàop\","  
-"    \"warrior\": \"Wojownik\","  
-"    \"archer\": \"ùucznik\","  
-"    \"mage\": \"Mag\","  
-"    \"knight\": \"Rycerz\","  
-"    \"startBattle\": \"Rozpocznij Bitw©\","  
-"    \"wave\": \"Fala\","  
-"    \"turn\": \"Tura\","  
-"    \"victory\": \"Zwyci©stwo!\","  
-"    \"defeat\": \"Poraæka!\","  
-"    \"rewards\": \"Nagrody\","  
-"    \"gold\": \"Zàoto\","  
-"    \"xp\": \"Doòwiadczenie\","  
-"    \"levelUp\": \"Awans!\","  
-"    \"nextWave\": \"Nast©pna Fala\","  
-"    \"battleEnd\": \"Koniec Bitwy\""  
-"  },"  
-"  \"units\": {"  
-"    \"name\": \"Nazwa\","  
-"    \"level\": \"Poziom\","  
-"    \"attack\": \"Atak\","  
-"    \"defense\": \"Obrona\","  
-"    \"hp\": \"HP\","  
-"    \"power\": \"Moc\","  
-"    \"formation\": \"Formacja\","  
-"    \"front\": \"Prz¢d\","  
-"    \"back\": \"Tyà\","  
-"    \"upgrade\": \"Ulepsz\","  
-"    \"train\": \"Trenuj\","  
-"    \"dismiss\": \"Usu‰\""  
-"  },"  
-"  \"economy\": {"  
-"    \"gold\": \"Zàoto\","  
-"    \"income\": \"Przych¢d\","  
-"    \"expenses\": \"Wydatki\","  
-"    \"balance\": \"Bilans\","  
-"    \"offlineEarnings\": \"Zarobki Offline\","  
-"    \"hourly\": \"na godzin©\","  
-"    \"daily\": \"na dzie‰\","  
-"    \"weekly\": \"na tydzie‰\""  
-"  },"  
-"  \"navigation\": {"  
-"    \"home\": \"Strona gà¢wna\","  
-"    \"battle\": \"Bitwa\","  
-"    \"units\": \"Jednostki\","  
-"    \"economy\": \"Gospodarka\","  
-"    \"valor\": \"WartoòÜ\","  
-"    \"settings\": \"Ustawienia\""  
-"  }"  
-"}" 
+Ôªø{
+  ""common"": {
+    ""loading"": ""≈Åadowanie..."",
+    ""error"": ""B≈ÇƒÖd"",
+    ""success"": ""Sukces"",
+    ""cancel"": ""Anuluj"",
+    ""confirm"": ""Potwierd≈∫"",
+    ""save"": ""Zapisz"",
+    ""delete"": ""Usu≈Ñ"",
+    ""edit"": ""Edytuj"",
+    ""close"": ""Zamknij"",
+    ""back"": ""Wstecz"",
+    ""next"": ""Dalej"",
+    ""previous"": ""Wstecz"",
+    ""search"": ""Szukaj"",
+    ""filter"": ""Filtruj"",
+    ""sort"": ""Sortuj"",
+    ""all"": ""Wszystko"",
+    ""none"": ""Brak"",
+    ""yes"": ""Tak"",
+    ""no"": ""Nie""
+  },
+  ""auth"": {
+    ""login"": ""Zaloguj siƒô"",
+    ""register"": ""Utw√≥rz konto"",
+    ""logout"": ""Wyloguj siƒô"",
+    ""guest"": ""Kontynuuj jako Go≈õƒá"",
+    ""email"": ""Email"",
+    ""password"": ""Has≈Ço"",
+    ""displayName"": ""Nazwa Wy≈õwietlana"",
+    ""forgotPassword"": ""Zapomnia≈Çe≈õ has≈Ça?"",
+    ""checkEmail"": ""Sprawd≈∫ email!"",
+    ""resetLink"": ""Sprawd≈∫ email w poszukiwaniu linku resetujƒÖcego.""
+  },
+  ""game"": {
+    ""title"": ""Idle Kingdom Revolution"",
+    ""dashboard"": ""Panel"",
+    ""battle"": ""Bitwa"",
+    ""units"": ""Jednostki"",
+    ""economy"": ""Gospodarka"",
+    ""valor"": ""Warto≈õƒá"",
+    ""settings"": ""Ustawienia"",
+    ""profile"": ""Profil"",
+    ""achievements"": ""OsiƒÖgniƒôcia"",
+    ""leaderboard"": ""Ranking""
+  }
+}

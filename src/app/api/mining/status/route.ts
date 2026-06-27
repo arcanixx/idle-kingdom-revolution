@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+﻿import { NextRequest, NextResponse } from "next/server";
 import { createApiClient, jsonResponse, errorResponse } from "@/lib/supabase/api-helper";
 import { withErrorHandler } from "@/lib/api/validation-middleware";
 
@@ -12,7 +12,7 @@ export async function GET(request: NextRequest) {
       .from("players")
       .select("id")
       .eq("user_id", user.id)
-      .single();
+      .maybeSingle();
 
     if (!player) return errorResponse("Player not found", 404);
 

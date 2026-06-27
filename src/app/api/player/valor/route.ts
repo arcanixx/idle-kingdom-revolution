@@ -1,4 +1,4 @@
-import { NextRequest } from "next/server";
+﻿import { NextRequest } from "next/server";
 import { createApiClient, jsonResponse, errorResponse } from "@/lib/supabase/api-helper";
 import { withErrorHandler, withValidatedRequest } from "@/lib/api/validation-middleware";
 import { LearnPerkSchema } from "@/lib/validation/schemas";
@@ -9,7 +9,7 @@ export async function GET(request: NextRequest) {
     const supabase = await createApiClient();
     const { data: { user }, error: authError } = await supabase.auth.getUser();
     if (authError || !user) return errorResponse("Unauthorized", 401);
-    const { data: player } = await supabase.from("players").select("id, valor").eq("user_id", user.id).single();
+    const { data: player } = await supabase.from("players").select("id, valor").eq("user_id", user.id).maybeSingle();
     if (!player) return errorResponse("Player not found", 404);
     const { data: learned } = await supabase.from("player_valor").select("tree_name, perk_name").eq("player_id", player.id);
     return jsonResponse({ valor: player.valor, learned: learned || [], trees: TREES });
@@ -25,7 +25,7 @@ export async function POST(request: NextRequest) {
     if (!tree) return errorResponse("Invalid tree", 400);
     const perk = tree.perks[data.perkName];
     if (!perk) return errorResponse("Invalid perk", 400);
-    const { data: player } = await supabase.from("players").select("id, valor").eq("user_id", user.id).single();
+    const { data: player } = await supabase.from("players").select("id, valor").eq("user_id", user.id).maybeSingle();
     if (!player) return errorResponse("Player not found", 404);
     if (player.valor < perk.cost) return errorResponse("Not enough valor", 400);
     const { data: existingArr } = await supabase.from("player_valor").select("id").eq("player_id", player.id).eq("tree_name", data.treeName).eq("perk_name", data.perkName);

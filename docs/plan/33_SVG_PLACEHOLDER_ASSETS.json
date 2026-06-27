@@ -1,0 +1,234 @@
+﻿{
+  \
+document_title\: \33
+-
+SVG
+Placeholder
+Assets\,
+  \version\: \1.0.0\,
+  \date\: \2026-06-27\,
+  \status\: \ACTIVE
+-
+Initial
+SVG
+placeholders
+generated
+for
+DEV
+phase\,
+  \description\: \SVG
+placeholder
+assets
+for
+fast
+development
+and
+testing.
+Geometric
+readable
+placeholders
+that
+dont block development progress.\",
+  \"purpose\": \"Development placeholders for units, items, backgrounds, bosses, and emotions. Generated as SVG for scalability and zero external dependencies.\",
+  
+  \"structure\": {
+    \"base_path\": \"public/assets/fallback/\",
+    \"folders\": {
+      \"backgrounds/\": \"Battle backgrounds - 1920x1080 gradient scenes\",
+      \"units/\": \"Unit portraits by faction and class - 64x64 geometric symbols\",
+      \"items/\": \"Item icons - 64x64 simple objects\",
+      \"bosses/\": \"Boss creatures - 128x128 larger symbols\",
+      \"portraits/\": \"Emotion portraits - 64x64 facial expressions\"
+    }
+  },
+
+  \"faction_colors\": {
+    \"human\": {
+      \"primary\": \"#6366F1\",
+      \"secondary\": \"#FBBF24\",
+      \"symbol\": \"lion\",
+      \"description\": \"Red-gold lion heraldry\"
+    },
+    \"elf\": {
+      \"primary\": \"#10B981\", 
+      \"secondary\": \"#E5E7EB\",
+      \"symbol\": \"deer\",
+      \"description\": \"Green-silver deer heraldry\"
+    },
+    \"orc\": {
+      \"primary\": \"#059669\",
+      \"secondary\": \"#92400E\", 
+      \"symbol\": \"wolf\",
+      \"description\": \"Dark green-brown wolf heraldry\"
+    },
+    \"undead\": {
+      \"primary\": \"#8B5CF6\",
+      \"secondary\": \"#1F2937\",
+      \"symbol\": \"skull\",
+      \"description\": \"Violet-dark gray skull heraldry\"
+    },
+    \"demon\": {
+      \"primary\": \"#DC2626\",
+      \"secondary\": \"#1F2937\",
+      \"symbol\": \"demon\",
+      \"description\": \"Red-dark red demon heraldry\"
+    },
+    \"celestial\": {
+      \"primary\": \"#F59E0B\",
+      \"secondary\": \"#FFFFFF\",
+      \"symbol\": \"angel\",
+      \"description\": \"Amber-white angel heraldry\"
+    }
+  },
+
+  \"assets_generated\": {
+    \"backgrounds\": [
+      {\"file\": \"plains.svg\", \"faction\": \"Human/Neutral\", \"size\": \"1920x1080\", \"status\": \"generated\"},
+      {\"file\": \"forest.svg\", \"faction\": \"Elf\", \"size\": \"1920x1080\", \"status\": \"generated\"},
+      {\"file\": \"mountains.svg\", \"faction\": \"Neutral\", \"size\": \"1920x1080\", \"status\": \"generated\"},
+      {\"file\": \"desert.svg\", \"faction\": \"Orc\", \"size\": \"1920x1080\", \"status\": \"generated\"},
+      {\"file\": \"ice_land.svg\", \"faction\": \"Undead\", \"size\": \"1920x1080\", \"status\": \"generated\"},
+      {\"file\": \"volcano.svg\", \"faction\": \"Demon\", \"size\": \"1920x1080\", \"status\": \"generated\"},
+      {\"file\": \"dungeon.svg\", \"faction\": \"Celestial/Neutral\", \"size\": \"1920x1080\", \"status\": \"generated\"}
+    ],
+    
+    \"units\": {
+      \"human\": [
+        {\"class\": \"warrior\", \"symbol\": \"shield\", \"size\": \"64x64\", \"status\": \"generated\"},
+        {\"class\": \"mage\", \"symbol\": \"staff\", \"size\": \"64x64\", \"status\": \"generated\"},
+        {\"class\": \"tank\", \"symbol\": \"tower\", \"size\": \"64x64\", \"status\": \"generated\"},
+        {\"class\": \"healer\", \"symbol\": \"cross\", \"size\": \"64x64\", \"status\": \"generated\"},
+        {\"class\": \"ranger\", \"symbol\": \"bow\", \"size\": \"64x64\", \"status\": \"generated\"},
+        {\"class\": \"assassin\", \"symbol\": \"dagger\", \"size\": \"64x64\", \"status\": \"generated\"},
+        {\"class\": \"support\", \"symbol\": \"banner\", \"size\": \"64x64\", \"status\": \"generated\"}
+      ],
+      \"elf\": [
+        {\"class\": \"warrior\", \"symbol\": \"sword\", \"size\": \"64x64\", \"status\": \"generated\"},
+        {\"class\": \"ranger\", \"symbol\": \"bow\", \"size\": \"64x64\", \"status\": \"generated\"},
+        {\"class\": \"mage\", \"symbol\": \"crystal\", \"size\": \"64x64\", \"status\": \"generated\"},
+        {\"class\": \"healer\", \"symbol\": \"leaf\", \"size\": \"64x64\", \"status\": \"generated\"},
+        {\"class\": \"assassin\", \"symbol\": \"arrow\", \"size\": \"64x64\", \"status\": \"generated\"},
+        {\"class\": \"support\", \"symbol\": \"music\", \"size\": \"64x64\", \"status\": \"generated\"},
+        {\"class\": \"tank\", \"symbol\": \"wooden\", \"size\": \"64x64\", \"status\": \"generated\"}
+      ],
+      \"orc\": [
+        {\"class\": \"warrior\", \"symbol\": \"axe\", \"size\": \"64x64\", \"status\": \"generated\"},
+        {\"class\": \"tank\", \"symbol\": \"wall\", \"size\": \"64x64\", \"status\": \"generated\"},
+        {\"class\": \"berserker\", \"symbol\": \"rage\", \"size\": \"64x64\", \"status\": \"generated\"},
+        {\"class\": \"shaman\", \"symbol\": \"totem\", \"size\": \"64x64\", \"status\": \"generated\"},
+        {\"class\": \"hunter\", \"symbol\": \"spear\", \"size\": \"64x64\", \"status\": \"generated\"},
+        {\"class\": \"support\", \"symbol\": \"drum\", \"size\": \"64x64\", \"status\": \"generated\"},
+        {\"class\": \"mage\", \"symbol\": \"fire\", \"size\": \"64x64\", \"status\": \"generated\"}
+      ],
+      \"undead\": [
+        {\"class\": \"warrior\", \"symbol\": \"bone\", \"size\": \"64x64\", \"status\": \"generated\"},
+        {\"class\": \"mage\", \"symbol\": \"necro\", \"size\": \"64x64\", \"status\": \"generated\"},
+        {\"class\": \"tank\", \"symbol\": \"armor\", \"size\": \"64x64\", \"status\": \"generated\"},
+        {\"class\": \"healer\", \"symbol\": \"dark\", \"size\": \"64x64\", \"status\": \"generated\"},
+        {\"class\": \"assassin\", \"symbol\": \"shadow\", \"size\": \"64x64\", \"status\": \"generated\"},
+        {\"class\": \"support\", \"symbol\": \"curse\", \"size\": \"64x64\", \"status\": \"generated\"},
+        {\"class\": \"ranger\", \"symbol\": \"ghost\", \"size\": \"64x64\", \"status\": \"generated\"}
+      ],
+      \"demon\": [
+        {\"class\": \"warrior\", \"symbol\": \"blade\", \"size\": \"64x64\", \"status\": \"generated\"},
+        {\"class\": \"mage\", \"symbol\": \"hellfire\", \"size\": \"64x64\", \"status\": \"generated\"},
+        {\"class\": \"tank\", \"symbol\": \"barrier\", \"size\": \"64x64\", \"status\": \"generated\"},
+        {\"class\": \"assassin\", \"symbol\": \"stealth\", \"size\": \"64x64\", \"status\": \"generated\"},
+        {\"class\": \"support\", \"symbol\": \"ritual\", \"size\": \"64x64\", \"status\": \"generated\"},
+        {\"class\": \"healer\", \"symbol\": \"sacrifice\", \"size\": \"64x64\", \"status\": \"generated\"},
+        {\"class\": \"ranger\", \"symbol\": \"summon\", \"size\": \"64x64\", \"status\": \"generated\"}
+      ],
+      \"celestial\": [
+        {\"class\": \"warrior\", \"symbol\": \"light\", \"size\": \"64x64\", \"status\": \"generated\"},
+        {\"class\": \"mage\", \"symbol\": \"star\", \"size\": \"64x64\", \"status\": \"generated\"},
+        {\"class\": \"healer\", \"symbol\": \"heal\", \"size\": \"64x64\", \"status\": \"generated\"},
+        {\"class\": \"tank\", \"symbol\": \"divine\", \"size\": \"64x64\", \"status\": \"generated\"},
+        {\"class\": \"support\", \"symbol\": \"bless\", \"size\": \"64x64\", \"status\": \"generated\"},
+        {\"class\": \"ranger\", \"symbol\": \"divine\", \"size\": \"64x64\", \"status\": \"generated\"},
+        {\"class\": \"assassin\", \"symbol\": \"divine\", \"size\": \"64x64\", \"status\": \"generated\"}
+      ]
+    },
+
+    \"items\": [
+      {\"file\": \"health_potion.svg\", \"item\": \"Health Potion\", \"size\": \"64x64\", \"status\": \"generated\"},
+      {\"file\": \"gold_coin.svg\", \"item\": \"Gold Coin\", \"size\": \"64x64\", \"status\": \"generated\"},
+      {\"file\": \"mana_crystal.svg\", \"item\": \"Mana Crystal\", \"size\": \"64x64\", \"status\": \"generated\"}
+    ],
+
+    \"bosses\": [
+      {\"file\": \"fire_dragon.svg\", \"boss\": \"Fire Dragon\", \"size\": \"128x128\", \"status\": \"generated\"}
+    ],
+
+    \"portraits\": {
+      \"human\": [
+        {\"emotion\": \"happy\", \"size\": \"64x64\", \"status\": \"generated\"},
+        {\"emotion\": \"angry\", \"size\": \"64x64\", \"status\": \"generated\"},
+        {\"emotion\": \"scared\", \"size\": \"64x64\", \"status\": \"generated\"}
+      ]
+    }
+  },
+
+  \"style_guidelines\": {
+    \"design_philosophy\": \"Geometric minimalism - clear shapes, no tiny details\",
+    \"viewbox_standards\": {
+      \"units_items_emotions\": \"0 0 64 64\",
+      \"bosses\": \"0 0 128 128\", 
+      \"backgrounds\": \"0 0 1920 1080\"
+    },
+    \"color_strategy\": \"Faction primary color dominant, symbol in contrasting secondary color\",
+    \"line_thickness\": \"stroke-width=\\\"2\\\" for visibility at small sizes\",
+    \"background\": \"transparent (fill=\\\"none\\\") for all assets\",
+    \"avoid\": \"Tiny details, complex gradients, photorealistic elements\"
+  },
+
+  \"generation_prompt_template\": \"Generate minimal SVG placeholder for fantasy [TYPE] named [NAME]. Style: flat design, geometric shapes, clear visibility at small sizes. ViewBox: [VIEWBOX]. Colors: Use faction colors for units, generic colors for items. Symbols: Simple geometric shapes representing the concept. Include: Clear silhouette, no tiny details, scalable. Output: Raw SVG code with no comments.\",
+
+  \"usage_examples\": {
+    \"unit_placeholder\": \"Image src=\\\"/assets/fallback/units/human_warrior.svg\\\" alt=\\\"Human Warrior\\\" width={64} height={64}\",
+    \"background_placeholder\": \"Image src=\\\"/assets/fallback/backgrounds/plains.svg\\\" alt=\\\"Plains Background\\\" width={1920} height={1080}\",
+    \"item_placeholder\": \"Image src=\\\"/assets/fallback/items/health_potion.svg\\\" alt=\\\"Health Potion\\\" width={64} height={64}\"
+  },
+
+  \"version_history\": [
+    {
+      \"version\": \"1.0.0\",
+      \"date\": \"2026-06-27\",
+      \"changes\": \"Initial SVG placeholder generation for DEV phase\",
+      \"author\": \"OpenCode\",
+      \"assets_count\": 84 total (7 backgrounds + 42 units + 3 items + 1 boss + 3 emotions)
+    }
+  ],
+
+  \"future_enhancements\": [
+    \"CSS animations for dynamic placeholders\",
+    \"Multiple size variants (32x32, 128x128)\",
+    \"UI element placeholders (buttons, progress bars)\",
+    \"Environment effect placeholders\",
+    \"Automated generation scripts\"
+  ],
+
+  \"integration_notes\": \"SVG placeholders are used as primary assets in DEV environment. In STAGING, theyll
+be
+replaced
+by
+AI-generated
+PNG/WebP
+assets
+with
+SVG
+as
+fallback.
+In
+PRODUCTION
+optimized
+WebP
+assets
+will
+be
+primary
+with
+SVG
+as
+accessibility
+fallback.\
+}
