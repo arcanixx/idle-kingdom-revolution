@@ -1,15 +1,7 @@
-"use client";
+﻿"use client";
 import { useState, useEffect } from "react";
 import { Skeleton } from "@/components/skeleton";
-import { useUser } from "@/hooks/use-user";
-import { TREES } from "@/lib/game/valor-trees";
-import type { TreeDefinition, PerkDefinition } from "@/lib/game/valor-trees";
-
-interface LearnedPerk {
-  tree_name: string;
-  perk_name: string;
-}
-
+import { useUser } from "@/hooks/use-user";import { TREES } from "@/lib/game/valor-trees";import type { TreeDefinition, PerkDefinition } from "@/lib/game/valor-trees";import type { LearnedPerk } from "@/types/game";
 export default function ValorPage() {
   const { user, loading } = useUser();
   const [valorLoading, setValorLoading] = useState(true);

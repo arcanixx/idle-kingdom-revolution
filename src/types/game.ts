@@ -1,4 +1,4 @@
-export interface PlayerCurrencies {
+﻿export interface PlayerCurrencies {
   gold: number;
   valor: number;
   gems: number;
@@ -60,4 +60,21 @@ export interface BattleResultData {
   battle_log: string[];
   xp_gained: number;
   units_survived: string[];
+}
+
+export interface MiningStatus {
+  mineLevel: number; iron: number; crystals: number; deepCoins: number;
+  expeditionActive: boolean; remainingSeconds: number; passesRemaining: number;
+}
+
+export interface LeaderboardEntry {
+  id: string; display_name: string; level: number; pvp_rating: number;
+}
+
+export interface PlayerQuest {
+  quest_id: number; status: string;
+}
+
+export interface LearnedPerk {
+  tree_name: string; perk_name: string;
 }

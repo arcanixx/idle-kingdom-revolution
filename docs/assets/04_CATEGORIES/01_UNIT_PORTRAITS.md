@@ -10,7 +10,7 @@
 > - `idle`, `attack`, `hit` to **osobne assety** (różne pozy/sylwetki). Generujemy je TYLKO dla **HERO CHARACTERS** (playable units).
 > - **GENERIC UNITS** (enemies, allies, troopers) mają TYLKO stan `idle`. Nie generujemy dla nich `attack` i `hit`.
 > - Wszystkie inne efekty wizualne (blood, burn, frozen, poison, death, necromancy) to **overlay'e** nakładane w kodzie/shadere – NIE generujemy osobnych assetów.
-> - Szczegóły: patrz [11_COMBAT_VISUAL_STATES.md](./11_COMBAT_VISUAL_STATES.md).
+> - Szczegóły: patrz `05_REFERENCE/02_COMBAT_VISUAL_STATES.md`.
 
 ---
 
@@ -51,7 +51,7 @@ Podczas generowania siatek, aby uniknąć niespójności (jak zmiana kształtu t
 | Rarity | Wszystkie 6 (Common → Mythic) + BASE |
 | Stany | idle, attack, hit |
 | Płeć | Obie (Male / Female), wybór per postać |
-| Wiek | Dostosowany do klasy i frakcji (patrz 00_ART_DIRECTION.md → Age Diversity) |
+| Wiek | Dostosowany do klasy i frakcji (patrz `00_FOUNDATION/00_ART_DIRECTION.md` → Age Diversity) |
 
 > **Konsekwencja:** Dla JEDNEJ frakcji generujemy hero assets dla WSZYSTKICH 7 klas (gracz może dowolnie składać drużynę).
 > **7 klas × 6 rarity × 3 stany × 2 płcie = 252 pliki** na frakcję.
@@ -71,7 +71,7 @@ Podczas generowania siatek, aby uniknąć niespójności (jak zmiana kształtu t
 
 **Przykład:** `human_warrior_generic_01.webp` = inna twarz niż Hero Human Warrior.
 
-Szczegóły: [13_GENERIC_UNIT_GUIDE.md](./13_GENERIC_UNIT_GUIDE.md)
+Szczegóły: `07_GENERIC_UNITS.md`
 
 ---
 
@@ -172,7 +172,7 @@ public/assets/units/
 
 ## CHARACTER PROPORTION SYSTEM
 
-All units use the same proportion baseline defined in [00_ART_DIRECTION.md](./00_ART_DIRECTION.md).
+All units use the same proportion baseline defined in `00_FOUNDATION/00_ART_DIRECTION.md`.
 
 **Human baseline (reference):**
 - Head-to-body ratio: 1:7.5 (heroic proportion)
@@ -186,7 +186,7 @@ All units use the same proportion baseline defined in [00_ART_DIRECTION.md](./00
 - Demon: +0.15 height, wider horns add mass
 - Celestial: +0.05 height, floating elements add presence
 
-These proportions apply to ALL rarity variants of a given faction+class. See 00_ART_DIRECTION.md for full details.
+These proportions apply to ALL rarity variants of a given faction+class. See `00_FOUNDATION/00_ART_DIRECTION.md` for full details.
 
 ---
 
@@ -196,7 +196,7 @@ Every faction+class combination requires **BASE model approval** before rarity v
 
 1. Generate 4-8 BASE variants for a faction+class.
 2. Select the best candidate and approve as **Style Anchor**.
-3. Update the REFERENCE LOCK in PROMPT_CONSTRUCTOR.md to Approved: YES.
+3. Update the REFERENCE LOCK in `05_REFERENCE/01_ASSET_CHECKLIST.md` to Approved: YES.
 4. Only then generate rarity variants (Common through Mythic).
 5. All variants must use Image Guidance at **35-45%** with the approved BASE.
 6. If a variant recognisably diverges from the anchor -> reject and regenerate.

@@ -189,7 +189,7 @@ sa realizowane przez **overlaye i VFX**, a nie jako osobne warianty sprite'ow.
 ## Placeholder Strategy (dev/test)
 
 > Zgodnie z zaleceniem – nie używamy customowych SVG jako placeholderów.
-> Szczegóły: [14_PLACEHOLDER_STRATEGY.md](./14_PLACEHOLDER_STRATEGY.md)
+> Szczegóły: [13_PLACEHOLDER_STRATEGY.md](./13_PLACEHOLDER_STRATEGY.md)
 
 ### Zasady
 
@@ -209,7 +209,7 @@ sa realizowane przez **overlaye i VFX**, a nie jako osobne warianty sprite'ow.
 - Placeholdery tekstowe są od razu rozpoznawalne jako "do zastąpienia".
 - SVG wygląda "gotowo" – ktoś może pomyśleć, że nie trzeba nic zmieniać.
 
-Źródło: [14_PLACEHOLDER_STRATEGY.md](./14_PLACEHOLDER_STRATEGY.md)
+Źródło: [13_PLACEHOLDER_STRATEGY.md](./13_PLACEHOLDER_STRATEGY.md)
 
 ---
 
@@ -225,3 +225,33 @@ sa realizowane przez **overlaye i VFX**, a nie jako osobne warianty sprite'ow.
 | UI Element | zmienna | 50 KB | 10-30 KB |
 | Avatar | 128×128 | 20 KB | 8-15 KB |
 | Emotion Portrait | 512×512 | 100 KB | 40-80 KB |
+
+---
+
+## Production Rarity Atlas Pipeline
+
+Po zaakceptowaniu Human Warrior PoC v3, Hero rarity assets generujemy jako kompletne atlasy 2x3, a nie jako sześć osobnych obrazków.
+
+Dokumenty bazowe:
+
+- [14_PRODUCTION_SPRITE_ATLAS_CONTRACT.md](./14_PRODUCTION_SPRITE_ATLAS_CONTRACT.md)
+- [15_GLOBAL_REFERENCE_FRAME_SYSTEM.md](./15_GLOBAL_REFERENCE_FRAME_SYSTEM.md)
+- [18_POC_ACCEPTANCE_AND_VISUAL_QA.md](./18_POC_ACCEPTANCE_AND_VISUAL_QA.md)
+- [19_ATLAS_TO_GAME_ASSET_PIPELINE.md](./19_ATLAS_TO_GAME_ASSET_PIPELINE.md)
+- [20_SPRITE_SLICING_SPEC.md](./20_SPRITE_SLICING_SPEC.md)
+- [21_HERO_RARITY_ATLAS_FACTORY.md](./21_HERO_RARITY_ATLAS_FACTORY.md)
+
+Nowy skrócony przepływ:
+
+1. Wygeneruj atlas PNG z finalnego promptu.
+2. Odrzuć od razu atlasy z watermarkiem, tekstem, etykietami albo cropem.
+3. Zatwierdź atlas przez QA.
+4. Wytnij sześć slotów w kolejności Common, Uncommon, Rare, Epic, Legendary, Mythic.
+5. Usuń chroma green po cięciu.
+6. Zachowaj wspólny canvas i skalę dla wszystkich sześciu rarity.
+7. Eksportuj WebP z alpha.
+8. Nazwij pliki zgodnie z `{faction}_{class}_{gender}_{rarity}_{state}.webp`.
+9. Zaktualizuj manifest assetów.
+
+Ważne: atlas z opisem promptu, etykietami rarity albo watermarkiem może być referencją wizualną, ale nie może trafić do produkcyjnego pipeline'u.
+

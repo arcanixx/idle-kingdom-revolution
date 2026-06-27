@@ -1,12 +1,8 @@
-"use client";
+﻿"use client";
 import { useState, useEffect } from "react";
 import { Skeleton } from "@/components/skeleton";
-import { useUser } from "@/hooks/use-user";
+import { useUser } from "@/hooks/use-user";import type { MiningStatus } from "@/types/game";
 
-interface MiningStatus {
-  mineLevel: number; iron: number; crystals: number; deepCoins: number;
-  expeditionActive: boolean; remainingSeconds: number; passesRemaining: number;
-}
 
 export default function MiningPage() {
   const { user } = useUser();
@@ -43,7 +39,7 @@ export default function MiningPage() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold">⛏ Deep Mine</h1>
+      <h1 className="text-2xl font-bold">â›Ź Deep Mine</h1>
       {loading ? (
         <div>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">

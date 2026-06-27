@@ -1,9 +1,10 @@
-{
+﻿{
   "document_title": "18 - Graphics & Asset Plan",
-  "version": "0.1.0",
-  "date": "2026-06-23",
-  "art_direction": "Fantasy idle RPG with modern, slightly stylized 3D-rendered 2D look. Rich colors, clear silhouettes, readable at small sizes. Consistent style across all assets.",
-  "asset_types": {
+  "version": "0.2.0",
+  "date": "2026-06-27",
+  "status": "INITIAL STRATEGIC OVERVIEW - The living, detailed asset documentation now lives in docs/assets/. This document provides the original strategic context (why, what, when). For HOW (prompt assembly, production pipeline, QA gates, slicing, categories, checklist), refer to the docs/assets/ structure described in the 'docs_assets_mapping' section below.",
+  "art_direction": "Fantasy idle RPG with modern, slightly stylized 3D-rendered 2D look. Rich colors, clear silhouettes, readable at small sizes. Consistent style across all assets.\n\nFull art direction: docs/assets/00_FOUNDATION/00_ART_DIRECTION.md\nStyle bible (camera, lighting, materials): docs/assets/00_FOUNDATION/01_STYLE_BIBLE.md",
+  "asset_types_original_plan": {
     "vector_fallback": {
       "description": "SVG icons for UI, simple unit representations, map markers",
       "tools": ["Figma", "Inkscape", "AI vector generation"],
@@ -11,20 +12,22 @@
       "priority": "P0 - MVP"
     },
     "png_3d_rendered": {
-      "description": "AI-generated 3D-style character/unit renders, transparent background",
-      "tools": ["Midjourney (commercial plan)", "DALL-E 3", "Stable Diffusion + ControlNet", "Photoshop/GIMP for cleanup"],
+      "description": "AI-generated 3D-style character/unit renders, transparent background.",
+      "note": "This original concept has evolved into the RARITY ATLAS system (2048x1365, 2x3 sprite grid, chroma green). See docs/assets/01_PRODUCTION_SYSTEM/00_SPRITE_ATLAS_CONTRACT.md",
+      "tools": ["Leonardo.ai (primary, 150 tokens/day)", "ChatGPT DALL-E / GPT-image (rarity atlases)", "Bing Image Creator (backgrounds)", "Midjourney (premium)"],
       "specs": {
-        "resolution": "512x512 base, downscaled to 256x256 and 128x128",
-        "format": "PNG with alpha channel",
-        "style": "Consistent fantasy 3D render, soft lighting, transparent background",
-        "prompt_template": "3D render of fantasy {unit_type}, {faction} style, {rarity} quality, transparent background, game asset, isometric view, soft lighting, detailed --ar 1:1 --v 6"
+        "resolution": "512x512 base (after slicing from 2048x1365 atlas)",
+        "format": "WebP with alpha channel (PNG only during generation)",
+        "style": "Consistent fantasy 3D render, soft lighting, chroma green background (#00FF00) for atlas",
+        "prompt_template": "See docs/assets/01_PRODUCTION_SYSTEM/02_PROMPT_MODULE_SYSTEM.md for the modular prompt assembly framework, or docs/assets/02_POC/ for validated production prompts"
       },
-      "use_case": "Unit portraits, battle sprites, item icons, boss images",
+      "use_case": "Hero rarity atlases (252 sprites: 1 faction x 7 classes x 6 rarities x 2 genders), generic units, item icons, boss creatures",
       "priority": "P1 - Phase 2"
     },
     "environment": {
       "description": "Background images for battle fields, map nodes, UI screens",
-      "tools": ["Midjourney", "DALL-E 3", "Stable Diffusion"],
+      "note": "Detailed category guide: docs/assets/04_CATEGORIES/00_BACKGROUNDS.md",
+      "tools": ["Midjourney", "DALL-E 3", "Stable Diffusion", "Bing Image Creator (primary for backgrounds)"],
       "specs": {
         "resolution": "1920x1080 for backgrounds, 800x600 for map nodes",
         "format": "WebP with JPEG fallback",
@@ -34,6 +37,7 @@
     },
     "effects": {
       "description": "Battle effects, UI animations, particle sprites",
+      "note": "Detailed category guide: docs/assets/04_CATEGORIES/06_ENVIRONMENT_EFFECTS.md",
       "tools": ["After Effects / Lottie", "CSS animations", "Canvas particles"],
       "priority": "P2 - Phase 3"
     },
@@ -43,20 +47,96 @@
       "priority": "P3 - Phase 4"
     }
   },
-  "asset_pipeline": {
-    "generation": "AI tools generate base assets from detailed prompts",
-    "cleanup": "Manual or semi-automated background removal, color correction",
-    "optimization": "Convert to WebP, generate multiple resolutions, lazy loading",
-    "versioning": "Assets in Git LFS, versioned with game releases",
-    "cdn": "Upload to Supabase Storage / Cloudflare R2, served via CDN"
+  "docs_assets_mapping": {
+    "00_FOUNDATION": {
+      "path": "docs/assets/00_FOUNDATION/",
+      "description": "Visual constitution: art direction, style bible, heraldry, equipment silhouette locks. Changes rarely.",
+      "files": [
+        "00_ART_DIRECTION.md - Core art direction, proportions, faction/class design",
+        "01_STYLE_BIBLE.md - Camera, lighting, materials, shapes, colors, faction themes",
+        "02_HERALDRY_SYSTEM.md - Faction symbols and heraldic consistency",
+        "03_EQUIPMENT_SILHOUETTE_LOCKS.md - Equipment shape rules (shield/staff/sword)"
+      ]
+    },
+    "01_PRODUCTION_SYSTEM": {
+      "path": "docs/assets/01_PRODUCTION_SYSTEM/",
+      "description": "Active prompt generator: how to build a new rarity atlas prompt from reusable modules",
+      "files": [
+        "00_SPRITE_ATLAS_CONTRACT.md - Output format: 2048x1365, 2x3 slots, chroma green",
+        "01_REFERENCE_FRAME_SYSTEM.md - Invisible consistency frame, identical slot positioning",
+        "02_PROMPT_MODULE_SYSTEM.md - Module order, Body Scale Lock, Effect Boundary, Gender/Body Lock",
+        "03_HERO_RARITY_ATLAS_FACTORY.md - Skeleton + input table for new class prompts"
+      ]
+    },
+    "02_POC": {
+      "path": "docs/assets/02_POC/",
+      "description": "Concrete, validated production prompts - ready to paste into AI tools",
+      "files": [
+        "_TEMPLATE.md - Blank template for new class/faction combos",
+        "HUMAN_WARRIOR_V3.md - APPROVED - working reference point",
+        "HUMAN_MAGE_V1.md - In test - validates framework for different body type/gender"
+      ]
+    },
+    "03_PIPELINE": {
+      "path": "docs/assets/03_PIPELINE/",
+      "description": "What to do AFTER generating the image: QA, slicing, export, workflow",
+      "files": [
+        "00_QA_ACCEPTANCE_GATES.md - PASS/FIX/REJECT gates before atlas slicing",
+        "01_ATLAS_TO_ASSET_PIPELINE.md - PNG atlas -> WebP -> manifest, step by step",
+        "02_SPRITE_SLICING_SPEC.md - Atlas slicing math (2048x1365 -> 6 sprites)",
+        "03_WORKFLOW_AND_TOOLS.md - Task split (you/AI), tools, file weight table"
+      ]
+    },
+    "04_CATEGORIES": {
+      "path": "docs/assets/04_CATEGORIES/",
+      "description": "Everything that is NOT a hero rarity atlas: backgrounds, portraits, items, bosses, UI, emotions, generics, placeholders",
+      "files": [
+        "00_BACKGROUNDS.md - 7 battle backgrounds",
+        "01_UNIT_PORTRAITS.md - Base->rarity hierarchy for units",
+        "02_ITEM_ICONS.md - Weapons, potions, shields, currency",
+        "03_BOSS_CREATURES.md - Bosses and their rarity progression",
+        "04_UI_ELEMENTS.md - Frames, buttons, icons, bars",
+        "05_EMOTION_PORTRAITS.md - Dialogue portraits (half-body, Core/Extended/Special)",
+        "06_ENVIRONMENT_EFFECTS.md - Weather, magic effects, events",
+        "07_GENERIC_UNITS.md - Enemies/soldiers - 3 face variants, no Image Guidance",
+        "08_PLACEHOLDER_STRATEGY.md - How to handle missing assets in dev/test"
+      ]
+    },
+    "05_REFERENCE": {
+      "path": "docs/assets/05_REFERENCE/",
+      "description": "Data and lists - not processes",
+      "files": [
+        "00_ASSET_LIST_REFERENCE.md - Complete asset list with categories, quantities, phases",
+        "01_ASSET_CHECKLIST.md - Progress checklist (mark [x] after generation)",
+        "02_COMBAT_VISUAL_STATES.md - Why blood/burn/frozen are overlays, not sprites"
+      ]
+    },
+    "06_WORLDBUILDING_AI_TOOLKIT": {
+      "path": "docs/assets/06_WORLDBUILDING_AI_TOOLKIT/",
+      "description": "Separate concern: story/events/NPCs, not graphics",
+      "files": [
+        "00_PROJECT_AI_TOOLKIT.md - Master prompt for generating NPCs/events/quests/locations"
+      ]
+    }
+  },
+  "asset_pipeline_original_plan": {
+    "note": "The original 5-step pipeline below is the conceptual outline. The actual detailed pipeline (with QA gates, atlas slicing, chroma key removal, WebP export, asset manifest updates) lives in docs/assets/03_PIPELINE/.",
+    "generation": "AI tools generate base assets from detailed prompts. See docs/assets/01_PRODUCTION_SYSTEM/ for prompt assembly, docs/assets/02_POC/ for validated prompts.",
+    "cleanup": "Manual or semi-automated background removal, color correction. Chroma green (#00FF00) removal in docs/assets/03_PIPELINE/02_SPRITE_SLICING_SPEC.md.",
+    "optimization": "Convert to WebP, generate multiple resolutions, lazy loading. See docs/assets/03_PIPELINE/01_ATLAS_TO_ASSET_PIPELINE.md.",
+    "versioning": "Assets in Git LFS, versioned with game releases.",
+    "cdn": "Upload to Supabase Storage / Cloudflare R2, served via CDN."
   },
   "consistency_strategy": {
-    "style_guide": "docs/design/STYLE_GUIDE.md - Color palette, proportions, lighting rules",
-    "reference_board": "Mood board with 20-30 reference images for consistent style",
-    "batch_generation": "Generate assets in batches with same seed/style parameters",
-    "review_process": "Visual review against style guide before acceptance"
+    "style_guide": "docs/assets/00_FOUNDATION/00_ART_DIRECTION.md (proportions, faction/class design) and docs/assets/00_FOUNDATION/01_STYLE_BIBLE.md (camera, lighting, materials, shapes, colors)",
+    "heraldry": "docs/assets/00_FOUNDATION/02_HERALDRY_SYSTEM.md - Faction symbols and consistency rules",
+    "equipment_silhouette": "docs/assets/00_FOUNDATION/03_EQUIPMENT_SILHOUETTE_LOCKS.md - Weapon/offhand shape rules",
+    "reference_frame": "docs/assets/01_PRODUCTION_SYSTEM/01_REFERENCE_FRAME_SYSTEM.md - Invisible consistency frame for atlas slots",
+    "batch_generation": "Generate assets in batches with same seed/style parameters. See docs/assets/02_POC/ for validated batch prompts.",
+    "review_process": "Formal PASS/FIX/REJECT gates: docs/assets/03_PIPELINE/00_QA_ACCEPTANCE_GATES.md"
   },
   "placeholder_strategy": {
+    "note": "Full placeholder strategy with implementation details: docs/assets/04_CATEGORIES/08_PLACEHOLDER_STRATEGY.md",
     "mvp": "Colored rectangles with unit class icons (Font Awesome / custom SVG)",
     "phase_2": "Basic AI-generated portraits for units",
     "phase_3": "Full environment backgrounds",

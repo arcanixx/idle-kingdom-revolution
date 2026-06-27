@@ -1,59 +1,59 @@
-"@tailwind base;"  
-"@tailwind components;"  
-"@tailwind utilities;"  
-""  
-"@layer base {"  
-"  :root {"  
-"    --background: 255 255 255;"  
-"    --foreground: 10 10 10;"  
-"    --card: 255 255 255;"  
-"    --card-foreground: 10 10 10;"  
-"    --popover: 255 255 255;"  
-"    --popover-foreground: 10 10 10;"  
-"    --primary: 99 102 241;"  
-"    --primary-foreground: 250 250 250;"  
-"    --secondary: 16 185 129;"  
-"    --secondary-foreground: 250 250 250;"  
-"    --muted: 243 244 246;"  
-"    --muted-foreground: 107 114 128;"  
-"    --accent: 243 244 246;"  
-"    --accent-foreground: 107 114 128;"  
-"    --destructive: 239 68 68;"  
-"    --destructive-foreground: 250 250 250;"  
-"    --border: 229 231 235;"  
-"    --input: 229 231 235;"  
-"    --ring: 99 102 241;"  
-"    --radius: 0.5rem;"  
-"  }"  
-""  
-"  .dark {"  
-"    --background: 10 10 10;"  
-"    --foreground: 250 250 250;"  
-"    --card: 31 41 55;"  
-"    --card-foreground: 250 250 250;"  
-"    --popover: 31 41 55;"  
-"    --popover-foreground: 250 250 250;"  
-"    --primary: 99 102 241;"  
-"    --primary-foreground: 250 250 250;"  
-"    --secondary: 16 185 129;"  
-"    --secondary-foreground: 250 250 250;"  
-"    --muted: 31 41 55;"  
-"    --muted-foreground: 156 163 175;"  
-"    --accent: 31 41 55;"  
-"    --accent-foreground: 156 163 175;"  
-"    --destructive: 239 68 68;"  
-"    --destructive-foreground: 250 250 250;"  
-"    --border: 55 65 81;"  
-"    --input: 55 65 81;"  
-"    --ring: 99 102 241;"  
-"  }"  
-"}"  
-""  
-"@layer base {"  
-"  * {"  
-"    @apply border-border;"  
-"  }"  
-"  body {"  
-"    @apply bg-background text-foreground;"  
-"  }"  
-"}"  
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 255 255 255;
+    --foreground: 10 10 10;
+    --card: 255 255 255;
+    --card-foreground: 10 10 10;
+    --popover: 255 255 255;
+    --popover-foreground: 10 10 10;
+    --primary: 99 102 241;
+    --primary-foreground: 250 250 250;
+    --secondary: 16 185 129;
+    --secondary-foreground: 250 250 250;
+    --muted: 243 244 246;
+    --muted-foreground: 107 114 128;
+    --accent: 243 244 246;
+    --accent-foreground: 107 114 128;
+    --destructive: 239 68 68;
+    --destructive-foreground: 250 250 250;
+    --border: 229 231 235;
+    --input: 229 231 235;
+    --ring: 99 102 241;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 10 10 10;
+    --foreground: 250 250 250;
+    --card: 31 41 55;
+    --card-foreground: 250 250 250;
+    --popover: 31 41 55;
+    --popover-foreground: 250 250 250;
+    --primary: 99 102 241;
+    --primary-foreground: 250 250 250;
+    --secondary: 16 185 129;
+    --secondary-foreground: 250 250 250;
+    --muted: 31 41 55;
+    --muted-foreground: 156 163 175;
+    --accent: 31 41 55;
+    --accent-foreground: 156 163 175;
+    --destructive: 239 68 68;
+    --destructive-foreground: 250 250 250;
+    --border: 55 65 81;
+    --input: 55 65 81;
+    --ring: 99 102 241;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}

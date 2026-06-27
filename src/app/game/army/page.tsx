@@ -71,7 +71,7 @@ const [saving, setSaving] = useState(false);
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold">🛡 Army</h1>
+          <h1 className="text-2xl font-bold">Army</h1>
           <p className="text-sm text-muted-foreground">Power: {totalPower.toLocaleString()} | Units: {units.length}</p>
         </div>
         <button onClick={saveFormation} disabled={saving} className="px-4 py-2 bg-primary text-primary-foreground rounded-lg text-sm font-medium hover:opacity-90 disabled:opacity-50">
@@ -115,7 +115,7 @@ const [saving, setSaving] = useState(false);
                   <div className="flex justify-between items-center">
                     <div>
                       <p className="font-medium text-sm">{u.name}</p>
-                      <p className="text-xs text-muted-foreground">{u.class} · {u.faction} · Lv.{u.level}</p>
+                      <p className="text-xs text-muted-foreground">{u.class} | {u.faction} | Lv.{u.level}</p>
                     </div>
                     <div className="text-right">
                       <p className="text-sm font-mono">{u.power_rating}</p>

@@ -35,6 +35,41 @@
 ### 5. ZAKAZ AUREOLI (HALO)
 - Dla Legendary: używamy tylko skrzydeł i poświaty. Dla Mythic: używamy wirującego pyłu gwiezdnego. **Zakaz tradycyjnej aureoli (halo) w obu przypadkach.**
 
+
+## PRODUCTION PROMPT MODULES
+
+Po zaakceptowaniu PoC v3 prompty produkcyjne traktujemy jako specyfikacje eksportu assetu, a nie zwykłe opisy obrazka.
+
+Nowy domyślny porządek modułów:
+
+```text
+MASTER_VISUAL_SPEC
+RENDER_CONTRACT_CHARACTERS
+PRODUCTION_SPRITE_ATLAS_CONTRACT
+REFERENCE_FRAME_SYSTEM
+ASSET_TYPE_TEMPLATE
+FACTION_MODULE
+CLASS_MODULE
+HERALDRY_OR_SYMBOL_LOCK
+RARITY_DEFINITIONS
+EFFECTS_CONTRACT
+QUALITY_CHECK
+NEGATIVE_PROMPT
+```
+
+Pliki bazowe:
+
+- `14_PRODUCTION_SPRITE_ATLAS_CONTRACT.md`
+- `15_GLOBAL_REFERENCE_FRAME_SYSTEM.md`
+- `16_PROMPT_MODULE_SYSTEM.md`
+- `17_HUMAN_WARRIOR_POC_V3.md`
+
+Najważniejsze pojęcia:
+
+- `Sprite Slot` zastępuje luźne pojęcie `Grid Cell`.
+- `Reference Frame` definiuje niewidzialną ramkę spójności.
+- Rarity jest addytywne: nic nie znika i nic nie jest projektowane od nowa.
+- Heraldyka i symbole frakcji są traktowane jak logo, które można ulepszać materiałem i światłem, ale nie wolno go przeprojektować.
 ---
 
 ## GLOBALNE DEFINICJE FRAKCJI (Kolory i Kształty)
@@ -47,3 +82,5 @@
 | Undead | Czaszka | Szarość, Trupia Zieleń | Połamane linie, Ostre kąty |
 | Demon | Róg | Czerń, Czerwień, Fiolet | Ostre rogi, Płomienie |
 | Celestial | Gwiazda | Biel, Złoto, Lazur | Okręgi, Promienie, Halo (tylko dla Celestial) |
+
+

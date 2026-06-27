@@ -1,14 +1,8 @@
-"use client";
+﻿"use client";
 import { useState, useEffect } from "react";
-import { useUser } from "@/hooks/use-user";
+import { useUser } from "@/hooks/use-user";import type { LeaderboardEntry } from "@/types/game";
 import { Skeleton } from "@/components/skeleton";
 
-interface LeaderboardEntry {
-  id: string;
-  display_name: string;
-  level: number;
-  pvp_rating: number;
-}
 
 export default function LeaderboardPage() {
   const { user } = useUser();

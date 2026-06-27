@@ -1,7 +1,7 @@
 ﻿# ART DIRECTION -- v1.0
 
 > This document defines **why** each asset looks the way it does.
-> Use it alongside ASSET_STYLE_BIBLE.md (the "how") and PROMPT_CONSTRUCTOR.md (the "what").
+> Use it alongside `01_STYLE_BIBLE.md` (the "how") and `01_PRODUCTION_SYSTEM/02_PROMPT_MODULE_SYSTEM.md` (the "what").
 
 ---
 
@@ -130,8 +130,6 @@ Wiek postaci powinien być zróżnicowany w zależności od frakcji, klasy i pł
 - **Celestial** – wiek nie ma znaczenia (istoty pozaczasowe)
 - **Undead** – wiek śmierci jest zamrożony (postać wygląda jak w chwili śmierci)
 
----
-
 ## CHARACTER EVOLUTION RULES
 
 Rarity upgrades must preserve:
@@ -146,7 +144,7 @@ Only equipment quality may evolve.
 
 A player should instantly recognize the same character across all rarity tiers.
 
-> **Uwaga:** Stany bojowe (attack, hit) dotyczą TYLKO Hero Characters. Generics mają tylko idle. Wszystkie efekty (blood, burn, frozen itp.) to overlay'e – patrz [11_COMBAT_VISUAL_STATES.md](./11_COMBAT_VISUAL_STATES.md).
+> **Uwaga:** Stany bojowe (attack, hit) dotyczą TYLKO Hero Characters. Generics mają tylko idle. Wszystkie efekty (blood, burn, frozen itp.) to overlay'e – patrz `05_REFERENCE/02_COMBAT_VISUAL_STATES.md`.
 
 ## VISUAL CONSISTENCY PRIORITIES
 
@@ -390,7 +388,7 @@ Every faction+class combination starts with a single **BASE model** that becomes
 2. The approved BASE becomes the **STYLE ANCHOR**.
 3. All future variants must use **Image Guidance at 35-45%** strength.
 4. If any variant's style diverges recognisably from the anchor -> **asset is rejected**.
-5. Style Anchor approval is documented in PROMPT_CONSTRUCTOR.md (REFERENCE LOCK section).
+5. Style Anchor approval is documented in `05_REFERENCE/01_ASSET_CHECKLIST.md` (REFERENCE LOCK section).
 6. Once approved, Style Anchor DNA **must not change**.
 
 ### Workflow

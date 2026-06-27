@@ -12,9 +12,7 @@
 2. Po przejciu pipeline'u (`08_WORKFLOW_AND_TOOLS.md`) i wyl¹dowaniu w `public/assets/{kategoria}/`  zaznacz `[x]` tutaj.
 3. Jeli dodajesz co nowego, czego nie ma w tej licie (np. now¹ frakcjê, nowy boss)  dopisz wiersz tutaj ORAZ zaktualizuj odpowiedni plik `0X_*.md`, ¿eby dokumentacja i checklist siê nie rozje¿d¿a³y.
 
----
-
-## FAZA 1 (MVP)
+System.Text.RegularExpressions.MatchEvaluator
 
 - [ ] 7 × Battle Backgrounds (wszystkie, patrz sekcja 1 poni¿ej)
 - [ ] 7 × Unit Portraits BASE (Common, idle)  jeden per frakcja
@@ -119,12 +117,9 @@ Nazewnictwo: `{faction}_{class}_{rarity}_{state}.webp` | Stany: `idle`, `attack`
 > Tylko 1 frakcja jest aktywna na playthrough. Generic Units (sekcja 9) pokrywaj¹ pozosta³e.
 
 
-> Odznaczaj per frakcja+klasa, wszystkie 6 rarity naraz, ¿eby nie rozpisywaæ 252 osobnych linii.
+> Odznaczaj per frakcja+klasa, wszystkie 6 rarity naraz, �eby nie rozpisywa� 252 osobnych linii.
+> Uwaga dotycz�ca generowania: Wszystkie 6 rarity dla danej klasy generujemy w jednym obrazie produkcyjnym 2x3. Kolejno�� slot�w: Common, Uncommon, Rare, Epic, Legendary, Mythic. Wycinamy je skryptem po zaakceptowaniu QA.
 > Rarity: Common, Uncommon, Rare, Epic, Legendary, Mythic.
-> **Uwaga dotycząca generowania:** Wszystkie 6 rarity + 2 puste sloty (reserved) dla danej klasy generujemy w jednym obrazie (grid 2x4) zamiast osobno. Wycinamy je skryptem Python. Zaznaczamy w checklisty tylko, czy dana frakcja+klasa ma kompletny grid.
-
-> Uwaga dotycz¹ca generowania: Wszystkie 6 rarity + 2 puste sloty (reserved) dla danej klasy generujemy w jednym obrazie (grid 2x4) zamiast osobno. Wycinamy je skryptem Python. Zaznaczamy w checklisty tylko, czy dana frakcja+klasa ma kompletny grid.
-
 **Human:**
 - [ ] human_warrior  all 6 rarity, idle
 - [ ] human_mage  all 6 rarity, idle

@@ -1,18 +1,9 @@
-"use client";
+﻿"use client";
 import { useState, useEffect } from "react";
 import { Skeleton } from "@/components/skeleton";
-import { useUser } from "@/hooks/use-user";
+import { useUser } from "@/hooks/use-user";import type { Quest, PlayerQuest } from "@/types/game";
 
-interface Quest {
-  id: number; title: string; description: string;
-  quest_type: string; objectives: any; rewards: any;
-}
 
-interface PlayerQuest {
-  quest_id: number; status: string;
-}
-
-export default function QuestsPage() {
   const { user, loading } = useUser();
   const [quests, setQuests] = useState<Quest[]>([]);
   const [questsLoading, setQuestsLoading] = useState(true);
@@ -21,12 +12,14 @@ export default function QuestsPage() {
 
   useEffect(() => {
     if (!loading && user) {
+      setQuestsLoading(true);
       fetch("/api/player/quests")
         .then(r => r.json())
         .then(d => {
           setQuests(d.quests);
           setMyQuests(new Map(d.myQuests.map((p: PlayerQuest) => [p.quest_id, p])));
-        });
+        })
+        .finally(() => setQuestsLoading(false));
     }
   }, [loading, user]);
 
@@ -59,25 +52,30 @@ export default function QuestsPage() {
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold">Quests & Achievements</h1>
       </div>
+      {questsLoading ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {[1,2,3,4].map(i => <Skeleton key={i} className="h-24" />)}
+        </div>
+      ) : (
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {quests.filter(q => q.quest_type === "daily" || q.quest_type === "story").map(q => {
           const status = getQuestStatus(q);
           return (
-            <div key={q.id} className={"md-flex ml-auto rounded-xl border p-4" + (status === "done" ? " border-green-500" : "")}>
+            <div key={q.id} className={"rounded-xl border p-4" + (status === "done" ? " border-green-500" : "")}>
               <div>
                 <p className="font-semibold">{q.title}</p>
                 <p className="text-sm text-muted-foreground">{q.description}</p>
                 <p className="text-xs text-muted-foreground mt-1">{q.quest_type} quest</p>
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 mt-2">
                 {status === "ready" ? (
                   <button onClick={() => claimQuest(q.id)} disabled={busy}
                     className="px-3 py-1.5 rounded-lg bg-green-500 text-white text-sm font-medium">
                     Claim</button>
                 ) : status === "done" ? (
-                  <span className="text-xs text-green-600">✓ Done</span>
+                  <span className="text-xs text-green-600">Done</span>
                 ) : status === "active" ? (
-                  <span className="text-xs text-blue-600">⎢ In Progress</span>
+                  <span className="text-xs text-blue-600">In Progress</span>
                 ) : (
                   <span className="text-xs text-muted-foreground">Available</span>
                 )}
@@ -86,6 +84,9 @@ export default function QuestsPage() {
           );
         })}
       </div>
+      )}
     </div>
   );
 }
+
+
