@@ -30,9 +30,9 @@ docs/assets/
 ├── README.md                         ← ten plik
 │
 ├── 00_FOUNDATION/                     KONSTYTUCJA WIZUALNA — zmienia się rzadko
-│   ├── 00_ART_DIRECTION.md            Proporcje, motywy frakcji, klasy, wiek/płeć, "dlaczego tak wygląda"
+│   ├── 00_ART_DIRECTION.md            Race/Faction/Class, proporcje, motywy ras, klasy, wiek/płeć, "dlaczego tak wygląda"
 │   ├── 01_STYLE_BIBLE.md              Kamera, światło, materiały, kształty — "jak to renderować"
-│   ├── 02_HERALDRY_SYSTEM.md          TYLKO symbole frakcji (lew, czaszka, gwiazda...)
+│   ├── 02_HERALDRY_SYSTEM.md          TYLKO symbole Faction (lew, czaszka, gwiazda...)
 │   └── 03_EQUIPMENT_SILHOUETTE_LOCKS.md  TYLKO kształt ekwipunku (tarcza/kostur/miecz) — niezależne od heraldyki
 │
 ├── 01_PRODUCTION_SYSTEM/              AKTYWNY GENERATOR — jak budować nowy prompt rarity atlas
@@ -43,9 +43,11 @@ docs/assets/
 │   └── 04_KNOWN_IMPROVEMENTS_BACKLOG.md  Pomysły na v2 frameworku (z zewnętrznego review) — NIE zastosowane jeszcze
 │
 ├── 02_POC/                            KONKRETNE PROMPTY — gotowe do wklejenia
-│   ├── _TEMPLATE.md                   Pusty szablon — kopiuj dla każdej nowej klasy/frakcji
+│   ├── _TEMPLATE.md                   Pusty szablon — kopiuj dla każdej nowej klasy/rasy/frakcji
 │   ├── HUMAN_WARRIOR_V3.md            ✅ Zaakceptowany — działający punkt odniesienia
-│   └── HUMAN_MAGE_V1.md               🧪 Test frameworku (sylwetka/budowa/wiek/płeć) — patrz niżej
+│   ├── HUMAN_MAGE_V1.md               🧪 Test frameworku (sylwetka/budowa/wiek/płeć) — patrz niżej
+│   ├── ORC_LION_KINGDOM_TANK_V1.md    🧪 Test izolacji RACE (ta sama Faction, inna Rasa+Klasa) — czeka na generację
+│   └── HUMAN_IRON_LEGION_RANGER_V1.md 🧪 Test izolacji FACTION (ta sama Rasa, inna Faction+Klasa) — czeka na generację
 │
 ├── 03_PIPELINE/                       CO ROBISZ PO WYGENEROWANIU OBRAZKA
 │   ├── 00_QA_ACCEPTANCE_GATES.md      Bramki PASS/FIX/REJECT przed cięciem atlasu
@@ -91,7 +93,7 @@ zmieniając tylko to, co naprawdę się różni.
 
 1. **Przeczytaj fundament raz:** `00_FOUNDATION/00_ART_DIRECTION.md` (sekcja
    CLASS DESIGN GUIDE — tam jest typowy wiek, budowa, broń dla każdej klasy).
-2. **Skopiuj** `02_POC/_TEMPLATE.md` jako `02_POC/{FRAKCJA}_{KLASA}_V1.md`
+2. **Skopiuj** `02_POC/_TEMPLATE.md` jako `02_POC/{RASA}_{FRAKCJA}_{KLASA}_V1.md`
    (albo, jeśli klasa już ma plik jak `HUMAN_MAGE_V1.md`, użyj go jako wzorca).
 3. **Wypełnij INPUT TABLE** na górze pliku — to wymusza decyzję o: płci,
    budowie ciała, wieku, broni, locku sylwetki broni — zanim dotkniesz
@@ -108,7 +110,7 @@ zmieniając tylko to, co naprawdę się różni.
    nie, dopisz go tam), opisy Common→Mythic, budowę ciała i wiek.
 6. **Wygeneruj, oceń przez** `03_PIPELINE/00_QA_ACCEPTANCE_GATES.md`.
 7. **Po akceptacji:** zaktualizuj `05_REFERENCE/01_ASSET_CHECKLIST.md` i
-   REFERENCE LOCK dla tej kombinacji frakcja+klasa+płeć.
+   REFERENCE LOCK dla tej kombinacji rasa+frakcja+klasa+płeć.
 
 ### Status: Human Mage jako test frameworku
 
@@ -121,11 +123,37 @@ poprawek poza wypełnieniem INPUT TABLE — jeśli tak, poprawki te powinny
 wejść do `01_PRODUCTION_SYSTEM/`, a nie zostać tylko w pliku Mage.
 
 **Płeć:** Hero są generowane w obu płciach (Male/Female) dla każdej
-kombinacji frakcja+klasa w aktywnej rotacji (patrz
+kombinacji rasa+frakcja+klasa w aktywnej rotacji (patrz
 `05_REFERENCE/00_ASSET_LIST_REFERENCE.md`). Wcześniejszy Warrior PoC v3 nie
 blokował tego explicite w prompcie — `01_PRODUCTION_SYSTEM/02_PROMPT_MODULE_SYSTEM.md`
 v1.1 dodaje moduł `GENDER AND BODY TYPE LOCK`, który to naprawia na poziomie
 frameworku, nie tylko jednego PoC.
+
+### Status: dwa testy izolacji Race/Faction (czekają na generację)
+
+Po wdrożeniu modelu Race/Faction/Class w dokumentacji (zobacz sekcję niżej),
+powstały dwa PoC, każdy testujący **jedną** zmienną w izolacji — żeby nie
+zgadywać, tylko sprawdzić empirycznie, czy framework faktycznie rozdziela
+Rasę od Faction tak, jak mówi dokumentacja:
+
+- **`02_POC/ORC_LION_KINGDOM_TANK_V1.md`** — zmienia RASĘ (Human → Orc),
+  zostawia FACTION identyczną (ten sam niebiesko-złoty lew Lion Kingdom).
+  Świadomie nietypowe lore-wise (Lion Kingdom to ludzkie królestwo) — to
+  test frameworku, nie propozycja fabularna. Dodatkowo pierwszy test klasy
+  Tank (tower shield) w całym systemie.
+- **`02_POC/HUMAN_IRON_LEGION_RANGER_V1.md`** — zmienia FACTION (Lion
+  Kingdom → nowa Faction "Iron Legion": szaro-kremowo-bronzowa, własny
+  herb), zostawia RASĘ identyczną (Human, te same proporcje co Warrior i
+  Mage). Dodatkowo pierwszy test klasy Ranger (bow, bez tarczy) w całym
+  systemie.
+
+**Po wygenerowaniu obu:** wypełnij REVIEW NOTES w obu plikach. Jeśli oba
+przejdą — to mamy empiryczne potwierdzenie (nie tylko deklarację w
+dokumentacji), że Race i Faction są niezależnymi, kontrolowalnymi osiami.
+Jeśli któryś nie przejdzie (np. model "podciąga" kolorystykę Faction pod
+Rasę, albo zmienia proporcje ciała mimo niezmienionej Rasy) — to sygnał, że
+trzeba wzmocnić odpowiedni moduł w `01_PRODUCTION_SYSTEM/02_PROMPT_MODULE_SYSTEM.md`,
+nie tylko poprawić jeden plik PoC.
 
 ---
 
@@ -206,8 +234,8 @@ Szczegóły podziału pracy: `03_PIPELINE/03_WORKFLOW_AND_TOOLS.md`
 | Kategoria | Ilość | Rozmiar | Gdzie opisane |
 |-----------|-------|---------|---------------|
 | Battle Backgrounds | 7 | 1920×1080 | `04_CATEGORIES/00_BACKGROUNDS.md` |
-| Hero rarity atlas (1 frakcja × 7 klas × 6 rarity × 2 płcie) | 252 | 512×512 (po cięciu) | `02_POC/`, `03_PIPELINE/` |
-| Generic Units (3 twarze × 42 frakcja+klasa) | 126 | 512×512 | `04_CATEGORIES/07_GENERIC_UNITS.md` |
+| Hero rarity atlas (1 rasa+frakcja × 7 klas × 6 rarity × 2 płcie) | 252 | 512×512 (po cięciu) | `02_POC/`, `03_PIPELINE/` |
+| Generic Units (3 twarze × 42 rasa+klasa) | 126 | 512×512 | `04_CATEGORIES/07_GENERIC_UNITS.md` |
 | Item Icons | ~21 | 256×256 | `04_CATEGORIES/02_ITEM_ICONS.md` |
 | Boss Creatures | 8 | 512×512 / 1024×1024 | `04_CATEGORIES/03_BOSS_CREATURES.md` |
 | UI Elements | ~16 | zmienna | `04_CATEGORIES/04_UI_ELEMENTS.md` |

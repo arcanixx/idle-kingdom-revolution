@@ -108,12 +108,15 @@ Rarity must never redesign the {weapon} silhouette.
 |-------|--------|--------------|
 | Warrior | Longsword | Same blade length/shape across rarity; only material/runes/glow evolve |
 | Mage | Staff | See STAFF SILHOUETTE LOCK above |
-| Tank | Mace / Hammer | Head size and haft length fixed; only material/engravings evolve |
-| Ranger | Bow | Curve and draw length fixed; only material/string glow evolve |
+| Tank | Mace / Hammer | Head size and haft length fixed; only material/engravings evolve. Shield: see CLASS EQUIPMENT LOCK (Tower Shield) above — first tested in `02_POC/ORC_LION_KINGDOM_TANK_V1.md` |
+| Ranger | Bow | Curve and draw length fixed; only material/string glow evolve — first tested in `02_POC/HUMAN_IRON_LEGION_RANGER_V1.md` |
 | Assassin | Dual blades | Blade length/shape fixed; only material/edge glow evolve |
 
 Add new rows here as new classes are produced — do not create a new file per
-weapon type.
+weapon type. When a lock listed above moves from "placeholder claim" to
+"confirmed by a generated PoC", note which PoC confirmed it (as done for
+Tank and Ranger above) so it's clear which locks are still theoretical and
+which have been checked against a real generated atlas.
 
 ---
 

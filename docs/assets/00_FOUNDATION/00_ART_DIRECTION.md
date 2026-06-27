@@ -98,6 +98,17 @@ example above describes how the *system* is capable of handling a Faction
 appearing across Races (useful for enemies/lore), not a requirement that
 every Hero Faction must support every Race.
 
+> **Isolation-test exception (2026-06-27):** `02_POC/ORC_LION_KINGDOM_TANK_V1.md`
+> deliberately generates an Orc wearing Lion Kingdom colors/heraldry, which
+> does not (yet) make lore sense — Lion Kingdom is a Human kingdom. This PoC
+> exists purely to isolate the RACE variable: by keeping Faction (color,
+> emblem, decoration) completely fixed and changing only Race, any visual
+> difference in the output must come from Race, not from an uncontrolled
+> Faction change. Treat this PoC as a framework test, not a lore proposal.
+> If the result is good, decide separately (in lore/fabuła) whether Orc
+> Lion Kingdom Heroes make narrative sense, or whether to discard the
+> combination and keep only the test data.
+
 In practice, two different scales of Faction exist:
 
 - **Hero Factions** (e.g. Lion Kingdom) — one Faction per Race, full asset
@@ -378,6 +389,26 @@ Note this currently matches the Human Race defaults in RACE VISUAL LANGUAGE
 above exactly — that's expected for a Race's first/default Faction. A
 second Human Faction (e.g. a rival human kingdom) would define its own
 colors/symbol/themes here while keeping Human Race proportions identical.
+
+### Worked example: Iron Legion (second Human Faction)
+
+> Added 2026-06-27 as the test case for FACTION isolation — see
+> `02_POC/HUMAN_IRON_LEGION_RANGER_V1.md`. This is the first Faction that
+> proves two Factions can share a Race while looking completely different.
+
+| Aspect | Definition |
+|--------|-----------|
+| Race | Human |
+| Name | Iron Legion |
+| Primary colors | Iron Grey, Dark Crimson, Bronze (deliberately distinct from Lion Kingdom's Royal Blue/Gold) |
+| Heraldic symbol | Crossed spears behind a closed iron helm (full emblem, not just the helm) |
+| Decoration language | Studded leather and riveted plate, banded cloaks, bronze trim that thickens with rarity (parallel to Lion Kingdom's gold trim, different metal) |
+| Themes | Discipline, Conquest, Loyalty, Attrition |
+
+Iron Legion uses the same Human Race proportions, age ranges, and build as
+Lion Kingdom Heroes — only color, emblem, and decoration differ. This is the
+core claim FACTION MODULE makes, and the reason this Faction exists: to test
+it with a real second example, not just assert it in prose.
 
 ### Faction Design Checklist
 

@@ -64,12 +64,17 @@ Only materials and effects evolve.
 
 ## FACTION SYMBOLS REFERENCE
 
-See `00_FOUNDATION/00_ART_DIRECTION.md` → FACTION VISUAL LANGUAGE for the full
-table of motifs, colors, and heraldic symbols per faction. Summary:
+See `00_FOUNDATION/00_ART_DIRECTION.md` → RACE VISUAL LANGUAGE for the full
+table of motifs, colors, and heraldic symbols per Race. The table below shows
+each Race's **default Faction** symbol — i.e. the symbol used by that Race's
+first/main Faction (for Human, this is the Lion Kingdom; see
+`00_FOUNDATION/00_ART_DIRECTION.md` → FACTION DESIGN GUIDE). A second
+Faction within the same Race would define its own symbol here instead of
+reusing the Race default.
 
-| Faction | Heraldic Symbol |
+| Race | Default Faction Heraldic Symbol |
 |---------|-----------------|
-| Human | Lion rampant (standing, full-body) on shield |
+| Human (Lion Kingdom) | Lion rampant (standing, full-body) on shield |
 | Elf | Ancient oak with stars |
 | Orc | Crossed tusks with axe |
 | Undead | Cracked skull with crown |

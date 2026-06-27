@@ -40,8 +40,8 @@ export default function AdminPage() {
     setLookupResult(null);
     try {
       const q = playerId.includes("@") ? "email=" : "id=";
-      const r = await fetch("/api/player/profile?" + q + encodeURIComponent(playerId));
-      if (!r.ok) { setLookupResult({ error: "Player not found" }); return; }
+      const r = await fetch("/api/admin/lookup?" + q + encodeURIComponent(playerId));
+      if (!r.ok) { const d = await r.json().catch(() => ({})); setLookupResult({ error: d.error || "Player not found" }); return; }
       setLookupResult(await r.json());
     } catch (e: any) {
       setLookupResult({ error: e.message });

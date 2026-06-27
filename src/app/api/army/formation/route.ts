@@ -9,7 +9,7 @@ export const POST = async (request: NextRequest) =>
     const { data: { user }, error: authError } = await supabase.auth.getUser();
     if (authError || !user) return errorResponse("Unauthorized", 401);
 
-    const { data: player } = await supabase.from("players").select("id").eq("user_id", user.id).single();
+    const { data: player } = await supabase.from("players").select("id").eq("user_id", user.id).maybeSingle();
     if (!player) return errorResponse("Player not found", 404);
 
     const body = await request.json();

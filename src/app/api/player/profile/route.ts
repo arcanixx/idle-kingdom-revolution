@@ -8,7 +8,7 @@ export async function GET(request: NextRequest) {
     const supabase = await createApiClient();
     const { data: { user }, error: authError } = await supabase.auth.getUser();
     if (authError || !user) return errorResponse("Unauthorized", 401);
-    const { data, error } = await supabase.from("players").select("*").eq("user_id", user.id).single();
+    const { data, error } = await supabase.from("players").select("*").eq("user_id", user.id).maybeSingle();
     if (error) return errorResponse(error.message);
     return jsonResponse(data);
   });
@@ -19,7 +19,7 @@ export async function PATCH(request: NextRequest) {
     const supabase = await createApiClient();
     const { data: { user }, error: authError } = await supabase.auth.getUser();
     if (authError || !user) return errorResponse("Unauthorized", 401);
-    const { data: player, error: updErr } = await supabase.from("players").update(data).eq("user_id", user.id).select().single();
+    const { data: player, error: updErr } = await supabase.from("players").update(data).eq("user_id", user.id).select().maybeSingle();
     if (updErr) return errorResponse(updErr.message);
     return jsonResponse(player);
   });

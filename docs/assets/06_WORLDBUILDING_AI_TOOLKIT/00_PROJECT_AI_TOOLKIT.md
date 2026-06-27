@@ -5,6 +5,15 @@
 > **Logika:** Wykorzystuje dwa główne pluginy: `ai-text-plugin` (do generowania tekstu) i `text-to-image-plugin` (do generowania obrazków). Nasz kluczowy atut to **"master prompt"** – stała instrukcja zawierająca wiedzę o świecie gry, która zapewnia spójność wszystkich generowanych treści.
 >
 > **Zasada działania:** Wklejasz polecenie (np. "Stwórz nową rasę do Krainy Lodu") → AI, znając zasady świata, generuje spójną propozycję → Ty wybierasz i dopracowujesz najlepsze pomysły.
+>
+> **Terminologia (v2.0, 2026-06-27):** "Frakcja" w master prompcie poniżej
+> (Human/Elf/Orc/Undead/Demon/Celestial) odpowiada temu, co
+> `00_FOUNDATION/00_ART_DIRECTION.md` nazywa teraz **Rasą** — zobacz RACE,
+> FACTION, AND CLASS w tamtym dokumencie. Treść master promptu poniżej jest
+> celowo niezmieniona (to działający tekst wklejany do Perchance) — jeśli
+> przy aktualizacji tego toolkitu pojawi się potrzeba rozróżnienia Faction
+> (np. "Lion Kingdom") od Race ("Human"), zrób to tutaj jako kolejny krok,
+> nie retrofit teraz.
 
 ---
 

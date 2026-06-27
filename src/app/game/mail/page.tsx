@@ -48,13 +48,18 @@ export default function MailPage() {
 
   return (
     <div className="space-y-4">
+      <nav className="text-sm text-muted-foreground mb-2 flex items-center gap-1"><a href="/dashboard" className="hover:text-foreground">Home</a><span>/</span><span className="text-foreground">Messages</span></nav>
       <h1 className="text-2xl font-bold">Mail</h1>
       {loading ? (
         <div className="space-y-2">
           {Array.from({length: 5}).map((_, i) => <Skeleton key={i} className="h-16 rounded-xl" />)}
         </div>
       ) : mail.length === 0 ? (
-        <p className="text-muted-foreground text-center py-12">No messages.</p>
+        <div className="text-center py-16 space-y-3">
+          <div className="text-5xl opacity-30">📬</div>
+          <p className="text-muted-foreground">No messages</p>
+          <p className="text-sm text-muted-foreground/60">When the kingdom sends you news or rewards, they will appear here.</p>
+        </div>
       ) : (
         <div className="space-y-2">
           {mail.map(item => (

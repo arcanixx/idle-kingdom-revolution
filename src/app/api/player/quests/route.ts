@@ -10,7 +10,7 @@ export async function GET(request: NextRequest) {
       const supabase = await createApiClient();
       const { data: { user }, error: authError } = await supabase.auth.getUser();
       if (authError || !user) return errorResponse("Unauthorized", 401);
-      const { data: player } = await supabase.from("players").select("id").eq("user_id", user.id).single();
+      const { data: player } = await supabase.from("players").select("id").eq("user_id", user.id).maybeSingle();
       if (!player) return errorResponse("Player not found", 404);
       const limit = Math.min(parseInt(request.nextUrl.searchParams.get("limit") || "50", 10), 100);
       const offset = parseInt(request.nextUrl.searchParams.get("offset") || "0", 10);
@@ -32,7 +32,7 @@ export async function POST(request: NextRequest) {
       const supabase = await createApiClient();
       const { data: { user }, error: authError } = await supabase.auth.getUser();
       if (authError || !user) return errorResponse("Unauthorized", 401);
-      const { data: player } = await supabase.from("players").select("id").eq("user_id", user.id).single();
+      const { data: player } = await supabase.from("players").select("id").eq("user_id", user.id).maybeSingle();
       if (!player) return errorResponse("Player not found", 404);
       const { error: pErr } = await supabase.from("player_quests").update({ status: data.status }).eq("player_id", player.id).eq("quest_id", data.questId);
       if (pErr) return errorResponse(pErr.message, 500);

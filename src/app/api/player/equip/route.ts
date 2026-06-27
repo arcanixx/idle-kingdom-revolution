@@ -15,10 +15,10 @@ export async function POST(request: NextRequest) {
     if (!unitId || !itemId || !slot) return errorResponse("Missing unitId, itemId, or slot", 400);
     if (!SLOT_ITEM_TYPES[slot]) return errorResponse("Invalid slot. Must be weapon, armor, or accessory", 400);
 
-    const { data: player } = await supabase.from("players").select("id").eq("user_id", user.id).single();
+    const { data: player } = await supabase.from("players").select("id").eq("user_id", user.id).maybeSingle();
     if (!player) return errorResponse("Player not found", 404);
 
-    const { data: unit } = await supabase.from("player_units").select("equipment").eq("id", unitId).eq("player_id", player.id).single();
+    const { data: unit } = await supabase.from("player_units").select("equipment").eq("id", unitId).eq("player_id", player.id).maybeSingle();
     if (!unit) return errorResponse("Unit not found", 404);
 
     const { data: invItem } = await supabase.from("player_inventory").select("*, game_items(item_type)").eq("player_id", player.id).eq("item_id", itemId).maybeSingle();

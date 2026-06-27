@@ -1,0 +1,95 @@
+{
+  "id": "34",
+  "title": "UX Standards & Patterns",
+  "description": "Unified UI/UX patterns: toast notifications, tooltips, breadcrumbs, form validation, confirm dialogs",
+  "patterns": {
+    "toast": {
+      "description": "Non-blocking notification for action feedback (save, error, success)",
+      "spec": "src/components/Toast.tsx - portal-based, auto-dismiss (3s info, 5s error), stack multiple. Types: success/green, error/red, info/blue, warning/yellow. Renders at bottom-right via fixed positioning.",
+      "usage": "Use on all mutations (save formation, buy item, battle complete, settings save, sign out). Import { toast } from a toast store or hook.",
+      "states": [
+        "idle",
+        "showing",
+        "dismissing"
+      ],
+      "priority": "high"
+    },
+    "tooltip": {
+      "description": "Contextual help on hover/focus for icons, labels, settings toggles",
+      "spec": "src/components/Tooltip.tsx - CSS-only or simple div with onMouseEnter/Leave. Shows after 500ms delay. Position: top by default with arrow.",
+      "usage": "Settings descriptions (Reduced Motion, Low Quality), field constraints (min/max length), icon meanings. Wrap <Tooltip text=\"...\"><button/></Tooltip>.",
+      "states": [
+        "hidden",
+        "visible"
+      ],
+      "priority": "high"
+    },
+    "breadcrumbs": {
+      "description": "Navigation path showing current location with links to parents",
+      "spec": "Simple <Breadcrumbs items={[{label, href}]} /> component. Home > Game > Battle. Last item is current page (no link). Separator: / or >",
+      "usage": "Every game page (battle, army, mining, td, castle, shop, mail, inventory, settings). Help user navigate back without browser back.",
+      "states": [
+        "loading",
+        "loaded"
+      ],
+      "priority": "medium"
+    },
+    "form_validation": {
+      "description": "Inline validation feedback showing constraints and errors on fields",
+      "spec": "Each input shows: (1) placeholder hint with constraints, (2) clear button (X) when value present, (3) error message below on invalid, (4) character counter for text fields with maxLength. Validation runs on blur AND on submit.",
+      "rules": {
+        "display_name": {
+          "min": 4,
+          "max": 50,
+          "pattern": "/^[a-zA-Z0-9 _-]+$/",
+          "message": "4-50 characters, letters/numbers/spaces/hyphens only"
+        },
+        "email": {
+          "pattern": "/^[^@s]+@[^@s]+.[^@s]+$/",
+          "message": "Must be a valid email address"
+        },
+        "password": {
+          "min": 8,
+          "message": "At least 8 characters"
+        }
+      },
+      "priority": "high"
+    },
+    "confirm_dialog": {
+      "description": "Inline or modal confirmation for destructive actions",
+      "spec": "Two options: (1) Inline expansion (as in Settings > Sign Out) for simple confirms. (2) Modal overlay for destructive actions (delete account, reset progress). Shows action description + Yes/Cancel.",
+      "usage": "Sign out, unequip item, remove from formation, delete mail, spend premium currency.",
+      "priority": "medium"
+    },
+    "empty_state": {
+      "description": "Friendly message when list/data is empty, with suggested action",
+      "spec": "Icon + message + optional CTA button. Example: inventory empty -> 'No items yet. Visit the shop to buy some!' with button linking to /game/shop",
+      "usage": "Inventory, mail, quests, achievements, shop (sold out), formation (no units)",
+      "priority": "medium"
+    },
+    "loading_state": {
+      "description": "Skeleton or spinner while data loads, never blank flash",
+      "spec": "Use existing <Skeleton /> component. Match shape of content being loaded. Minimum 300ms display to prevent flicker. If loading > 3s, show 'Still loading...' message.",
+      "usage": "All data-fetching pages and sections",
+      "priority": "high"
+    },
+    "error_state": {
+      "description": "User-friendly error display with retry option",
+      "spec": "Show friendly message (not raw API error). Include 'Try Again' button that re-fetches. Log technical error to logger. If persistent after 3 retries, show 'Contact support' message.",
+      "usage": "All API data fetches and mutations",
+      "priority": "high"
+    }
+  },
+  "implementation_order": [
+    "toast",
+    "tooltip",
+    "form_validation",
+    "breadcrumbs",
+    "confirm_dialog",
+    "empty_state"
+  ],
+  "phases": {
+    "current": "Implement toast + tooltip + basic form validation across settings and game pages",
+    "next": "Breadcrumbs on all game pages, empty states on lists, error states on all API calls"
+  }
+}

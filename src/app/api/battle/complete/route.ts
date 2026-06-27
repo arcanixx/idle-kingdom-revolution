@@ -39,7 +39,7 @@ export async function POST(request: NextRequest) {
     if (authError || !user) return errorResponse("Unauthorized", 401);
 
     const { data: player } = await supabase
-      .from("players").select("id, gold, xp, highest_wave, highest_field_id, total_battles, total_wins").eq("user_id", user.id).single();
+      .from("players").select("id, gold, xp, highest_wave, highest_field_id, total_battles, total_wins").eq("user_id", user.id).maybeSingle();
     if (!player) return errorResponse("Player not found", 404);
 
     const goldReward = Math.floor(data.wavesCleared * 10);

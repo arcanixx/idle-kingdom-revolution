@@ -25,7 +25,7 @@ export default function BattlePage() {
   useEffect(() => {
     fetch("/api/game/fields")
       .then(r => r.json())
-      .then(d => { setFields(d); if (d.length > 0) setFieldId(d[0].id); })
+      .then(d => { const arr = d.data || d; if (Array.isArray(arr)) { setFields(arr); if (arr.length > 0) setFieldId(arr[0].id); } else { setFields([]); } })
       .catch((err) => logger.warn("Failed to fetch fields", "app/game/battle/page.tsx", "useEffect", err))
       .finally(() => setFieldsLoading(false));
   }, []);
@@ -61,6 +61,11 @@ export default function BattlePage() {
 
   return (
     <div className="space-y-6">
+      <nav className="text-sm text-muted-foreground mb-2 flex items-center gap-1">
+        <a href="/dashboard" className="hover:text-foreground">Home</a>
+        <span>/</span>
+        <span className="text-foreground">Battle</span>
+      </nav>
       <h1 className="text-2xl font-bold">Battle</h1>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">

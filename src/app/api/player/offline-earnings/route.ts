@@ -12,7 +12,7 @@ export async function GET(request: NextRequest) {
       .from("players")
       .select("id, last_online_at, level, xp, gold")
       .eq("user_id", user.id)
-      .single();
+      .maybeSingle();
 
     if (pErr || !player) return errorResponse("Player not found", 404);
 

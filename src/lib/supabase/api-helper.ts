@@ -17,6 +17,20 @@ export async function createApiClient() {
   );
 }
 
+export function createAdminClient() {
+  return createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL || "",
+    process.env.SUPABASE_SERVICE_KEY || "",
+    {
+      cookies: {
+        get(name: string) { return undefined; },
+        set(name: string, value: string, opts: any) {},
+        remove(name: string, opts: any) {},
+      },
+    }
+  );
+}
+
 export function jsonResponse(data: unknown, status = 200) {
   return NextResponse.json(data, { status });
 }

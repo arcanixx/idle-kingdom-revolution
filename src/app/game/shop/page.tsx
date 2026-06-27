@@ -43,6 +43,7 @@ export default function ShopPage() {
 
   return (
     <div className="space-y-6">
+      <nav className="text-sm text-muted-foreground mb-2 flex items-center gap-1"><a href="/dashboard" className="hover:text-foreground">Home</a><span>/</span><span className="text-foreground">Shop</span></nav>
       <h1 className="text-2xl font-bold">Shop</h1>
       {loading ? (
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">

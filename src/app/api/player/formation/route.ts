@@ -8,7 +8,7 @@ export const GET = async (request: NextRequest) =>
     const supabase = await createApiClient();
     const { data: { user }, error: authError } = await supabase.auth.getUser();
     if (authError || !user) return errorResponse("Unauthorized", 401);
-    const { data: player } = await supabase.from("players").select("id").eq("user_id", user.id).single();
+    const { data: player } = await supabase.from("players").select("id").eq("user_id", user.id).maybeSingle();
     if (!player) return errorResponse("Player not found", 404);
     const { data, error } = await supabase.from("player_units").select("unit_id, formation_row, formation_col").eq("player_id", player.id).not("formation_row", "is", null).order("formation_row").order("formation_col");
     if (error) return errorResponse(error.message);
@@ -26,7 +26,7 @@ export const PUT = async (request: NextRequest) =>
     const supabase = await createApiClient();
     const { data: { user }, error: authError } = await supabase.auth.getUser();
     if (authError || !user) return errorResponse("Unauthorized", 401);
-    const { data: player } = await supabase.from("players").select("id").eq("user_id", user.id).single();
+    const { data: player } = await supabase.from("players").select("id").eq("user_id", user.id).maybeSingle();
     if (!player) return errorResponse("Player not found", 404);
     const body = await request.json();
     const { formations } = body;

@@ -11,12 +11,21 @@ export async function POST(request: NextRequest) {
     const { data: { user }, error: authError } = await supabase.auth.getUser();
     if (authError || !user) return errorResponse("Unauthorized", 401);
 
-    const { data: player, error: pErr } = await supabase
-      .from("players").select("id, gold, xp, level, highest_wave, highest_field_id, total_battles, total_wins").eq("user_id", user.id).single();
-    if (pErr || !player) return errorResponse("Player not found", 404);
+    let { data: player, error: pErr } = await supabase
+      .from("players").select("id, gold, xp, level, highest_wave, highest_field_id, total_battles, total_wins").eq("user_id", user.id).maybeSingle();
+    if (pErr || !player) {
+      if (!pErr) {
+        const { data: newPlayer, error: npErr } = await supabase
+          .from("players").insert({ user_id: user.id, display_name: user.email?.split("@")[0] || "Adventurer" }).select("id, gold, xp, level, highest_wave, highest_field_id, total_battles, total_wins").maybeSingle();
+        if (npErr || !newPlayer) return errorResponse("Failed to create player", 500);
+        player = newPlayer;
+      } else {
+        return errorResponse("Player lookup failed", 500);
+      }
+    }
 
     const { data: fieldRaw, error: fErr } = await supabase
-      .from("game_battle_fields").select("*").eq("id", data.fieldId).single();
+      .from("game_battle_fields").select("*").eq("id", data.fieldId).maybeSingle();
     if (fErr || !fieldRaw) return errorResponse("Field not found", 404);
 
     const { data: rawUnits } = await supabase

@@ -35,6 +35,7 @@ export default function InventoryPage() {
 
   return (
     <div className="space-y-6">
+      <nav className="text-sm text-muted-foreground mb-2 flex items-center gap-1"><a href="/dashboard" className="hover:text-foreground">Home</a><span>/</span><span className="text-foreground">Inventory</span></nav>
       <h1 className="text-2xl font-bold">Inventory</h1>
       <div className="flex gap-2 flex-wrap">
         {types.map(t => (
@@ -48,7 +49,11 @@ export default function InventoryPage() {
           {Array.from({length: 8}).map((_, i) => <Skeleton key={i} className="h-24 rounded-xl" />)}
         </div>
       ) : filtered.length === 0 ? (
-        <p className="text-muted-foreground text-center py-12">No items found.</p>
+        <div className="text-center py-16 space-y-3">
+          <div className="text-5xl opacity-30">🧰</div>
+          <p className="text-muted-foreground">No items found</p>
+          <p className="text-sm text-muted-foreground/60">Items you collect from battles and quests will appear here.</p>
+        </div>
       ) : (
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {filtered.map(item => (

@@ -1,24 +1,20 @@
 'use client';
 
-
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
-
-interface BottomNavProps {
-  currentPath?: string;
-  onNavigate?: (path: string) => void;
-}
+import { useRouter, usePathname } from 'next/navigation';
 
 const navItems = [
-  { path: '/dashboard', icon: '??', label: 'Home' },
-  { path: '/battle', icon: '??', label: 'Battle' },
-  { path: '/units', icon: '??', label: 'Units' },
-  { path: '/economy', icon: '??', label: 'Economy' },
-  { path: '/valor', icon: '?', label: 'Valor' },
+  { path: '/dashboard', icon: '\ud83c\udfe0', label: 'Home' },
+  { path: '/game/battle', icon: '\u2694\ufe0f', label: 'Battle' },
+  { path: '/game/army', icon: '\ud83d\udc82', label: 'Army' },
+  { path: '/game/shop', icon: '\ud83d\uded2', label: 'Shop' },
+  { path: '/game/valor', icon: '\ud83c\udfc5\ufe0f', label: 'Valor' },
 ];
 
-export function BottomNav({ currentPath = '/dashboard', onNavigate }: BottomNavProps) {
-  // using plain text labels
+export function BottomNav() {
+  const router = useRouter();
+  const pathname = usePathname();
 
   return (
     <div className="fixed bottom-0 left-0 right-0 z-50 bg-background border-t border-border">
@@ -26,15 +22,15 @@ export function BottomNav({ currentPath = '/dashboard', onNavigate }: BottomNavP
         {navItems.map((item) => (
           <Button
             key={item.path}
-            variant={currentPath === item.path ? 'default' : 'ghost'}
+            variant={pathname === item.path ? 'default' : 'ghost'}
             size="icon"
             className={cn(
               'flex flex-col items-center justify-center h-full',
-              currentPath === item.path 
-                ? 'text-primary-foreground' 
+              pathname === item.path
+                ? 'text-primary-foreground'
                 : 'text-muted-foreground hover:text-foreground'
             )}
-            onClick={() => onNavigate?.(item.path)}
+            onClick={() => router.push(item.path)}
           >
             <span className="text-xl mb-1">{item.icon}</span>
             <span className="text-xs">{item.label}</span>

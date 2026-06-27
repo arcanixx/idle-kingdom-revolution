@@ -13,7 +13,7 @@ export const POST = async (request: NextRequest) =>
       const { itemId, quantity = 1 } = await request.json();
       if (!itemId) return errorResponse("Missing itemId", 400);
 
-      const { data: player } = await supabase.from("players").select("id, gold, gems").eq("user_id", user.id).single();
+      const { data: player } = await supabase.from("players").select("id, gold, gems").eq("user_id", user.id).maybeSingle();
       if (!player) return errorResponse("Player not found", 404);
 
       const { data: shopItem, error: siErr } = await supabase.from("shop_items").select("*, game_items(name, item_type)").eq("item_id", itemId).single();

@@ -1,7 +1,14 @@
 ﻿# ASSET_STYLE_BIBLE_MASTER v1.0
 
 > **IMPORTANT:** This document covers the technical implementation details.
-> For the high-level design philosophy (faction language, proportion system), see **00_ART_DIRECTION.md**.
+> For the high-level design philosophy (race/faction language, proportion system), see **00_ART_DIRECTION.md**.
+>
+> **v2.0 terminology note (2026-06-27):** "Faction" in this document's
+> FACTION VISUAL MOTIFS and SHAPE LANGUAGE tables below refers to what
+> `00_ART_DIRECTION.md` now calls **Race** (Human, Elf, Orc, Undead, Demon,
+> Celestial). See `00_ART_DIRECTION.md` → RACE, FACTION, AND CLASS for the
+> full three-axis model. Section headers below are kept close to their
+> original wording but annotated where the distinction matters.
 
 ---
 
@@ -201,11 +208,16 @@ Asset Set > Individual Asset
 
 ---
 
-## FACTION VISUAL MOTIFS
+## RACE VISUAL MOTIFS
 
-Each faction must be recognizable by shape and symbol alone, even without colors.
+> Renamed from "Faction Visual Motifs" (v2.0) — see terminology note at the
+> top of this document. A specific Faction within a Race may reuse these
+> motifs (as Lion Kingdom does for Human) or define its own — see
+> `00_ART_DIRECTION.md` → FACTION DESIGN GUIDE.
 
-| Faction | Primary Motif | Secondary Motif | Heraldic Symbol |
+Each race must be recognizable by shape and symbol alone, even without colors.
+
+| Race | Primary Motif | Secondary Motif | Heraldic Symbol |
 |---------|---------------|-----------------|-----------------|
 | Human | Lion | Crown, Sword | Lion rampant on shield |
 | Elf | Tree / Leaf | Silver crescent, Bow | Ancient oak with stars |
@@ -214,15 +226,18 @@ Each faction must be recognizable by shape and symbol alone, even without colors
 | Demon | Horn | Flame, Crystal | Horned skull with fire |
 | Celestial | Star | Wing, Halo | Eight-pointed star with eye |
 
-**Rule:** Every unit from a faction must include at least one of these motifs in their design (on armor, weapon, shield, or accessory). This ensures instant faction recognition even in small sprites.
+**Rule:** Every unit from a race (using its default/first Faction) must include at least one of these motifs in their design (on armor, weapon, shield, or accessory). This ensures instant race/faction recognition even in small sprites.
 
 ---
 
 ## SHAPE LANGUAGE
 
-Each faction has a characteristic shape silhouette that must be visible even at 64x64.
+> Renamed header context (v2.0): table below describes **Race**-level shape
+> language, same renaming as above.
 
-| Faction | Dominant Shapes | Application |
+Each race has a characteristic shape silhouette that must be visible even at 64x64.
+
+| Race | Dominant Shapes | Application |
 |---------|-----------------|-------------|
 | Human | rectangles, kite shields | Shield shapes, pauldron silhouette |
 | Elf | arches, curves, leaves | Helmet visors, cape hems, bow shapes |
@@ -231,6 +246,6 @@ Each faction has a characteristic shape silhouette that must be visible even at 
 | Demon | sharp horns | Crown/coronet, shoulder ornaments, weapon tips |
 | Celestial | stars and circles | Halo shapes, orb ornaments, circular gems |
 
-**Rule:** Shape language must be readable in silhouette alone. A unit's faction should be identifiable at 64x64 without color information.
+**Rule:** Shape language must be readable in silhouette alone. A unit's race should be identifiable at 64x64 without color information.
 
 ---

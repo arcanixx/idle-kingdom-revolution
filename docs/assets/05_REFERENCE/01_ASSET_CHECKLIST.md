@@ -8,6 +8,11 @@
 > restrukturyzacji `docs/assets/`. Ścieżki do plików docelowych w tabelach poniżej
 > odnoszą się teraz do nowej struktury — patrz `README.md` w głównym folderze
 > `docs/assets/` po mapę starych → nowych ścieżek.
+>
+> **Terminologia (v2.0):** "Frakcja" poniżej, gdzie odnosi się do
+> Human/Elf/Orc/Undead/Demon/Celestial, to właściwie **Rasa** — patrz
+> `00_FOUNDATION/00_ART_DIRECTION.md` → RACE, FACTION, AND CLASS. Liczby
+> i checklisty poniżej są niezmienione.
 
 ---
 

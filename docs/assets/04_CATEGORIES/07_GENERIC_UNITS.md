@@ -1,8 +1,13 @@
 ﻿# Generic Unit Guide
 
 > **WAŻNE: "3 warianty twarzy" = 3 różne wyglądy twarzy** (facial variants), a NIE stany (idle/attack/hit) ani emocje.
-> Generujesz 3 razy ten sam prompt z innym seedem. To daje 3 różne twarze, ale identyczny strój, broń i motyw frakcji.
-
+> Generujesz 3 razy ten sam prompt z innym seedem. To daje 3 różne twarze, ale identyczny strój, broń i motyw rasy/frakcji.
+>
+> **Terminologia (v2.0, 2026-06-27):** "Frakcja" poniżej, gdzie odnosi się do
+> Human/Elf/Orc/Undead/Demon/Celestial, to właściwie **Rasa** — patrz
+> `00_FOUNDATION/00_ART_DIRECTION.md` → RACE, FACTION, AND CLASS. Motyw/kolor
+> (np. lew) jest atrybutem tej Rasy's domyślnej **Faction** (Lion Kingdom dla
+> Human).
 
 > Zasady generowania jednostek generycznych (wrogowie, sojusznicy, żołnierze).
 > **Nie używamy** Image Guidance z Hero BASE – generujemy od nowa, zmieniając seed.
@@ -11,10 +16,10 @@
 
 ## Zasady
 
-1. **Każda frakcja + klasa** ma **3 warianty twarzy** (Generic 01, 02, 03).
+1. **Każda rasa + klasa** ma **3 warianty twarzy** (Generic 01, 02, 03).
 2. **Tylko stan `idle`** – nie generujemy `attack` ani `hit` dla Generics.
 3. **Nie używamy** Image Guidance z Hero BASE – to ma być **inna postać**.
-4. **Używamy** szablonu frakcji (motyw, kolory, kształty) – ale z **innym seedem**.
+4. **Używamy** szablonu rasy/frakcji (motyw, kolory, kształty) – ale z **innym seedem**.
 5. **Rarity:** Zawsze **Common** – generics to zwykli żołnierze, nie bohaterowie.
 
 ---
@@ -22,7 +27,7 @@
 ## Prompt dla Generic Unit
 
 ```
-Stylized fantasy 3D render of a {faction} {class}, Common quality, generic soldier, full body shot from head to feet, feet visible, 3/4 front view, centered, transparent background, {faction_motif} visible on armor, {class_weapon}, no magical effects, soft studio lighting, game character portrait, high readability --ar 1:1 --style raw --v 6 --seed {random_seed}
+Stylized fantasy 3D render of a {race} {class}, Common quality, generic soldier, full body shot from head to feet, feet visible, 3/4 front view, centered, transparent background, {faction_motif} visible on armor, {class_weapon}, no magical effects, soft studio lighting, game character portrait, high readability --ar 1:1 --style raw --v 6 --seed {random_seed}
 ```
 
 ### Przykład – Human Warrior Generic 01:
@@ -41,8 +46,8 @@ Stylized fantasy 3D render of a Human Warrior, Common quality, generic soldier, 
 
 ## Gdzie zapisujemy?
 
-- Folder: `public/assets/units/{faction}/generic/`
-- Nazewnictwo: `{faction}_{class}_generic_01.webp`, `_02.webp`, `_03.webp`
+- Folder: `public/assets/units/{race}/generic/`
+- Nazewnictwo: `{race}_{class}_generic_01.webp`, `_02.webp`, `_03.webp`
 
 **Przykład:** `human_warrior_generic_01.webp`
 

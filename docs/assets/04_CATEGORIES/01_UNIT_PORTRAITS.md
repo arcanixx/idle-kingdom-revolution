@@ -1,8 +1,15 @@
 ﻿# 02 – Unit Portraits
 
-> Jednostki – hierarchia BASE → RARITY dla każdej kombinacji Frakcja + Klasa.
+> Jednostki – hierarchia BASE → RARITY dla każdej kombinacji Rasa + Klasa.
 > Rozmiar: 512×512 WebP (z alpha channel)
 > Styl: 3D render fantasy character, PEŁNA POSTAĆ Z NOGAMI (full-body, od głowy do stóp), kąt kamery 3/4 (obrót, nie ucięcie kadru), skupienie na sylwetce i detalach zbroi.
+>
+> **Terminologia (v2.0, 2026-06-27):** Ten plik wcześniej używał słowa
+> "Frakcja" dla Human/Elf/Orc/Undead/Demon/Celestial. Zgodnie z
+> `00_FOUNDATION/00_ART_DIRECTION.md` → RACE, FACTION, AND CLASS, to jest
+> **Rasa** — Frakcja to nowa, osobna oś (np. "Lion Kingdom" dla Human),
+> opisana w tamtym dokumencie. Poniższa treść została przemianowana
+> (Frakcja → Rasa) wszędzie, gdzie odnosiła się do Human/Elf/Orc/etc.
 >
 > **WAŻNE rozróżnienie:** "3/4 view" w tym dokumencie oznacza KĄT OBROTU KAMERY (postać obrócona ok. 45° do obiektywu), NIE ucięcie kadru w 3/4 wysokości. Postać MUSI mieć widoczne nogi i stopy w każdym wariancie rarity (Base → Mythic). Jeśli model AI (np. Gemini) generuje postać bez nóg, dodaj do promptu explicite: "full body shot from head to feet, feet visible, NOT a cropped portrait, NOT half-body".
 
@@ -16,14 +23,14 @@
 
 ## Hierarchia BASE → RARITY
 
-**KLUCZOWA ZMIANA:** Generujemy **jeden bazowy model** dla każdej kombinacji Frakcja + Klasa, a następnie **7 wariantów rarity** (Base → Mythic) na jego podstawie.
+**KLUCZOWA ZMIANA:** Generujemy **jeden bazowy model** dla każdej kombinacji Rasa + Klasa, a następnie **7 wariantów rarity** (Base → Mythic) na jego podstawie.
 
 **Korzyści:**
 - Spójność twarzy, sylwetki i proporcji
 - Gracz widzi progresję tej samej postaci
 - Łatwiejsza kontrola jakości
 
-**Przykład – Human Warrior:**
+**Przykład – Human Warrior** (Rasa: Human, Frakcja: Lion Kingdom, Klasa: Warrior):
 
 Human Warrior BASE (referencja)
 ├── Human Warrior Common (prosta zbroja, zwykły miecz)
@@ -46,28 +53,28 @@ Podczas generowania siatek, aby uniknąć niespójności (jak zmiana kształtu t
 
 | Aspekt | Zasada |
 |--------|--------|
-| Frakcja | 1 na playthrough (np. Human) |
+| Rasa + Frakcja | 1 kombinacja na playthrough (np. Human / Lion Kingdom) |
 | Klasy | Tyle, ile miejsc w drużynie (zwykle 3–5 z 7 dostępnych) |
 | Rarity | Wszystkie 6 (Common → Mythic) + BASE |
 | Stany | idle, attack, hit |
 | Płeć | Obie (Male / Female), wybór per postać |
-| Wiek | Dostosowany do klasy i frakcji (patrz `00_FOUNDATION/00_ART_DIRECTION.md` → Age Diversity) |
+| Wiek | Dostosowany do klasy i rasy (patrz `00_FOUNDATION/00_ART_DIRECTION.md` → Age Diversity) |
 
-> **Konsekwencja:** Dla JEDNEJ frakcji generujemy hero assets dla WSZYSTKICH 7 klas (gracz może dowolnie składać drużynę).
-> **7 klas × 6 rarity × 3 stany × 2 płcie = 252 pliki** na frakcję.
-> Tylko 1 frakcja jest aktywna na playthrough. Pozostałe 5 frakcji to Generic Units + NPC.
+> **Konsekwencja:** Dla JEDNEJ rasy+frakcji generujemy hero assets dla WSZYSTKICH 7 klas (gracz może dowolnie składać drużynę).
+> **7 klas × 6 rarity × 3 stany × 2 płcie = 252 pliki** na rasę+frakcję.
+> Tylko 1 rasa+frakcja jest aktywna na playthrough. Pozostałe rasy to Generic Units + NPC.
 
 ### Generic Unit – 3 twarze (facial variants)
 
-> **Co to są "3 twarze"?** To 3 różne wyglądy twarzy dla tej samej klasy/frakcji, żeby wrogowie i żołnierze nie wyglądali jak klony.
+> **Co to są "3 twarze"?** To 3 różne wyglądy twarzy dla tej samej klasy/rasy, żeby wrogowie i żołnierze nie wyglądali jak klony.
 > To NIE są stany (idle/hit/attack) ani emocje (portrety).
 
-- Każda frakcja + klasa ma **3 warianty twarzy** (Generic 01, 02, 03).
+- Każda rasa + klasa ma **3 warianty twarzy** (Generic 01, 02, 03).
 - Tylko Common rarity, tylko stan `idle`.
 - Różnią się ONLY seedem w promptcie – reszta (zbroja, broń, motyw) identyczna.
 - **Nie używamy** Image Guidance z Hero BASE.
-- Folder: `public/assets/units/{faction}/generic/`
-- Nazewnictwo: `{faction}_{class}_generic_01.webp` (02, 03)
+- Folder: `public/assets/units/{race}/generic/`
+- Nazewnictwo: `{race}_{class}_generic_01.webp` (02, 03)
 
 **Przykład:** `human_warrior_generic_01.webp` = inna twarz niż Hero Human Warrior.
 
@@ -90,17 +97,17 @@ Szczegóły: `07_GENERIC_UNITS.md`
 
 ### Krok 1 – Generowanie Bazowego Modelu (BASE)
 
-**Cel:** Ustalić twarz, sylwetkę, proporcje i styl dla danej frakcji + klasy.
+**Cel:** Ustalić twarz, sylwetkę, proporcje i styl dla danej rasy + klasy.
 
 **Prompt BASE:**
 
-3D render of a fantasy {faction} {class}, base model, neutral stance, full body shot from head to feet, feet visible, NOT a cropped portrait, camera angle: 3/4 turn, simple equipment, soft studio lighting, transparent background, game character portrait, isolated subject, centered, high detail --ar 1:1 --style raw --v 6
+3D render of a fantasy {race} {class}, base model, neutral stance, full body shot from head to feet, feet visible, NOT a cropped portrait, camera angle: 3/4 turn, simple equipment, soft studio lighting, transparent background, game character portrait, isolated subject, centered, high detail --ar 1:1 --style raw --v 6
 
 **Przykład – Human Warrior BASE:**
 
 3D render of a fantasy human warrior, base model, neutral stance, full body shot from head to feet, feet visible, NOT a cropped portrait, camera angle: 3/4 turn, simple steel armor with lion motif on chest, simple sword and shield with small lion emblem, soft studio lighting, transparent background, game character portrait, isolated subject, centered, high detail --ar 1:1 --style raw --v 6
 
-**UWAGA:** Wygeneruj ten BASE raz, a następnie używaj go jako **Image Guidance (Init Image)** dla wszystkich rarity tej samej klasy/frakcji.
+**UWAGA:** Wygeneruj ten BASE raz, a następnie używaj go jako **Image Guidance (Init Image)** dla wszystkich rarity tej samej klasy/rasy.
 
 ---
 
@@ -110,7 +117,7 @@ Szczegóły: `07_GENERIC_UNITS.md`
 
 **Szablon dla Rarity:**
 
-3D render of a fantasy {faction} {class}, {rarity} quality, {equipment_upgrade}, {aura_effect}, {ornaments}, full body shot from head to feet, feet visible, NOT a cropped portrait, camera angle: 3/4 turn, same character as reference, soft studio lighting, transparent background, game character portrait, isolated subject, centered, high detail --ar 1:1 --style raw --v 6
+3D render of a fantasy {race} {class}, {rarity} quality, {equipment_upgrade}, {aura_effect}, {ornaments}, full body shot from head to feet, feet visible, NOT a cropped portrait, camera angle: 3/4 turn, same character as reference, soft studio lighting, transparent background, game character portrait, isolated subject, centered, high detail --ar 1:1 --style raw --v 6
 
 **Modyfikatory według rarity:**
 
@@ -124,23 +131,34 @@ Szczegóły: `07_GENERIC_UNITS.md`
 | Legendary | 75-90% more | celestial armor of light and gold | strong aura with floating particles | divine symbols, halos, light motes | flowing enchanted cloak with particle trail | -- |
 | Mythic | 100%+ (max density) | mythic divine armor, constellation engravings | living celestial energy, galaxy particles | ancient cosmic symbols | ethereal floating cloth | everything in motion |
 
+> "Faction symbol" / "faction crest" / "faction-colored trim" w tabeli powyżej
+> odnosi się teraz właściwie do **Faction** (np. Lion Kingdom), nie Race —
+> kolor i herb są atrybutem Faction, nie Race. Race określa tylko proporcje
+> ciała (patrz CHARACTER PROPORTION SYSTEM poniżej).
+
 ---
 
-## Frakcje – Klasy i Motywy
+## Rasy – Klasy i Motywy
 
+> Zmieniono nazwę kolumny "Frakcja" → "Rasa" (v2.0). Każda Rasa ma swoją
+> **domyślną Faction** (dla Human to Lion Kingdom — patrz
+> `00_FOUNDATION/00_ART_DIRECTION.md` → FACTION DESIGN GUIDE), która na razie
+> używa tego samego motywu co Rasa. Dodatkowe Faction w ramach tej samej
+> Rasy (np. drugie ludzkie królestwo) zdefiniowałyby własny motyw/kolory,
+> zachowując te same proporcje ciała.
 
 **KEY CHANGE:** We generate 7 rarity variants in a single 2x4 grid instead of individual images. In prompts we always add: Leave a 20-pixel transparent gap between each character. Do not let weapons, auras, or shields overlap into adjacent cells. Post-processing (cropping) is done by Python script (auto-crop contours), which removes background and crops characters with margin.
 
-| Frakcja | Motyw | Klasy (do wyboru) |
+| Rasa | Motyw (domyślna Frakcja) | Klasy (do wyboru) |
 |---------|-------|-------------------|
-| Human | Lion | Warrior, Mage, Tank, Healer, Ranger, Assassin, Support |
+| Human | Lion (Lion Kingdom) | Warrior, Mage, Tank, Healer, Ranger, Assassin, Support |
 | Elf | Tree / Leaf | Warrior, Ranger, Mage, Healer, Assassin, Support, Tank |
 | Orc | Tusk / Bone | Warrior, Tank, Berserker, Shaman, Hunter, Support, Mage |
 | Undead | Skull | Warrior, Mage, Tank, Healer, Assassin, Support, Ranger |
 | Demon | Horn | Warrior, Mage, Tank, Assassin, Support, Healer, Ranger |
 | Celestial | Star | Warrior, Mage, Healer, Tank, Support, Ranger, Assassin |
 
-**Uwaga:** Orc ma unikalny zestaw 7 klas (zamiast Ranger/Healer/Assassin używa Berserker/Shaman/Hunter) – przy liczeniu łącznej liczby plików (frakcje × klasy × rarity × stany) ta frakcja nie jest 1:1 wymienna z resztą, mimo że liczba klas się zgadza (7).
+**Uwaga:** Orc ma unikalny zestaw 7 klas (zamiast Ranger/Healer/Assassin używa Berserker/Shaman/Hunter) – przy liczeniu łącznej liczby plików (rasa × klasy × rarity × stany) ta rasa nie jest 1:1 wymienna z resztą, mimo że liczba klas się zgadza (7).
 
 ---
 
@@ -163,7 +181,7 @@ public/assets/units/
 ├── demon/
 └── celestial/
 
-**Nazewnictwo:** `{faction}_{class}_{rarity}_{state}.webp`
+**Nazewnictwo:** `{race}_{class}_{rarity}_{state}.webp` (jeśli Rasa ma więcej niż jedną aktywną Faction w produkcji, rozszerz na `{race}_{faction}_{class}_{rarity}_{state}.webp` — patrz `01_PRODUCTION_SYSTEM/02_PROMPT_MODULE_SYSTEM.md` → Two-gender production rule dla pełnego wzorca z gender)
 
 **Stany:** `idle`, `attack`, `hit`
 
@@ -179,22 +197,24 @@ All units use the same proportion baseline defined in `00_FOUNDATION/00_ART_DIRE
 - Weapons: 110-130% realistic size
 - Armor: 120% readability scale
 
-**Per-faction offsets:**
+**Per-race offsets:**
 - Elf: +0.1 height, more slender
 - Orc: +0.2 width, broader silhouette
 - Undead: same height, gaunt frame
 - Demon: +0.15 height, wider horns add mass
 - Celestial: +0.05 height, floating elements add presence
 
-These proportions apply to ALL rarity variants of a given faction+class. See `00_FOUNDATION/00_ART_DIRECTION.md` for full details.
+These proportions apply to ALL rarity variants of a given race+class — they
+are not affected by which Faction within that Race is chosen. See
+`00_FOUNDATION/00_ART_DIRECTION.md` for full details.
 
 ---
 
 ## STYLE ANCHOR RULES
 
-Every faction+class combination requires **BASE model approval** before rarity variants can be generated.
+Every race+faction+class combination requires **BASE model approval** before rarity variants can be generated.
 
-1. Generate 4-8 BASE variants for a faction+class.
+1. Generate 4-8 BASE variants for a race+faction+class.
 2. Select the best candidate and approve as **Style Anchor**.
 3. Update the REFERENCE LOCK in `05_REFERENCE/01_ASSET_CHECKLIST.md` to Approved: YES.
 4. Only then generate rarity variants (Common through Mythic).
@@ -206,6 +226,6 @@ This workflow ensures the 42 BASE models remain the single source of truth for a
 ## Uwagi
 
 - **Image Guidance (Init Image) to klucz do spójności.** Zawsze używaj BASE jako referencji.
-- **Nie generuj wszystkich rarity naraz.** Zacznij od Common dla wszystkich frakcji (Faza 1), potem dodawaj kolejne rarity (Faza 2 i 3).
+- **Nie generuj wszystkich rarity naraz.** Zacznij od Common dla wszystkich ras (Faza 1), potem dodawaj kolejne rarity (Faza 2 i 3).
 - **Jeśli używasz różnych narzędzi** (Leonardo, Midjourney, DALL-E), zawsze używaj tej samej referencji i tych samych parametrów stylu.
 - **Warianty attack/hit:** Możesz wygenerować je osobno (dodając "mid-swing" lub "reeling from impact") lub ja mogę je stworzyć w post-processingu przez proste przekształcenia (szybsze na start).

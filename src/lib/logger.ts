@@ -46,21 +46,18 @@ const consoleTransport: LogTransport = (entry) => {
   }
 };
 
-const emailTransport: LogTransport = (entry) => {
-  if (entry.level !== "ERROR") return;
-  fetch("/api/logs", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(entry),
-  }).catch(() => {
-    /* silent fail - don't loop on logger errors */
-  });
+const fileTransport: LogTransport = (entry) => {
+  if (entry.level === "DEBUG" && currentLevel !== "DEBUG") return;
+  if (typeof window === "undefined") return;
+  try {
+    const payload = JSON.stringify(entry);
+    if (payload.length > 10000) return;
+    fetch("/api/logs", { method: "POST", headers: { "Content-Type": "application/json" }, body: payload })
+      .catch(() => {});
+  } catch {}
 };
 
-const transports: LogTransport[] = [consoleTransport];
-if (currentLevel !== "DEBUG") {
-  transports.push(emailTransport);
-}
+const transports: LogTransport[] = [consoleTransport, fileTransport];
 
 function shouldLog(level: LogLevel): boolean {
   return LOG_LEVELS[level] >= LOG_LEVELS[currentLevel];
@@ -100,6 +97,33 @@ function getStackFile(): string {
     }
   }
   return "unknown";
+}
+
+let startupDone = false;
+
+export function startupCheck(): void {
+  if (startupDone || typeof window !== "undefined") return;
+  startupDone = true;
+  console.info("[IKR STARTUP] Checking logs/ for recent errors...");
+  setTimeout(async () => {
+    try {
+      const ac = new AbortController();
+      setTimeout(() => ac.abort(), 2000);
+      const r = await fetch("/api/logs?limit=3&level=ERROR", { signal: ac.signal });
+      if (!r.ok) return;
+      const d = await r.json();
+      if (d.count > 0) {
+        console.warn("[IKR STARTUP] Found " + d.count + " recent error(s) in logs/");
+        for (const err of d.errors || []) {
+          console.warn("  [ERROR] " + err.file + ": " + err.content.slice(0, 200).replace(/\n/g, " "));
+        }
+      } else {
+        console.info("[IKR STARTUP] No recent errors in logs/");
+      }
+    } catch {
+      // server not ready yet
+    }
+  }, 2000);
 }
 
 export const logger = {
