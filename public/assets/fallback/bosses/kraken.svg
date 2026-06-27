@@ -1,0 +1,20 @@
+<svg viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="kraken-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0369A1;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#0284C7;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0C4A6E;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <ellipse cx="64" cy="85" rx="70" ry="50" fill="url(#kraken-grad)" stroke="#1E293B" stroke-width="4"/>
+  <circle cx="30" cy="40" r="20" fill="white" stroke="#0369A1" stroke-width="3"/>
+  <circle cx="98" cy="40" r="20" fill="white" stroke="#0369A1" stroke-width="3"/>
+  <ellipse cx="64" cy="70" rx="18" ry="15" fill="white"/>
+  <path d="M20 20 L35 40 L40 30 L25 10 Z" fill="white" stroke="#0369A1" stroke-width="3"/>
+  <path d="M108 20 L93 40 L88 30 L103 10 Z" fill="white" stroke="#0369A1" stroke-width="3"/>
+  <path d="M10 70 L30 60 L35 75 L15 85 Z" fill="white" stroke="#0369A1" stroke-width="3"/>
+  <path d="M118 70 L98 60 L93 75 L113 85 Z" fill="white" stroke="#0369A1" stroke-width="3"/>
+  <path d="M64 100 L54 110 L64 120 L74 110 Z" fill="white" stroke="#0369A1" stroke-width="2"/>
+  <circle cx="64" cy="110" r="6" fill="black"/>
+  <path d="M50 110 L78 110" stroke="white" stroke-width="3"/>
+</svg>

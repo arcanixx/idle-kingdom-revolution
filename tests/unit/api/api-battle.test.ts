@@ -1,4 +1,4 @@
-import { describe, it, expect, vi } from 'vitest';
+﻿import { describe, it, expect, vi } from 'vitest';
 import { BattleStartSchema, BattleCompleteSchema } from '../../../src/lib/validation/schemas';
 
 describe('Battle API', () => {

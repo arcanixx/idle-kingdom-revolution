@@ -1,14 +1,15 @@
-{
+﻿{
   "document_title": "03 - AI Collaboration Rules",
-  "version": "0.1.0",
-  "date": "2026-06-23",
+  "version": "0.3.0",
+  "date": "2026-06-27",
   "ai_behavior_guidelines": {
     "primary_rule": "DELIVER CONTENT, NOT EXPLANATIONS",
     "thinking": "Internal reasoning is fine, but final output must be actionable code/docs",
     "no_guessing": "If uncertain about a requirement, ASK immediately - never assume",
     "no_hallucination": "Never invent file paths, API endpoints, or data structures that don't exist",
     "context_awareness": "Always check existing files before creating new ones",
-    "incremental_delivery": "Deliver work in small, reviewable chunks"
+    "incremental_delivery": "Deliver work in small, reviewable chunks",
+    "ask_first": "Before coding: read related docs, check existing code for patterns, confirm understanding, propose approach if multiple options exist"
   },
   "communication_rules": {
     "language": "Code and technical docs in English, discussions in Polish or English as preferred",
@@ -17,24 +18,116 @@
     "file_references": "Use relative paths from project root",
     "assumptions": "List all assumptions explicitly if any must be made"
   },
+  "project_stack": {
+    "name": "Idle Kingdom Revolution",
+    "tech_stack": {
+      "frontend": "Next.js 16 + React 19 + TypeScript 5 (strict)",
+      "styling": "Tailwind CSS + shadcn/ui",
+      "state": "Zustand 5 + TanStack Query 5 (installed, not active)",
+      "backend": "Supabase (PostgreSQL + Auth + Realtime)",
+      "auth": "@supabase/ssr (createBrowserClient / createServerClient)",
+      "testing": "Vitest + @testing-library/react + Playwright",
+      "package_manager": "Bun (NOT npm!)",
+      "build": "Turbopack (default), Webpack fallback on Windows with broken SWC",
+      "deploy": "Netlify",
+      "ci_cd": "GitHub Actions (bun-based)"
+    },
+    "architecture_decisions": {
+      "app_router": "All new pages in src/app/",
+      "route_groups": "(auth)/ for auth pages, game/ for game pages",
+      "proxy_over_middleware": "src/proxy.ts (Next.js 16 native proxy)",
+      "server_components": "Default unless client interaction needed",
+      "api_routes": "For external APIs, heavy compute, mutations requiring validation",
+      "battle_model": "Client simulates, server verifies via action log",
+      "file_structure": "kebab-case files, PascalCase components, camelCase hooks and stores"
+    },
+    "current_phase": {
+      "name": "Phase 1: Core Game Loop (partially implemented)",
+      "phase_0_complete": true,
+      "phase_1_tasks": {
+        "completed": ["P1-01 Auth", "P1-02 Profile", "P1-03 Battle engine", "P1-04 Formation grid (in_progress)", "P1-07 Fields", "P1-09 Leveling", "P1-14 Battle tests", "P1-006 Logger"],
+        "pending": ["P1-05 Unit classes", "P1-06 Battle UI", "P1-08 Army screen (in_progress)", "P1-10 Equipment", "P1-11 Settings", "P1-12 Auto-save", "P1-13 Admin panel", "P1-15 E2E tests", "P1-16 Performance"]
+      }
+    }
+  },
   "development_workflow": {
     "before_coding": [
-      "1. Read related documentation files",
-      "2. Check existing code for patterns",
+      "1. Read related documentation files (docs/plan/, docs/phase-1/)",
+      "2. Check existing code for patterns in src/",
       "3. Confirm understanding of requirements",
-      "4. Propose approach if multiple options exist"
+      "4. Propose approach if multiple options exist",
+      "5. Check src/types/game.ts for existing type definitions",
+      "6. Check src/lib/game/ for existing business logic",
+      "7. Run 'bun run typecheck' before starting"
     ],
     "during_coding": [
-      "1. Follow code standards document",
-      "2. Add JSDoc comments",
-      "3. Write tests alongside code (TDD preferred)",
-      "4. Update documentation if architecture changes"
+      "1. Follow code standards (docs/plan/30_DEVELOPMENT_STANDARDS.json)",
+      "2. Add file header (path, purpose, dependencies, exports)",
+      "3. Import and use @/lib/logger in every new/modified file",
+      "4. Add JSDoc comments for all exported functions",
+      "5. Write tests alongside code",
+      "6. Update documentation if architecture changes"
     ],
     "after_coding": [
-      "1. Verify no TypeScript errors",
-      "2. Run tests",
-      "3. Update CHANGELOG",
-      "4. Mark tasks as complete in project tracking"
+      "1. Verify no TypeScript errors (bun run typecheck)",
+      "2. Run tests (bun run test)",
+      "3. Update docs/plan/21_IMPLEMENTATION_CHECKLIST.json if applicable",
+      "4. Remove any *.new, *.tmp files"
+    ],
+    "self_test_phase": "AFTER delivery, the AI MUST re-verify as both tester and analyst. Run typecheck, tests, lint, then manually check: does the feature work? Are positive/negative cases handled? Re-read requirements - is everything implemented? Are there missing validation, error handling, loading states, edge cases? Update docs if architecture changed."
+  },
+  "file_header_template": "/*\n * File: src/path/to/file.ts\n * Purpose: One-line description of what this file does\n * Dependencies: [library/tool, other/file]\n * Exports: [FunctionName, ComponentName]\n */",
+  "coding_standards": {
+    "naming": {
+      "files": "kebab-case (battle-engine.ts, quest-card.tsx)",
+      "components": "PascalCase (BattleArena, QuestList)",
+      "hooks": "camelCase + 'use' prefix (useBattle, useGameLoop)",
+      "stores": "camelCase + 'Store' (gameStore, battleStore)",
+      "types": "PascalCase without I prefix (PlayerProfile, BattleState)",
+      "constants": "UPPER_SNAKE_CASE (MAX_LEVEL, BASE_GOLD_REWARD)",
+      "db_tables": "snake_case, plural (players, battle_fields)",
+      "db_columns": "snake_case (created_at, player_id)"
+    },
+    "typescript": {
+      "strict": true,
+      "noImplicitAny": true,
+      "strictNullChecks": true,
+      "noUnusedLocals": "error",
+      "exported_functions": "MUST have explicit return type",
+      "no_any": "Never use 'any' - always define proper interface"
+    },
+    "comments": {
+      "jsdoc": "Required for all exported functions",
+      "inline": "Explain WHY, not WHAT",
+      "todo_format": "// TODO(@author): description - ticket #123",
+      "fixme_format": "// FIXME(@author): description - ticket #123"
+    }
+  },
+  "logging_rules": {
+    "mandatory_import": "KAZDY tworzony lub modyfikowany plik w src/ MUSI importowac logger z @/lib/logger na poczatku pliku: import { logger } from '@/lib/logger';",
+    "no_console": "NIGDY nie uzywaj console.log, console.warn, console.error. Zawsze uzywaj logger.debug/info/warn/error.",
+    "every_catch": "Kazdy blok catch (try/catch, .catch(), async/await) MUSI zawierac logger.error(...) z file, functionName, error i metadata.",
+    "every_file_param": "Kazde wywolanie loggera MUSI miec parametr file (sciezka od src/, np. 'components/battle/BattleArena.tsx').",
+    "functionName_pattern": "Zawsze podawaj nazwe funkcji/metody jako functionName. Uzyj 'anonymous' jesli funkcja jest anonimowa / inline.",
+    "entry_logging": "Publiczne funkcje, API route handlery, komponenty React powinny logowac logger.info(...) na wejsciu z opisem co sie dzieje.",
+    "debug_mode": "Ustaw NEXT_PUBLIC_LOG_LEVEL=DEBUG w .env lokalnie aby zobaczyc wszystkie logi DEBUG. Nie uzywaj DEBUG w commitach produkcyjnych.",
+    "example": "import { logger } from '@/lib/logger';\n\nexport function myFunction(fieldId: number) {\n  logger.info('Processing field', 'lib/game/my-file.ts', 'myFunction', { fieldId });\n  try {\n    // ...\n  } catch (err) {\n    logger.error('Failed to process field', 'lib/game/my-file.ts', 'myFunction', err, { fieldId });\n  }\n}"
+  },
+  "testing_standards": {
+    "pyramid": {
+      "unit": "70% - Vitest for all game logic and utilities",
+      "integration": "20% - API routes and store interactions",
+      "e2e": "10% - Playwright for critical paths (auth, battle, army)"
+    },
+    "unit_test_required_for": [
+      "New game logic (src/lib/game/)",
+      "New utility functions (src/lib/)",
+      "New API helpers (src/lib/supabase/)"
+    ],
+    "e2e_critical_paths": [
+      "Auth: register -> verify -> login -> logout",
+      "Battle: login -> start battle -> complete -> check rewards",
+      "Army: login -> view units -> edit formation -> save"
     ]
   },
   "prohibited_actions": [
@@ -44,21 +137,32 @@
     "NEVER delete files without confirmation",
     "NEVER skip tests for 'quick fixes'",
     "NEVER hardcode strings that should be in i18n files",
-    "NEVER use any() types - always define proper interfaces"
+    "NEVER use any() types - always define proper interfaces",
+    "NEVER use console.log/warn/error - always use @/lib/logger",
+    "NEVER use npm - always use bun",
+    "NEVER create temporary files (*.new, *.tmp) in repo",
+    "NEVER commit generated files (repo-dump.txt, etc.)",
+    "NEVER hardcode icons or emoji - use Lucide icons or i18n"
   ],
   "memory_management": {
-    "project_knowledge": "Store in project.md (project-specific)",
-    "general_guidelines": "Store in instructions.md (cross-project)",
-    "agent_specific": "Store in AGENTS.md and CLAUDE.md (redirect to instructions.md + project.md)",
+    "project_knowledge": "AI_INSTRUCTIONS_PROJECT.md (root) - strictly project-specific (replaces old PROJECT.md)",
+    "general_guidelines": "AI_INSTRUCTIONS_GLOBAL.md (root) - cross-project AI rules (replaces old docs/AGENTS.md)",
+    "agent_specific": "Redirect files in root: AGENTS.md (OpenCode Desktop), CLAUDE.md (Claude Desktop), .clinerules (Cline), .cursorrules (Cursor), .coderules (Codex), VSCODE.md (VSC), KILOCODE.md (Kilo Code), ANTIGRAVITY.md (Antigravity) - all redirect to AI_INSTRUCTIONS_GLOBAL.md + AI_INSTRUCTIONS_PROJECT.md",
     "updates": "Update memory when requirements change, never assume old context is current"
   },
   "quality_gates": {
     "before_delivery": [
+      "SELF-TEST as tester and analyst: verify functionality, check positive and negative cases, re-read requirements against implementation",
       "TypeScript compiles without errors",
-      "All tests pass",
-      "No console errors in browser",
-      "Documentation updated",
-      "Code reviewed against standards"
+      "All tests pass (bun run test)",
+      "No console.log/warn/error (only logger)",
+      "Documentation updated (docs/plan/ + PROJECT.md if applicable)",
+      "Logger imported and used in all new/modified files",
+      "No 'any' types used",
+      "No hardcoded strings (i18n checked)",
+      "No .new or .tmp files",
+      "Code reviewed against coding standards"
     ]
   }
 }
+

@@ -1,4 +1,4 @@
-export type PerkEffect = {
+﻿export type PerkEffect = {
   type: "stat_boost" | "flat_bonus" | "reward_multi" | "cost_reduction";
   target: string;
   value: number;

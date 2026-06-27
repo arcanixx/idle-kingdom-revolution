@@ -1,4 +1,4 @@
-// Battle Engine Configuration Constants
+﻿// Battle Engine Configuration Constants
 // These constants can be adjusted to balance the game without modifying core logic
 
 export const BATTLE_CONFIG = {

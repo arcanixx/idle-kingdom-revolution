@@ -1,8 +1,30 @@
-{
+﻿{
   "document_title": "20 - AI Prompts for Asset Generation",
-  "version": "0.1.0",
-  "date": "2026-06-23",
-  "purpose": "Ready-to-use prompts for AI image generation tools (Midjourney, DALL-E 3, Stable Diffusion) to create consistent game assets.",
+  "version": "0.2.0",
+  "date": "2026-06-27",
+  "status": "INITIAL PROMPT REFERENCE - This document contains the original prompt templates and free tool overview from the initial planning phase. The living, production-ready prompt system now lives in docs/assets/. See 'current_references' below for the mapping.",
+  "purpose": "Ready-to-use prompts for AI image generation tools (Midjourney, DALL-E 3, Stable Diffusion) to create consistent game assets.\n\nIMPORTANT: For the current modular prompt assembly system (with Body Scale Lock, Effect Boundary, Gender/Body Lock, Reference Frame), see docs/assets/01_PRODUCTION_SYSTEM/02_PROMPT_MODULE_SYSTEM.md and docs/assets/01_PRODUCTION_SYSTEM/03_HERO_RARITY_ATLAS_FACTORY.md.\nFor already validated, working production prompts, see docs/assets/02_POC/ (e.g. HUMAN_WARRIOR_V3.md).",
+  "current_references": {
+    "prompt_assembly_framework": "docs/assets/01_PRODUCTION_SYSTEM/02_PROMPT_MODULE_SYSTEM.md",
+    "rarity_atlas_factory": "docs/assets/01_PRODUCTION_SYSTEM/03_HERO_RARITY_ATLAS_FACTORY.md",
+    "sprite_atlas_contract": "docs/assets/01_PRODUCTION_SYSTEM/00_SPRITE_ATLAS_CONTRACT.md",
+    "validated_poc_prompts": "docs/assets/02_POC/ (HUMAN_WARRIOR_V3.md, HUMAN_MAGE_V1.md, _TEMPLATE.md)",
+    "qa_acceptance_gates": "docs/assets/03_PIPELINE/00_QA_ACCEPTANCE_GATES.md",
+    "full_asset_pipeline": "docs/assets/03_PIPELINE/01_ATLAS_TO_ASSET_PIPELINE.md",
+    "sprite_slicing_spec": "docs/assets/03_PIPELINE/02_SPRITE_SLICING_SPEC.md",
+    "category_guides": {
+      "backgrounds": "docs/assets/04_CATEGORIES/00_BACKGROUNDS.md",
+      "unit_portraits": "docs/assets/04_CATEGORIES/01_UNIT_PORTRAITS.md",
+      "item_icons": "docs/assets/04_CATEGORIES/02_ITEM_ICONS.md",
+      "boss_creatures": "docs/assets/04_CATEGORIES/03_BOSS_CREATURES.md",
+      "ui_elements": "docs/assets/04_CATEGORIES/04_UI_ELEMENTS.md",
+      "emotion_portraits": "docs/assets/04_CATEGORIES/05_EMOTION_PORTRAITS.md",
+      "effects": "docs/assets/04_CATEGORIES/06_ENVIRONMENT_EFFECTS.md",
+      "generic_units": "docs/assets/04_CATEGORIES/07_GENERIC_UNITS.md"
+    },
+    "asset_list_and_checklist": "docs/assets/05_REFERENCE/00_ASSET_LIST_REFERENCE.md, docs/assets/05_REFERENCE/01_ASSET_CHECKLIST.md",
+    "workflow_and_tools": "docs/assets/03_PIPELINE/03_WORKFLOW_AND_TOOLS.md"
+  },
   "style_guide_summary": {
     "art_style": "Fantasy 3D-rendered 2D, soft lighting, rich colors, clean transparent backgrounds",
     "consistency_rules": [
@@ -10,9 +32,11 @@
       "Same seed range for batches (e.g., --s 250 for Midjourney)",
       "Consistent aspect ratio: --ar 1:1 for units, --ar 16:9 for backgrounds",
       "Include 'transparent background, game asset, isolated subject' in every prompt"
-    ]
+    ],
+    "full_style_reference": "docs/assets/00_FOUNDATION/00_ART_DIRECTION.md and docs/assets/00_FOUNDATION/01_STYLE_BIBLE.md"
   },
   "prompt_templates": {
+    "note": "These templates from the initial plan are kept as conceptual foundation. For the actual production-ready modular prompt system with atlas format, reference frame, Body Scale Lock, Effect Boundary, and Gender/Body Lock, use docs/assets/01_PRODUCTION_SYSTEM/02_PROMPT_MODULE_SYSTEM.md instead.",
     "unit_portrait": {
       "tool": "Midjourney v6 / DALL-E 3",
       "template": "3D render of a fantasy {unit_class} character, {faction} faction, {rarity} quality, {description}, wearing {armor_type}, holding {weapon_type}, dynamic pose, soft studio lighting, transparent background, game asset, isolated subject, high detail, 4K --ar 1:1 --style raw --v 6",
@@ -81,16 +105,18 @@
     }
   },
   "batch_generation_workflow": {
+    "note": "This workflow was the original concept. For the current production pipeline (with QA gates, atlas slicing, chroma green removal, WebP export, and asset manifest updates), see docs/assets/03_PIPELINE/.",
     "step_1": "Define batch theme (e.g., 'Human faction units')",
     "step_2": "Create 5-10 prompts using template with consistent parameters",
     "step_3": "Generate in Midjourney with --s 250 for consistency",
-    "step_4": "Review against style guide - reject off-style results",
-    "step_5": "Upscale accepted images, remove background if needed (Photoshop/Remove.bg)",
+    "step_4": "Review against style guide - reject off-style results. Formal QA gates: docs/assets/03_PIPELINE/00_QA_ACCEPTANCE_GATES.md",
+    "step_5": "Upscale accepted images, remove background if needed (Photoshop/Remove.bg). For atlas-based production: slice and remove chroma green per docs/assets/03_PIPELINE/02_SPRITE_SLICING_SPEC.md",
     "step_6": "Resize to 512x512, 256x256, 128x128 for responsive loading",
-    "step_7": "Convert to WebP with alpha channel, add to asset pipeline",
-    "step_8": "Update asset manifest in database"
+    "step_7": "Convert to WebP with alpha channel, add to asset pipeline. Full pipeline: docs/assets/03_PIPELINE/01_ATLAS_TO_ASSET_PIPELINE.md",
+    "step_8": "Update asset manifest in database and mark progress in docs/assets/05_REFERENCE/01_ASSET_CHECKLIST.md"
   },
   "free_ai_tools": {
+    "note": "Tool recommendations from initial planning. Current tooling split (which tool for which task with limits): docs/assets/03_PIPELINE/03_WORKFLOW_AND_TOOLS.md",
     "image_generation": [
       {
         "name": "Bing Image Creator (DALL-E 3)",

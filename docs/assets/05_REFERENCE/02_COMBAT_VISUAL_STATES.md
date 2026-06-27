@@ -1,0 +1,182 @@
+﻿# 11 -- Combat Visual States
+
+> Combat effects are implemented via **overlays and VFX**, not as separate character variants.
+> This keeps the asset count manageable and ensures visual consistency.
+
+---
+
+## Combat Overlay System
+
+### Core Principle
+
+**Do not create separate combat sprites for damage states.**
+
+
+### Rozróżnienie: animacje vs overlay'e
+
+- **`idle`, `attack`, `hit`** – to **animacje/pozy** (zmiana sylwetki, ułożenia ciała, broni). Są to osobne assety, generowane **TYLKO dla HERO CHARACTERS**.
+- **Blood, Burn, Frozen, Poison, Shock, Death, Necromancy** – to **overlay'e** (warstwy wizualne nakładane w kodzie). NIE generujemy osobnych assetów.
+- **Generics** – mają TYLKO `idle`. Nie mają `attack` ani `hit`.
+
+To podejście redukuje liczbę assetów i jest zgodne z nowoczesnym standardem gier mobilnych (2026).
+
+
+The base combat sprite (idle/attack/hit) remains unchanged. All combat visual states are achieved through:
+
+- **Overlays** -- semi-transparent layers applied on top of the base sprite
+- **Particles** -- lightweight particle effects (sparks, mist, embers)
+- **Shaders** -- colour transformations (desaturation, tint, glow)
+- **VFX** -- hit flash, screen shake, damage numbers
+
+This approach means:
+- One base sprite per unit = no asset bloat
+- Consistent look across all units
+- Easy to add new states without regenerating assets
+- Performance-friendly (shaders/overlays are cheaper than sprite swaps)
+
+---
+
+## Standard Overlays
+
+Overlays are triggered by specific damage types or debuffs. They can stack.
+
+### Blood Overlay
+
+| Element | Description |
+|---------|-------------|
+| Visual | Light blood on armor, light blood on weapon, minor facial blood |
+| Trigger | Physical damage, critical strikes, bleed effects |
+| Intensity | Scales with damage taken |
+| Duration | Temporary (fades after hit) |
+
+### Burn Overlay
+
+| Element | Description |
+|---------|-------------|
+| Visual | Scorch marks, small ember particles, smoke traces |
+| Trigger | Fire damage, burn debuff |
+| Intensity | Scales with burn stacks |
+| Duration | Persistent while debuff active |
+
+### Frozen Overlay
+
+| Element | Description |
+|---------|-------------|
+| Visual | Ice crystals on armor/skin, frost buildup, cold breath effect |
+| Trigger | Ice damage, freeze debuff |
+| Intensity | Full coverage when frozen solid |
+| Duration | Persistent while debuff active |
+
+### Poison Overlay
+
+| Element | Description |
+|---------|-------------|
+| Visual | Green mist around character, poison particles, sickly green tint |
+| Trigger | Poison debuff |
+| Intensity | Scales with poison stacks |
+| Duration | Persistent while debuff active |
+
+### Shock Overlay
+
+| Element | Description |
+|---------|-------------|
+| Visual | Electric arcs across armor, lightning sparks |
+| Trigger | Lightning damage, stun effects |
+| Intensity | Brief burst on hit, subtle crackle while stunned |
+| Duration | Brief flash + persistent crackle |
+
+---
+
+## Hit Feedback
+
+The most cost-effective combat feedback system for mobile RPGs.
+
+| Element | Implementation | Duration |
+|---------|---------------|----------|
+| Hit Flash | White flash overlay on the unit sprite | 100-150 ms |
+| Screen Shake | Camera shake on hit (light for normal, heavy for crit) | 100-200 ms |
+| Damage Numbers | Floating damage text above the unit | 800-1200 ms |
+
+> These are implemented in code/shaders, not in asset generation.
+
+---
+
+## Death State
+
+### Principle
+
+Death is **not** a separate asset per unit. It is an overlay applied to the existing asset.
+
+### Death Overlay
+
+| Element | Description |
+|---------|-------------|
+| Visual | Desaturated colours, lowered brightness, grey tint |
+| Character | Eyes closed, head drooped |
+| Duration | Persistent while dead (until revive or battle end) |
+
+### Future Animation (post-MVP)
+
+If the project moves to animated sprites:
+
+- **Character collapsed** -- ragdoll or predefined fall animation
+- Same overlay applied
+
+For MVP: the death overlay + idle sprite with closed eyes is sufficient.
+
+---
+
+## Necromancy State
+
+This is **not** death. It represents:
+- Mind control
+- Corruption
+- Reanimation
+
+### Corrupted Overlay
+
+| Element | Description |
+|---------|-------------|
+| Visual | Purple glow, green necrotic energy, dark veins on skin |
+| Character | Corrupted eyes (glowing), unnatural stiff posture |
+| Trigger | Mind control, necromancy, temporary enemy conversion, reanimated unit |
+
+### Why No Separate Zombie Sprites
+
+Instead of generating:
+- Human Warrior Zombie
+- Human Mage Zombie
+- Human Tank Zombie
+
+Use:
+
+`
+Human Warrior
+   +
+Corrupted Overlay
+`
+
+This gives the same visual result with zero additional asset generation.
+
+---
+
+## Asset Production Rules
+
+> These rules should be added to the workflow in 03_PIPELINE/03_WORKFLOW_AND_TOOLS.md.
+
+1. **Combat visual states are NOT generated as separate character variants.**
+2. All combat states are achieved using:
+   - Overlays (semi-transparent layers)
+   - Particles (emitters)
+   - Shaders (colour/greyscale transforms)
+   - VFX (hit flash, screen shake)
+3. The base combat sprite set is:
+   - idle -- neutral stance
+   - attack -- mid-swing
+   - hit -- taking damage
+4. No additional sprites are needed for:
+   - Blood / Burn / Frozen / Poison / Shock
+   - Death / Necromancy
+   - Any future status effect
+
+> This rule is **non-negotiable**. Every overlay-based state added today saves 42+ sprite sheets tomorrow.

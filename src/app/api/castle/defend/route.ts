@@ -1,4 +1,4 @@
-import { NextRequest } from "next/server";
+﻿import { NextRequest } from "next/server";
 import { createApiClient, jsonResponse, errorResponse } from "@/lib/supabase/api-helper";
 import { withErrorHandler } from "@/lib/api/validation-middleware";
 
@@ -9,7 +9,7 @@ export async function POST(request: NextRequest) {
     if (authError || !user) return errorResponse("Unauthorized", 401);
 
     const { data: player } = await supabase
-      .from("players").select("id, gold").eq("user_id", user.id).single();
+      .from("players").select("id, gold").eq("user_id", user.id).maybeSingle();
     if (!player) return errorResponse("Player not found", 404);
 
     const { data: castle, error: cErr } = await supabase

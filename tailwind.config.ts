@@ -1,10 +1,17 @@
-import type { Config } from "tailwindcss";
+﻿import type { Config } from "tailwindcss";
 
 export default {
   darkMode: "class",
   content: ["./src/**/*.{js,ts,jsx,tsx,mdx}"],
   theme: {
     extend: {
+      backgroundImage: {
+        "bg-plains": "url('/assets/backgrounds/plains.svg')",
+        "bg-forest": "url('/assets/backgrounds/forest.svg')",
+        "bg-mountains": "url('/assets/backgrounds/mountains.svg')",
+        "bg-dungeon": "url('/assets/backgrounds/dungeon.svg')",
+        "bg-ice": "url('/assets/backgrounds/ice_land.svg')",
+      },
       colors: {
         background: "rgb(var(--background))",
         foreground: "rgb(var(--foreground))",
@@ -49,3 +56,4 @@ export default {
   },
   plugins: [],
 } satisfies Config;
+

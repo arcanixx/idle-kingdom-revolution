@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest';
+﻿import { describe, it, expect } from 'vitest';
 import { ProfileUpdateSchema, QuestActionSchema, LearnPerkSchema } from '../../../src/lib/validation/schemas';
 
 describe('Player API Schemas', () => {

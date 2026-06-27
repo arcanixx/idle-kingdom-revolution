@@ -1,4 +1,4 @@
-{
+﻿{
   "document_title": "04 - Security Plan",
   "version": "0.1.0",
   "date": "2026-06-23",
@@ -59,8 +59,8 @@
       "Speed hack detection (validate action timestamps)"
     ],
     "rate_limiting": {
-      "api_calls": "100 req/min per IP",
-      "auth_attempts": "5 attempts per 15 min",
+      "api_calls": "100 req/min per IP (implemented: src/lib/rate-limit.ts)",
+      "auth_attempts": "5 attempts per 15 min (implemented: src/lib/rate-limit.ts)",
       "battle_actions": "No limit (client-side), but sync throttled"
     }
   },
@@ -76,3 +76,4 @@
     "recovery": "Database point-in-time recovery (Supabase Pro feature, consider for launch)"
   }
 }
+

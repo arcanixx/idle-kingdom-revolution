@@ -1,4 +1,4 @@
-export interface RewardBase {
+﻿export interface RewardBase {
   gold: number;
   xp: number;
   valor: number;
@@ -33,8 +33,9 @@ export function calcRewards(fieldKey: keyof typeof BASE_REWARDS, level: number):
 }
 
 export function calcOfflineEarnings(highestWave: number, hoursOffline: number, level: number): { gold: number; xp: number; } {
-  const rate = Math.max(1, highestWave) * 10;
+  const safeWave = Math.max(1, highestWave);
+  const rate = safeWave * 10;
   const gold = Math.floor(rate * hoursOffline * getRewardMultiplier(level));
-  const xp = Math.floor(highestWave * 5 * hoursOffline * getRewardMultiplier(level));
+  const xp = Math.floor(safeWave * 5 * hoursOffline * getRewardMultiplier(level));
   return { gold, xp };
 }
