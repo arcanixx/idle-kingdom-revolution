@@ -6,9 +6,11 @@ Idle Kingdom Revolution
 Status:
 Backlog of prompt-engineering improvements suggested for a *future* framework
 revision (e.g. v2 of the production prompt system). None of these are applied
-to the current accepted PoCs (`02_POC/HUMAN_WARRIOR_V3.md`,
-`02_POC/HUMAN_MAGE_V1.md`) yet — those are working and accepted, so they are
-not touched just to satisfy a theoretical improvement without re-testing.
+to the current accepted PoCs (`02_POC/HUMAN_LION_KINGDOM_WARRIOR_V3.md`,
+`02_POC/HUMAN_LION_KINGDOM_MAGE_V1.md`) yet — those are working and accepted
+(framework-wise; specific generated images may still be REJECTED per QA
+Gates — see their REVIEW NOTES), so they are not touched just to satisfy a
+theoretical improvement without re-testing.
 
 Purpose:
 Capture external review feedback (e.g. from other AI models reviewing the
@@ -178,10 +180,53 @@ to another tool).
 
 **Status:** not started. Logged for future scoping, likely after the
 Race/Faction/Class restructure (see open item in
-`02_POC/HUMAN_MAGE_V1.md` → REVIEW NOTES) is implemented, since the Asset
-Specification layer would need to model Race/Faction/Class as its core axes
-anyway — doing the Race/Faction conceptual work first makes the eventual
-compiler design easier.
+`02_POC/HUMAN_LION_KINGDOM_MAGE_V1.md` → REVIEW NOTES) is implemented, since
+the Asset Specification layer would need to model Race/Faction/Class as its
+core axes anyway — doing the Race/Faction conceptual work first makes the
+eventual compiler design easier.
+
+---
+
+### 8. Prompt length hitting tool-level paste limits (practical, not just theoretical)
+
+**Observation (2026-06-27, elevated priority over items 1-7 above):** unlike
+items 1-7, which were external review suggestions with no confirmed real
+problem yet, this one is a **confirmed practical blocker**. When pasting the
+full FINAL PROMPT for `02_POC/ORC_LION_KINGDOM_TANK_V1.md` and
+`02_POC/HUMAN_IRON_LEGION_RANGER_V1.md` into the generation tool, the tool
+started treating the pasted text as a file attachment instead of inline
+prompt content, forcing the prompt to be split and pasted in two parts.
+This is a direct consequence of prompt length growing as more modules
+(RACE, GENDER AND BODY TYPE LOCK, EFFECT BOUNDARY, weapon-specific silhouette
+locks) have been added on top of the original Warrior prompt.
+
+**Why this matters more than items 1-7:** those are quality/clarity
+improvements with no confirmed downside in the current prompt. This is a
+workflow problem happening today, on the current two newest PoCs, not a
+hypothetical future one.
+
+**Possible directions (not yet decided, needs testing before adopting):**
+
+- Apply item 2 (consolidate duplicate "same X" lines into named blocks) and
+  item 1 (reduce negative-instruction density) above — both would shorten
+  the prompt as a side effect of being clearer, which would also help this
+  problem. This is a reason to revisit items 1-2 sooner than "someday in
+  v2", since they now serve two goals (clarity AND length) instead of one.
+- Check whether the generation tool has a higher paste/inline limit through
+  a different input path (e.g. a dedicated "system prompt" or "instructions"
+  field instead of the main chat input) before assuming the prompt itself
+  must shrink.
+- If neither helps enough, this becomes the strongest concrete argument yet
+  for item 7's Prompt Compiler direction — a compiler could emit a shorter,
+  tool-specific rendering of the same Asset Specification instead of one
+  ever-growing monolithic text block that every new module makes longer.
+
+**Status:** not resolved. Tracked here as the most urgent item in this
+backlog precisely because it is not theoretical — current workaround is
+manually splitting the paste into two parts, which works but is friction
+that will get worse as more modules are added (e.g. once Race-specific
+face/body description blocks grow, as seen in
+`02_POC/ORC_LION_KINGDOM_TANK_V1.md`'s RACE section).
 
 ---
 

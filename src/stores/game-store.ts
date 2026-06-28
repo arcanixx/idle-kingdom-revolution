@@ -23,11 +23,14 @@ interface GameState {
   inventory: Item[];
   setInventory: (items: Item[]) => void;
   fetchInventory: () => Promise<void>;
+  lastSaveTime: number;
+  setLastSaveTime: (time: number) => void;
+  toSerializable: () => Record<string, unknown>;
 }
 
 export const useGameStore = create<GameState>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       isLoaded: false,
       setLoaded: (v: boolean) => set({ isLoaded: v }),
       profile: null,
@@ -50,6 +53,18 @@ export const useGameStore = create<GameState>()(
       fetchInventory: async () => {
         try { const r = await fetch("/api/player/inventory"); const d = await r.json(); if (d?.inventory && Array.isArray(d.inventory)) set({ inventory: d.inventory }); else if (Array.isArray(d)) set({ inventory: d }); } catch (err) { logger.error("Failed to fetch inventory", "stores/game-store.ts", "fetchInventory", err); }
       },
+      lastSaveTime: 0,
+      setLastSaveTime: (time: number) => set({ lastSaveTime: time }),
+      toSerializable: () => {
+        const state = get();
+        return {
+          profile: state.profile,
+          units: state.units,
+          formation: state.formation,
+          inventory: state.inventory,
+          lastSaveTime: state.lastSaveTime,
+        };
+      },
     }),
     {
       name: "ikr-game-store",
@@ -57,4 +72,3 @@ export const useGameStore = create<GameState>()(
     }
   )
 );
-

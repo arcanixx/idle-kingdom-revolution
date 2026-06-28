@@ -19,15 +19,15 @@ describe("API Profile Integration", () => {
 
   describe("GET /api/player/profile", () => {
     it("returns 401 when not authenticated", async () => {
-      mockGetUser.mockResolvedValue({ user: null, error: new Error("Not authenticated") });
+      mockGetUser.mockResolvedValue({ data: { user: null }, error: new Error("Not authenticated") });
       const supabase = createClient();
-      const { user } = await supabase.auth.getUser();
+      const { data: { user } } = await supabase.auth.getUser();
       expect(user).toBeNull();
     });
 
     it("returns profile when authenticated", async () => {
       const mockProfile = { id: "1", user_id: "user-123", display_name: "TestPlayer" };
-      mockGetUser.mockResolvedValue({ user: { id: "user-123" }, error: null });
+      mockGetUser.mockResolvedValue({ data: { user: { id: "user-123" } }, error: null });
       mockFrom.mockReturnValue({
         select: vi.fn(() => ({ single: vi.fn().mockResolvedValue({ data: mockProfile, error: null }) })),
       });
@@ -39,7 +39,7 @@ describe("API Profile Integration", () => {
 
   describe("PATCH /api/player/profile", () => {
     it("updates display name", async () => {
-      mockGetUser.mockResolvedValue({ user: { id: "user-123" }, error: null });
+      mockGetUser.mockResolvedValue({ data: { user: { id: "user-123" } }, error: null });
       mockFrom.mockReturnValue({
         update: vi.fn(() => ({ 
           eq: vi.fn(() => ({ 

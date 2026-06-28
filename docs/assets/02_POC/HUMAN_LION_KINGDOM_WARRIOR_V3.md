@@ -4,7 +4,11 @@ Project:
 Idle Kingdom Revolution
 
 Status:
-Accepted Proof of Concept candidate for the production sprite atlas prompt system.
+Framework validated, but **this specific generated atlas is REJECTED for
+production use** (see REVIEW NOTES below — confirmed lion-head-only defect
+in slots 3 and 5). The PROMPT itself remains the accepted production prompt
+— regenerate using this same prompt and re-run QA before using any output
+in-game.
 
 Purpose:
 Reusable test prompt for validating rarity progression, Reference Frame consistency, Sprite Slot alignment, heraldry preservation, and slice-safe output.
@@ -542,9 +546,10 @@ The expected review criteria are not only visual appeal, but also:
 
 ### Actual review (2026-06-27, see `docs/HUMAN_WARRIOR_v3.png`)
 
-**Result: PASS**, with two known generator-level issues to track via QA
-(not documentation defects — the prompt already says the right thing in
-both cases):
+**Result: PASS with a confirmed Gate 5 defect**, three known generator-level
+issues to track via QA (not documentation defects — the prompt already
+says the right thing in all three cases, including an explicit
+`lion head only` entry already present in NEGATIVE PROMPT above):
 
 - **Row 2 baseline drift:** row 2 (Epic/Legendary/Mythic) sits very slightly
   higher/smaller in its slot than row 1 (Common/Uncommon/Rare). Minor, does
@@ -555,6 +560,21 @@ both cases):
   every future atlas, not just remembered ad hoc.
 - **Facing direction:** confirmed working correctly in this Warrior atlas
   (`Facing LEFT` honored). When the same instruction was reused verbatim for
-  `02_POC/HUMAN_MAGE_V1.md`, the model generated the Mage facing RIGHT
-  instead — i.e. the same prompt wording does not guarantee the same facing
-  result across different generations/classes. See Gate 6 below.
+  `02_POC/HUMAN_LION_KINGDOM_MAGE_V1.md`, the model generated the Mage facing
+  RIGHT instead — i.e. the same prompt wording does not guarantee the same
+  facing result across different generations/classes. See Gate 6 below.
+- **CONFIRMED Gate 5 defect — lion head only, despite explicit negative
+  prompt (2026-06-27):** in the actually generated atlas, **slots 3 (Rare)
+  and 5 (Legendary)** show the shield emblem as a lion HEAD only, not the
+  full standing lion used correctly in slots 1, 2, and 4 (Common, Uncommon,
+  Epic). This happened even though `lion head only` is explicitly listed in
+  NEGATIVE PROMPT above — i.e. the negative prompt alone was not sufficient
+  to prevent it. This is a generator-reliability issue, not a missing
+  instruction. The same defect, in similarly-positioned slots (Epic and
+  Legendary), was independently observed in
+  `02_POC/ORC_LION_KINGDOM_TANK_V1.md` — see that file's REVIEW NOTES for
+  the cross-atlas pattern. **Action: reject this atlas for production use
+  and regenerate** (this PoC was accepted for framework validation purposes
+  before this defect was caught on closer inspection; it is not approved as
+  a production-ready atlas as-is). See Gate 5 update below for the
+  strengthened check.

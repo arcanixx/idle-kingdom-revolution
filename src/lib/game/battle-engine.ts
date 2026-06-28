@@ -1,5 +1,7 @@
 ﻿import type { Unit, UnitClass, BattleField } from "@/types/game";
 import { SeededRNG } from "@/lib/game/rng";
+import { battleEventBus } from "@/lib/game/battle-event-emitter";
+import { logger } from "@/lib/logger";
 
 export interface CombatUnit {
   id: string;
@@ -50,12 +52,12 @@ export function startBattle(field: BattleField, playerUnits: Unit[], formation: 
   const combatUnits: CombatUnit[] = [];
   let idx = 0;
   for (const row of ["front","back"] as const) {
-    for (let col = 0; col < 3; col++) {
+    for (let col = 0; col < 4; col++) {
       const cell = formation[row]?.[col];
       if (!cell) continue;
       const pu = playerUnits.find(u => u.unit_id === cell.unit_id);
       if (!pu || !pu.isActive) continue;
-      combatUnits.push({
+      const unit: CombatUnit = {
         id: pu.id,
         unit_id: pu.unit_id,
         name: pu.name,
@@ -71,7 +73,9 @@ export function startBattle(field: BattleField, playerUnits: Unit[], formation: 
         isEnemy: false,
         isAlive: true,
         cooldowns: {},
-      });
+      };
+      combatUnits.push(unit);
+      battleEventBus.emit("unitSpawn", { unitId: unit.id, name: unit.name, row: unit.row, col: unit.col, isEnemy: false });
       idx++;
     }
   }
@@ -94,12 +98,12 @@ export function startBattle(field: BattleField, playerUnits: Unit[], formation: 
 export function spawnWave(state: BattleState, waveNum: number): void {
   state.currentWave = waveNum;
   state.enemyUnits = [];
-  const enemyCount = Math.min(2 + waveNum, 6);
+  const enemyCount = Math.min(2 + waveNum, 8);
   const isBoss = waveNum % 5 === 0;
   for (let i = 0; i < enemyCount; i++) {
     const template = createEnemyTemplate(isBoss ? waveNum + 2 : waveNum, i);
     const bossMulti = isBoss ? 3 : 1;
-    state.enemyUnits.push({
+    const unit: CombatUnit = {
       id: "enemy_" + waveNum + "_" + i,
       unit_id: "enemy_" + i,
       name: (isBoss && i === 0 ? "BOSS " : "") + template.name,
@@ -115,10 +119,13 @@ export function spawnWave(state: BattleState, waveNum: number): void {
       isEnemy: true,
       isAlive: true,
       cooldowns: {},
-    });
+    };
+    state.enemyUnits.push(unit);
+    battleEventBus.emit("unitSpawn", { unitId: unit.id, name: unit.name, row: unit.row, col: unit.col, isEnemy: true });
   }
   state.log.push("--- Wave " + waveNum + (isBoss ? " (BOSS FIGHT!)" : "") + " ---");
   state.log.push(state.enemyUnits.length + " enemies appear");
+  logger.info("Wave " + waveNum + " spawned with " + state.enemyUnits.length + " enemies", "src/lib/game/battle-engine.ts", "spawnWave");
 }
 
 export function processTick(state: BattleState): void {
@@ -132,27 +139,36 @@ export function processTick(state: BattleState): void {
     const target = targets[Math.floor(state.rng.next() * targets.length)];
     const damage = Math.max(1, Math.floor(state.rng.next() * (unit.attack * 0.8)) + Math.floor(unit.attack * 0.2) - Math.floor(target.defense * 0.5));
     target.hp -= damage;
-    if (!target.isAlive && target.hp <= 0) {
+
+    const crit = state.rng.next() > 0.9;
+    const finalDamage = crit ? Math.floor(damage * 1.5) : damage;
+    target.hp -= finalDamage;
+
+    battleEventBus.emit("attack", { attackerId: unit.id, targetId: target.id, damage: finalDamage, type: crit ? "crit" : "hit" });
+
+    if (target.hp <= 0 && target.isAlive) {
       target.isAlive = false;
+      battleEventBus.emit("death", { unitId: target.id });
       state.log.push(unit.name + " defeats " + target.name);
-    } else if (damage > 0) {
-      state.log.push(unit.name + " hits " + target.name + " for " + damage + " damage");
+    } else if (finalDamage > 0) {
+      state.log.push(unit.name + " hits " + target.name + " for " + finalDamage + " damage");
     }
   }
   const playerAlive = state.playerUnits.filter(u => u.isAlive);
   const enemyAlive = state.enemyUnits.filter(u => u.isAlive);
   if (playerAlive.length === 0) {
     state.status = "defeat";
+    battleEventBus.emit("battleEnd", { winner: "enemy", rewards: state.rewards });
     state.log.push("DEFEAT - All your units have fallen!");
     return;
   }
   if (enemyAlive.length === 0) {
     if (state.currentWave >= state.totalWaves) {
       state.status = "victory";
+      battleEventBus.emit("battleEnd", { winner: "player", rewards: state.rewards });
       state.log.push("VICTORY! All waves cleared!");
     } else {
       spawnWave(state, state.currentWave + 1);
     }
   }
 }
-

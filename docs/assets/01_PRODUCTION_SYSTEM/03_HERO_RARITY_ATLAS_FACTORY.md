@@ -272,9 +272,16 @@ Reason:
 ### Tank
 
 - weapon: mace or hammer
-- offhand: large shield
+- offhand: large shield (tower shield confirmed in
+  `02_POC/ORC_LION_KINGDOM_TANK_V1.md`)
 - silhouette risk: shield becomes too large by rarity
 - lock: shield type and body scale
+- **confirmed risk (2026-06-27):** heraldry on the shield degraded to a
+  head-only fragment at Epic/Legendary in the one Tank PoC run so far —
+  same defect seen on Warrior's shield, see Gate 5 in
+  `03_PIPELINE/00_QA_ACCEPTANCE_GATES.md`. Also saw a shield base color
+  mismatch against the Warrior atlas at the Epic tier specifically (Gate 7).
+  Watch both on any new Tank atlas.
 
 ### Healer
 
@@ -285,10 +292,16 @@ Reason:
 
 ### Ranger
 
-- weapon: bow
+- weapon: bow (recurve bow confirmed in
+  `02_POC/HUMAN_IRON_LEGION_RANGER_V1.md`)
 - offhand: quiver
 - silhouette risk: bow crosses slot border
 - lock: bow curve and arrow/quiver placement
+- **confirmed result (2026-06-27):** the only PoC reviewed so far with no
+  Gate 5 heraldry defect at all — emblem was medallion-shaped, not a
+  full-body animal pose. See
+  `00_FOUNDATION/02_HERALDRY_SYSTEM.md` → EMPIRICAL NOTE before designing
+  this class's Faction emblem if doing a new Faction at the same time.
 
 ### Assassin
 

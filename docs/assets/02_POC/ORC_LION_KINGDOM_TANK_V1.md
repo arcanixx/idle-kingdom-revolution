@@ -4,7 +4,12 @@ Project:
 Idle Kingdom Revolution
 
 Status:
-Framework isolation test PoC — **RACE variable test**. This is not a lore
+Framework isolation test PoC — **RACE variable test**. **Race isolation
+CONFIRMED PASS** (2026-06-27, see REVIEW NOTES below), but **this specific
+generated atlas is REJECTED for production use** (lion-head-only defect at
+Epic/Legendary, plus Epic shield color mismatch vs the Human Warrior
+atlas). The PROMPT itself remains accepted — regenerate using this same
+prompt and re-run QA before using any output in-game. This is not a lore
 proposal. See `00_FOUNDATION/00_ART_DIRECTION.md` → FACTION SCOPE →
 Isolation-test exception for why this combination is deliberately
 lore-unusual (an Orc wearing a Human kingdom's colors and heraldry).
@@ -640,33 +645,76 @@ random redesign
 
 ## REVIEW NOTES
 
-> Fill in after this atlas has actually been generated and inspected.
+> Reviewed 2026-06-27, see `assets/ORC_LION_KINGDOM_TANK_MALE_V1.png`.
 
-Expected review criteria (in addition to the standard Gate checks in
-`03_PIPELINE/00_QA_ACCEPTANCE_GATES.md`):
+**Result: Race isolation CONFIRMED PASS. Two generator-level defects found,
+this specific atlas REJECTED for production use, prompt remains accepted.**
 
-- **Race isolation check (primary purpose of this PoC):** does the Orc
-  Tank visibly read as wider/broader/shorter-legged than the Human Warrior
-  or Human Mage atlases, while using the EXACT SAME blue/gold/lion Faction
-  identity? If yes, Race and Faction are genuinely decoupled in practice.
-  If the model instead drifted the colors/heraldry toward something more
-  "Orc-typical" (e.g. green/brown, tusks-and-bone motif), that's a
-  framework-gap signal: the generator may default to Race-typical Faction
-  styling unless very explicitly held constant — log this either way.
-- **Tower Shield silhouette lock:** does the shield stay the same
-  height/width/curvature across all six rarities, the same way the Warrior's
-  kite shield and the Mage's staff did?
-- **Lion emblem fidelity:** does the lion stay recognizably the SAME lion
-  (full standing pose) as in `HUMAN_WARRIOR_V3.md`, just rendered on a wider
-  chest plate — or did the model redesign it for the new race?
-- Standard checks: sprite slot safety, row 1 vs row 2 baseline (known minor
-  drift, see Gate 6), facing direction (known inconsistency, see Gate 6),
-  effect boundary.
-- **framework-gap log:** anything that had to change outside the INPUT
-  TABLE values to make Race=Orc work on an unchanged Faction. If nothing
-  did, write "No framework changes needed — confirms Race and Faction are
-  independently controllable."
-- **Lore decision (separate from framework test):** once reviewed, decide
-  whether "Orc Lion Kingdom Tank" is kept as a real Hero combination in the
-  game's lore, or whether this was purely a test and the combination is
-  discarded while keeping the learnings.
+- **Race isolation check — PASS, this is the headline result.** The Orc
+  Tank reads unmistakably wider, broader-shouldered, and more massive than
+  either Human atlas (Warrior, Mage), while using the EXACT SAME blue/gold
+  palette and the EXACT SAME full standing lion pose as
+  `02_POC/HUMAN_LION_KINGDOM_WARRIOR_V3.md`. The model did NOT drift the
+  colors/heraldry toward something more "Orc-typical" (no green/brown,
+  no tusk-and-bone motif appeared) — it held the Faction fixed exactly as
+  instructed while still rendering Orc-specific body/face. **This confirms
+  Race and Faction are independently controllable in practice, not just in
+  the prompt's prose** — the primary goal of this PoC.
+- **Tower Shield Silhouette Lock — PASS.** The tower shield keeps the same
+  height/width/curvature across all six rarities, the same way the
+  Warrior's kite shield and the Mage's staff did. First confirmed use of
+  this lock.
+- **Lion emblem fidelity — PARTIAL, see Gate 5 defect below.** In slots 1,
+  2, 3 (Common, Uncommon, Rare) the lion stays a full standing lion,
+  recognizably the same pose/composition as the Human Warrior's lion, just
+  on a wider chest/shield. In slots 4 and 5 (Epic, Legendary) it degrades to
+  a lion HEAD only — see CONFIRMED Gate 5 defect below.
+- **CONFIRMED Gate 5 defect — lion head only (2026-06-27):** slots 4 (Epic)
+  and 5 (Legendary) show the shield/chest emblem as a lion HEAD only, not
+  the full standing lion used correctly in slots 1, 2, 3, and 6 (Mythic
+  recovers the full lion). This happened despite "different heraldry"
+  being listed in NEGATIVE PROMPT (though `lion head only` specifically was
+  not yet in this file's negative prompt at generation time — unlike
+  `02_POC/HUMAN_LION_KINGDOM_WARRIOR_V3.md`, which DID have that exact
+  phrase and still produced the same defect). **Pattern across both
+  atlases: the lion-head-only defect appears in slots clustered around
+  Epic/Legendary** (Warrior: slots 3 and 5; Tank: slots 4 and 5) rather than
+  randomly across all six — suggesting the generator is more likely to
+  "simplify" the emblem specifically at the higher-detail/higher-effect
+  rarity tiers, possibly because it is allocating more attention to armor
+  ornamentation and aura effects at those tiers and treating the emblem as
+  lower priority. This is a generator-reliability pattern worth testing
+  against directly in the next regeneration (see Gate 5 update in
+  `03_PIPELINE/00_QA_ACCEPTANCE_GATES.md`).
+- **NEW defect — cross-atlas Faction color inconsistency at Epic
+  (2026-06-27):** the shield's background fill color at the Epic tier does
+  NOT match between this atlas and the Human Warrior atlas. Human Warrior
+  Epic keeps the shield's blue background fill (consistent with Common
+  through Mythic). Orc Tank Epic instead renders the shield background as
+  gold/amber at that same tier, breaking Faction color consistency between
+  two atlases that are supposed to share the identical Lion Kingdom palette.
+  This is a **cross-atlas Faction consistency defect**, distinct from the
+  within-atlas lion-head defect above — each atlas was internally
+  reasonably consistent in its own shield color choice (Orc Tank's other
+  five slots keep the blue shield fill; only Epic deviates), but the two
+  atlases disagree with each other at that one tier. Tracked as a new Gate
+  item below (Gate 5 update) since Gate 5 already owns "Heraldry Lock" and
+  this is the same family of problem (rarity tier overriding a Faction-level
+  constant) just applied to color instead of symbol shape.
+- Standard checks: sprite slot safety — PASS. Row 1 vs row 2 baseline —
+  same minor drift as other PoCs, tracked under Gate 6. Facing direction —
+  PASS (faces LEFT correctly, unlike the Mage PoC). Effect boundary — PASS,
+  wings/aura/particles grow without resizing the body.
+- **framework-gap log: No framework changes needed to make Race=Orc work on
+  an unchanged Faction — confirms Race and Faction are independently
+  controllable.** The two defects found (lion-head-only, Epic shield color
+  mismatch) are generator-reliability issues caught by QA, not gaps in the
+  RACE AND FACTION MODULE itself. No prompt module needs rewriting because
+  of this PoC; the QA gates need strengthening instead (done below).
+- **Action: reject this generated atlas for production use, regenerate**
+  using the same FINAL PROMPT above. Re-run QA on the regenerated atlas
+  before slicing.
+- **Lore decision (separate from framework test, still open):** whether
+  "Orc Lion Kingdom Tank" is kept as a real Hero combination in the game's
+  lore, or discarded after keeping the framework learnings above, is not
+  decided yet — not blocking, revisit when fabuła needs it.

@@ -1,4 +1,4 @@
-import { NextRequest } from "next/server";
+﻿import { NextRequest } from "next/server";
 import { createApiClient, jsonResponse, errorResponse } from "@/lib/supabase/api-helper";
 import { withErrorHandler } from "@/lib/api/validation-middleware";
 import { logger } from "@/lib/logger";
@@ -11,7 +11,7 @@ export async function POST(request: NextRequest) {
 
     const { unitId, slot } = await request.json();
     if (!unitId || !slot) return errorResponse("Missing unitId or slot", 400);
-    if (!["weapon", "armor", "accessory"].includes(slot)) return errorResponse("Invalid slot", 400);
+    if (!["weapon", "armor", "helmet", "accessory"].includes(slot)) return errorResponse("Invalid slot", 400);
 
     const { data: player } = await supabase.from("players").select("id").eq("user_id", user.id).maybeSingle();
     if (!player) return errorResponse("Player not found", 404);
@@ -19,7 +19,7 @@ export async function POST(request: NextRequest) {
     const { data: unit } = await supabase.from("player_units").select("equipment").eq("id", unitId).eq("player_id", player.id).maybeSingle();
     if (!unit) return errorResponse("Unit not found", 404);
 
-    const equip = unit.equipment || { weapon: null, armor: null, accessory: null };
+    const equip = unit.equipment || { weapon: null, armor: null, helmet: null, accessory: null };
     const oldItemId = equip[slot];
     if (!oldItemId) return jsonResponse({ success: true, message: "Slot already empty" });
 

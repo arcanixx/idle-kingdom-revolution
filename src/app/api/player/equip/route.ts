@@ -1,4 +1,4 @@
-import { NextRequest } from "next/server";
+﻿import { NextRequest } from "next/server";
 import { createApiClient, jsonResponse, errorResponse } from "@/lib/supabase/api-helper";
 import { withErrorHandler } from "@/lib/api/validation-middleware";
 import { logger } from "@/lib/logger";
@@ -13,7 +13,7 @@ export async function POST(request: NextRequest) {
 
     const { unitId, itemId, slot } = await request.json();
     if (!unitId || !itemId || !slot) return errorResponse("Missing unitId, itemId, or slot", 400);
-    if (!SLOT_ITEM_TYPES[slot]) return errorResponse("Invalid slot. Must be weapon, armor, or accessory", 400);
+    if (!SLOT_ITEM_TYPES[slot]) return errorResponse("Invalid slot. Must be weapon, armor, helmet, or accessory", 400);
 
     const { data: player } = await supabase.from("players").select("id").eq("user_id", user.id).maybeSingle();
     if (!player) return errorResponse("Player not found", 404);
@@ -27,7 +27,7 @@ export async function POST(request: NextRequest) {
     const itemType = invItem.game_items?.item_type;
     if (itemType !== SLOT_ITEM_TYPES[slot]) return errorResponse("Item type does not match slot", 400);
 
-    const equip = unit.equipment || { weapon: null, armor: null, accessory: null };
+    const equip = unit.equipment || { weapon: null, armor: null, accessory: null, helmet: null };
     const oldItemId = equip[slot];
     equip[slot] = itemId;
 

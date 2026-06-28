@@ -7,9 +7,9 @@ Status:
 Template. Copy this file, rename to `{RACE}_{FACTION}_{CLASS}_V1.md` (or
 `{RACE}_{CLASS}_V1.md` if the Race only has one Faction so far — see
 `00_FOUNDATION/00_ART_DIRECTION.md` → RACE, FACTION, AND CLASS), fill in
-every `{placeholder}`, then run it as a PoC the same way `HUMAN_WARRIOR_V3.md`
-was run. Do not delete bracketed sections — they exist so nothing required
-gets skipped.
+every `{placeholder}`, then run it as a PoC the same way
+`02_POC/HUMAN_LION_KINGDOM_WARRIOR_V3.md` was run. Do not delete bracketed
+sections — they exist so nothing required gets skipped.
 
 Purpose:
 Reusable skeleton for producing a new Hero rarity atlas PoC. Built from the
@@ -33,7 +33,8 @@ filling this in if you haven't already:
 3. Build the FINAL PROMPT section using the filled INPUT TABLE. Keep every
    module from `02_PROMPT_MODULE_SYSTEM.md` in the prescribed order.
 4. Run it. Record results in a REVIEW NOTES section at the bottom (copy the
-   style from `HUMAN_WARRIOR_V3.md`).
+   style from `02_POC/HUMAN_LION_KINGDOM_WARRIOR_V3.md` or, for a cleaner
+   PASS example, `02_POC/HUMAN_IRON_LEGION_RANGER_V1.md`).
 5. If accepted, update `05_REFERENCE/01_ASSET_CHECKLIST.md` and the
    REFERENCE LOCK table for the relevant race+faction+class+gender.
 
@@ -465,7 +466,11 @@ Before finishing verify:
 - identical alignment
 - identical {main_weapon} silhouette
 - identical {offhand_or_focus} silhouette
-- identical {primary_symbol} on every slot
+- identical {primary_symbol} on every slot, full composition (not a
+  fragment) in EVERY slot including Epic and Legendary specifically —
+  these two tiers have empirically shown the highest rate of heraldry
+  degrading to a partial/head-only fragment, see Gate 5 in
+  03_PIPELINE/00_QA_ACCEPTANCE_GATES.md
 - full body visible
 - feet visible
 - {main_weapon} visible
@@ -475,6 +480,11 @@ Before finishing verify:
 - all six heroes face the same direction (see Gate 6 in
   03_PIPELINE/00_QA_ACCEPTANCE_GATES.md — facing direction is not always
   honored consistently by the generator, check explicitly)
+- if this Faction has at least one other already-accepted atlas, compare
+  base color palette and material fill color at matching rarity tiers
+  against that atlas (see Gate 7 in 03_PIPELINE/00_QA_ACCEPTANCE_GATES.md
+  — a confirmed real defect was found where Epic shield fill color
+  mismatched between two atlases of the same Faction)
 
 ------------------------------------------------------------
 
@@ -558,7 +568,8 @@ random redesign
 ## REVIEW NOTES
 
 Use this section to log what happened when the prompt was actually run.
-Copy the structure from `HUMAN_WARRIOR_V3.md` → REVIEW NOTES. At minimum,
+Copy the structure from `02_POC/HUMAN_LION_KINGDOM_WARRIOR_V3.md` or
+`02_POC/HUMAN_IRON_LEGION_RANGER_V1.md` → REVIEW NOTES. At minimum,
 record:
 
 - whether all six Sprite Slots were slice-safe
@@ -567,9 +578,16 @@ record:
 - whether the second row kept the same scale and baseline as the first row
 - whether all six heroes faced the same direction as specified in POSE
   (see Gate 6 in `03_PIPELINE/00_QA_ACCEPTANCE_GATES.md`)
-- whether {primary_symbol} remained recognizable and identically posed
+- whether {primary_symbol} remained recognizable and identically posed in
+  EVERY slot, with extra scrutiny on Epic and Legendary specifically (see
+  Gate 5 — empirically the most common location for heraldry to degrade to
+  a partial/head-only fragment, observed in 2 of 4 PoCs run so far)
 - whether the {weapon_silhouette_lock} held across all six rarities
 - whether effects enriched the asset without resizing the character
+- if this Faction has a prior accepted atlas, whether base color palette
+  and material fill color matched at corresponding rarity tiers (see Gate 7
+  — a confirmed real mismatch was found at the Epic tier between two
+  atlases of the same Faction)
 - if this PoC introduces a new Race on an existing Faction+Class (or vice
   versa), whether the Race-level body differences (height, build, age) came
   through correctly while Faction colors/heraldry stayed identical to the
@@ -578,3 +596,9 @@ record:
   INPUT TABLE values to make this class/race/faction combination work. If
   nothing did, write "No framework changes needed — confirms framework
   generalizes."
+- **emblem shape note:** if this Faction's `primary_symbol` is a full-body
+  pose (e.g. an animal standing on its hind legs) rather than a flatter
+  medallion/crest shape, expect a higher chance of the Gate 5
+  degradation-at-Epic/Legendary defect based on evidence so far (see
+  `00_FOUNDATION/02_HERALDRY_SYSTEM.md` → EMPIRICAL NOTE) — budget for an
+  extra regeneration pass if so.

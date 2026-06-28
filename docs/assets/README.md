@@ -44,10 +44,10 @@ docs/assets/
 │
 ├── 02_POC/                            KONKRETNE PROMPTY — gotowe do wklejenia
 │   ├── _TEMPLATE.md                   Pusty szablon — kopiuj dla każdej nowej klasy/rasy/frakcji
-│   ├── HUMAN_WARRIOR_V3.md            ✅ Zaakceptowany — działający punkt odniesienia
-│   ├── HUMAN_MAGE_V1.md               🧪 Test frameworku (sylwetka/budowa/wiek/płeć) — patrz niżej
-│   ├── ORC_LION_KINGDOM_TANK_V1.md    🧪 Test izolacji RACE (ta sama Faction, inna Rasa+Klasa) — czeka na generację
-│   └── HUMAN_IRON_LEGION_RANGER_V1.md 🧪 Test izolacji FACTION (ta sama Rasa, inna Faction+Klasa) — czeka na generację
+│   ├── HUMAN_LION_KINGDOM_WARRIOR_V3.md  ⚠️ Framework OK, ATLAS odrzucony (lion-head defekt) — patrz REVIEW NOTES
+│   ├── HUMAN_LION_KINGDOM_MAGE_V1.md     🧪 Test frameworku (sylwetka/budowa/wiek/płeć) — patrz niżej
+│   ├── ORC_LION_KINGDOM_TANK_V1.md       ⚠️ Race isolation PASS, ATLAS odrzucony (lion-head + kolor tarczy) — patrz REVIEW NOTES
+│   └── HUMAN_IRON_LEGION_RANGER_V1.md    🧪 Test izolacji FACTION (ta sama Rasa, inna Faction+Klasa) — czeka na recenzję
 │
 ├── 03_PIPELINE/                       CO ROBISZ PO WYGENEROWANIU OBRAZKA
 │   ├── 00_QA_ACCEPTANCE_GATES.md      Bramki PASS/FIX/REJECT przed cięciem atlasu
@@ -94,7 +94,7 @@ zmieniając tylko to, co naprawdę się różni.
 1. **Przeczytaj fundament raz:** `00_FOUNDATION/00_ART_DIRECTION.md` (sekcja
    CLASS DESIGN GUIDE — tam jest typowy wiek, budowa, broń dla każdej klasy).
 2. **Skopiuj** `02_POC/_TEMPLATE.md` jako `02_POC/{RASA}_{FRAKCJA}_{KLASA}_V1.md`
-   (albo, jeśli klasa już ma plik jak `HUMAN_MAGE_V1.md`, użyj go jako wzorca).
+   (albo, jeśli klasa już ma plik jak `HUMAN_LION_KINGDOM_MAGE_V1.md`, użyj go jako wzorca).
 3. **Wypełnij INPUT TABLE** na górze pliku — to wymusza decyzję o: płci,
    budowie ciała, wieku, broni, locku sylwetki broni — zanim dotkniesz
    właściwego promptu. To jest miejsce, gdzie najczęściej coś się gubi, jeśli
@@ -114,13 +114,14 @@ zmieniając tylko to, co naprawdę się różni.
 
 ### Status: Human Mage jako test frameworku
 
-`02_POC/HUMAN_MAGE_V1.md` nie jest tylko "zmień miecz na kostur". To pierwszy
-realny test, czy framework wytrzymuje zmianę **sylwetki/budowy ciała,
-wieku i płci**, nie tylko ekwipunku — bo właśnie to nie było jeszcze
-sprawdzone przez Warrior PoC. Plik zawiera osobną sekcję `GENDER AND BODY
-TYPE LOCK` i loguje w `REVIEW NOTES`, czy framework wymagał jakichkolwiek
-poprawek poza wypełnieniem INPUT TABLE — jeśli tak, poprawki te powinny
-wejść do `01_PRODUCTION_SYSTEM/`, a nie zostać tylko w pliku Mage.
+`02_POC/HUMAN_LION_KINGDOM_MAGE_V1.md` nie jest tylko "zmień miecz na
+kostur". To pierwszy realny test, czy framework wytrzymuje zmianę
+**sylwetki/budowy ciała, wieku i płci**, nie tylko ekwipunku — bo właśnie
+to nie było jeszcze sprawdzone przez Warrior PoC. Plik zawiera osobną
+sekcję `GENDER AND BODY TYPE LOCK` i loguje w `REVIEW NOTES`, czy framework
+wymagał jakichkolwiek poprawek poza wypełnieniem INPUT TABLE — jeśli tak,
+poprawki te powinny wejść do `01_PRODUCTION_SYSTEM/`, a nie zostać tylko w
+pliku Mage.
 
 **Płeć:** Hero są generowane w obu płciach (Male/Female) dla każdej
 kombinacji rasa+frakcja+klasa w aktywnej rotacji (patrz
@@ -129,31 +130,40 @@ blokował tego explicite w prompcie — `01_PRODUCTION_SYSTEM/02_PROMPT_MODULE_S
 v1.1 dodaje moduł `GENDER AND BODY TYPE LOCK`, który to naprawia na poziomie
 frameworku, nie tylko jednego PoC.
 
-### Status: dwa testy izolacji Race/Faction (czekają na generację)
+### Status: wyniki realnej generacji (zaktualizowano 2026-06-27 — wszystkie 4 PoC przeglądnięte)
 
-Po wdrożeniu modelu Race/Faction/Class w dokumentacji (zobacz sekcję niżej),
-powstały dwa PoC, każdy testujący **jedną** zmienną w izolacji — żeby nie
-zgadywać, tylko sprawdzić empirycznie, czy framework faktycznie rozdziela
-Rasę od Faction tak, jak mówi dokumentacja:
+Po wygenerowaniu i szczegółowym obejrzeniu wszystkich czterech atlasów
+(`assets/` w root repo) mamy teraz **empiryczne, nie tylko teoretyczne**
+wyniki:
 
-- **`02_POC/ORC_LION_KINGDOM_TANK_V1.md`** — zmienia RASĘ (Human → Orc),
-  zostawia FACTION identyczną (ten sam niebiesko-złoty lew Lion Kingdom).
-  Świadomie nietypowe lore-wise (Lion Kingdom to ludzkie królestwo) — to
-  test frameworku, nie propozycja fabularna. Dodatkowo pierwszy test klasy
-  Tank (tower shield) w całym systemie.
-- **`02_POC/HUMAN_IRON_LEGION_RANGER_V1.md`** — zmienia FACTION (Lion
-  Kingdom → nowa Faction "Iron Legion": szaro-kremowo-bronzowa, własny
-  herb), zostawia RASĘ identyczną (Human, te same proporcje co Warrior i
-  Mage). Dodatkowo pierwszy test klasy Ranger (bow, bez tarczy) w całym
-  systemie.
-
-**Po wygenerowaniu obu:** wypełnij REVIEW NOTES w obu plikach. Jeśli oba
-przejdą — to mamy empiryczne potwierdzenie (nie tylko deklarację w
-dokumentacji), że Race i Faction są niezależnymi, kontrolowalnymi osiami.
-Jeśli któryś nie przejdzie (np. model "podciąga" kolorystykę Faction pod
-Rasę, albo zmienia proporcje ciała mimo niezmienionej Rasy) — to sygnał, że
-trzeba wzmocnić odpowiedni moduł w `01_PRODUCTION_SYSTEM/02_PROMPT_MODULE_SYSTEM.md`,
-nie tylko poprawić jeden plik PoC.
+- **Race i Faction są niezależnie kontrolowalne — POTWIERDZONE PEŁNIĄ,
+  obustronnie.** `02_POC/ORC_LION_KINGDOM_TANK_V1.md`: Orc wyszedł wyraźnie
+  szerszy/masywniejszy niż Human, przy identycznej kolorystyce Lion Kingdom.
+  `02_POC/HUMAN_IRON_LEGION_RANGER_V1.md`: nowa Faction (szaro-kremowo-bronzowa,
+  inny herb) wyszła kompletnie odrębna kolorystycznie, przy identycznych
+  proporcjach Human. Żadna z dwóch testów nie wymagała zmiany frameworku.
+- **Lion-head-only przy Epic/Legendary — potwierdzone 2/2 dla Lion Kingdom,
+  ALE nie powtórzone na Iron Legion.** Nowy wniosek: to może być
+  specyficzne dla pełnopostaciowych zwierzęcych herbów (lew), nie dla
+  medalionowych/płaskich kształtów (Iron Legion). Zob. nowa sekcja
+  EMPIRICAL NOTE w `00_FOUNDATION/02_HERALDRY_SYSTEM.md`.
+- **Niezgodność koloru tarczy między atlasami Lion Kingdom przy Epic** —
+  wciąż niewyjaśniona, śledzona w nowym **Gate 7**.
+- **Status atlasów:**
+  - `HUMAN_LION_KINGDOM_WARRIOR_V3.md` — framework OK, atlas ODRZUCONY
+    (lion-head-only)
+  - `ORC_LION_KINGDOM_TANK_V1.md` — Race isolation PASS, atlas ODRZUCONY
+    (lion-head-only + kolor tarczy)
+  - `HUMAN_IRON_LEGION_RANGER_V1.md` — Faction isolation PASS, **Żaden
+    blokujący defekt nie znaleziony** — najlepszy kandydat produkcyjny z
+    czterech
+  - `HUMAN_LION_KINGDOM_MAGE_V1.md` — framework PASS (z poprzedniej tury),
+    nie analizowany ponownie pod kątem tych dwóch nowych defektów
+- **Główny wniosek koncepcyjny: Race/Faction split jest empirycznie
+  potwierdzony.** Pozostałe dwa defekty (lion-head, kolor tarczy) są
+  problemami niezawodności generatora, specyficznymi dla wykonania Lion
+  Kingdom (lew, niebiesko-złoty), nie dziurami w samym frameworku
+  Race/Faction/Class.
 
 ---
 
@@ -183,10 +193,12 @@ Zanotuj wyniki takich testów w `REVIEW NOTES` odpowiedniego pliku w `02_POC/`.
    GUIDE, rozdzielone NEW RACE / NEW FACTION CREATION RULES),
    `03_HERO_RARITY_ATLAS_FACTORY.md` (INPUT TABLE i PROMPT SKELETON
    rozdzielone na `race:`/`faction:`), `02_POC/_TEMPLATE.md` (to samo).
-   `HUMAN_WARRIOR_V3.md` i `HUMAN_MAGE_V1.md` (działające, zaakceptowane
-   PoC) **nie zostały przepisane** — dostały tylko notatkę wyjaśniającą,
-   że ich `faction: Human / Lion Kingdom` czytamy teraz jako
-   Race: Human, Faction: Lion Kingdom.
+   `HUMAN_LION_KINGDOM_WARRIOR_V3.md` i `HUMAN_LION_KINGDOM_MAGE_V1.md`
+   (przemianowane z `HUMAN_WARRIOR_V3.md`/`HUMAN_MAGE_V1.md` zgodnie z nową
+   konwencją `{RACE}_{FACTION}_{CLASS}`) dostały tylko notatkę wyjaśniającą
+   na górze pliku, że ich `Faction: Lion Kingdom` w FINAL PROMPT czytamy
+   teraz jako Race: Human, Faction: Lion Kingdom — sam FINAL PROMPT
+   pozostał bez zmian.
    - **Hero Factions vs Enemy/Lore Factions:** rozróżnienie skali — główne
      Hero Faction dostają pełną matrycę assetów (7 klas × 6 rarity × 3
      stany × 2 płcie), frakcje przeciwników/lore (np. Fire Cult) dostaną
@@ -200,6 +212,23 @@ Zanotuj wyniki takich testów w `REVIEW NOTES` odpowiedniego pliku w `02_POC/`.
 4. **Backlog usprawnień promptu** w
    `01_PRODUCTION_SYSTEM/04_KNOWN_IMPROVEMENTS_BACKLOG.md` — czeka na v2
    frameworku, nie blokuje obecnej pracy.
+5. **Długość promptów przy wklejaniu — nowy praktyczny problem (2026-06-27).**
+   Najnowsze prompty (Tank, Ranger) są już na tyle długie, że niektóre
+   narzędzia generujące zaczynają traktować wklejony tekst jako załącznik
+   (plik) zamiast treści wiadomości, co wymuszało wklejanie w dwóch ratach.
+   Zanotowane w `01_PRODUCTION_SYSTEM/04_KNOWN_IMPROVEMENTS_BACKLOG.md` jako
+   konkretny, praktyczny argument za skróceniem/konsolidacją promptu (patrz
+   punkty 1-2 w tamtym pliku) — to nie jest już tylko teoretyczna preferencja
+   stylu, to realne ograniczenie narzędzia.
+6. **Nazewnictwo plików raw atlasów — ZAIMPLEMENTOWANE (2026-06-27).**
+   `03_PIPELINE/01_ATLAS_TO_ASSET_PIPELINE.md` v1.1 wymaga teraz explicite
+   `{RACE}_{FACTION}_{CLASS}_{GENDER}_V{wersja}.png` dla surowych atlasów
+   PRZED cięciem (nie tylko dla finalnych sprite'ów po cięciu, jak było
+   wcześniej) — bez segmentu płci dwa atlasy różniące się tylko płcią
+   nadpisywałyby się wzajemnie. Patrz też Gate 7 w
+   `03_PIPELINE/00_QA_ACCEPTANCE_GATES.md` (cross-atlas Faction
+   consistency) i Gate 5 (wzmocniony empirycznymi danymi o defekcie
+   lion-head-only).
 
 ### Nadal otwarte / do decyzji w przyszłości
 
@@ -207,12 +236,18 @@ Zanotuj wyniki takich testów w `REVIEW NOTES` odpowiedniego pliku w `02_POC/`.
   assety, overlaye, czy hybryda — do rozstrzygnięcia gdy fabuła tego
   zacznie wymagać.
 - **Finalne potwierdzenie Human Mage POC** w docelowym pipeline/narzędziu
-  (oznaczone jako outstanding w `02_POC/HUMAN_MAGE_V1.md` → REVIEW NOTES).
-- **Nazewnictwo plików** w `03_PIPELINE/01_ATLAS_TO_ASSET_PIPELINE.md` wciąż
-  używa starego wzorca `{faction}_{class}_{gender}_{rarity}_{state}.webp` —
-  do zaktualizowania na `{race}_{faction}_{class}_{gender}_{rarity}_{state}.webp`
-  gdy faktycznie zacznie się produkcja z wieloma rasami (nie krytyczne,
-  dopóki produkujemy tylko Human).
+  (oznaczone jako outstanding w `02_POC/HUMAN_LION_KINGDOM_MAGE_V1.md` →
+  REVIEW NOTES).
+- **Regeneracja Warrior i Tank atlasów** — oba czekają na regenerację tym
+  samym promptem, z dodatkową uwagą QA na sloty 4-5 (Epic/Legendary).
+- **Czy hipoteza "medalion > pełnopostaciowy herb"** (zob.
+  `00_FOUNDATION/02_HERALDRY_SYSTEM.md` → EMPIRICAL NOTE) potwierdzi się na
+  trzeciej/czwartej Faction — jeszcze za mało danych (1 medalion vs 2
+  pełnopostaciowe herby), do obserwacji przy następnych PoC.
+- **Niewyjaśniona przyczyna niezgodności koloru tarczy przy Epic** (Gate 7) —
+  zarejestrowane jako objaw, nie zdiagnozowane jeszcze co je powoduje.
+- **Decyzja lore: czy "Orc Lion Kingdom Tank" zostaje w fabule** czy był to
+  czysty test frameworku do odrzucenia po zachowaniu wniosków.
 
 ---
 

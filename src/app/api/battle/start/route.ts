@@ -48,15 +48,15 @@ export async function POST(request: NextRequest) {
         defense: Math.floor((gu.base_defense || 10) * (1 + lvl * 0.1)),
         speed: gu.base_speed || 100,
         isActive: gu.is_active ?? true,
-        equipment: {},
+        equipment: { weapon: undefined, armor: undefined, helmet: undefined, accessory: undefined },
         power_rating: Math.floor(((gu.base_hp || 100) * 0.5 + (gu.base_attack || 10) * 2 + (gu.base_defense || 10) * 1.5) * (1 + lvl * 0.1)),
         formation_row: pu.formation_row,
         formation_col: pu.formation_col,
       };
     });
 
-    const front: (any | null)[] = [null, null, null];
-    const back: (any | null)[] = [null, null, null];
+    const front: (any | null)[] = [null, null, null, null];
+    const back: (any | null)[] = [null, null, null, null];
     (rawUnits || []).forEach((pu: any) => {
       if (pu.formation_row === 0 && pu.formation_col !== null) {
         front[pu.formation_col] = { unit_id: pu.unit_id, row: 0, col: pu.formation_col };

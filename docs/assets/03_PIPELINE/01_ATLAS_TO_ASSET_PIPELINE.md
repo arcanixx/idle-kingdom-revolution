@@ -98,9 +98,13 @@ Required raw atlas filename pattern:
 ```
 
 `{GENDER}` MUST be either `MALE` or `FEMALE`, written out in full — not
-abbreviated, not omitted. Two atlases that are identical except for gender
-will otherwise produce **the same filename**, which is exactly the mistake
-this naming rule exists to prevent.
+abbreviated, not omitted. This is required precisely BECAUSE you will
+usually generate both genders for the same Race+Faction+Class: without the
+gender segment, the Male and Female atlas of e.g. Human Lion Kingdom
+Warrior would both want to be named `HUMAN_LION_KINGDOM_WARRIOR_V1.png`,
+which is not possible — one would silently overwrite the other on disk, or
+you'd have to invent an ad hoc disambiguator each time. The gender segment
+is what makes two real, simultaneously-needed files distinguishable.
 
 Examples actually in use (`assets/` in repo root, as a working/review
 location ahead of formal archiving — see DESTINATION note below):
@@ -112,12 +116,13 @@ ORC_LION_KINGDOM_TANK_MALE_V1.png
 HUMAN_IRON_LEGION_RANGER_FEMALE_V1.png
 ```
 
-> Note: as of this writing, the actual file on disk for the last example is
-> named `HUMAN_IRON_LEGION_FEMALE_V1.png` — missing the `_RANGER_` class
-> segment. This is flagged here as a concrete example of why the full
-> pattern matters: without `_RANGER_`, this filename alone does not tell you
-> which class this atlas is for. Rename it to include the class segment
-> before archiving/slicing.
+> All four files above are correctly named as of 2026-06-27 (the Ranger
+> file initially shipped without its `_RANGER_` class segment due to manual
+> renaming and was corrected). This is kept as a worked reminder: every
+> segment in the pattern — Race, Faction, Class, Gender — is load-bearing.
+> Drop any one of them and the filename stops uniquely identifying the
+> atlas, especially once a second gender or a second class enters the
+> picture.
 
 Recommended formal raw archive path (once moved out of the working
 `assets/` folder):
@@ -131,6 +136,14 @@ Example:
 ```text
 raw_assets/atlases/human/lion_kingdom/warrior/male/human_lion_kingdom_warrior_male_v003.png
 ```
+
+> **On the `V1`/`v3`/`V1` version suffix:** keep it even though it looks
+> redundant right now while there's only one version of each atlas. Once an
+> atlas gets regenerated after a QA rejection (see Gate 5/6 issues below),
+> you will have `_v1.png` and `_v2.png` of the same Race+Faction+Class+Gender
+> and need to tell them apart. Don't strip the suffix later — it's cheap
+> now and expensive to reconstruct after the fact once several versions
+> exist on disk with no record of which was approved.
 
 ---
 
@@ -156,6 +169,18 @@ Slice order is always left to right, top to bottom:
 6. Mythic
 
 ### Actual tool: `SCRIPTS/crop_grid.py`
+
+> **Status (2026-06-27): deliberately not modified yet.** The script
+> currently hardcodes a 2x3 grid assumption (configurable via `--rows`/`--cols`
+> flags, default 2 rows x 3 cols) sized for today's Hero rarity atlas
+> (6 rarity tiers). Once the app's actual asset needs are settled —
+> backgrounds, multi-state portraits, etc. — this script will likely need
+> to support other grid shapes (e.g. 3x3 or 4x4 for emotion/state batches,
+> possibly at higher resolution per cell to make larger batches cheaper per
+> generation call) and possibly non-square cells. Don't extend the script
+> speculatively before those real requirements are known — see
+> `01_PRODUCTION_SYSTEM/04_KNOWN_IMPROVEMENTS_BACKLOG.md` for where this is
+> tracked as a future item, not a current blocker.
 
 ```bash
 python crop_grid.py <input_image> <output_folder> --rows 2 --cols 3 --margin 40
@@ -350,3 +375,40 @@ Minimum metadata:
   names — `{faction}_{class}_...` alone is ambiguous once more than one
   Race shares a Faction (see `02_POC/ORC_LION_KINGDOM_TANK_V1.md`) or more
   than one Faction shares a Race (see `02_POC/HUMAN_IRON_LEGION_RANGER_V1.md`)
+
+---
+
+## NOTE ON IMAGE GUIDANCE / REFERENCE IMAGES FOR FUTURE ATLASES
+
+> Flagged 2026-06-27, ahead of actually needing it — not yet a blocker for
+> the current four PoCs, all of which were generated text-only (no
+> reference image).
+
+Once more Race+Faction+Class combinations exist, some future atlases will
+benefit from (or require) an Image Guidance / reference image rather than a
+pure text prompt, depending on what's being generated:
+
+- **Same Hero, new rarity batch** (e.g. regenerating Human Lion Kingdom
+  Warrior because Gate 5/6 rejected the first attempt) — use the previously
+  *accepted* atlas of that exact Race+Faction+Class+Gender as the
+  reference, per `00_FOUNDATION/00_ART_DIRECTION.md` → STYLE ANCHOR RULES
+  (Image Guidance 35-45%). This keeps face/body locked tighter than
+  re-describing it in text alone.
+- **New Class, same Race+Faction** (e.g. Human Lion Kingdom Ranger, after
+  Warrior and Mage already exist) — a reference image of an *already
+  accepted* Lion Kingdom Hero (any class) can help anchor the Faction's
+  color/heraldry rendering, while the text prompt's RACE and GENDER AND BODY
+  TYPE LOCK blocks still carry the body/proportions. This is different from
+  Style Anchor reuse above — here the reference is for Faction consistency,
+  not for keeping the literal same character.
+- **New Race, same Faction** (e.g. `02_POC/ORC_LION_KINGDOM_TANK_V1.md`) —
+  do NOT use a Human Lion Kingdom reference image for body proportions; that
+  would fight directly against the RACE module's job of making the Orc
+  visibly wider/shorter-legged than the Human reference. A reference image
+  here, if used at all, should be of the Faction's color/heraldry treatment
+  in the abstract (e.g. a shield/banner reference), not of a Hero's body.
+
+This is not yet a formal pipeline step because no atlas so far has actually
+needed one — documented here so the decision of *which* reference to use
+(Style Anchor vs Faction color reference) is made deliberately once it does
+come up, instead of reusing whatever image happens to be open at the time.

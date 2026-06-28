@@ -9,11 +9,13 @@ export type UnitClass = "warrior" | "ranger" | "mage" | "tank" | "healer" | "ass
 export type UnitFaction = "human" | "elf" | "orc" | "undead" | "demon" | "celestial";
 export type UnitRarity = "common" | "uncommon" | "rare" | "epic" | "legendary" | "mythic";
 
+export type EquipmentSlot = "weapon" | "armor" | "helmet" | "accessory";
+
 export interface Unit {
   id: string; unit_id: string; name: string; class: UnitClass; faction: UnitFaction;
   rarity: UnitRarity; level: number; xp: number; hp: number; attack: number;
   defense: number; speed: number; isActive: boolean;
-  equipment: { weapon?: string; armor?: string; accessory?: string; };
+  equipment: Record<EquipmentSlot, string | undefined>;
   formation_row?: number; formation_col?: number; power_rating: number;
 }
 
@@ -41,8 +43,8 @@ export interface Quest {
   progress: Record<string, number>;
 }
 
-export type ItemType = "weapon"|"armor"|"accessory"|"consumable"|"material"|"cosmetic";
-export interface Item { id: string; name: string; type: ItemType; rarity: UnitRarity; stats: Record<string, number>; quantity: number; }
+export type ItemType = "weapon"|"armor"|"helmet"|"accessory"|"consumable"|"material"|"cosmetic";
+export interface Item { id: string; name: string; type: ItemType; rarity: UnitRarity; stats: Record<string, number>; quantity: number; description?: string; }
 
 export type MiniGameType = "coal_mine"|"tower_defense"|"castle_defense";
 export interface DailyPassInfo { game_type: MiniGameType; passes_used: number; max_passes: number; next_reset: string; }
@@ -78,4 +80,3 @@ export interface PlayerQuest {
 export interface LearnedPerk {
   tree_name: string; perk_name: string;
 }
-

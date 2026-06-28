@@ -4,13 +4,17 @@ Project:
 Idle Kingdom Revolution
 
 Status:
-Framework isolation test PoC — **FACTION variable test**. Companion to
-`ORC_LION_KINGDOM_TANK_V1.md`, which tests the opposite isolation (Race
-varies, Faction fixed). This PoC fixes Race=Human (identical proportions to
-`HUMAN_WARRIOR_V3.md` and `HUMAN_MAGE_V1.md`) and changes only Faction
-(Lion Kingdom → Iron Legion, a new Faction defined in
+Framework isolation test PoC — **FACTION variable test**. **Faction
+isolation CONFIRMED PASS** (2026-06-27, see REVIEW NOTES below) — no
+lion-head-style heraldry defect found on this atlas, unlike the other two
+PoCs reviewed so far. This is currently the strongest production candidate
+of the four PoCs run. Companion to `ORC_LION_KINGDOM_TANK_V1.md`, which
+tests the opposite isolation (Race varies, Faction fixed). This PoC fixes
+Race=Human (identical proportions to `HUMAN_LION_KINGDOM_WARRIOR_V3.md` and
+`HUMAN_LION_KINGDOM_MAGE_V1.md`) and changes only Faction (Lion Kingdom →
+Iron Legion, a new Faction defined in
 `00_FOUNDATION/00_ART_DIRECTION.md` → FACTION DESIGN GUIDE specifically for
-this test) and Class (Warrior/Mage → Ranger, not yet tested).
+this test) and Class (Warrior/Mage → Ranger, not yet tested before this).
 
 Purpose:
 If this PoC succeeds, it confirms:
@@ -650,38 +654,85 @@ random redesign
 
 ## REVIEW NOTES
 
-> Fill in after this atlas has actually been generated and inspected.
+> Reviewed 2026-06-27, see `assets/HUMAN_IRON_LEGION_FEMALE_V1.png`
+> (note: actual filename on disk omits `_RANGER_`, see
+> `03_PIPELINE/01_ATLAS_TO_ASSET_PIPELINE.md` naming note).
 
-Expected review criteria (in addition to the standard Gate checks in
-`03_PIPELINE/00_QA_ACCEPTANCE_GATES.md`):
+**Result: Faction isolation CONFIRMED PASS. No lion-head-style heraldry
+defect found on this Faction's emblem. Bow Silhouette Lock PASS. This atlas
+is in noticeably better shape than the other two reviewed so far** —
+pending a final Gate 1-4 pixel-level pass before full production sign-off,
+but no REJECT-level defect found in this review.
 
-- **Faction isolation check (primary purpose of this PoC):** does the Iron
-  Legion Ranger read with completely different colors/heraldry (iron grey /
-  crimson / bronze, crossed-spears-and-helm) than the Lion Kingdom Heroes
-  (blue / gold, standing lion), while still being unmistakably the same
-  Human Race build as `HUMAN_WARRIOR_V3.md` and `HUMAN_MAGE_V1.md`? If yes,
-  Faction and Race are genuinely decoupled in practice. If the model instead
-  let body proportions drift along with the new Faction (e.g. became
-  visibly different in height/build from the other Human PoCs for no
-  documented reason), that's a framework-gap signal — log it.
-- **Bow Silhouette Lock:** does the bow's curve and draw length stay
-  constant across all six rarities, the same way the Warrior's sword/shield
-  and the Mage's staff did? This is the first test of a no-offhand-weapon
-  class other than Mage (Mage has a free hand for spellcasting; Ranger's
-  free hand/quiver placement is a different test of the same "single
-  signature weapon, no shield" pattern).
-- **Cross-Faction confusion check:** does the Lion emblem ever leak into
-  this atlas, or does the Iron Legion emblem ever look like a
-  reinterpretation of the lion (e.g. a similar pose/shape just recolored)?
-  They should be visually unrelated emblems.
-- Standard checks: sprite slot safety, row 1 vs row 2 baseline (known minor
-  drift, see Gate 6), facing direction (known inconsistency, see Gate 6),
-  effect boundary.
-- **framework-gap log:** anything that had to change outside the INPUT
-  TABLE values to make Faction=Iron Legion work on an unchanged Race. If
-  nothing did, write "No framework changes needed — confirms Race and
-  Faction are independently controllable."
+- **Faction isolation check — PASS, this is the headline result.** The
+  Iron Legion Ranger reads with a completely different palette (iron-grey/
+  dark leather/crimson/bronze) and a completely different emblem (round
+  medallion with a helm/skull-like motif) than any Lion Kingdom atlas
+  (blue/gold, standing lion). At the same time, the body reads as clearly
+  the same Human Race baseline as `HUMAN_LION_KINGDOM_WARRIOR_V3.md` and
+  `HUMAN_LION_KINGDOM_MAGE_V1.md` — standard human proportions, just a
+  leaner build appropriate to Ranger, not a different Race scale. **No
+  bleed of Lion Kingdom blue/gold into this atlas, and no drift of body
+  proportions caused by the new Faction.** Combined with
+  `02_POC/ORC_LION_KINGDOM_TANK_V1.md`'s result (Race varies cleanly on a
+  fixed Faction), this is the second half of the empirical confirmation
+  that Race and Faction are independently controllable.
+- **Heraldry Lock — PASS, notably better than the Lion Kingdom atlases.**
+  The round medallion emblem (crossed-spears-behind-a-helm, rendered as a
+  circular medallion shape) stays present and recognizably the same
+  composition across all six slots, **including Epic and Legendary** —
+  the exact slots where both `HUMAN_LION_KINGDOM_WARRIOR_V3.md` and
+  `ORC_LION_KINGDOM_TANK_V1.md` degraded to a head-only fragment. This
+  atlas does NOT repeat that defect. This is a useful data point: the
+  lion-head-only failure mode is not universal to all Epic/Legendary
+  slots in this framework — it may be specific to lion-shaped (animal,
+  full-body-pose) emblems specifically, which are arguably harder for the
+  generator to keep "full body" under added armor detail/ornamentation
+  than a flatter medallion-style emblem is. Worth keeping in mind when
+  designing future Faction emblems: a medallion/heraldic-crest shape may
+  be inherently more robust across rarity than a full-body animal pose.
+- **Bow Silhouette Lock — PASS.** The recurve bow's curve and proportions
+  read as consistent across all six slots; material/glow evolve (plain
+  wood -> reinforced -> glowing string -> gemstone grip -> bow of light ->
+  starlight bow) without the bow changing shape, length, or becoming a
+  crossbow/longbow. First confirmed use of this lock — update
+  `00_FOUNDATION/03_EQUIPMENT_SILHOUETTE_LOCKS.md` → "Known weapon locks"
+  table to mark Ranger/Bow as confirmed (done, see that file).
+- **No-shield, no-offhand-weapon pattern — PASS.** Like Mage, Ranger has no
+  shield; unlike Mage, Ranger's free hand isn't used for spell gestures but
+  the quiver-on-back placement reads consistently across all six slots
+  without drifting position.
+- **Pose check — PASS.** "No drawn bowstring" honored in all six slots —
+  the bow is held lowered/diagonal, not drawn with an arrow nocked.
+- Standard checks: sprite slot safety — PASS. Row 1 vs row 2 baseline —
+  same minor drift pattern as other PoCs (row 2 sits very slightly
+  higher/smaller), tracked under Gate 6, not a new issue specific to this
+  atlas. Facing direction — PASS (faces LEFT correctly). Effect boundary —
+  PASS, wings/aura/particles grow in Legendary/Mythic without resizing the
+  body.
+- **Gate 7 (cross-atlas Faction consistency) — not yet applicable.** This
+  is the first and only Iron Legion atlas so far; Gate 7 needs a second
+  Iron Legion atlas (e.g. a Male variant, or a different class) to compare
+  against before it can be checked. Apply Gate 7 once a second Iron Legion
+  atlas exists.
+- **framework-gap log: No framework changes needed to make Faction=Iron
+  Legion work on an unchanged Race — confirms Race and Faction are
+  independently controllable.** No prompt module needed rewriting because
+  of this PoC.
 - **Combined conclusion (read together with `ORC_LION_KINGDOM_TANK_V1.md`):**
-  once both isolation tests are reviewed, the README's Race/Faction section
-  should be updated to mark the split as empirically validated (not just
-  documented), or to note what broke.
+  both isolation tests now PASS on the Race/Faction independence question
+  specifically. The Race/Faction split documented in
+  `00_FOUNDATION/00_ART_DIRECTION.md` is empirically validated, not just
+  asserted in prose. The two defects found elsewhere (lion-head-only,
+  cross-atlas shield color mismatch) are generator-reliability issues
+  scoped to the Lion Kingdom's specific emblem/palette execution, not
+  evidence against the Race/Faction model itself — this Iron Legion atlas
+  is a useful control showing the same framework can execute cleanly on a
+  different Faction.
+- **Action: this atlas is the strongest production candidate of the three
+  reviewed so far.** Recommend running it through the full Gate 1-7
+  checklist formally (slot-by-slot pixel inspection) before final sign-off,
+  but no blocking defect was found in this pass-level review. If it
+  continues to hold up, consider using its medallion-style emblem approach
+  as a reference example when briefing future Faction designs that need a
+  more rarity-robust heraldry shape than Lion Kingdom's full-body lion.

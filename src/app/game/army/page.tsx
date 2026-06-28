@@ -35,7 +35,7 @@ export default function ArmyPage() {
 const storeFormation = useGameStore((s) => s.formation);
 const storeLoaded = useGameStore((s) => s.isLoaded);
 const [units, setUnits] = useState<ArmyUnit[]>([]);
-const [formation, setFormation] = useState<FormationState>({ front: [null, null, null], back: [null, null, null] });
+const [formation, setFormation] = useState<FormationState>({ front: [null, null, null, null], back: [null, null, null, null] });
 const [selectedId, setSelectedId] = useState<string | null>(null);
 const [loading, setLoading] = useState(true);
 const [saving, setSaving] = useState(false);
@@ -49,23 +49,23 @@ const [saving, setSaving] = useState(false);
     setSaving(true);
     const f: { unit_id: string; row: number; col: number }[] = [];
     for (const rowKey of ROWS) {
-      for (let col = 0; col < 3; col++) {
+      for (let col = 0; col < 4; col++) {
         const cell = formation[rowKey][col];
         if (cell) f.push({ unit_id: cell.unit_id, row: rowKey === "front" ? 0 : 1, col });
       }
     }
     try {
       const r = await fetch("/api/player/formation", { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ formations: f }) });
-      if (!r.ok) { logger.warn("Save formation returned error", "app/game/army/page.tsx", "saveFormation", { status: r.status }); toast("Failed to save formation", "error"); } else { toast("Formation saved!", "success"); try { await useGameStore.getState().fetchUnits(); await useGameStore.getState().fetchFormation(); } catch {} }
+      if (!r.ok) { logger.warn("Save formation returned error", "app/game/army/page.tsx", "saveFormation", { status: r.status }); toast("Failed to Save Formation", "error"); } else { toast("Formation saved!", "success"); try { await useGameStore.getState().fetchUnits(); await useGameStore.getState().fetchFormation(); } catch {} }
     } catch (err) {
-      logger.error("Failed to save formation", "app/game/army/page.tsx", "saveFormation", err);
+      logger.error("Failed to Save Formation", "app/game/army/page.tsx", "saveFormation", err);
     }
     setSaving(false);
   }
 
   function place(uId: string) {
-    for (let c = 0; c < 3; c++) { if (!formation.front[c]) { setFormation(p => ({...p, front: p.front.map((x,i) => i===c ? {unit_id: uId, row:0, col:c} : x) })); return; } }
-    for (let c = 0; c < 3; c++) { if (!formation.back[c]) { setFormation(p => ({...p, back: p.back.map((x,i) => i===c ? {unit_id: uId, row:1, col:c} : x) })); return; } }
+    for (let c = 0; c < 4; c++) { if (!formation.front[c]) { setFormation(p => ({...p, front: p.front.map((x,i) => i===c ? {unit_id: uId, row:0, col:c} : x) })); return; } }
+    for (let c = 0; c < 4; c++) { if (!formation.back[c]) { setFormation(p => ({...p, back: p.back.map((x,i) => i===c ? {unit_id: uId, row:1, col:c} : x) })); return; } }
   }
 
   function remove(row: number, col: number) { setFormation(p => ({...p, ["front"]: p.front.map((x,i) => i===col && row===0 ? null : x), ["back"]: p.back.map((x,i) => i===col && row===1 ? null : x) })); }
@@ -84,7 +84,7 @@ const [saving, setSaving] = useState(false);
 <h1 className="text-2xl font-bold">Army</h1>
           <p className="text-sm text-muted-foreground">Power: {totalPower.toLocaleString()} | Units: {units.length}</p>
         </div>
-        <button onClick={saveFormation} disabled={saving} className="px-4 py-2 bg-primary text-primary-foreground rounded-lg text-sm font-medium hover:opacity-90 disabled:opacity-50">
+        <a href="/game/army/equip" className="px-4 py-2 rounded-lg border text-sm font-medium hover:bg-muted transition-colors">Equipment</a><button onClick={saveFormation} disabled={saving} className="px-4 py-2 bg-primary text-primary-foreground rounded-lg text-sm font-medium hover:opacity-90 disabled:opacity-50">
           {saving ? "Saving..." : "Save Formation"}
         </button>
       </div>
@@ -95,7 +95,7 @@ const [saving, setSaving] = useState(false);
           {ROWS.map((rowKey) => (
             <div key={rowKey} className="mb-3">
               <p className="text-xs text-muted-foreground mb-1">{ROW_LABELS[rowKey]}</p>
-              <div className="grid grid-cols-3 gap-2">
+              <div className="grid grid-cols-4 gap-2">
                 {formation[rowKey].map((cell, col) => (
                   <div key={col} onClick={() => cell ? remove(cell.row, col) : null} className={"aspect-square rounded-lg border-2 flex flex-col items-center justify-center text-center p-1 cursor-pointer transition-colors "+ (cell ? (CLASS_COLORS[units.find(u => u.id === cell.unit_id)?.class || ""] || "border-gray-400 bg-card") : "border-dashed border-muted-foreground/30 hover:border-muted-foreground/60")}>
                     {cell ? (
